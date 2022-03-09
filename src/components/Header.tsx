@@ -1,19 +1,28 @@
-import React from "react";
-
-import {
-  Link,
-  RouteComponentProps,
-  useRouteMatch,
-  withRouter,
-} from "react-router-dom";
+import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
 import styled from "styled-components";
+import { useMediaQuery } from "../customHooks";
 
 const HeaderContainer = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  @media (max-width: ${(props) => props.theme.screen.mobile}) {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    overflow-x: hidden;
+    .menuBtn {
+      position: absolute;
+      width: 3.6rem;
+      height: 3.6rem;
+      top: 0.7rem;
+      right: 2rem;
+    }
+  }
 `;
 
 const LogoSvg = styled.svg`
@@ -22,21 +31,39 @@ const LogoSvg = styled.svg`
   fill: ${(props) => props.theme.basicColor};
 `;
 
-const Nav = styled.nav`
-  padding: 0 1rem 0 0;
-  width: 80%;
-  ul {
-    li::first-child {
-      margin-left: 0;
+const Nav = styled(motion.nav)`
+  @media (max-width: ${(props) => props.theme.screen.mobile}) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    padding: 0 1rem 0 0;
+    width: 100%;
+    .closeBtn {
+      position: absolute;
+      width: 3.6rem;
+      height: 3.6rem;
+      top: 0.7rem;
+      right: 2rem;
     }
-    li {
-      margin-left: 0.5rem;
+    ul {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      li {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
     }
   }
 `;
 
 const LogoContainer = styled.div`
-  margin-left: 1rem;
+  @media (max-width: ${(props) => props.theme.screen.mobile}) {
+    margin-left: 1rem;
+  }
 `;
 
 interface IProps {
@@ -45,22 +72,50 @@ interface IProps {
 }
 
 const LinkButton = styled(Link)<IProps>`
-  text-decoration: none;
-  display: block;
+  @media (max-width: ${(props) => props.theme.screen.mobile}) {
+    text-decoration: none;
+    display: block;
 
-  color: ${(props) =>
-    props.current ? props.theme.basicColor : props.theme.fontColor};
+    color: ${(props) =>
+      props.current ? props.theme.basicColor : props.theme.fontColor};
+  }
 `;
 
-const Items = styled.ul`
-  display: flex;
-`;
+const Items = styled.ul``;
 
-const Item = styled.li`
-  cursor: pointer;
-`;
+const Item = styled.li``;
+
+const menuVariants = {
+  hide: {
+    x: "100%",
+  },
+  solid: {
+    x: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+  exit: {
+    x: "100%",
+  },
+};
 
 const Header: React.FC<RouteComponentProps> = ({ location }): JSX.Element => {
+  const [open, setOpen] = useState(false);
+  const mobile = useMediaQuery("(max-width:450px)");
+
+  const pathname = window.location.pathname;
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  const menuBtn = () => {
+    setOpen(true);
+  };
+  const closeBtn = () => {
+    setOpen(false);
+  };
   return (
     <HeaderContainer>
       <LogoContainer>
@@ -76,7 +131,17 @@ const Header: React.FC<RouteComponentProps> = ({ location }): JSX.Element => {
           </LogoSvg>
         </LinkButton>
       </LogoContainer>
-      <Nav>
+      <FontAwesomeIcon className="menuBtn" icon={faBars} onClick={menuBtn} />
+      <Nav
+        variants={menuVariants}
+        initial="hide"
+        animate={open ? "solid" : undefined}
+        exit={open ? "exit" : undefined}>
+        <FontAwesomeIcon
+          className="closeBtn"
+          icon={faClose}
+          onClick={closeBtn}
+        />
         <Items>
           <Item>
             <LinkButton to="/notice" current={location.pathname === "/notice"}>

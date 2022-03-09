@@ -7,4 +7,11 @@ export const theme: DefaultTheme = {
   warnColor: "#ff3700",
   sucessColor: "#37ff00",
   grayBackgroundColor: "#f0f0f0",
+  screen: {
+    mobile: "450px",
+    tablet: "720px",
+    labtop: "1020px",
+    labtopLarge: "1440px",
+    desktop: "1920px",
+  },
 };
