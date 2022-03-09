@@ -2,5 +2,8 @@
 
 ## 개발 환경
 
+nodejs 16.6.2
 react 17.0.2
-typescript
+typescript 4.6.2
+
+## 패키지

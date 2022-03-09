@@ -1,16 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
-import { Normalize } from "styled-normalize";
-
+import { ThemeProvider } from "styled-components";
 import App from "./App";
+import { theme } from "./theme";
+import { GlobalStyle } from "./GlobalStyle";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <Normalize />
-      <App />
-    </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById("root"),
-);
+function Root() {
+  return (
+    <React.StrictMode>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <App />
+        </ThemeProvider>
+      </RecoilRoot>
+    </React.StrictMode>
+  );
+}
+
+ReactDOM.render(<Root />, document.getElementById("root"));
