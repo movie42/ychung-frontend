@@ -23,11 +23,6 @@ export interface IWorshipItems {
   reader: string;
   offering: string;
   benediction: string;
-  year: string;
-  month: string;
-  date: string;
-  day: string;
-  time: string;
   creator: string;
   views: number;
   createdAt: string;
@@ -38,12 +33,14 @@ function Worship() {
     "http://localhost:4000/worship"
   );
 
-  return (
+  return loading ? (
+    <h1>로딩중</h1>
+  ) : (
     <Wrapper>
       <h1>예배</h1>
       <Items>
         {data?.map((item: IWorshipItems) => (
-          <WorshipItem worship={item} />
+          <WorshipItem key={item?._id} worship={item} />
         ))}
       </Items>
     </Wrapper>
