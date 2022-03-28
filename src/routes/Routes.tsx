@@ -30,14 +30,14 @@ function Router() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/documents" element={<Documents />} />
-        <Route path="/documents/rule" element={<WorshipDetail />} />
+        {/* <Route path="/documents/rule" element={<WorshipDetail />} />
         <Route path="/documents/rule/:id" element={<WorshipDetail />} />
         <Route path="/documents/menual" element={<WorshipDetail />} />
         <Route path="/documents/menual/:id" element={<WorshipDetail />} />
         <Route path="/documents/applications" element={<WorshipDetail />} />
         <Route path="/documents/applications/:id" element={<WorshipDetail />} />
         <Route path="/documents/account" element={<WorshipDetail />} />
-        <Route path="/documents/account/:id" element={<WorshipDetail />} />
+        <Route path="/documents/account/:id" element={<WorshipDetail />} /> */}
         <Route path="/user/:id" element={<User />} />
         <Route path="/user/:id/works" element={<UserWorks />} />
         <Route path="/user/:id/applications" element={<UserApplications />} />

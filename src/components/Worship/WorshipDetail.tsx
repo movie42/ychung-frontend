@@ -42,8 +42,6 @@ function WorshipDetail() {
     `http://localhost:4000/api/worship/${id}`
   );
 
-  console.log(data);
-
   return loading ? (
     <h1>로딩 중...</h1>
   ) : (
