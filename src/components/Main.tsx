@@ -3,7 +3,11 @@ import React from "react";
 function Main() {
   return (
     <>
-      <h1>안녕하세요. 여기는 메인 페이지입니다.</h1>
+      <h1>메인 랜딩 페이지</h1>
+      <h1>예배</h1>
+      <h1>교육</h1>
+      <h1>블로그</h1>
+      <h1>스텝</h1>
     </>
   );
 }

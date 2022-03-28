@@ -1,8 +1,17 @@
 import React from "react";
-import Routes from "./routes/Routes";
+import styled from "styled-components";
+import Router from "./routes/Routes";
+
+const Wrapper = styled.main`
+  padding: 1rem 2rem;
+`;
 
 function App() {
-  return <Routes />;
+  return (
+    <Wrapper>
+      <Router />
+    </Wrapper>
+  );
 }
 
 export default App;

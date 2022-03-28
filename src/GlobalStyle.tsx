@@ -7,11 +7,12 @@ ${normalize}
 html{
     font-family:'Noto Sans KR', sans-serif;
     font-size:10px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    
 }
 body{
     font-size:1.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 ul,li {
     list-style:none ;
