@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { IWorshipItems } from "./Worship";
 
 const UserInfoContainer = styled.div`
   display: flex;
@@ -24,24 +25,30 @@ const Item = styled.li`
   border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
 `;
 
-function WorshipItem() {
+interface WorshipItems {
+  worship: IWorshipItems;
+}
+
+function WorshipItem({ worship }: WorshipItems): React.ReactElement {
+  const { _id, title, creator, views, createdAt } = worship;
+
   return (
     <Item>
-      <Link to="/worship/1">
+      <Link to={`/worship/${_id}`}>
         <UserInfoContainer>
           <ImageContainer>
             <img src="" alt="" />
           </ImageContainer>
           <InforContainer>
-            <span>user name</span>
-            <span>1시간 전</span>
+            <span>{creator}</span>
+            <span>{createdAt}</span>
           </InforContainer>
         </UserInfoContainer>
         <div>
-          <h3>정하게 하십니다.</h3>
+          <h3>{title}</h3>
         </div>
         <div>
-          <span>조회수 10</span>
+          <span>조회수 {views}</span>
         </div>
       </Link>
     </Item>
