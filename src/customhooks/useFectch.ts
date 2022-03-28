@@ -1,24 +1,33 @@
 import { useEffect, useState } from "react";
 
-export const useFetch = <T>(initialValue: string) => {
-  const [data, setData] = useState([]);
+export interface IAipResponse {
+  data: any;
+  loading: boolean;
+  error: boolean;
+}
+
+export const useFetch = (initialValue: string): IAipResponse => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [data, setData] = useState<any>();
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(initialValue, { method: "GET" });
+      if (response.ok) {
+        const { data } = await response.json();
+        setData(data);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setError(true);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(initialValue, { method: "GET" });
-        if (response.ok) {
-          const { data } = await response.json();
-          setData(data);
-        }
-      } catch (e) {
-        console.log(e);
-        throw new Error("서버에서 요청을 거부했습니다.");
-      }
-    };
-
     fetchData();
   }, []);
 
-  return data;
+  return { error, loading, data };
 };

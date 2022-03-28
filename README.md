@@ -11,6 +11,11 @@
 - [ ] 기본 서비스 그대로 시작하기
 - [ ] 실재로 얼마나 걸렸는지 피드백 꼭 하기
 
+-22.03.28
+
+- [Typescript의 Generic을 사용해보자.](https://feel5ny.github.io/2018/12/09/Typescript_14/)
+- [How to create a custom React hook to fetch an API (using TypeScript)?](https://dev.to/sulistef/how-to-create-a-custom-react-hook-to-fetch-an-api-using-typescript-ioi)
+
 - new app
 - - 22.3.30~ 4.2
 - [ ] 게시물

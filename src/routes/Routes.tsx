@@ -15,6 +15,7 @@ import BlogDetail from "../components/Blog/BlogDetail";
 import UserWorks from "../components/User/UserWorks";
 import UserApplications from "../components/User/UserApplications";
 import UserLike from "../components/User/UserLike";
+import NoticeDetail from "../components/Notice/NoticeDetail";
 
 function Router() {
   return (
@@ -23,7 +24,7 @@ function Router() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/notice" element={<Notice />} />
-        <Route path="/notice/:id" element={<WorshipDetail />} />
+        <Route path="/notice/:id" element={<NoticeDetail />} />
         <Route path="/worship" element={<Worship />} />
         <Route path="/worship/:id" element={<WorshipDetail />} />
         <Route path="/blog" element={<Blog />} />

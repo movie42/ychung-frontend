@@ -1,22 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { INoticeInterface } from "./Notice";
 
-interface INoticeInterface {
-  _id: string;
-  title: string;
-  isWeekly: boolean;
-  paragraph: string;
-  creator: string;
-  comments: [];
-  views: number;
-  year: string;
-  month: string;
-  date: string;
-  day: string;
-  time: string;
-  createdAt: string;
-}
 const ListItem = styled.li`
   width: 100%;
   padding: 0 0 2rem 0;
@@ -70,7 +56,7 @@ function NoticeItem({ notice }: NoticeProps): React.ReactElement {
         </div>
         <div>
           <span>조회수 {views}</span>
-          <span>댓글 {comments.length}</span>
+          <span>댓글 {comments?.length}</span>
         </div>
       </Link>
     </ListItem>
