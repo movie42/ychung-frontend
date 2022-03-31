@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useFetch, IAipResponse } from "../../customhooks/useFectch";
+import { useFetch, IUseFetchReturnValue } from "../../customhooks/useFectch";
 import styled from "styled-components";
 
 const Wrapper = styled.div``;
@@ -23,32 +23,53 @@ const InforContainer = styled.div`
   flex-direction: column;
 `;
 
+interface BlogDetail {
+  _id: string;
+  title: string;
+  paragraph: string;
+  year: string;
+  month: string;
+  date: string;
+  day: string;
+  time: string;
+  creator: string;
+  comments: [];
+  views: number;
+  createdAt: string;
+}
+
 function BlogDetail() {
   const { id } = useParams();
-  const { loading, error, data }: IAipResponse = useFetch(
-    `http://localhost:4000/api/blog/${id}`
-  );
 
-  return loading ? (
-    <h1>로딩 중...</h1>
-  ) : (
-    <Wrapper>
-      <h1>{data?.title}</h1>
-      <UserInfoContainer>
-        <ImageContainer>
-          <img src="" alt="" />
-        </ImageContainer>
-        <InforContainer>
-          <span>{data?.creator}</span>
-          <span>{data?.createdAt}</span>
-          <span>{data?.views}</span>
-        </InforContainer>
-      </UserInfoContainer>
-      <BlogInfoContainer>
-        <p>{data?.paragraph}</p>
-      </BlogInfoContainer>
-    </Wrapper>
-  );
+  const response = useFetch({
+    URL: `http://localhost:4000/api/blog/${id}`,
+  });
+
+  console.log(response);
+
+  return null;
+  // return state?.loading ? (
+  //   <h1>로딩 중...</h1>
+  // ) : error?.message ? (
+  //   <h1>{error?.message}</h1>
+  // ) : (
+  //   <Wrapper>
+  //     <h1>{state?.title}</h1>
+  //     <UserInfoContainer>
+  //       <ImageContainer>
+  //         <img src="" alt="" />
+  //       </ImageContainer>
+  //       <InforContainer>
+  //         <span>{state?.creator}</span>
+  //         <span>{state?.createdAt}</span>
+  //         <span>{state?.views}</span>
+  //       </InforContainer>
+  //     </UserInfoContainer>
+  //     <BlogInfoContainer>
+  //       <p>{state?.paragraph}</p>
+  //     </BlogInfoContainer>
+  //   </Wrapper>
+  // );
 }
 
 export default BlogDetail;

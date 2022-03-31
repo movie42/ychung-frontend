@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useCookies, withCookies } from "react-cookie";
 import styled from "styled-components";
 import Router from "./routes/Routes";
 
@@ -14,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default withCookies(App);

@@ -1,37 +1,73 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-export interface IAipResponse {
-  data: any;
-  loading: boolean;
-  error: boolean;
+interface IFetchProps {
+  URL: RequestInfo;
+  initState?: RequestInit;
 }
 
-export const useFetch = (
-  url: string,
-  method?: { method: "GET" }
-): IAipResponse => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [data, setData] = useState<any>();
+export interface IUseFetchReturnValue {
+  response: any;
+  error: { message: string } | null;
+  isLoading: boolean;
+  csrfToken: string;
+}
 
-  const fetchData = async () => {
+export const useFetch = ({
+  URL,
+}: IFetchProps): [IUseFetchReturnValue, Function] => {
+  const [response, setResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<{ message: string } | null>(null);
+  const [option, setOption] = useState({});
+  const [csrfToken, setCsrfToken] = useState("");
+
+  const handleOption = useCallback((options: RequestInit) => {
+    setOption(options);
+    setIsLoading(true);
+  }, []);
+
+  const setFetch = async ({ URL, initState }: IFetchProps) => {
     try {
-      const response = await fetch(url, method);
+      const response = await fetch(URL, initState);
+
       if (response.ok) {
         const { data } = await response.json();
-
-        setData(data);
-        setLoading(false);
+        setResponse(data);
+        setError(null);
+        setIsLoading(false);
       }
-    } catch (e) {
-      console.log(e);
-      setError(true);
+
+      if (!response.ok) {
+        const { message } = await response.json();
+        setError({ message });
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setError({ message: "서버에서 요청을 거부했습니다." });
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const csrf = async () => {
+    const response = await fetch("http://localhost:4000/getCSRFToken", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      mode: "cors",
+    });
+    const result = await response.json();
+    setCsrfToken(result.CSRFToken);
+  };
 
-  return { error, loading, data };
+  useEffect(() => {
+    csrf();
+    if (!isLoading) return;
+
+    setFetch({ URL, initState: option });
+  }, [isLoading, URL, option]);
+
+  return [{ response, error, isLoading, csrfToken }, handleOption];
 };

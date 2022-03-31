@@ -11,6 +11,7 @@ import Header from "../components/Header/Header";
 import Notice from "../components/Notice/Notice";
 import Search from "../components/Search/Search";
 import WorshipDetail from "../components/Worship/WorshipDetail";
+import WorshipCreate from "../components/Worship/WorshipCreate";
 import BlogDetail from "../components/Blog/BlogDetail";
 import UserWorks from "../components/User/UserWorks";
 import UserApplications from "../components/User/UserApplications";
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/notice" element={<Notice />} />
         <Route path="/notice/:id" element={<NoticeDetail />} />
         <Route path="/worship" element={<Worship />} />
+        <Route path="/worship/create" element={<WorshipCreate />} />
         <Route path="/worship/:id" element={<WorshipDetail />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogDetail />} />

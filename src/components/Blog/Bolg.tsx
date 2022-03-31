@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import BlogItems from "./BlogItems";
-import { IAipResponse, useFetch } from "../../customhooks/useFectch";
+import { useFetch } from "../../customhooks/useFectch";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -28,21 +28,32 @@ export interface IBlogItems {
 }
 
 function Blog() {
-  const {
-    loading,
-    error,
-    data: posts,
-  }: IAipResponse = useFetch("http://localhost:4000/blog");
+  const [{ response, isLoading, error }, setOption] = useFetch({
+    URL: `http://localhost:4000/blog`,
+  });
+
+  useEffect(() => {
+    setOption({
+      method: "GET",
+    });
+  }, []);
 
   return (
-    <Wrapper>
-      <h1>블로그</h1>
-      <ListContainer>
-        {posts?.map((post: IBlogItems) => (
-          <BlogItems key={post._id} post={post} />
-        ))}
-      </ListContainer>
-    </Wrapper>
+    <>
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <Wrapper>
+          <h1>블로그</h1>
+          <ListContainer>
+            {response?.map((post: IBlogItems) => (
+              <BlogItems key={post._id} post={post} />
+            ))}
+          </ListContainer>
+        </Wrapper>
+      )}
+      {error?.message && <h1>{error?.message}</h1>}
+    </>
   );
 }
 
