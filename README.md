@@ -14,16 +14,23 @@
   - [x] Login
   - [x] react-cookie 설치
   - [x] customhook(https://www.youtube.com/watch?v=nJxpJ3wks90&t=205s)
-  - [ ] publick key??
-  - [ ] 로그인 한 사용자 기억하기
+  - [x] publick key?? jwt를 모든 라우터에서 설정하지 않기 로그인이 필요한 곳에서만 설정하기
+  - [x] 로그인 한 사용자 기억하기
+  - [x] logout
 
-    - [ ] token을 어떻게 가져오지?
-    - [ ] jwt https://meetup.toast.com/posts/239
-    - [ ] jwt https://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-example-api#running-react
-    - [ ] https://levelup.gitconnected.com/react-template-for-jwt-authentication-with-private-routes-and-redirects-f77c488bfb85
-    - [ ] https://www.daleseo.com/react-router-authentication/
+    - localstorage와 recoile 사용해서 기억하기
 
-- [ ] react helmet
+  - private router
+
+    - https://www.robinwieruch.de/react-router-private-routes/
+
+  - [x] token을 어떻게 가져오지? 토큰은 cookie에만
+  - [ ] jwt https://meetup.toast.com/posts/239
+  - [ ] jwt https://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-example-api#running-react
+  - [ ] https://levelup.gitconnected.com/react-template-for-jwt-authentication-with-private-routes-and-redirects-f77c488bfb85
+  - [ ] https://www.daleseo.com/react-router-authentication/
+  - [ ] https://medium.com/zigbang/react-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC-%EB%8F%84%EA%B5%AC-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0-1b2e6a771cb9
+
 - [ ] Heroku 연결하기
 - [ ] 기본 서비스 그대로 시작하기
 - [ ] 실재로 얼마나 걸렸는지 피드백 꼭 하기
@@ -31,7 +38,8 @@
 -22.03.28
 
 - new app
-- - 22.3.30~ 4.2
+- 22.3.30~ 4.2
+- [ ] react helmet
 - [ ] 게시물
   - [ ] drag and drop
 - [ ] 회계

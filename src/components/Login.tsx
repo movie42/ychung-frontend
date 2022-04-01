@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import { loginState } from "../Authrization";
 import { useFetch } from "../customhooks/useFectch";
 
 interface LoginProps {
@@ -7,7 +10,14 @@ interface LoginProps {
   password: string;
 }
 
+interface IUserProps {
+  login: boolean;
+  userId: string;
+}
+
 function Login() {
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
@@ -30,11 +40,15 @@ function Login() {
       credentials: "include",
       mode: "cors",
     });
-
-    if (response !== null) {
-      window.location.pathname = "/";
-    }
   });
+
+  useEffect(() => {
+    if (response?.login) {
+      localStorage.setItem("user", JSON.stringify(response));
+      setIsLogin(response);
+      navigate("/");
+    }
+  }, [response]);
 
   return (
     <>

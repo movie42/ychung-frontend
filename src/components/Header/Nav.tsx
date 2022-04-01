@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { loginState } from "../../Authrization";
 
 const Items = styled.ul`
   @media (max-width: ${(props) => props.theme.screen.mobile}) {
@@ -30,6 +32,8 @@ const LinkButton = styled(Link)<IProps>`
 `;
 
 const Nav = () => {
+  const { login, userId } = useRecoilValue(loginState);
+
   return (
     <>
       <Items>
@@ -51,12 +55,20 @@ const Nav = () => {
         <Item>
           <LinkButton to="/user/1">내 정보</LinkButton>
         </Item>
-        <Item>
-          <LinkButton to="/login">로그인</LinkButton>
-        </Item>
-        <Item>
-          <LinkButton to="/join">회원가입</LinkButton>
-        </Item>
+        {login ? (
+          <Item>
+            <LinkButton to="/logout">로그아웃</LinkButton>
+          </Item>
+        ) : (
+          <>
+            <Item>
+              <LinkButton to="/login">로그인</LinkButton>
+            </Item>
+            <Item>
+              <LinkButton to="/join">회원가입</LinkButton>
+            </Item>
+          </>
+        )}
       </Items>
     </>
   );

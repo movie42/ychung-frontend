@@ -35,12 +35,14 @@ export const useFetch = ({
         setResponse(data);
         setError(null);
         setIsLoading(false);
+        return;
       }
 
       if (!response.ok) {
         const { message } = await response.json();
         setError({ message });
         setIsLoading(false);
+        return;
       }
     } catch (error) {
       console.error(error);
@@ -68,6 +70,7 @@ export const useFetch = ({
 
   useEffect(() => {
     if (!isLoading) return;
+
     setFetch({ URL, initState: option });
   }, [isLoading, URL, option]);
 
