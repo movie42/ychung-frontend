@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useFetch } from "../../customhooks/useFectch";
-import WorshipItem from "./WorshipItem";
+import WorshipItem from "./WorshipDetail/WorshipItem";
 
 const Wrapper = styled.div``;
 
@@ -29,23 +30,35 @@ export interface IWorshipItems {
 }
 
 function Worship() {
-  // const { loading, error, data }: IAipResponse = useFetch(
-  //   "http://localhost:4000/worship"
-  // );
+  const [{ response, isLoading, error }, setOption] = useFetch({
+    URL: "http://localhost:4000/worship",
+  });
 
-  return null;
-  // return loading ? (
-  //   <h1>로딩중</h1>
-  // ) : (
-  //   <Wrapper>
-  //     <h1>예배</h1>
-  //     <Items>
-  //       {data?.map((item: IWorshipItems) => (
-  //         <WorshipItem key={item?._id} worship={item} />
-  //       ))}
-  //     </Items>
-  //   </Wrapper>
-  // );
+  useEffect(() => {
+    setOption({
+      method: "GET",
+      headers: { "Content-type": "application/json" },
+    });
+  }, []);
+
+  return (
+    <>
+      {error !== null && <p>{error?.message}</p>}
+      {isLoading ? (
+        <h1>로딩중</h1>
+      ) : (
+        <Wrapper>
+          <h1>예배</h1>
+          <Link to="/worship/create">글 작성</Link>
+          <Items>
+            {response?.map((item: IWorshipItems) => (
+              <WorshipItem key={item?._id} worship={item} />
+            ))}
+          </Items>
+        </Wrapper>
+      )}
+    </>
+  );
 }
 
 export default Worship;

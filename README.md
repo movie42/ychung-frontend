@@ -7,27 +7,28 @@
 - [ ] Router에 맞는 컴포넌트 만들기
 - [ ] React Router Dom에 연결하기
 - [x] Backend와 연결하기
+
   - cors이슈는 cors 패키지로 해결 하지만 본서버에서 어떻게 될지....
+
   - [x] csrf token
   - [x] Login
   - [x] react-cookie 설치
-  - [ ] customhook(https://www.youtube.com/watch?v=nJxpJ3wks90&t=205s)
+  - [x] customhook(https://www.youtube.com/watch?v=nJxpJ3wks90&t=205s)
   - [ ] publick key??
   - [ ] 로그인 한 사용자 기억하기
-    - [ ] jwt https://meetup.toast.com/posts/239
-    - [ ] https://www.daleseo.com/react-router-authentication/
+
     - [ ] token을 어떻게 가져오지?
+    - [ ] jwt https://meetup.toast.com/posts/239
+    - [ ] jwt https://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-example-api#running-react
     - [ ] https://levelup.gitconnected.com/react-template-for-jwt-authentication-with-private-routes-and-redirects-f77c488bfb85
-    - [ ] https://darrengwon.tistory.com/768
-    - [ ] [use fetch with typescript](https://kentcdodds.com/blog/using-fetch-with-type-script)
+    - [ ] https://www.daleseo.com/react-router-authentication/
+
+- [ ] react helmet
 - [ ] Heroku 연결하기
 - [ ] 기본 서비스 그대로 시작하기
 - [ ] 실재로 얼마나 걸렸는지 피드백 꼭 하기
 
 -22.03.28
-
-- [Typescript의 Generic을 사용해보자.](https://feel5ny.github.io/2018/12/09/Typescript_14/)
-- [How to create a custom React hook to fetch an API (using TypeScript)?](https://dev.to/sulistef/how-to-create-a-custom-react-hook-to-fetch-an-api-using-typescript-ioi)
 
 - new app
 - - 22.3.30~ 4.2

@@ -64,8 +64,10 @@ export const useFetch = ({
 
   useEffect(() => {
     csrf();
-    if (!isLoading) return;
+  }, []);
 
+  useEffect(() => {
+    if (!isLoading) return;
     setFetch({ URL, initState: option });
   }, [isLoading, URL, option]);
 

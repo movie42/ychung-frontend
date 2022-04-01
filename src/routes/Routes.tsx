@@ -10,7 +10,7 @@ import Worship from "../components/Worship/Worship";
 import Header from "../components/Header/Header";
 import Notice from "../components/Notice/Notice";
 import Search from "../components/Search/Search";
-import WorshipDetail from "../components/Worship/WorshipDetail";
+import WorshipDetail from "../components/Worship/WorshipDetail/WorshipDetail";
 import WorshipCreate from "../components/Worship/WorshipCreate";
 import BlogDetail from "../components/Blog/BlogDetail";
 import UserWorks from "../components/User/UserWorks";

@@ -1,10 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
-import { IWorshipItems } from "./Worship";
-import WorshipNotice from "./WorshipNotice";
-import WorshipBlog from "./WorshipBlog";
-import { useFetch } from "../../customhooks/useFectch";
 const Wrapper = styled.div``;
 
 const UserInfoContainer = styled.div`

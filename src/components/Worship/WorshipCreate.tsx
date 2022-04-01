@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { useFetch } from "../../customhooks/useFectch";
 
 interface WorshipProps {
   title: string;
 }
 
 function Join() {
-  const [csrfToken, setCsrfToken] = useState("");
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -15,8 +16,12 @@ function Join() {
     setError,
   } = useForm<WorshipProps>();
 
-  const onSubmit = handleSubmit(async (data: WorshipProps) => {
-    const response = await fetch("http://localhost:4000/worship/create", {
+  const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
+    URL: "http://localhost:4000/worship/create",
+  });
+
+  const onSubmit = handleSubmit((data: WorshipProps) => {
+    handleOptions({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,29 +31,13 @@ function Join() {
       credentials: "include",
       mode: "cors",
     });
-
-    if (response.ok) {
-      window.location.pathname = "/";
-    }
   });
 
-  const csrf = async () => {
-    const response = await fetch("http://localhost:4000/getCSRFToken", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      mode: "cors",
-    });
-    const parseResponse = await response.json();
-
-    setCsrfToken(parseResponse.CSRFToken);
-  };
-
   useEffect(() => {
-    csrf();
-  }, []);
+    if (response !== null) {
+      navigate(`/worship/${response._id}`);
+    }
+  }, [response]);
 
   return (
     <>
@@ -63,7 +52,7 @@ function Join() {
         />
         <p>{errors?.title?.message}</p>
 
-        <button>가입하기</button>
+        <button>글쓰기</button>
       </form>
     </>
   );
