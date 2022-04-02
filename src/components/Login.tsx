@@ -42,8 +42,8 @@ function Login() {
     });
   });
 
+  console.log(csrfToken);
   useEffect(() => {
-    console.log(response);
     if (response?.login) {
       localStorage.setItem("user", JSON.stringify(response));
       setIsLogin(response);
