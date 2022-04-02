@@ -17,7 +17,7 @@ function Join() {
   } = useForm<WorshipProps>();
 
   const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: "http://localhost:4000/worship/create",
+    URL: `${process.env.REACT_APP_SERVER_URL}/worship/create`,
   });
 
   const onSubmit = handleSubmit((data: WorshipProps) => {

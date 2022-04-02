@@ -26,7 +26,7 @@ function Login() {
   } = useForm<LoginProps>();
 
   const [{ response, error, isLoading, csrfToken }, setOption] = useFetch({
-    URL: "http://localhost:4000/login",
+    URL: `${process.env.REACT_APP_SERVER_URL}/login`,
   });
 
   const onSubmit = handleSubmit((data) => {

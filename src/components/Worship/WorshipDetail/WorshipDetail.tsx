@@ -36,7 +36,7 @@ function WorshipDetail() {
   const { id } = useParams();
   return null;
   // const { loading, error, data }: IAipResponse = useFetch(
-  //   `http://localhost:4000/api/worship/${id}`
+  //   `${process.env.REACT_APP_SERVER_URL}/api/worship/${id}`
   // );
 
   // return loading ? (

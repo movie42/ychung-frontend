@@ -52,14 +52,17 @@ export const useFetch = ({
   };
 
   const csrf = async () => {
-    const response = await fetch("http://localhost:4000/getCSRFToken", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      mode: "cors",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/getCSRFToken`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+      }
+    );
     const result = await response.json();
     setCsrfToken(result.CSRFToken);
   };

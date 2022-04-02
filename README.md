@@ -31,9 +31,10 @@
   - [x] https://www.daleseo.com/react-router-authentication/
   - [x] https://medium.com/zigbang/react-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC-%EB%8F%84%EA%B5%AC-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0-1b2e6a771cb9
 
-- [ ] Heroku 연결하기 연결이 안된다.
+- [x] Heroku 연결하기.
 - [ ] 기본 서비스 그대로 시작하기
 - [ ] 실재로 얼마나 걸렸는지 피드백 꼭 하기
+      빌드까지 일주일 걸렸다.
 
 -22.03.28
 

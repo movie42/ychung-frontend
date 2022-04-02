@@ -31,7 +31,7 @@ export interface IWorshipItems {
 
 function Worship() {
   const [{ response, isLoading, error }, setOption] = useFetch({
-    URL: "http://localhost:4000/worship",
+    URL: `${process.env.REACT_APP_SERVER_URL}/worship`,
   });
 
   useEffect(() => {

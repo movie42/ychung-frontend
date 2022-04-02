@@ -42,7 +42,7 @@ function BlogDetail() {
   const { id } = useParams();
 
   const response = useFetch({
-    URL: `http://localhost:4000/api/blog/${id}`,
+    URL: `${process.env.REACT_APP_SERVER_URL}/api/blog/${id}`,
   });
 
   console.log(response);

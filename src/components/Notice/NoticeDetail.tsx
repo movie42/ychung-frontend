@@ -7,7 +7,7 @@ const Wrapper = styled.div``;
 function NoticeDetail() {
   const { id } = useParams();
   // const { loading, error, data }: IAipResponse = useFetch(
-  //   `http://localhost:4000/api/notice/${id}`
+  //   `${process.env.REACT_APP_SERVER_URL}/api/notice/${id}`
   // );
 
   return (

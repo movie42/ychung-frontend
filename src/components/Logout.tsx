@@ -9,7 +9,7 @@ const Logout = () => {
   const removeLoginState = useResetRecoilState(loginState);
   const navigate = useNavigate();
   const [{ response, error, isLoading }, setOptions] = useFetch({
-    URL: "http://localhost:4000/logout",
+    URL: `${process.env.REACT_APP_SERVER_URL}/logout`,
   });
 
   useEffect(() => {

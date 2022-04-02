@@ -33,7 +33,7 @@ function Notice() {
   //   loading,
   //   error,
   //   data: notices,
-  // }: IAipResponse = useFetch("http://localhost:4000/notice");
+  // }: IAipResponse = useFetch("${process.env.REACT_APP_SERVER_URL}/notice");
 
   return (
     <Wrapper>
