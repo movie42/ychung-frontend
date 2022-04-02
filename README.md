@@ -25,11 +25,11 @@
     - https://www.robinwieruch.de/react-router-private-routes/
 
   - [x] token을 어떻게 가져오지? 토큰은 cookie에만
-  - [ ] jwt https://meetup.toast.com/posts/239
-  - [ ] jwt https://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-example-api#running-react
-  - [ ] https://levelup.gitconnected.com/react-template-for-jwt-authentication-with-private-routes-and-redirects-f77c488bfb85
-  - [ ] https://www.daleseo.com/react-router-authentication/
-  - [ ] https://medium.com/zigbang/react-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC-%EB%8F%84%EA%B5%AC-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0-1b2e6a771cb9
+  - [x] jwt https://meetup.toast.com/posts/239
+  - [x] jwt https://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-example-api#running-react
+  - [x] https://levelup.gitconnected.com/react-template-for-jwt-authentication-with-private-routes-and-redirects-f77c488bfb85
+  - [x] https://www.daleseo.com/react-router-authentication/
+  - [x] https://medium.com/zigbang/react-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC-%EB%8F%84%EA%B5%AC-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0-1b2e6a771cb9
 
 - [ ] Heroku 연결하기
 - [ ] 기본 서비스 그대로 시작하기
