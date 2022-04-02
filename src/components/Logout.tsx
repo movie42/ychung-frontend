@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { useResetRecoilState } from "recoil";
 import { loginState } from "../Authrization";
 import { useFetch } from "../customhooks/useFectch";
-import Main from "./Main";
 
 const Logout = () => {
   const removeLoginState = useResetRecoilState(loginState);
