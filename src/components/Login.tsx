@@ -30,10 +30,11 @@ function Login() {
   });
 
   const onSubmit = handleSubmit((data) => {
+    console.log(csrfToken);
     setOption({
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "Application/json",
         "X-CSRF-Token": csrfToken,
       },
       body: JSON.stringify({ ...data }),
@@ -42,7 +43,6 @@ function Login() {
     });
   });
 
-  console.log(csrfToken);
   useEffect(() => {
     if (response?.login) {
       localStorage.setItem("user", JSON.stringify(response));
