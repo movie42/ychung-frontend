@@ -7,22 +7,40 @@
 - [ ] Router에 맞는 컴포넌트 만들기
 - [ ] React Router Dom에 연결하기
 - [x] Backend와 연결하기
+
   - cors이슈는 cors 패키지로 해결 하지만 본서버에서 어떻게 될지....
-  - [ ] login 연결
-    - [ ] 내생각엔 JWT를 추가해야할듯
-  - [x] join/ csrftoken
-- [ ] Heroku 연결하기, 기본 서비스 그대로 시작하기
+
+  - [x] csrf token
+  - [x] Login
+  - [x] react-cookie 설치
+  - [x] customhook(https://www.youtube.com/watch?v=nJxpJ3wks90&t=205s)
+  - [x] publick key?? jwt를 모든 라우터에서 설정하지 않기 로그인이 필요한 곳에서만 설정하기
+  - [x] 로그인 한 사용자 기억하기
+  - [x] logout
+
+    - localstorage와 recoile 사용해서 기억하기
+
+  - private router
+
+    - https://www.robinwieruch.de/react-router-private-routes/
+
+  - [x] token을 어떻게 가져오지? 토큰은 cookie에만
+  - [x] jwt https://meetup.toast.com/posts/239
+  - [x] jwt https://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-example-api#running-react
+  - [x] https://levelup.gitconnected.com/react-template-for-jwt-authentication-with-private-routes-and-redirects-f77c488bfb85
+  - [x] https://www.daleseo.com/react-router-authentication/
+  - [x] https://medium.com/zigbang/react-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC-%EB%8F%84%EA%B5%AC-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0-1b2e6a771cb9
+
+- [x] Heroku 연결하기.
+- [ ] 기본 서비스 그대로 시작하기
 - [ ] 실재로 얼마나 걸렸는지 피드백 꼭 하기
+      빌드까지 일주일 걸렸다.
 
 -22.03.28
 
-- [Typescript의 Generic을 사용해보자.](https://feel5ny.github.io/2018/12/09/Typescript_14/)
-- [Typescript Generics Tutorial](https://www.youtube.com/watch?v=nViEqpgwxHE) GREAT!!!
-- [How to create a custom React hook to fetch an API (using TypeScript)?](https://dev.to/sulistef/how-to-create-a-custom-react-hook-to-fetch-an-api-using-typescript-ioi)
-- [How to secure a React app with basic server-side login authentication](https://blog.logrocket.com/how-to-secure-react-app-login-authentication/)
-
 - new app
-- - 22.3.30~ 4.2
+- 22.3.30~ 4.2
+- [ ] react helmet
 - [ ] 게시물
   - [ ] drag and drop
 - [ ] 회계

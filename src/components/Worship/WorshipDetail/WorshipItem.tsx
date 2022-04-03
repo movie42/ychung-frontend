@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IWorshipItems } from "./Worship";
+import { IWorshipItems } from "../Worship";
 
 const UserInfoContainer = styled.div`
   display: flex;

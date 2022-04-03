@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
@@ -11,12 +12,14 @@ function Root() {
   return (
     <React.StrictMode>
       <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <GlobalStyle />
-            <App />
-          </BrowserRouter>
-        </ThemeProvider>
+        <CookiesProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <GlobalStyle />
+              <App />
+            </BrowserRouter>
+          </ThemeProvider>
+        </CookiesProvider>
       </RecoilRoot>
     </React.StrictMode>
   );

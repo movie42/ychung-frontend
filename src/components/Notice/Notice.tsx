@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useFetch, IAipResponse } from "../../customhooks/useFectch";
+import { useFetch } from "../../customhooks/useFectch";
 import NoticeItem from "./NoticeItem";
 
 const Wrapper = styled.div`
@@ -29,23 +29,23 @@ export interface INoticeInterface {
 }
 
 function Notice() {
-  const {
-    loading,
-    error,
-    data: notices,
-  }: IAipResponse = useFetch("http://localhost:4000/notice");
+  // const {
+  //   loading,
+  //   error,
+  //   data: notices,
+  // }: IAipResponse = useFetch("${process.env.REACT_APP_SERVER_URL}/notice");
 
   return (
     <Wrapper>
       <h1>공지사항</h1>
       <ListContainer>
-        {loading ? (
+        {/* {loading ? (
           <h1>Loading...</h1>
         ) : (
           notices?.map((notice: INoticeInterface) => (
             <NoticeItem key={notice._id} notice={notice} />
           ))
-        )}
+        )} */}
       </ListContainer>
     </Wrapper>
   );

@@ -32,24 +32,24 @@ const ImageContainer = styled.div`
 `;
 
 interface BlogItem {
-  post: IBlogItems;
+  post: {
+    _id: string;
+    title: string;
+    paragraph: string;
+    year: string;
+    month: string;
+    date: string;
+    day: string;
+    time: string;
+    creator: string;
+    comments: [];
+    views: number;
+    createdAt: string;
+  };
 }
 
 function BlogItems({ post }: BlogItem) {
-  const {
-    _id,
-    title,
-    paragraph,
-    year,
-    month,
-    date,
-    day,
-    time,
-    creator,
-    comments,
-    views,
-    createdAt,
-  } = post;
+  const { _id, title, paragraph, creator, comments, views, createdAt } = post;
   return (
     <ListItem>
       <Link to={`/blog/${_id}`}>
