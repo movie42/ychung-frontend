@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useFetch } from "../../customhooks/useFectch";
 import NoticeItem from "./NoticeItem";
@@ -29,23 +29,36 @@ export interface INoticeInterface {
 }
 
 function Notice() {
-  // const {
-  //   loading,
-  //   error,
-  //   data: notices,
-  // }: IAipResponse = useFetch("${process.env.REACT_APP_SERVER_URL}/notice");
+  const [{ isLoading, error, response: notices }, setOptions] = useFetch({
+    URL: `${process.env.REACT_APP_SERVER_URL}/notice`,
+  });
+
+  useEffect(() => {
+    setOptions({
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+      credential: "include",
+      mode: "cors",
+    });
+
+    return () => {
+      setOptions({});
+    };
+  }, []);
 
   return (
     <Wrapper>
       <h1>공지사항</h1>
       <ListContainer>
-        {/* {loading ? (
+        {isLoading ? (
           <h1>Loading...</h1>
         ) : (
           notices?.map((notice: INoticeInterface) => (
             <NoticeItem key={notice._id} notice={notice} />
           ))
-        )} */}
+        )}
       </ListContainer>
     </Wrapper>
   );

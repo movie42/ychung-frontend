@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
+import WorshipNotice from "./WorshipNotice";
+import WorshipBlog from "./WorshipBlog";
+import { useFetch } from "../../../customhooks/useFectch";
+import { getRequest } from "../../../httpMethod";
+
 const Wrapper = styled.div``;
 
 const UserInfoContainer = styled.div`
@@ -34,75 +39,79 @@ const BlogContainer = styled.div``;
 
 function WorshipDetail() {
   const { id } = useParams();
-  return null;
-  // const { loading, error, data }: IAipResponse = useFetch(
-  //   `${process.env.REACT_APP_SERVER_URL}/api/worship/${id}`
-  // );
 
-  // return loading ? (
-  //   <h1>로딩 중...</h1>
-  // ) : (
-  //   <Wrapper>
-  //     <h1>정하게 하는 날</h1>
-  //     <UserInfoContainer>
-  //       <ImageContainer>
-  //         <img src="" alt="" />
-  //       </ImageContainer>
-  //       <InforContainer>
-  //         <span>{data?.creator}</span>
-  //         <span>{data?.createdAt}</span>
-  //       </InforContainer>
-  //     </UserInfoContainer>
-  //     <WorshipInfoContainer>
-  //       <div>
-  //         <img src="" alt="" />
-  //       </div>
-  //       <div>
-  //         <WorshipItems>
-  //           <WorshipItem>
-  //             <span>본문</span>
-  //             <a href="#">
-  //               <span>
-  //                 {data?.word} {data?.chapter}장 {data?.verse}
-  //                 {data?.verse_end && `~ ${data?.verse_end}`}절
-  //               </span>
-  //             </a>
-  //           </WorshipItem>
-  //           <WorshipItem>
-  //             <span>강론</span>
-  //             <span>{data?.pastor} 목사</span>
-  //           </WorshipItem>
-  //           <WorshipItem>
-  //             <span>경배와 찬양</span>
-  //             <span>{data?.worshipTeam}</span>
-  //           </WorshipItem>
-  //           <WorshipItem>
-  //             <span>대표 기도</span>
-  //             <span>{data?.prayer}</span>
-  //           </WorshipItem>
-  //           <WorshipItem>
-  //             <span>광고</span>
-  //             <span>{data?.adverisement}</span>
-  //           </WorshipItem>
-  //           <WorshipItem>
-  //             <span>성경 봉독</span>
-  //             <span>{data?.reader}</span>
-  //           </WorshipItem>
-  //           <WorshipItem>
-  //             <span>봉헌 기도 및 축도</span>
-  //             <span>{data?.benediction} 목사</span>
-  //           </WorshipItem>
-  //         </WorshipItems>
-  //       </div>
-  //     </WorshipInfoContainer>
-  //     <NoticeContainer>
-  //       <WorshipNotice />
-  //     </NoticeContainer>
-  //     <BlogContainer>
-  //       <WorshipBlog />
-  //     </BlogContainer>
-  //   </Wrapper>
-  // );
+  const [{ isLoading, error, response: data }, setOptions] = useFetch({
+    URL: `${process.env.REACT_APP_SERVER_URL}/api/worship/${id}`,
+  });
+
+  useEffect(() => {
+    setOptions(getRequest);
+  }, []);
+
+  return isLoading ? (
+    <h1>로딩 중...</h1>
+  ) : (
+    <Wrapper>
+      <h1>{data?.title}</h1>
+      <UserInfoContainer>
+        <ImageContainer>
+          <img src="" alt="" />
+        </ImageContainer>
+        <InforContainer>
+          <span>{data?.creator}</span>
+          <span>{data?.createdAt}</span>
+        </InforContainer>
+      </UserInfoContainer>
+      <WorshipInfoContainer>
+        <div>
+          <img src="" alt="" />
+        </div>
+        <div>
+          <WorshipItems>
+            <WorshipItem>
+              <span>본문</span>
+              <a href="#">
+                <span>
+                  {data?.word} {data?.chapter}장 {data?.verse}
+                  {data?.verse_end && `~ ${data?.verse_end}`}절
+                </span>
+              </a>
+            </WorshipItem>
+            <WorshipItem>
+              <span>강론</span>
+              <span>{data?.pastor} 목사</span>
+            </WorshipItem>
+            <WorshipItem>
+              <span>경배와 찬양</span>
+              <span>{data?.worshipTeam}</span>
+            </WorshipItem>
+            <WorshipItem>
+              <span>대표 기도</span>
+              <span>{data?.prayer}</span>
+            </WorshipItem>
+            <WorshipItem>
+              <span>광고</span>
+              <span>{data?.adverisement}</span>
+            </WorshipItem>
+            <WorshipItem>
+              <span>성경 봉독</span>
+              <span>{data?.reader}</span>
+            </WorshipItem>
+            <WorshipItem>
+              <span>봉헌 기도 및 축도</span>
+              <span>{data?.benediction} 목사</span>
+            </WorshipItem>
+          </WorshipItems>
+        </div>
+      </WorshipInfoContainer>
+      <NoticeContainer>
+        <WorshipNotice />
+      </NoticeContainer>
+      <BlogContainer>
+        <WorshipBlog />
+      </BlogContainer>
+    </Wrapper>
+  );
 }
 
 export default WorshipDetail;

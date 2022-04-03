@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { loginState } from "../Authrization";
 import { useFetch } from "../customhooks/useFectch";
+import { postRequest } from "../httpMethod";
 
 interface LoginProps {
   email: string;
@@ -35,16 +36,8 @@ function Login() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    setOption({
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": csrfToken,
-      },
-      body: JSON.stringify({ ...data }),
-      credentials: "include",
-      mode: "cors",
-    });
+    const postOption = postRequest(data, csrfToken);
+    setOption(postOption);
   });
 
   useEffect(() => {

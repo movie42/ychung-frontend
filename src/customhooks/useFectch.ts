@@ -63,7 +63,9 @@ export const useFetch = ({
         mode: "cors",
       }
     );
+
     const result = await response.json();
+
     setCsrfToken(result.CSRFToken);
   };
 

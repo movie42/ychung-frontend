@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useCookies, withCookies } from "react-cookie";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { loginState } from "./Authrization";
 import Router from "./routes/Routes";
@@ -30,4 +29,4 @@ function App() {
   );
 }
 
-export default withCookies(App);
+export default App;
