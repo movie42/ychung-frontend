@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Main from "./Main";
 
-interface SubmitData {
+interface SubmitProps {
   email: string;
   userName: string;
   name: string;
@@ -18,9 +17,9 @@ function Join() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<SubmitData>();
+  } = useForm<SubmitProps>();
 
-  const onSubmit = handleSubmit(async (data: SubmitData) => {
+  const onSubmit = handleSubmit(async (data: SubmitProps) => {
     if (data.password !== data.password2) {
       setError(
         "password2",

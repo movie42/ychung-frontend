@@ -8,14 +8,18 @@
 - [ ] React Router Dom에 연결하기
 - [x] Backend와 연결하기
   - cors이슈는 cors 패키지로 해결 하지만 본서버에서 어떻게 될지....
-- [ ] Heroku 연결하기
-- [ ] 기본 서비스 그대로 시작하기
+  - [ ] login 연결
+    - [ ] 내생각엔 JWT를 추가해야할듯
+  - [x] join/ csrftoken
+- [ ] Heroku 연결하기, 기본 서비스 그대로 시작하기
 - [ ] 실재로 얼마나 걸렸는지 피드백 꼭 하기
 
 -22.03.28
 
 - [Typescript의 Generic을 사용해보자.](https://feel5ny.github.io/2018/12/09/Typescript_14/)
+- [Typescript Generics Tutorial](https://www.youtube.com/watch?v=nViEqpgwxHE) GREAT!!!
 - [How to create a custom React hook to fetch an API (using TypeScript)?](https://dev.to/sulistef/how-to-create-a-custom-react-hook-to-fetch-an-api-using-typescript-ioi)
+- [How to secure a React app with basic server-side login authentication](https://blog.logrocket.com/how-to-secure-react-app-login-authentication/)
 
 - new app
 - - 22.3.30~ 4.2
