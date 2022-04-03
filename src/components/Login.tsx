@@ -30,7 +30,6 @@ function Login() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(csrfToken);
     setOption({
       method: "POST",
       headers: {
