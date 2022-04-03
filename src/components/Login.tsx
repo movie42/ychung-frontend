@@ -34,9 +34,8 @@ function Login() {
     setOption({
       method: "POST",
       headers: {
-        ACCEPT: "application/json",
         "Content-Type": "application/json",
-        "CSRF-Token": csrfToken,
+        "X-CSRF-Token": csrfToken,
       },
       body: JSON.stringify({ ...data }),
       credentials: "include",
