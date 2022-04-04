@@ -21,6 +21,7 @@ import { useRecoilValue } from "recoil";
 import { loginState } from "../Authrization";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../components/Logout";
+import NoticeCreate from "../components/Notice/NoticeCreate";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -31,6 +32,7 @@ function Router() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/notice" element={<Notice />} />
+        <Route path="/notice/create" element={<NoticeCreate />} />
         <Route path="/notice/:id" element={<NoticeDetail />} />
         <Route path="/worship" element={<Worship />} />
         <Route path="/worship/:id" element={<WorshipDetail />} />

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useFetch } from "../../customhooks/useFectch";
 import NoticeItem from "./NoticeItem";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -51,7 +52,9 @@ function Notice() {
   return (
     <Wrapper>
       <h1>공지사항</h1>
+      <Link to={"/notice/create"}>공지 쓰기</Link>
       <ListContainer>
+        {error && <h2>error?.message</h2>}
         {isLoading ? (
           <h1>Loading...</h1>
         ) : (
