@@ -52,7 +52,12 @@ function NoticeItem({ notice }: NoticeProps): React.ReactElement {
         </UserInfoContainer>
         <div>
           <h3>{title}</h3>
-          <p>{paragraph}</p>
+          <p>
+            {paragraph
+              ?.replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
+              .replace(/\s+/g, " ")
+              .slice(0, 100)}
+          </p>
         </div>
         <div>
           <span>조회수 {views}</span>

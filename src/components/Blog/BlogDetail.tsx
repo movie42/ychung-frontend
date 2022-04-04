@@ -3,10 +3,11 @@ import { useParams } from "react-router";
 import { useFetch } from "../../customhooks/useFectch";
 import styled from "styled-components";
 import { getRequest } from "../../httpMethod";
+import { Viewer } from "@toast-ui/react-editor";
 
 const Wrapper = styled.div``;
 const BlogInfoContainer = styled.div``;
-
+const ParagraphContainer = styled.div``;
 const UserInfoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -68,9 +69,9 @@ function BlogDetail() {
               <span>{post?.views}</span>
             </InforContainer>
           </UserInfoContainer>
-          <BlogInfoContainer>
-            <p>{post?.paragraph}</p>
-          </BlogInfoContainer>
+          <ParagraphContainer>
+            <Viewer initialValue={post?.paragraph} />
+          </ParagraphContainer>
         </Wrapper>
       )}
     </>

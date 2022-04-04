@@ -1,3 +1,4 @@
+import { Viewer } from "@toast-ui/react-editor";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
@@ -15,7 +16,6 @@ function NoticeDetail() {
   useEffect(() => {
     setOptions(getRequest);
   }, []);
-
   return isLoading ? (
     <div>Loading...</div>
   ) : (
@@ -26,7 +26,27 @@ function NoticeDetail() {
         <span>{data?.creator}</span>
         <span>{data?.createdAt}</span>
       </div>
-      <p>{data?.paragraph}</p>
+      <Viewer
+        initialValue={data?.paragraph}
+        customHTMLRenderer={{
+          htmlBlock: {
+            iframe: (node) => [
+              {
+                type: "openTag",
+                tagName: "iframe",
+                outerNewLine: true,
+                attributes: node.attrs,
+              },
+              { type: "html", content: `${node.childrenHTML}` },
+              {
+                type: "closeTag",
+                tagName: "iframe",
+                outerNewLine: true,
+              },
+            ],
+          },
+        }}
+      />
     </Wrapper>
   );
 }

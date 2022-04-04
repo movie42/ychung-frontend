@@ -64,7 +64,13 @@ function BlogItems({ post }: BlogItem) {
         </UserInfoContainer>
         <div>
           <h3>{title}</h3>
-          <p>{paragraph}</p>
+          <p>
+            {`${paragraph
+              ?.replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
+              .replace(/\s+/g, " ")
+              .replace(/[\<\>]/g, "")
+              .slice(0, 150)}...`}
+          </p>
         </div>
         <div>
           <span>공감 0</span>
