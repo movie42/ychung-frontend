@@ -21,14 +21,12 @@ const ListItem = styled.li`
     z-index: 10;
     background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
   }
-  a {
+  .linkContainer {
+    display: grid;
+    height: 100%;
     color: ${(props) => props.theme.fontColor};
     text-decoration: none;
-    @media (min-width: ${(props) => props.theme.screen.labtop}) {
-      display: grid;
-      grid-template-rows: 1fr 5fr 1fr;
-      height: 100%;
-    }
+    grid-template-rows: 1fr 5fr 1fr;
   }
 `;
 
@@ -95,9 +93,10 @@ const ItemDetailInfoContainer = styled.div`
 
 interface NoticeProps {
   notice: INoticeInterface;
+  onClick: (e: any) => any;
 }
 
-function NoticeItem({ notice }: NoticeProps): React.ReactElement {
+function NoticeItem({ notice, onClick }: NoticeProps): React.ReactElement {
   const { _id, title, paragraph, creator, comments, views, createdAt } = notice;
 
   const previewParagraph = (item: string) => {
@@ -111,8 +110,12 @@ function NoticeItem({ notice }: NoticeProps): React.ReactElement {
   };
 
   return (
-    <ListItem>
-      <Link to={`/notice/${_id}`}>
+    <ListItem
+      onClick={(e: React.MouseEvent<HTMLLIElement>) => {
+        e.preventDefault();
+        onClick(_id);
+      }}>
+      <div className="linkContainer">
         <UserInfoContainer>
           <ImageContainer>
             <HumanIcon />
@@ -130,7 +133,7 @@ function NoticeItem({ notice }: NoticeProps): React.ReactElement {
           <span>조회수 {views}</span>
           <span>댓글 {comments?.length}</span>
         </ItemDetailInfoContainer>
-      </Link>
+      </div>
     </ListItem>
   );
 }

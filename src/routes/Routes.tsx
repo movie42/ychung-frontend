@@ -33,7 +33,6 @@ function Router() {
         <Route path="/" element={<Main />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/notice/create" element={<NoticeCreate />} />
-        <Route path="/notice/:id" element={<NoticeDetail />} />
         <Route path="/worship" element={<Worship />} />
         <Route path="/worship/:id" element={<WorshipDetail />} />
         <Route path="/blog" element={<Blog />} />

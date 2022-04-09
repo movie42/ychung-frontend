@@ -10,6 +10,7 @@ export const theme: DefaultTheme = {
   sucessColor: "#37ff00",
   grayBackgroundColor: "#f0f0f0",
   "grayBackgroundColor-light": "#FAFAF6",
+  white: "#fff",
   screen: {
     mobile: "450px",
     tablet: "720px",

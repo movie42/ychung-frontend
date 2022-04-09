@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import NoticeItem from "./NoticeItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useMatch } from "react-router-dom";
+import NoticeDetail from "./NoticeDetail";
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
 const ListContainer = styled.ul`
+  display: grid;
+  grid-auto-rows: minmax(35rem, 42rem);
   @media (min-width: ${(props) => props.theme.screen.labtop}) {
-    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
-    grid-auto-rows: minmax(35rem, 42rem);
     gap: 1.5rem;
   }
   padding: 0;
@@ -34,6 +35,8 @@ export interface INoticeInterface {
 }
 
 function Notice() {
+  const [detailItem, setDetailItem] = useState(null);
+
   const {
     isLoading,
     error,
@@ -58,21 +61,33 @@ function Notice() {
     { staleTime: 10000 }
   );
 
+  const onClick = (id: string) => {
+    const [detailItem] = notices.filter(
+      (item: INoticeInterface) => item._id === id
+    );
+    setDetailItem({ ...detailItem });
+  };
+
   return (
-    <Wrapper>
-      <h1>공지사항</h1>
-      <Link to={"/notice/create"}>공지 쓰기</Link>
-      <ListContainer>
-        {error && <h2>error?.message</h2>}
-        {isLoading ? (
-          <h1>Loading...</h1>
-        ) : (
-          notices.map((notice: INoticeInterface) => (
-            <NoticeItem key={notice._id} notice={notice} />
-          ))
-        )}
-      </ListContainer>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <h1>공지사항</h1>
+        <Link to={"/notice/create"}>공지 쓰기</Link>
+        <ListContainer>
+          {error && <h2>error?.message</h2>}
+          {isLoading ? (
+            <h1>Loading...</h1>
+          ) : (
+            notices.map((notice: INoticeInterface) => (
+              <NoticeItem key={notice._id} onClick={onClick} notice={notice} />
+            ))
+          )}
+        </ListContainer>
+      </Wrapper>
+      {detailItem !== null && (
+        <NoticeDetail setDetailItem={setDetailItem} data={detailItem} />
+      )}
+    </>
   );
 }
 

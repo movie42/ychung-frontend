@@ -13,6 +13,7 @@ declare module "styled-components" {
     sucessColor: string;
     grayBackgroundColor: string;
     "grayBackgroundColor-light": string;
+    white: string;
     screen: {
       mobile: string;
       tablet: string;
