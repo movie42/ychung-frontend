@@ -17,26 +17,51 @@ import UserWorks from "../components/User/UserWorks";
 import UserApplications from "../components/User/UserApplications";
 import UserLike from "../components/User/UserLike";
 import NoticeDetail from "../components/Notice/NoticeDetail";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { loginState } from "../Authrization";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../components/Logout";
 import NoticeCreate from "../components/Notice/NoticeCreate";
+import { notice, noticeModalControler } from "../state/notice.atom";
+import { blog, blogModalControler } from "../state/blog.atom";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
+  const noticeItem = useRecoilValue(notice);
+  const [noticeModalState, setNoticeModalState] =
+    useRecoilState(noticeModalControler);
+
+  const blogItem = useRecoilValue(blog);
+  const [blogModalState, setBlogModalState] =
+    useRecoilState(blogModalControler);
 
   return (
     <>
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/notice" element={<Notice />} />
+        <Route path="/notice" element={<Notice />}>
+          <Route
+            path=":id"
+            element={
+              <NoticeDetail
+                setDetailItem={setNoticeModalState}
+                data={noticeItem}
+              />
+            }
+          />
+        </Route>
         <Route path="/notice/create" element={<NoticeCreate />} />
         <Route path="/worship" element={<Worship />} />
         <Route path="/worship/:id" element={<WorshipDetail />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/blog" element={<Blog />}>
+          <Route
+            path=":id"
+            element={
+              <BlogDetail setDetailItem={setBlogModalState} data={blogItem} />
+            }
+          />
+        </Route>
         <Route path="/documents" element={<Documents />} />
         <Route element={<PrivateRoute />}>
           <Route path="/worship/create" element={<WorshipCreate />} />

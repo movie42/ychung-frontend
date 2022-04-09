@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 import { calculateDate } from "../../customhooks/utiles";
 import { motion } from "framer-motion";
-import { INoticeInterface } from "./Notice";
+import { SetterOrUpdater } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { movingCard, opacity } from "../../modalAnimation";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -65,48 +67,19 @@ const HeadInfoContainer = styled.div`
 `;
 
 interface INoticeDetailProps {
-  setDetailItem: React.Dispatch<React.SetStateAction<null>>;
-  data: INoticeInterface;
+  setDetailItem: SetterOrUpdater<boolean>;
+  data?: any;
 }
 
-const opacity = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      duration: 0.2,
-    },
-  },
-  exit: {
-    opacity: 0,
-  },
-};
-
-const movingCard = {
-  initial: {
-    y: "100%",
-  },
-  animate: {
-    y: 0,
-    transition: {
-      delay: 0.1,
-      type: "tween",
-    },
-  },
-  exit: {
-    y: "100%",
-  },
-};
-
-function NoticeDetail({
-  setDetailItem,
-  data: { title, views, creator, createdAt, paragraph },
-}: INoticeDetailProps) {
+function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
+  const navigator = useNavigate();
   const modalHandler = () => {
-    setDetailItem(null);
+    setDetailItem(false);
   };
+
+  useEffect(() => {
+    return () => navigator("/notice");
+  }, [navigator]);
 
   return (
     <Wrapper
@@ -121,15 +94,15 @@ function NoticeDetail({
         animate="animate"
         exit="exit">
         <HeadInfoContainer>
-          <h1>{title}</h1>
+          <h1>{data?.title}</h1>
           <div className="noticeInfo">
-            <span>글쓴이 : {creator.userName}</span>
-            <span>조회수 : {views}</span>
-            <span>날짜 : {calculateDate(createdAt)}</span>
+            <span>글쓴이 : {data?.creator.userName}</span>
+            <span>조회수 : {data?.views}</span>
+            <span>날짜 : {data && calculateDate(data?.createdAt)}</span>
           </div>
         </HeadInfoContainer>
         <Viewer
-          initialValue={paragraph}
+          initialValue={data?.paragraph}
           customHTMLRenderer={{
             htmlBlock: {
               iframe: (node) => [

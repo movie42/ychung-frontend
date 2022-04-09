@@ -21,7 +21,7 @@ const ListItem = styled.li`
     z-index: 10;
     background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
   }
-  .linkContainer {
+  a {
     display: grid;
     height: 100%;
     color: ${(props) => props.theme.fontColor};
@@ -103,7 +103,6 @@ function NoticeItem({ notice, onClick }: NoticeProps): React.ReactElement {
     const newPreview = item
       .replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
       .replace(/\s+/g, " ");
-
     return newPreview.length < 100
       ? newPreview
       : `${newPreview.slice(0, 100)}...`;
@@ -115,7 +114,7 @@ function NoticeItem({ notice, onClick }: NoticeProps): React.ReactElement {
         e.preventDefault();
         onClick(_id);
       }}>
-      <div className="linkContainer">
+      <Link to={`${_id}`}>
         <UserInfoContainer>
           <ImageContainer>
             <HumanIcon />
@@ -133,7 +132,7 @@ function NoticeItem({ notice, onClick }: NoticeProps): React.ReactElement {
           <span>조회수 {views}</span>
           <span>댓글 {comments?.length}</span>
         </ItemDetailInfoContainer>
-      </div>
+      </Link>
     </ListItem>
   );
 }

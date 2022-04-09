@@ -1,80 +1,130 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router";
-import { useFetch } from "../../customhooks/useFectch";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getRequest } from "../../httpMethod";
+import { calculateDate } from "../../customhooks/utiles";
+import { SetterOrUpdater } from "recoil";
+import { movingCard, opacity } from "../../modalAnimation";
 import { Viewer } from "@toast-ui/react-editor";
+import { motion } from "framer-motion";
 
-const Wrapper = styled.div``;
-const BlogInfoContainer = styled.div``;
-const ParagraphContainer = styled.div``;
-const UserInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
+const Wrapper = styled(motion.div)`
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
 `;
 
-const ImageContainer = styled.div`
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.grayBackgroundColor};
+const NoticeDetailContainer = styled(motion.div)`
+  background-color: ${(props) => props.theme.white};
+  overflow-y: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 86%;
+  padding: 1rem 2rem;
+  border-radius: 2rem 2rem 0 0;
+  .toastui-editor-contents {
+    h4 {
+      font-size: 2.2rem;
+      line-height: 1.5;
+    }
+    h5 {
+      font-size: 2rem;
+      line-height: 1.5;
+    }
+    p {
+      font-size: 1.6rem;
+    }
+  }
 `;
 
-const InforContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const HeadInfoContainer = styled.div`
+  box-sizing: border-box;
+  padding: 0;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid ${(props) => props.theme["grayBackgroundColor"]};
+  h1 {
+    font-size: 3.4rem;
+    word-break: keep-all;
+  }
+  .noticeInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    span {
+      &:first-child {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-column: 1/4;
+      }
+      color: ${(props) => props.theme["fontColor-light"]};
+    }
+  }
 `;
 
 interface BlogDetail {
-  _id: string;
-  title: string;
-  paragraph: string;
-  year: string;
-  month: string;
-  date: string;
-  day: string;
-  time: string;
-  creator: string;
-  comments: [];
-  views: number;
-  createdAt: string;
+  setDetailItem: SetterOrUpdater<boolean>;
+  data?: any;
 }
 
-function BlogDetail() {
-  const { id } = useParams();
+function BlogDetail({ setDetailItem, data }: BlogDetail) {
+  const navigator = useNavigate();
 
-  const [{ isLoading, error, response: post }, setOptions] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/api/blog/${id}`,
-  });
+  const modalHandler = () => {
+    setDetailItem(false);
+  };
 
   useEffect(() => {
-    setOptions(getRequest);
-  }, []);
+    return () => navigator("/blog");
+  }, [navigator]);
 
   return (
-    <>
-      {error && <h1>{error.message}</h1>}
-      {isLoading ? (
-        <h1>로딩 중...</h1>
-      ) : (
-        <Wrapper>
-          <h1>{post?.title}</h1>
-          <UserInfoContainer>
-            <ImageContainer>
-              <img src="" alt="" />
-            </ImageContainer>
-            <InforContainer>
-              <span>{post?.creator}</span>
-              <span>{post?.createdAt}</span>
-              <span>{post?.views}</span>
-            </InforContainer>
-          </UserInfoContainer>
-          <ParagraphContainer>
-            <Viewer initialValue={post?.paragraph} />
-          </ParagraphContainer>
-        </Wrapper>
-      )}
-    </>
+    <Wrapper
+      onClick={modalHandler}
+      variants={opacity}
+      initial="initial"
+      animate="animate"
+      exit="exit">
+      <NoticeDetailContainer
+        variants={movingCard}
+        initial="initial"
+        animate="animate"
+        exit="exit">
+        <HeadInfoContainer>
+          <h1>{data?.title}</h1>
+          <div className="noticeInfo">
+            <span>글쓴이 : {data?.creator.userName}</span>
+            <span>조회수 : {data?.views}</span>
+            <span>날짜 : {data && calculateDate(data?.createdAt)}</span>
+          </div>
+        </HeadInfoContainer>
+        <Viewer
+          initialValue={data?.paragraph}
+          customHTMLRenderer={{
+            htmlBlock: {
+              iframe: (node) => [
+                {
+                  type: "openTag",
+                  tagName: "iframe",
+                  outerNewLine: true,
+                  attributes: node.attrs,
+                },
+                { type: "html", content: `${node.childrenHTML}` },
+                {
+                  type: "closeTag",
+                  tagName: "iframe",
+                  outerNewLine: true,
+                },
+              ],
+            },
+          }}
+        />
+      </NoticeDetailContainer>
+    </Wrapper>
   );
 }
 

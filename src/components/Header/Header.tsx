@@ -12,7 +12,7 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   padding: 0.2rem;
   .menuBtn {
     position: absolute;
