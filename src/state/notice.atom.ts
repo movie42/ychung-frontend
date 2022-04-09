@@ -2,5 +2,10 @@ import { atom } from "recoil";
 
 export const notice = atom({
   key: "notice",
-  default: [],
+  default: {},
+});
+
+export const noticeModalControler = atom({
+  key: "noticeModal",
+  default: false,
 });
