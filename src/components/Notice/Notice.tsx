@@ -1,53 +1,62 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
-import { useFetch } from "../../customhooks/useFectch";
 import NoticeItem from "./NoticeItem";
 import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
-  overflow-x: hidden;
   width: 100%;
 `;
 
 const ListContainer = styled.ul`
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    grid-auto-rows: minmax(35rem, 42rem);
+    gap: 1.5rem;
+  }
   padding: 0;
 `;
 
 export interface INoticeInterface {
-  _id?: string;
-  title?: string;
-  isWeekly?: boolean;
-  paragraph?: string;
-  creator?: string;
-  comments?: [];
-  views?: number;
-  year?: string;
-  month?: string;
-  date?: string;
-  day?: string;
-  time?: string;
-  createdAt?: string;
+  _id: string;
+  title: string;
+  isWeekly: boolean;
+  paragraph: string;
+  creator: {
+    _id: string;
+    name: string;
+    userName: string;
+  };
+  comments: [];
+  views: number;
+  createdAt: string;
 }
 
 function Notice() {
-  const [{ isLoading, error, response: notices }, setOptions] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/notice`,
-  });
-
-  useEffect(() => {
-    setOptions({
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-      },
-      credential: "include",
-      mode: "cors",
-    });
-
-    return () => {
-      setOptions({});
-    };
-  }, []);
+  const {
+    isLoading,
+    error,
+    data: notices,
+  } = useQuery(
+    "notice",
+    async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/notice`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          mode: "cors",
+        }
+      );
+      const { data } = await response.json();
+      return data;
+    },
+    { staleTime: 10000 }
+  );
 
   return (
     <Wrapper>
@@ -58,7 +67,7 @@ function Notice() {
         {isLoading ? (
           <h1>Loading...</h1>
         ) : (
-          notices?.map((notice: INoticeInterface) => (
+          notices.map((notice: INoticeInterface) => (
             <NoticeItem key={notice._id} notice={notice} />
           ))
         )}

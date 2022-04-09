@@ -59,6 +59,7 @@ const NavWrapper = styled.nav`
   background-color: white;
   padding: 0 1rem 0 0;
   width: 100%;
+  z-index: 1;
   .closeBtn {
     position: absolute;
     width: 3.6rem;

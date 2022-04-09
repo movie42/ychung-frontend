@@ -1,30 +1,49 @@
+import React from "react";
 import { Viewer } from "@toast-ui/react-editor";
-import React, { useEffect } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { useFetch } from "../../customhooks/useFectch";
-import { getRequest } from "../../httpMethod";
+import { calculateDate } from "../../customhooks/utiles";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .noticeInfo {
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 function NoticeDetail() {
   const { id } = useParams();
-  const [{ isLoading, error, response: data }, setOptions] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/api/notice/${id}`,
-  });
 
-  useEffect(() => {
-    setOptions(getRequest);
-  }, []);
+  const { isLoading, error, data } = useQuery(
+    ["noticeDetail", id],
+    async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/notice/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          mode: "cors",
+        }
+      );
+      const { data } = await response.json();
+      return data;
+    },
+    { staleTime: 10000 }
+  );
+
   return isLoading ? (
     <div>Loading...</div>
   ) : (
     <Wrapper>
       <h1>{data?.title}</h1>
-      <div>
-        <span>{data?.views}</span>
-        <span>{data?.creator}</span>
-        <span>{data?.createdAt}</span>
+      <div className="noticeInfo">
+        <span>조회수 : {data?.views}</span>
+        <span>글쓴이 : {data?.creator.userName}</span>
+        <span>날짜 : {calculateDate(data?.createdAt)}</span>
       </div>
       <Viewer
         initialValue={data?.paragraph}
