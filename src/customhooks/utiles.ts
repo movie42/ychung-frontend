@@ -7,9 +7,9 @@ export const calculateDate = (date: string) => {
   const amountTimeForSeconds = amountTimeFromNow / 1000;
 
   const time = {
-    minute: (amountTimeForSeconds % 3600) / 60,
-    hour: amountTimeForSeconds / 3600,
-    day: amountTimeForSeconds / (3600 * 24),
+    minute: Math.floor((amountTimeForSeconds % 3600) / 60),
+    hour: Math.floor(amountTimeForSeconds / 3600),
+    day: Math.floor(amountTimeForSeconds / (3600 * 24)),
   };
 
   if (time.hour < 1) {
@@ -27,4 +27,18 @@ export const calculateDate = (date: string) => {
   return `${createDate.getFullYear()}년 ${
     createDate.getMonth() + 1
   }월 ${createDate.getDate()}일`;
+};
+
+export const imageParser = (data: string) => {
+  const image = data.match(/\!(.*)\)/g);
+  if (image) {
+    const [imageStrings] = Array.from(image).filter((value) =>
+      value.includes("https")
+    );
+    const thumnail = imageStrings
+      .replace(/[(,)]/g, "")
+      .replace(/\!(.*)\]/g, "");
+    return thumnail.includes("https") ? thumnail : null;
+  }
+  return null;
 };
