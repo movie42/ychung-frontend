@@ -72,7 +72,7 @@ const ItemDetailContainer = styled.div`
   h3 {
     margin: 0;
     font-size: 2.4rem;
-    line-height: 1.8;
+    line-height: 1.5;
   }
   p {
     margin: 0;
@@ -109,11 +109,7 @@ function NoticeItem({ notice, onClick }: NoticeProps): React.ReactElement {
   };
 
   return (
-    <ListItem
-      onClick={(e: React.MouseEvent<HTMLLIElement>) => {
-        e.preventDefault();
-        onClick(_id);
-      }}>
+    <ListItem onClick={() => onClick(_id)}>
       <Link to={`${_id}`}>
         <UserInfoContainer>
           <ImageContainer>

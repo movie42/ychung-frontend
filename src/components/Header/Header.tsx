@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { faClose, faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "./Nav";
+import { navAnimationVariants } from "../../animation variants/navigationAnimationVariants";
 
 const HeaderContainer = styled.header`
   position: relative;
@@ -14,13 +15,6 @@ const HeaderContainer = styled.header`
   width: 100%;
   overflow: hidden;
   padding: 0.2rem;
-  .menuBtn {
-    position: absolute;
-    width: 3.6rem;
-    height: 3.6rem;
-    top: 0.7rem;
-    right: 2rem;
-  }
 `;
 
 const LogoContainer = styled.div`
@@ -42,6 +36,13 @@ const LogoSvg = styled.svg`
 `;
 
 const ButtonContainer = styled.div`
+  .menuBtn {
+    position: absolute;
+    width: 3.6rem;
+    height: 3.6rem;
+    top: 0.7rem;
+    right: 1.2rem;
+  }
   width: 6rem;
   height: 6rem;
 `;
@@ -50,7 +51,7 @@ interface IProps {
   to?: string;
 }
 
-const NavWrapper = styled.nav`
+const NavWrapper = styled(motion.nav)`
   position: fixed;
   top: 0;
   left: 0;
@@ -62,10 +63,11 @@ const NavWrapper = styled.nav`
   z-index: 1;
   .closeBtn {
     position: absolute;
-    width: 3.6rem;
-    height: 3.6rem;
-    top: 0.7rem;
-    right: 2rem;
+    z-index: 100;
+    width: 4rem;
+    height: 4rem;
+    top: 2.5rem;
+    right: 3rem;
   }
 `;
 
@@ -117,16 +119,22 @@ const Header = () => {
           icon={faBars}
         />
       </ButtonContainer>
-      {menu && (
-        <NavWrapper>
-          <FontAwesomeIcon
-            onClick={handleCloseBtn}
-            className="closeBtn"
-            icon={faClose}
-          />
-          <Nav />
-        </NavWrapper>
-      )}
+      <AnimatePresence>
+        {menu && (
+          <NavWrapper
+            variants={navAnimationVariants}
+            initial="init"
+            animate="animate"
+            exit="exit">
+            <FontAwesomeIcon
+              onClick={handleCloseBtn}
+              className="closeBtn"
+              icon={faClose}
+            />
+            <Nav />
+          </NavWrapper>
+        )}
+      </AnimatePresence>
     </HeaderContainer>
   );
 };

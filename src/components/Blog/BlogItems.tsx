@@ -25,7 +25,7 @@ const ListItem = styled.li`
     height: 100%;
     color: ${(props) => props.theme.fontColor};
     text-decoration: none;
-    grid-template-rows: 5fr 1fr;
+    grid-template-rows: 6fr 1fr;
   }
 `;
 
@@ -69,7 +69,7 @@ const HumanIcon = styled(HiUser)`
   bottom: -0.6rem;
   width: 4.5rem;
   height: 4.5rem;
-  color: ${(props) => props.theme["fontColor-light"]};
+  color: ${(props) => props.theme["grayBackgroundColor-light"]};
 `;
 
 const ItemDetailContainer = styled.div`
@@ -78,6 +78,7 @@ const ItemDetailContainer = styled.div`
     width: 100%;
     height: 25rem;
     overflow: hidden;
+    border-radius: 0.5rem 0.5rem 0 0;
     img {
       width: 100%;
     }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { calculateDate } from "../../customhooks/utiles";
 import { SetterOrUpdater } from "recoil";
-import { movingCard, opacity } from "../../modalAnimation";
+import { movingCard, opacity } from "../../animation variants/modalAnimation";
 import { Viewer } from "@toast-ui/react-editor";
 import { motion } from "framer-motion";
 

@@ -17,24 +17,25 @@ import UserWorks from "../components/User/UserWorks";
 import UserApplications from "../components/User/UserApplications";
 import UserLike from "../components/User/UserLike";
 import NoticeDetail from "../components/Notice/NoticeDetail";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { loginState } from "../Authrization";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../components/Logout";
 import NoticeCreate from "../components/Notice/NoticeCreate";
 import { notice, noticeModalControler } from "../state/notice.atom";
 import { blog, blogModalControler } from "../state/blog.atom";
+import { worship, worshipModalControler } from "../state/worship.atom";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
   const noticeItem = useRecoilValue(notice);
-  const [noticeModalState, setNoticeModalState] =
-    useRecoilState(noticeModalControler);
+  const setNoticeModalState = useSetRecoilState(noticeModalControler);
 
   const blogItem = useRecoilValue(blog);
-  const [blogModalState, setBlogModalState] =
-    useRecoilState(blogModalControler);
+  const setBlogModalState = useSetRecoilState(blogModalControler);
 
+  const weeklyItem = useRecoilValue(worship);
+  const setWeeklyModalState = useSetRecoilState(worshipModalControler);
   return (
     <>
       <Header />
@@ -52,8 +53,17 @@ function Router() {
           />
         </Route>
         <Route path="/notice/create" element={<NoticeCreate />} />
-        <Route path="/worship" element={<Worship />} />
-        <Route path="/worship/:id" element={<WorshipDetail />} />
+        <Route path="/worship" element={<Worship />}>
+          <Route
+            path=":id"
+            element={
+              <WorshipDetail
+                setDetailItem={setWeeklyModalState}
+                data={weeklyItem}
+              />
+            }
+          />
+        </Route>
         <Route path="/blog" element={<Blog />}>
           <Route
             path=":id"

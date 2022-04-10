@@ -111,7 +111,6 @@ function Notice() {
           </Link>
         </NoticeComponentInfoContainer>
         <ListContainer>
-          {error && <h2>error?.message</h2>}
           {isLoading ? (
             <h1>Loading...</h1>
           ) : (

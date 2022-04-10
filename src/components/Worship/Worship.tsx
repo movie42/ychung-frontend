@@ -1,12 +1,35 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { Link, useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { useFetch } from "../../customhooks/useFectch";
+import { AiFillPlusCircle } from "react-icons/ai";
 import WorshipItem from "./WorshipDetail/WorshipItem";
+import { AnimatePresence } from "framer-motion";
+import { useRecoilState } from "recoil";
+import { worship, worshipModalControler } from "../../state/worship.atom";
 
 const Wrapper = styled.div``;
 
-const Items = styled.ul`
+const WeeklyComponentInfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  a {
+    color: ${(props) => props.theme.grayBackgroundColor};
+    font-size: 4rem;
+    &:hover {
+      color: ${(props) => props.theme.basicColor};
+    }
+  }
+`;
+
+const ListContainer = styled.ul`
+  display: grid;
+  margin: 0;
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    gap: 1.5rem;
+  }
   padding: 0;
 `;
 
@@ -24,39 +47,83 @@ export interface IWorshipItems {
   reader: string;
   offering: string;
   benediction: string;
-  creator: string;
+  creator: {
+    _id: string;
+    userName: string;
+  };
   views: number;
   createdAt: string;
 }
 
 function Worship() {
-  const [{ response, isLoading, error }, setOption] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/worship`,
-  });
+  const { id } = useParams();
+  const [detailItem, setDetailItem] = useRecoilState(worship);
+  const [worshipModalState, setWorshipModalState] = useRecoilState(
+    worshipModalControler
+  );
+
+  const {
+    isLoading,
+    error,
+    data: weeklies,
+  } = useQuery(
+    "weeklies",
+    async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/worship`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          mode: "cors",
+        }
+      );
+      const { data } = await response.json();
+      return data;
+    },
+    { staleTime: 10000 }
+  );
+
+  const onClick = (id: string) => {
+    const [detailItem] = weeklies.filter(
+      (item: IWorshipItems) => item._id === id
+    );
+    setWorshipModalState(true);
+    setDetailItem({ ...detailItem });
+  };
 
   useEffect(() => {
-    setOption({
-      method: "GET",
-      headers: { "Content-type": "application/json" },
-    });
-  }, []);
+    if (id && !isLoading) {
+      const [detailItem] = weeklies.filter(
+        (item: IWorshipItems) => item._id === id
+      );
+      setWorshipModalState(true);
+      setDetailItem({ ...detailItem });
+    }
+  }, [id, isLoading]);
 
   return (
     <>
-      {error !== null && <p>{error?.message}</p>}
-      {isLoading ? (
-        <h1>로딩중</h1>
-      ) : (
-        <Wrapper>
-          <h1>예배</h1>
-          <Link to="/worship/create">글 작성</Link>
-          <Items>
-            {response?.map((item: IWorshipItems) => (
-              <WorshipItem key={item?._id} worship={item} />
-            ))}
-          </Items>
-        </Wrapper>
-      )}
+      <Wrapper>
+        <WeeklyComponentInfoContainer>
+          <h1>주보</h1>
+          <Link to="/worship/create">
+            <AiFillPlusCircle />
+          </Link>
+        </WeeklyComponentInfoContainer>
+        <ListContainer>
+          {isLoading ? (
+            <h1>로딩중</h1>
+          ) : (
+            weeklies?.map((item: IWorshipItems) => (
+              <WorshipItem key={item?._id} worship={item} onClick={onClick} />
+            ))
+          )}
+        </ListContainer>
+        <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>
+      </Wrapper>
     </>
   );
 }

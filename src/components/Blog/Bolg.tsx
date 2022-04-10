@@ -9,7 +9,6 @@ import { useRecoilState } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
 
 const Wrapper = styled.div`
-  overflow-x: hidden;
   width: 100%;
 `;
 
