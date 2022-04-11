@@ -9,12 +9,13 @@ import { navAnimationVariants } from "../../animation variants/navigationAnimati
 
 const HeaderContainer = styled.header`
   position: relative;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   overflow: hidden;
-  padding: 0.2rem;
+  padding: 1rem 2rem;
 `;
 
 const LogoContainer = styled.div`
@@ -40,8 +41,8 @@ const ButtonContainer = styled.div`
     position: absolute;
     width: 3.6rem;
     height: 3.6rem;
-    top: 0.7rem;
-    right: 1.2rem;
+    top: 1rem;
+    right: 2rem;
   }
   width: 6rem;
   height: 6rem;

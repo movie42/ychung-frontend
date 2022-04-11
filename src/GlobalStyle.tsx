@@ -7,7 +7,6 @@ ${normalize}
 html{
     font-family:'Noto Sans KR', sans-serif;
     font-size:10px;
-    
 }
 body{
     font-size:1.5rem;

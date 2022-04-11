@@ -7,6 +7,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
+import Loading from "../Loading";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -93,9 +94,8 @@ function Blog() {
 
   return (
     <>
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : (
+      {<AnimatePresence>{isLoading && <Loading />}</AnimatePresence>}
+      {!isLoading && (
         <Wrapper>
           <BlogComponentInfoContainer>
             <h1>블로그</h1>

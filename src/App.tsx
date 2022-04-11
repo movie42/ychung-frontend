@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import styled from "styled-components";
 import { loginState } from "./Authrization";
 import Router from "./routes/Routes";
+import Header from "./components/Header/Header";
 
 const queryClient = new QueryClient();
 
@@ -26,11 +27,14 @@ function App() {
   }, []);
 
   return (
-    <Wrapper>
-      <QueryClientProvider client={queryClient}>
-        <Router />
-      </QueryClientProvider>
-    </Wrapper>
+    <>
+      <Header />
+      <Wrapper>
+        <QueryClientProvider client={queryClient}>
+          <Router />
+        </QueryClientProvider>
+      </Wrapper>
+    </>
   );
 }
 

@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState } from "recoil";
 import { notice, noticeModalControler } from "../../state/notice.atom";
+import Loading from "../Loading";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -102,26 +103,31 @@ function Notice() {
   }, [id, isLoading]);
 
   return (
-    <NoticeListContainer>
-      <Wrapper>
-        <NoticeComponentInfoContainer>
-          <h1>공지사항</h1>
-          <Link to={"/notice/create"}>
-            <AiFillPlusCircle />
-          </Link>
-        </NoticeComponentInfoContainer>
-        <ListContainer>
-          {isLoading ? (
-            <h1>Loading...</h1>
-          ) : (
-            notices.map((notice: INoticeInterface) => (
-              <NoticeItem key={notice._id} onClick={onClick} notice={notice} />
-            ))
-          )}
-        </ListContainer>
-      </Wrapper>
-      <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
-    </NoticeListContainer>
+    <>
+      <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
+      {!isLoading && (
+        <NoticeListContainer>
+          <Wrapper>
+            <NoticeComponentInfoContainer>
+              <h1>공지사항</h1>
+              <Link to={"/notice/create"}>
+                <AiFillPlusCircle />
+              </Link>
+            </NoticeComponentInfoContainer>
+            <ListContainer>
+              {notices.map((notice: INoticeInterface) => (
+                <NoticeItem
+                  key={notice._id}
+                  onClick={onClick}
+                  notice={notice}
+                />
+              ))}
+            </ListContainer>
+          </Wrapper>
+          <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
+        </NoticeListContainer>
+      )}
+    </>
   );
 }
 

@@ -38,7 +38,6 @@ function Router() {
   const setWeeklyModalState = useSetRecoilState(worshipModalControler);
   return (
     <>
-      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/notice" element={<Notice />}>

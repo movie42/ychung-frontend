@@ -7,6 +7,8 @@ import WorshipItem from "./WorshipDetail/WorshipItem";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
+import Parallax from "../Animations/Parallax";
+import Loading from "../Loading";
 
 const Wrapper = styled.div``;
 
@@ -106,24 +108,23 @@ function Worship() {
 
   return (
     <>
-      <Wrapper>
-        <WeeklyComponentInfoContainer>
-          <h1>주보</h1>
-          <Link to="/worship/create">
-            <AiFillPlusCircle />
-          </Link>
-        </WeeklyComponentInfoContainer>
-        <ListContainer>
-          {isLoading ? (
-            <h1>로딩중</h1>
-          ) : (
-            weeklies?.map((item: IWorshipItems) => (
+      {<AnimatePresence>{isLoading && <Loading />}</AnimatePresence>}
+      {!isLoading && (
+        <Wrapper>
+          <WeeklyComponentInfoContainer>
+            <h1>주보</h1>
+            <Link to="/worship/create">
+              <AiFillPlusCircle />
+            </Link>
+          </WeeklyComponentInfoContainer>
+          <ListContainer>
+            {weeklies?.map((item: IWorshipItems) => (
               <WorshipItem key={item?._id} worship={item} onClick={onClick} />
-            ))
-          )}
-        </ListContainer>
-        <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>
-      </Wrapper>
+            ))}
+          </ListContainer>
+          <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>
+        </Wrapper>
+      )}
     </>
   );
 }
