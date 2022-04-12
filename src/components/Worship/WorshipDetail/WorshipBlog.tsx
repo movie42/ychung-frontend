@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { INoticeInterface } from "../../Notice/Notice";
+import { BsArrowRight } from "react-icons/bs";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -13,12 +14,23 @@ const ListContainer = styled.ul`
 `;
 
 const ListItem = styled.li`
+  box-sizing: border-box;
   width: 100%;
-  padding: 0 0 2rem 0;
+  padding: 1rem 2rem;
   border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
   a {
+    font-size: 2.2rem;
     color: ${(props) => props.theme.fontColor};
     text-decoration: none;
+    p {
+      margin: 0 0 1rem 0;
+    }
+    div {
+      font-size: 1.6rem;
+    }
+  }
+  &:hover {
+    background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
   }
 `;
 
@@ -41,38 +53,44 @@ const ImageContainer = styled.div`
 `;
 
 function WorshipBlog() {
-  return (
-    <Wrapper>
-      <h1>블로그</h1>
-      <ListContainer>
-        <ListItem>
-          <Link to="#">
-            <UserInfoContainer>
-              <ImageContainer>
-                <img src="" />
-              </ImageContainer>
-              <InfoContainer>
-                <span>user name</span>
-                <span>1시간 전</span>
-              </InfoContainer>
-            </UserInfoContainer>
+  const {
+    isLoading,
+    error,
+    data: posts,
+  } = useQuery(
+    "posts",
+    async () => {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+      });
+      const { data } = await response.json();
+      return data;
+    },
+    { staleTime: 10000 }
+  );
+  return isLoading ? (
+    <p>블로그 불러오는 중...</p>
+  ) : (
+    <ListContainer>
+      {posts.slice(0, 3).map((post: INoticeInterface) => (
+        <ListItem key={post._id}>
+          <a href={`/notice/${post._id}`}>
+            <p>{post.title}</p>
             <div>
-              <h3>아이템 제목입니다.</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem,
-                fugiat voluptate aperiam repudiandae sit iure eaque veritatis
-                illo praesentium, temporibus quo itaque quibusdam vel nisi
-                suscipit. Autem soluta exercitationem iure.
-              </p>
+              자세히 보기
+              <span>
+                <BsArrowRight />
+              </span>
             </div>
-            <div>
-              <span>공감 20</span>
-              <span>댓글 100</span>
-            </div>
-          </Link>
+          </a>
         </ListItem>
-      </ListContainer>
-    </Wrapper>
+      ))}
+    </ListContainer>
   );
 }
 

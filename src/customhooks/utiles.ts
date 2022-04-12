@@ -29,6 +29,15 @@ export const calculateDate = (date: string) => {
   }월 ${createDate.getDate()}일`;
 };
 
+export const previewParagraph = (item: string) => {
+  const newPreview = item
+    .replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
+    .replace(/\s+/g, " ");
+  return newPreview.length < 100
+    ? newPreview
+    : `${newPreview.slice(0, 100)}...`;
+};
+
 export const imageParser = (data: string) => {
   const image = data.match(/\!(.*)\)/g);
   if (image) {

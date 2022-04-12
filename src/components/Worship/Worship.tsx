@@ -7,7 +7,6 @@ import WorshipItem from "./WorshipDetail/WorshipItem";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
-import Parallax from "../Animations/Parallax";
 import Loading from "../Loading";
 
 const Wrapper = styled.div``;

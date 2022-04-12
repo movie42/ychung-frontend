@@ -1,34 +1,54 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import WorshipNotice from "./WorshipNotice";
-import WorshipBlog from "./WorshipBlog";
 import { SetterOrUpdater } from "recoil";
 import {
   movingCard,
   opacity,
 } from "../../../animation variants/modalAnimation";
-import {
-  motion,
-  motionValue,
-  useElementScroll,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   calculateDate,
   chapterNameTransferFromEngToKr,
 } from "../../../customhooks/utiles";
-import { relative } from "path";
+import WorshipNotice from "./WorshipNotice";
+import WorshipBlog from "./WorshipBlog";
+
+const WorshipDetailContainer = styled.div``;
+
+const ClipbordStateMessage = styled(motion.span)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 2rem;
+  color: ${(props) => props.theme["fontColor-dark"]};
+  z-index: 20;
+  padding: 1rem 2rem;
+  border: 0;
+  background-color: ${(props) => props.theme.white};
+`;
 
 const Wrapper = styled(motion.div)`
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100%;
+  z-index: 10;
+`;
+
+const ModalBackground = styled(motion.span)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
+  z-index: 11;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 10;
 `;
 
 const WeeklyDetailContainer = styled(motion.div)`
@@ -39,9 +59,12 @@ const WeeklyDetailContainer = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
+  max-width: 1020px;
   height: 90%;
   padding: 1rem 2rem;
+  margin: 0 auto;
   border-radius: 2rem 2rem 0 0;
+  z-index: 13;
   h1.head-title {
     font-size: 12rem;
     word-break: keep-all;
@@ -69,9 +92,45 @@ const InforContainer = styled.div`
 `;
 
 const WorshipInfoContainer = styled(motion.div)`
+  box-sizing: border-box;
   position: relative;
   z-index: 1;
   background-color: ${(props) => props.theme.white};
+`;
+
+const WorshipGuide = styled.div`
+  ul {
+    padding: 0;
+  }
+  li {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.4;
+  }
+  button {
+    border: 1px solid ${(props) => props.theme.lineColor};
+    width: 100%;
+    padding: 0.8rem 2rem;
+    border-radius: 0.8rem;
+    background-color: ${(props) => props.theme.white};
+    cursor: pointer;
+    p {
+      &:first-child {
+        font-size: 2rem;
+      }
+      &:nth-child(2) {
+        font-size: 1.5rem;
+      }
+    }
+    &:hover {
+      background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
+    }
+
+    &:active {
+      color: ${(props) => props.theme.white};
+      background-color: ${(props) => props.theme.basicColor};
+    }
+  }
 `;
 
 const WorshipItems = styled.ul`
@@ -109,48 +168,56 @@ interface IWorshipDetailProps {
 }
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
-  const ref: React.Ref<HTMLDivElement> = useRef(null);
-  const { scrollY } = useElementScroll(ref);
-  const input = [0, 400];
-  const output = [1, 0];
-  const fixedOutPut = [0, 400];
-  const scrollYOpacity = useTransform(scrollY, input, output);
-  const scrollYFixed = useTransform(scrollY, input, fixedOutPut);
+  const [copyMessage, setCopyMessage] = useState("");
+  const navigate = useNavigate();
 
-  const infoInput = [500, 800, 1000, 1200];
-  const infoOutput = [1, 1, 1, 0];
-  const infofixedOutPut = [0, 300, 500, 900];
-  const infoContaineropacity = useTransform(scrollY, infoInput, infoOutput);
-  const infoContainerfixed = useTransform(scrollY, infoInput, infofixedOutPut);
-
-  const navigator = useNavigate();
   const modalHandler = () => {
     setDetailItem(false);
   };
 
-  useEffect(() => {
-    return () => navigator("/worship");
-  }, [navigator]);
+  const copyText = async (text: string) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        setCopyMessage("계좌번호가 복사되었습니다.");
+      },
+      () => {
+        setCopyMessage("지원하지 않는 브라우저 입니다.");
+      }
+    );
+  };
 
+  useEffect(() => {
+    return () => navigate("/worship");
+  }, [navigate]);
+
+  useEffect(() => {
+    const setMessage = setTimeout(() => setCopyMessage(""), 5000);
+
+    return () => clearTimeout(setMessage);
+  }, [copyMessage]);
   return (
-    <div>
+    <WorshipDetailContainer>
+      <AnimatePresence>
+        {copyMessage !== "" && (
+          <ClipbordStateMessage
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}>
+            {copyMessage}
+          </ClipbordStateMessage>
+        )}
+      </AnimatePresence>
       <Wrapper
-        onClick={modalHandler}
         variants={opacity}
         initial="initial"
         animate="animate"
         exit="exit">
         <WeeklyDetailContainer
-          ref={ref}
           variants={movingCard}
           initial="initial"
           animate="animate"
           exit="exit">
-          <motion.section
-            style={{
-              opacity: scrollYOpacity,
-              translateY: scrollYFixed,
-            }}>
+          <motion.section>
             <motion.div>
               <motion.h1 className="head-title">{data?.title}</motion.h1>
               <UserInfoContainer>
@@ -164,11 +231,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
               </UserInfoContainer>
             </motion.div>
           </motion.section>
-          <WorshipInfoContainer
-            style={{
-              opacity: infoContaineropacity,
-              translateY: infoContainerfixed,
-            }}>
+          <WorshipInfoContainer>
             <div>
               <img src="" alt="" />
             </div>
@@ -177,8 +240,9 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
                 <WorshipItem>
                   <span>본문</span>
                   <a
-                    href={`https://www.bskorea.or.kr/bible/korbibReadpage.php?version=SAENEW&book=${data?.word}&chap=${data?.chapter}&sec=${data?.verse}`}
-                    target="_blank">
+                    rel="noreferrer"
+                    target="_blank"
+                    href={`https://www.bskorea.or.kr/bible/korbibReadpage.php?version=SAENEW&book=${data?.word}&chap=${data?.chapter}&sec=${data?.verse}`}>
                     <span>
                       {`${chapterNameTransferFromEngToKr(data?.word)} `}
                       {data?.chapter}장 {data?.verse}
@@ -212,24 +276,39 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
                 </WorshipItem>
               </WorshipItems>
             </div>
-            <div>
-              <h1>예배는 앞자리부터 앉아주세요.</h1>
-              <h1>예배는 앞자리부터 앉아주세요.</h1>
-              <h1>예배는 앞자리부터 앉아주세요.</h1>
-              <h1>예배는 앞자리부터 앉아주세요.</h1>
-              <h1>예배는 앞자리부터 앉아주세요.</h1>
-              <h1>예배는 앞자리부터 앉아주세요.</h1>
-            </div>
           </WorshipInfoContainer>
+          <WorshipGuide>
+            <h2>예배 안내</h2>
+            <ul>
+              <li>
+                코로나를 예방하기 위해 교회 내에서 음식물 반입 금지입니다.
+              </li>
+              <li>
+                마스크는 KF94로 착용해주세요. 일반 마스크를 쓰고 오셨다면 1충에
+                구비된 마스크를 써주세요.
+              </li>
+              <li>
+                먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터 앉아주세요.
+              </li>
+              <li>청년부 계좌로도 헌금을 할 수 있습니다.</li>
+            </ul>
+            <button onClick={() => copyText("3511093649103")}>
+              <p>계좌번호 농협 351-1093-6491-03</p>
+              <p>복사하려면 클릭하세요</p>
+            </button>
+          </WorshipGuide>
           <NoticeContainer>
+            <h1>광고</h1>
             <WorshipNotice />
           </NoticeContainer>
           <BlogContainer>
+            <h1>블로그</h1>
             <WorshipBlog />
           </BlogContainer>
         </WeeklyDetailContainer>
+        <ModalBackground onClick={modalHandler} />
       </Wrapper>
-    </div>
+    </WorshipDetailContainer>
   );
 }
 

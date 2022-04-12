@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { calculateDate } from "../../customhooks/utiles";
 import { INoticeInterface } from "./Notice";
 import { HiUser } from "react-icons/hi";
+import { previewParagraph } from "../../customhooks/utiles";
 
 const ListItem = styled.li`
   width: 100%;
@@ -98,15 +99,6 @@ interface NoticeProps {
 
 function NoticeItem({ notice, onClick }: NoticeProps): React.ReactElement {
   const { _id, title, paragraph, creator, comments, views, createdAt } = notice;
-
-  const previewParagraph = (item: string) => {
-    const newPreview = item
-      .replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
-      .replace(/\s+/g, " ");
-    return newPreview.length < 100
-      ? newPreview
-      : `${newPreview.slice(0, 100)}...`;
-  };
 
   return (
     <ListItem onClick={() => onClick(_id)}>

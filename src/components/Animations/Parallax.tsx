@@ -17,7 +17,7 @@ interface IParallaxProps {
 const Parallax = ({
   elementScrollY,
   children,
-  offset = 50,
+  offset = 100,
 }: IParallaxProps): JSX.Element => {
   const prefersReducedMotion = useReducedMotion();
   const [elementTop, setElementTop] = useState(0);
@@ -32,8 +32,8 @@ const Parallax = ({
 
   const yRange = useTransform(
     elementScrollY ? elementScrollY : scrollY,
-    [initial, final],
-    [offset, -offset]
+    [0, initial, final],
+    [0, initial, final]
   );
 
   const y = useSpring(yRange, {
@@ -64,7 +64,7 @@ const Parallax = ({
   }
 
   return (
-    <motion.div ref={ref} style={{ y }}>
+    <motion.div ref={ref} style={{ opacity: yRange, translateY: yRange }}>
       {children}
     </motion.div>
   );
