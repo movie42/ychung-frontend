@@ -1,13 +1,13 @@
-export const getRequest = {
+export const getRequest: RequestInit = {
   method: "GET",
   headers: {
     "Content-type": "application/json",
   },
-  credential: "include",
+  credentials: "include",
   mode: "cors",
 };
 
-export const postRequest = (body: any, csrfToken: string) => {
+export const postRequest = (body: any, csrfToken: string): RequestInit => {
   const data = JSON.stringify({ ...body });
   return {
     method: "POST",
@@ -16,6 +16,21 @@ export const postRequest = (body: any, csrfToken: string) => {
       "X-CSRF-Token": csrfToken,
     },
     body: data,
+    credentials: "include",
+    mode: "cors",
+  };
+};
+
+export const postRequestMultipartFormData = (
+  body: any,
+  csrfToken: string
+): RequestInit => {
+  return {
+    method: "POST",
+    headers: {
+      "X-CSRF-Token": csrfToken,
+    },
+    body,
     credentials: "include",
     mode: "cors",
   };

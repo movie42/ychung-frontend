@@ -1,47 +1,114 @@
-import React from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useRef } from "react";
+import EditorContainer from "../Editor";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { useFetch } from "../../customhooks/useFectch";
+import { postRequest } from "../../httpMethod";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
+  position: relative;
   height: 70vh;
+
+  button.upload {
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    cursor: pointer;
+    font-size: 3rem;
+    color: ${(props) => props.theme.white};
+    padding: 0 0.4rem;
+    margin: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: ${(props) => props.theme.lineColor};
+    svg {
+      transform: translate(0.1rem, 0.3rem);
+    }
+    &:hover {
+      background-color: ${(props) => props.theme.basicColor};
+    }
+  }
 `;
 
-interface IPropCreateData {
-  title: string;
-}
+const InputWrapper = styled.form`
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid ${(props) => props.theme.lineColor};
+  label {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.8rem;
+    border: 0;
+    text-align: left;
+    font-size: 3rem;
+    outline: 0;
+  }
 
-const NoticeCreate = () => {
-  const { register, handleSubmit } = useForm<IPropCreateData>();
-  const editor = useRef<Editor>(null);
+  div {
+    label {
+      margin-left: 0.5rem;
+    }
+    input {
+      width: unset;
+    }
+  }
+`;
+
+const NoticeCreate: React.FC = () => {
+  const navigate = useNavigate();
+  const editorRef = useRef<Editor>(null);
+  const { register, handleSubmit } = useForm();
+  const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
+    URL: `${process.env.REACT_APP_SERVER_URL}/notice/create`,
+  });
 
   const onClick = handleSubmit((data) => {
-    const editorParser = editor.current?.getInstance().getMarkdown();
-    console.log(data, editorParser);
+    const editorParser = editorRef.current?.getInstance().getMarkdown();
+    const formData = {
+      ...data,
+      paragraph: editorParser,
+    };
+    handleOption(postRequest(formData, csrfToken));
   });
+
+  useEffect(() => {
+    if (response) {
+      navigate(`/notice/${response._id}`);
+    }
+  }, [response]);
 
   return (
     <Wrapper>
-      <label htmlFor="title"></label>
-      <input
-        {...register("title", { required: "제목을 입력하세요." })}
-        id="title"
-        type="text"
-      />
-      <Editor
-        hooks={{
-          addImageBlobHook: (blob, callback) => {},
-        }}
-        previewStyle="vertical"
-        height="100%"
-        initialEditType="markdown"
-        useCommandShortcut={true}
-        language="ko-KR"
-        ref={editor}
-      />
-      <button onClick={onClick}>데이터 받기</button>
+      <button className="upload" onClick={onClick}>
+        <AiOutlineCloudUpload />
+      </button>
+      <InputWrapper>
+        <label htmlFor="title">제목</label>
+        <input
+          placeholder="제목을 입력하세요."
+          {...register("title", { required: "제목을 입력하세요." })}
+          id="title"
+          type="text"
+        />
+        <div>
+          <input
+            id="isWeekly"
+            type="checkbox"
+            {...register("isWeekly", { value: false })}
+          />
+          <label htmlFor="isWeekly">주보에 표시하기</label>
+        </div>
+      </InputWrapper>
+      <EditorContainer reference={editorRef} />
     </Wrapper>
   );
 };

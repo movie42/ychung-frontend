@@ -18,7 +18,7 @@ import UserApplications from "../components/User/UserApplications";
 import UserLike from "../components/User/UserLike";
 import NoticeDetail from "../components/Notice/NoticeDetail";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { loginState } from "../Authrization";
+import { loginState } from "../state/Authrization";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../components/Logout";
 import NoticeCreate from "../components/Notice/NoticeCreate";
@@ -51,7 +51,6 @@ function Router() {
             }
           />
         </Route>
-        <Route path="/notice/create" element={<NoticeCreate />} />
         <Route path="/worship" element={<Worship />}>
           <Route
             path=":id"
@@ -73,7 +72,9 @@ function Router() {
         </Route>
         <Route path="/documents" element={<Documents />} />
         <Route element={<PrivateRoute />}>
+          <Route path="/notice/create" element={<NoticeCreate />} />
           <Route path="/worship/create" element={<WorshipCreate />} />
+          <Route path="/blog/create" element={<WorshipCreate />} />
         </Route>
         {/* <Route path="/documents/rule" element={<WorshipDetail />} />
         <Route path="/documents/rule/:id" element={<WorshipDetail />} />
