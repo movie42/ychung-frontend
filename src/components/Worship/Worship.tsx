@@ -5,9 +5,10 @@ import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import WorshipItem from "./WorshipDetail/WorshipItem";
 import { AnimatePresence } from "framer-motion";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../Loading";
+import { loginState } from "../../state/Authrization";
 
 const Wrapper = styled.div``;
 
@@ -57,6 +58,7 @@ export interface IWorshipItems {
 }
 
 function Worship() {
+  const { login } = useRecoilValue(loginState);
   const { id } = useParams();
   const [detailItem, setDetailItem] = useRecoilState(worship);
   const [worshipModalState, setWorshipModalState] = useRecoilState(
@@ -112,9 +114,11 @@ function Worship() {
         <Wrapper>
           <WeeklyComponentInfoContainer>
             <h1>주보</h1>
-            <Link to="/worship/create">
-              <AiFillPlusCircle />
-            </Link>
+            {login && (
+              <Link to="/worship/create">
+                <AiFillPlusCircle />
+              </Link>
+            )}
           </WeeklyComponentInfoContainer>
           <ListContainer>
             {weeklies?.map((item: IWorshipItems) => (

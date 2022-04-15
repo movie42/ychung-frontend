@@ -18,16 +18,17 @@ const WorshipDetailContainer = styled.div``;
 
 const ClipbordStateMessage = styled(motion.span)`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  bottom: 5rem;
+  margin: 0 auto;
   text-align: center;
   font-size: 2rem;
   color: ${(props) => props.theme["fontColor-dark"]};
   z-index: 20;
   padding: 1rem 2rem;
   border: 0;
-  background-color: ${(props) => props.theme.white};
+  border-radius: 0.8rem;
+  width: 80%;
+  background-color: ${(props) => props.theme.sucessColor};
 `;
 
 const Wrapper = styled(motion.div)`
@@ -200,9 +201,9 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
       <AnimatePresence>
         {copyMessage !== "" && (
           <ClipbordStateMessage
-            initial={{ opacity: 0, y: "-100%" }}
+            initial={{ opacity: 0, y: "100%" }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}>
+            exit={{ opacity: 0, y: "100%" }}>
             {copyMessage}
           </ClipbordStateMessage>
         )}

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useResetRecoilState } from "recoil";
-import { loginState } from "../Authrization";
+import { loginState } from "../state/Authrization";
 import { useFetch } from "../customhooks/useFectch";
 
 const Logout = () => {

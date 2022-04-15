@@ -27,7 +27,7 @@ const ListItem = styled.li`
     height: 100%;
     color: ${(props) => props.theme.fontColor};
     text-decoration: none;
-    grid-template-rows: 1fr 5fr 1fr;
+    grid-template-rows: 1fr 4fr 1fr;
   }
 `;
 
