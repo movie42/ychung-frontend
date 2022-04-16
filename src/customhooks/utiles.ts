@@ -39,7 +39,8 @@ export const previewParagraph = (item: string) => {
 };
 
 export const imageParser = (data: string) => {
-  const image = data.match(/\!(.*)\)/g);
+  const image = data?.match(/\!(.*)\)/g);
+
   if (image) {
     const [imageStrings] = Array.from(image).filter((value) =>
       value.includes("https")

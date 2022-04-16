@@ -16,8 +16,19 @@ import WorshipBlog from "./WorshipBlog";
 
 const WorshipDetailContainer = styled.div``;
 
+const Wrapper = styled(motion.div)`
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 10;
+`;
+
 const ClipbordStateMessage = styled(motion.span)`
   position: fixed;
+  right: 0;
+  left: 0;
   bottom: 5rem;
   margin: 0 auto;
   text-align: center;
@@ -27,17 +38,9 @@ const ClipbordStateMessage = styled(motion.span)`
   padding: 1rem 2rem;
   border: 0;
   border-radius: 0.8rem;
-  width: 80%;
-  background-color: ${(props) => props.theme.sucessColor};
-`;
-
-const Wrapper = styled(motion.div)`
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  z-index: 10;
+  width: 100%;
+  max-width: 1020px;
+  background-color: ${(props) => props.theme.grayBackgroundColor};
 `;
 
 const ModalBackground = styled(motion.span)`
@@ -198,21 +201,21 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   }, [copyMessage]);
   return (
     <WorshipDetailContainer>
-      <AnimatePresence>
-        {copyMessage !== "" && (
-          <ClipbordStateMessage
-            initial={{ opacity: 0, y: "100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "100%" }}>
-            {copyMessage}
-          </ClipbordStateMessage>
-        )}
-      </AnimatePresence>
       <Wrapper
         variants={opacity}
         initial="initial"
         animate="animate"
         exit="exit">
+        <AnimatePresence>
+          {copyMessage !== "" && (
+            <ClipbordStateMessage
+              initial={{ opacity: 0, y: "100%" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: "100%" }}>
+              {copyMessage}
+            </ClipbordStateMessage>
+          )}
+        </AnimatePresence>
         <WeeklyDetailContainer
           variants={movingCard}
           initial="initial"

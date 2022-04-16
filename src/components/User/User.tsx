@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getRequest } from "../../httpMethod";
 
 const Wrapper = styled.div``;
 
@@ -18,45 +20,46 @@ const ImageContainer = styled.div`
   background-color: ${(props) => props.theme.grayBackgroundColor};
 `;
 
+const Utility = styled.div``;
+
+interface UserProps {
+  user: {
+    _id: string;
+    email: string;
+    userName: string;
+    name: string;
+    authority: string | null;
+    worship: [];
+    blog: [];
+    notice: [];
+    documents: [];
+    comments: [];
+  };
+}
+
 function User() {
-  return (
+  const { isLoading, data } = useQuery<UserProps>("userInfo", async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/user`,
+      getRequest
+    );
+    return await response.json();
+  });
+
+  return isLoading ? (
+    <h1>정보를 불러오는 중입니다.</h1>
+  ) : (
     <Wrapper>
       <UserInfoContainer>
         <ImageContainer>
           <img src="" />
         </ImageContainer>
         <InfoContainer>
-          <span>관리자</span>
-          <span>letterteam@gmail.com</span>
-          <span>010-0000-0000</span>
+          <span>{data?.user.name}</span>
+          <span>{data?.user.email}</span>
         </InfoContainer>
       </UserInfoContainer>
-      <div>
-        <h3>교육</h3>
-        <ul>
-          <li>
-            <span>소그룹</span>
-            <span>직장인 조</span>
-            <span>조장</span>
-            <span>장수아</span>
-            <span>출석</span>
-            <span>32회</span>
-          </li>
-          <li>
-            <span>일대일 양육</span>
-            <span>수료</span>
-          </li>
-          <li>
-            <span>세례</span>
-            <span>O</span>
-          </li>
-          <li>
-            <span>출석</span>
-            <span>32회</span>
-          </li>
-        </ul>
-      </div>
-      <div>
+      <Utility>
         <h3>활동 사항</h3>
         <ul>
           <li>
@@ -82,7 +85,7 @@ function User() {
             </Link>
           </li>
         </ul>
-      </div>
+      </Utility>
     </Wrapper>
   );
 }

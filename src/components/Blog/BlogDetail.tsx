@@ -66,12 +66,12 @@ const HeadInfoContainer = styled.div`
   }
 `;
 
-interface BlogDetail {
+interface IBlogDetailProps {
   setDetailItem: SetterOrUpdater<boolean>;
   data?: any;
 }
 
-function BlogDetail({ setDetailItem, data }: BlogDetail) {
+function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigator = useNavigate();
 
   const modalHandler = () => {
