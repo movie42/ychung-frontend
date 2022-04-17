@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import NoticeItem from "./NoticeItem";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { notice, noticeModalControler } from "../../state/notice.atom";
 import Loading from "../Loading";
+import { loginState } from "../../state/Authrization";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -56,6 +57,8 @@ export interface INoticeInterface {
 
 function Notice() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const isLogin = useRecoilValue(loginState);
   const [detailItem, setDetailItem] = useRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
@@ -110,9 +113,11 @@ function Notice() {
           <Wrapper>
             <NoticeComponentInfoContainer>
               <h1>공지사항</h1>
-              <Link to={"/notice/create"}>
-                <AiFillPlusCircle />
-              </Link>
+              {isLogin.login && (
+                <Link to={"/notice/create"}>
+                  <AiFillPlusCircle />
+                </Link>
+              )}
             </NoticeComponentInfoContainer>
             <ListContainer>
               {notices.map((notice: INoticeInterface) => (

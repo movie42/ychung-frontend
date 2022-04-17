@@ -34,9 +34,10 @@ const Wrapper = styled.div`
 
 interface IEditorContainerProps {
   reference: React.RefObject<Editor>;
+  initialValue?: string | undefined;
 }
 
-function EditorContainer({ reference }: IEditorContainerProps) {
+function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
   return (
     <Wrapper>
       <Editor
@@ -106,6 +107,7 @@ function EditorContainer({ reference }: IEditorContainerProps) {
         previewStyle="tab"
         placeholder="내용을 입력해주세요."
         height="100%"
+        initialValue={initialValue ? initialValue : ""}
         initialEditType="markdown"
         useCommandShortcut={true}
         language="ko-KR"

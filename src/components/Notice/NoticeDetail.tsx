@@ -3,9 +3,12 @@ import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 import { calculateDate } from "../../customhooks/utiles";
 import { motion } from "framer-motion";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { movingCard, opacity } from "../../animation variants/modalAnimation";
+import { loginState } from "../../state/Authrization";
+import { Link, useParams, useLocation } from "react-router-dom";
+import { AiFillPlusCircle } from "react-icons/ai";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -18,6 +21,18 @@ const Wrapper = styled(motion.div)`
   z-index: 10;
 `;
 
+const ModalBackground = styled(motion.span)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+
 const NoticeDetailContainer = styled(motion.div)`
   background-color: ${(props) => props.theme.white};
   overflow-y: auto;
@@ -28,6 +43,7 @@ const NoticeDetailContainer = styled(motion.div)`
   height: 86%;
   padding: 1rem 2rem;
   border-radius: 2rem 2rem 0 0;
+  z-index: 13;
   .toastui-editor-contents {
     h4 {
       font-size: 2.2rem;
@@ -73,26 +89,32 @@ interface INoticeDetailProps {
 
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigator = useNavigate();
+  const location = useLocation();
+  const { id } = useParams();
+
+  const isLogin = useRecoilValue(loginState);
   const modalHandler = () => {
     setDetailItem(false);
   };
 
-  useEffect(() => {
-    return () => navigator("/notice");
-  }, [navigator]);
+  // unmount 시점에서 notice를 push해서 Link가 동작하지 않음...
+  // 다른 방법이 필요하다.
+  // useEffect(() => {
+  //   return () => navigator("/notice");
+  // }, []);
 
   return (
-    <Wrapper
-      onClick={modalHandler}
-      variants={opacity}
-      initial="initial"
-      animate="animate"
-      exit="exit">
+    <Wrapper variants={opacity} initial="initial" animate="animate" exit="exit">
       <NoticeDetailContainer
         variants={movingCard}
         initial="initial"
         animate="animate"
         exit="exit">
+        {isLogin.login && (
+          <Link to={`/notice/${id}/update`}>
+            <AiFillPlusCircle />
+          </Link>
+        )}
         <HeadInfoContainer>
           <h1>{data?.title}</h1>
           <div className="noticeInfo">
@@ -123,6 +145,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
           }}
         />
       </NoticeDetailContainer>
+      <ModalBackground onClick={modalHandler} />
     </Wrapper>
   );
 }

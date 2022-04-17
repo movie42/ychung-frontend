@@ -26,6 +26,7 @@ import { notice, noticeModalControler } from "../state/notice.atom";
 import { blog, blogModalControler } from "../state/blog.atom";
 import { worship, worshipModalControler } from "../state/worship.atom";
 import BlogCreate from "../components/Blog/BlogCreate";
+import NoticeUpdate from "../components/Notice/NoticeUpdate";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -74,6 +75,10 @@ function Router() {
         <Route path="/documents" element={<Documents />} />
         <Route element={<PrivateRoute />}>
           <Route path="/notice/create" element={<NoticeCreate />} />
+          <Route
+            path="/notice/:id/update"
+            element={<NoticeUpdate data={noticeItem} />}
+          />
           <Route path="/worship/create" element={<WorshipCreate />} />
           <Route path="/blog/create" element={<BlogCreate />} />
         </Route>
