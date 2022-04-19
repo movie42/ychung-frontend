@@ -11,7 +11,7 @@ import Worship from "../page/Worship/Worship";
 import Header from "../components/Header/Header";
 import Notice from "../page/Notice/Notice";
 import Search from "../page/Search/Search";
-import WorshipDetail from "../page/Worship/WorshipDetail/WorshipDetail";
+import WorshipDetail from "../page/Worship/WorshipDetail";
 import WorshipCreate from "../page/Worship/WorshipCreate";
 import BlogDetail from "../page/Blog/BlogDetail";
 import UserWorks from "../page/User/UserWorks";

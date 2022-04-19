@@ -5,7 +5,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader";
 import styled from "styled-components";
-import IconButton from "../../components/Buttons/IconButton";
+import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
 
 const ButtonContainer = styled.div`
@@ -43,12 +43,12 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
       <>
         <PageDetailModalHeader {...data}>
           <ButtonContainer>
-            <IconButton onClick={handleUpdate}>
+            <Button buttonType="icon" onClick={handleUpdate}>
               <AiFillEdit />
-            </IconButton>
-            <IconButton onClick={handleDelete}>
+            </Button>
+            <Button buttonType="icon" onClick={handleDelete}>
               <MdDelete />
-            </IconButton>
+            </Button>
           </ButtonContainer>
         </PageDetailModalHeader>
         <Viewer paragraph={data.paragraph} />
