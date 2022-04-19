@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import styled from "styled-components";
-import { postRequest, postRequestMultipartFormData } from "../httpMethod";
-import { useFetch } from "../utils/customhooks/useFectch";
+import { postRequestMultipartFormData } from "../utils/utilities/httpMethod";
 
 const Wrapper = styled.div`
   height: 100%;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { SetterOrUpdater } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
@@ -7,6 +7,9 @@ import { AiFillEdit } from "react-icons/ai";
 import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
+import { useFetch } from "../../utils/customhooks/useFectch";
+import { Navigate, useNavigate } from "react-router";
+import { deleteRequest } from "../../utils/utilities/httpMethod";
 
 const ButtonContainer = styled.div`
   button {
@@ -30,13 +33,25 @@ interface IBlogDetailProps {
 }
 
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
+  const navigate = useNavigate();
+  const [{ response, isLoading, csrfToken }, setOption] = useFetch({
+    URL: `${process.env.REACT_APP_SERVER_URL}/blog/${data._id}`,
+  });
+
   const handleUpdate = () => {
-    console.log("update");
+    navigate(`/blog/${data._id}/update`);
   };
 
   const handleDelete = () => {
-    console.log("delete");
+    setOption(deleteRequest(csrfToken));
   };
+
+  useEffect(() => {
+    if (response) {
+      navigate("/blog");
+    }
+  }, [response]);
+
   return (
     <PageDetailModal setDetailItem={setDetailItem}>
       <>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
-import { postRequest } from "../../httpMethod";
+import { postRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
 import { useFetch } from "../../utils/customhooks/useFectch";
 

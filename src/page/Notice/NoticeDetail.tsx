@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import { AiFillEdit } from "react-icons/ai";
@@ -7,6 +7,9 @@ import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
+import { useFetch } from "../../utils/customhooks/useFectch";
+import { useNavigate } from "react-router-dom";
+import { deleteRequest } from "../../utils/utilities/httpMethod";
 
 const ButtonContainer = styled.div`
   button {
@@ -30,13 +33,24 @@ interface INoticeDetailProps {
 }
 
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
+  const navigate = useNavigate();
+  const [{ response, isLoading, csrfToken }, setOption] = useFetch({
+    URL: `${process.env.REACT_APP_SERVER_URL}/notice/${data._id}`,
+  });
+
   const handleUpdate = () => {
-    console.log("update");
+    navigate(`/notice/${data._id}/update`);
   };
 
   const handleDelete = () => {
-    console.log("delete");
+    setOption(deleteRequest(csrfToken));
   };
+
+  useEffect(() => {
+    if (response) {
+      navigate("/notice");
+    }
+  }, [response]);
 
   return (
     <PageDetailModal setDetailItem={setDetailItem}>

@@ -62,7 +62,7 @@ const InputWrapper = styled.form`
   }
 `;
 
-interface NoticeDetail {
+interface BlogDetail {
   _id: string;
   title: string;
   isWeekly: boolean;
@@ -75,15 +75,15 @@ interface NoticeDetail {
   createdAt: string;
 }
 
-interface INoticeDetailProps {
+interface IBlogDetailProps {
   data: any;
 }
-const NoticeUpdate = ({ data }: INoticeDetailProps) => {
+const BlogUpdate = ({ data }: IBlogDetailProps) => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/notice/${data._id}`,
+    URL: `${process.env.REACT_APP_SERVER_URL}/blog/${data._id}`,
   });
 
   const onClick = handleSubmit((data) => {
@@ -97,7 +97,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
 
   useEffect(() => {
     if (response) {
-      navigate(`/notice/${response._id}`);
+      navigate(`/blog/${response._id}`);
     }
   }, [response]);
 
@@ -117,18 +117,10 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
           id="title"
           type="text"
         />
-        <div>
-          <input
-            id="isWeekly"
-            type="checkbox"
-            {...register("isWeekly", { value: data.isWeekly })}
-          />
-          <label htmlFor="isWeekly">주보에 표시하기</label>
-        </div>
       </InputWrapper>
       <EditorContainer initialValue={data.paragraph} reference={editorRef} />
     </Wrapper>
   );
 };
 
-export default NoticeUpdate;
+export default BlogUpdate;

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useFetch } from "../../utils/customhooks/useFectch";
-import { postRequest } from "../../httpMethod";
+import { postRequest } from "../../utils/utilities/httpMethod";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`

@@ -35,3 +35,13 @@ export const postRequestMultipartFormData = (
     mode: "cors",
   };
 };
+
+export const deleteRequest = (csrfToken: string): RequestInit => ({
+  method: "DELETE",
+  headers: {
+    "Content-type": "application/json",
+    "X-CSRF-Token": csrfToken,
+  },
+  credentials: "include",
+  mode: "cors",
+});

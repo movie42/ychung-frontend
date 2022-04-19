@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { BIBLE_DATA_SET } from "../../bible";
 import { useFetch } from "../../utils/customhooks/useFectch";
-import { postRequest } from "../../httpMethod";
+import { postRequest } from "../../utils/utilities/httpMethod";
 
 const Wrapper = styled.div`
   position: relative;
