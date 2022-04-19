@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import styled from "styled-components";
-import { loginState } from "./Authrization";
+import { loginState } from "./state/Authrization";
 import Router from "./routes/Routes";
 import Header from "./components/Header/Header";
 
@@ -32,6 +33,7 @@ function App() {
       <Wrapper>
         <QueryClientProvider client={queryClient}>
           <Router />
+          <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>
       </Wrapper>
     </>
