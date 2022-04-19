@@ -3,9 +3,9 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import EditorContainer from "../Editor";
+import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFectch";
 import { postRequest } from "../../httpMethod";
 import { useNavigate } from "react-router-dom";
 
@@ -63,12 +63,12 @@ const InputWrapper = styled.form`
   }
 `;
 
-const NoticeCreate: React.FC = () => {
+const BlogCreate: React.FC = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/notice/create`,
+    URL: `${process.env.REACT_APP_SERVER_URL}/blog/create`,
   });
 
   const onClick = handleSubmit((data) => {
@@ -82,7 +82,7 @@ const NoticeCreate: React.FC = () => {
 
   useEffect(() => {
     if (response) {
-      navigate(`/notice/${response._id}`);
+      navigate(`/blog/${response._id}`);
     }
   }, [response]);
 
@@ -99,18 +99,10 @@ const NoticeCreate: React.FC = () => {
           id="title"
           type="text"
         />
-        <div>
-          <input
-            id="isWeekly"
-            type="checkbox"
-            {...register("isWeekly", { value: false })}
-          />
-          <label htmlFor="isWeekly">주보에 표시하기</label>
-        </div>
       </InputWrapper>
       <EditorContainer reference={editorRef} />
     </Wrapper>
   );
 };
 
-export default NoticeCreate;
+export default BlogCreate;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { calculateDate } from "../../customhooks/utiles";
+import { calculateDate } from "../../utils/utilities/calculateDate";
 import { SetterOrUpdater } from "recoil";
 import { movingCard, opacity } from "../../animation variants/modalAnimation";
 import { Viewer } from "@toast-ui/react-editor";
@@ -72,15 +72,9 @@ interface IBlogDetailProps {
 }
 
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
-  const navigator = useNavigate();
-
   const modalHandler = () => {
     setDetailItem(false);
   };
-
-  useEffect(() => {
-    return () => navigator("/blog");
-  }, [navigator]);
 
   return (
     <Wrapper

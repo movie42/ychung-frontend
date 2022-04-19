@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { notice, noticeModalControler } from "../../state/notice.atom";
-import Loading from "../Loading";
+import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 
 const NoticeListContainer = styled(motion.div)``;

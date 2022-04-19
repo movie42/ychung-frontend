@@ -1,11 +1,12 @@
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import { useFetch } from "../../customhooks/useFectch";
+import EditorContainer from "../../components/Editor";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { useFetch } from "../../utils/customhooks/useFectch";
 import { postRequest } from "../../httpMethod";
-import EditorContainer from "../Editor";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -62,28 +63,12 @@ const InputWrapper = styled.form`
   }
 `;
 
-interface NoticeDetail {
-  _id: string;
-  title: string;
-  isWeekly: boolean;
-  paragraph: string;
-  creator: {
-    _id: string;
-  };
-  comments: [];
-  views: number;
-  createdAt: string;
-}
-
-interface INoticeDetailProps {
-  data: any;
-}
-const NoticeUpdate = ({ data }: INoticeDetailProps) => {
+const NoticeCreate: React.FC = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/notice/${data._id}`,
+    URL: `${process.env.REACT_APP_SERVER_URL}/notice/create`,
   });
 
   const onClick = handleSubmit((data) => {
@@ -110,10 +95,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
         <label htmlFor="title">제목</label>
         <input
           placeholder="제목을 입력하세요."
-          {...register("title", {
-            required: "제목을 입력하세요.",
-            value: data.title,
-          })}
+          {...register("title", { required: "제목을 입력하세요." })}
           id="title"
           type="text"
         />
@@ -121,14 +103,14 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
           <input
             id="isWeekly"
             type="checkbox"
-            {...register("isWeekly", { value: data.isWeekly })}
+            {...register("isWeekly", { value: false })}
           />
           <label htmlFor="isWeekly">주보에 표시하기</label>
         </div>
       </InputWrapper>
-      <EditorContainer initialValue={data.paragraph} reference={editorRef} />
+      <EditorContainer reference={editorRef} />
     </Wrapper>
   );
 };
 
-export default NoticeUpdate;
+export default NoticeCreate;

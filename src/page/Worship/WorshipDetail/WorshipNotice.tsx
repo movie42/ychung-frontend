@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { INoticeInterface } from "../../Notice/Notice";
-import { previewParagraph } from "../../../customhooks/utiles";
+
 import { BsArrowRight } from "react-icons/bs";
 
 const Wrapper = styled.div`

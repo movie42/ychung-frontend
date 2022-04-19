@@ -7,12 +7,11 @@ import {
   opacity,
 } from "../../../animation variants/modalAnimation";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  calculateDate,
-  chapterNameTransferFromEngToKr,
-} from "../../../customhooks/utiles";
+import { calculateDate } from "../../../utils/utilities/calculateDate";
+
 import WorshipNotice from "./WorshipNotice";
 import WorshipBlog from "./WorshipBlog";
+import { chapterNameTransferFromEngToKr } from "../../../utils/utilities/chapterNameTransferFromEngToKr";
 
 const WorshipDetailContainer = styled.div``;
 

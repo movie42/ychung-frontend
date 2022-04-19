@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
-import { loginState } from "../state/Authrization";
-import { useFetch } from "../customhooks/useFectch";
-import { postRequest } from "../httpMethod";
+import { postRequest } from "../../httpMethod";
+import { loginState } from "../../state/Authrization";
+import { useFetch } from "../../utils/customhooks/useFectch";
 
 interface LoginProps {
   email: string;

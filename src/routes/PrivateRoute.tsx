@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginState } from "../state/Authrization";
-import Login from "../components/Login";
+import Login from "../page/Root/Login";
 
 interface IPrivatRouteProps {
   children?: JSX.Element;

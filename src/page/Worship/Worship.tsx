@@ -7,7 +7,7 @@ import WorshipItem from "./WorshipDetail/WorshipItem";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
-import Loading from "../Loading";
+import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 
 const Wrapper = styled.div``;

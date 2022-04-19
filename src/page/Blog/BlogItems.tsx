@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IBlogItems } from "./Bolg";
-import { calculateDate, imageParser } from "../../customhooks/utiles";
+
 import { HiUser } from "react-icons/hi";
+import { calculateDate } from "../../utils/utilities/calculateDate";
+import { imageParser } from "../../utils/utilities/imageParser";
 
 const ListItem = styled.li`
   width: 100%;

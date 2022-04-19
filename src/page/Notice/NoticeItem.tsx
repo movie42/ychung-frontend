@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { calculateDate } from "../../customhooks/utiles";
+import { calculateDate } from "../../utils/utilities/calculateDate";
 import { INoticeInterface } from "./Notice";
 import { HiUser } from "react-icons/hi";
-import { previewParagraph } from "../../customhooks/utiles";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
 
 const ListItem = styled.li`
   width: 100%;

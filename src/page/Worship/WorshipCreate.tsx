@@ -4,7 +4,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { BIBLE_DATA_SET } from "../../bible";
-import { useFetch } from "../../customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFectch";
 import { postRequest } from "../../httpMethod";
 
 const Wrapper = styled.div`

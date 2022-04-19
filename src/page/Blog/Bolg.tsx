@@ -7,7 +7,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
-import Loading from "../Loading";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   width: 100%;
