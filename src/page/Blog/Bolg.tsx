@@ -62,7 +62,7 @@ function Blog() {
     error,
     data: posts,
   } = useQuery(
-    "blog",
+    "posts",
     async () => {
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog`, {
         method: "GET",

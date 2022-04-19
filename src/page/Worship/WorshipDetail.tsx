@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { SetterOrUpdater } from "recoil";
+
+import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { motion } from "framer-motion";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
 
-import WorshipNotice from "./WorshipDetail/WorshipNotice";
-import WorshipBlog from "./WorshipDetail/WorshipBlog";
-import WorshipHeader from "./WorshipDetail/WorshipHeader";
+import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
+import WorshipBlog from "./WorshipDetailComponents/WorshipBlog";
+import WorshipHeader from "./WorshipDetailComponents/WorshipHeader";
 
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import CopyTextModal from "../../components/Modals/CopyTextModal";
@@ -90,7 +90,6 @@ interface IWorshipDetailProps {
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const [copyMessage, setCopyMessage] = useState("");
-  const navigate = useNavigate();
 
   const copyText = async (text: string) => {
     navigator.clipboard.writeText(text).then(
@@ -108,10 +107,6 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
 
     return () => clearTimeout(setMessage);
   }, [copyMessage]);
-
-  useEffect(() => {
-    return () => navigate("/worship");
-  }, [navigate]);
 
   return (
     <>

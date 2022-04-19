@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useQueryClient } from "react-query";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BIBLE_DATA_SET } from "../../bible";
 import { useFetch } from "../../utils/customhooks/useFectch";
@@ -55,8 +55,13 @@ const InputWrapper = styled.form`
   }
 `;
 
-function WorshipCreate() {
+interface IWorshipUpdate {
+  data?: any;
+}
+
+const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
@@ -66,7 +71,7 @@ function WorshipCreate() {
   const queryClient = useQueryClient();
 
   const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/worship/create`,
+    URL: `${process.env.REACT_APP_SERVER_URL}/worship/${id}`,
   });
 
   const onSubmit = handleSubmit((data) => {
@@ -101,6 +106,7 @@ function WorshipCreate() {
             id="title"
             type="text"
             placeholder="강론 제목이 무엇인가요?"
+            defaultValue={data?.title}
             {...register("title", {
               required: "강론 제목을 알려주세요.",
             })}
@@ -109,7 +115,7 @@ function WorshipCreate() {
         {errors.title && <p>{errors?.title?.message}</p>}
         <div>
           <label htmlFor="word">본문</label>
-          <select id="word" {...register("word")}>
+          <select id="word" {...register("word")} defaultValue={data?.word}>
             {paintObject().map((value) => value)}
           </select>
         </div>
@@ -119,6 +125,7 @@ function WorshipCreate() {
           <input
             id="chapter"
             type="number"
+            defaultValue={data?.chapter}
             {...register("chapter", {
               required: "장을 입력하세요.",
             })}
@@ -129,12 +136,18 @@ function WorshipCreate() {
           <input
             id="verse"
             type="number"
+            defaultValue={data?.verse}
             {...register("verse", {
               required: "절을 입력하세요.",
             })}
           />
           <label htmlFor="verse_end">끝 절</label>
-          <input id="verse_end" type="number" {...register("verse_end")} />
+          <input
+            id="verse_end"
+            type="number"
+            defaultValue={data?.verse_end}
+            {...register("verse_end")}
+          />
         </div>
         {errors.verse_end && <p>{errors?.verse_end?.message}</p>}
         <div>
@@ -142,7 +155,7 @@ function WorshipCreate() {
           <input
             id="pastor"
             type="text"
-            defaultValue="김상돈"
+            defaultValue={data?.pastor}
             {...register("pastor", {
               required: "강론을 누가 하는지 알려주세요.",
             })}
@@ -154,7 +167,7 @@ function WorshipCreate() {
             id="worshipTeam"
             type="text"
             placeholder="찬양 팀이 누구인가요?"
-            defaultValue="둘로스"
+            defaultValue={data?.worshipTeam}
             {...register("worshipTeam", {
               required: "찬양 팀을 알려주세요.",
             })}
@@ -166,6 +179,7 @@ function WorshipCreate() {
             id="prayer"
             type="text"
             placeholder="대표를 누구하나요?"
+            defaultValue={data.prayer}
             {...register("prayer", {
               required: "대표기도를 누가하는지 알려주세요.",
             })}
@@ -177,7 +191,7 @@ function WorshipCreate() {
             id="advertisement"
             type="text"
             placeholder="광고를 누가 하나요?"
-            defaultValue="박도현"
+            defaultValue={data.advertisement}
             {...register("advertisement", {
               required: "누가 광고를 하는지 알려주세요.",
             })}
@@ -186,6 +200,6 @@ function WorshipCreate() {
       </InputWrapper>
     </Wrapper>
   );
-}
+};
 
-export default WorshipCreate;
+export default WorshipUpdate;

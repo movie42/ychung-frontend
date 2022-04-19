@@ -29,6 +29,8 @@ import { worship, worshipModalControler } from "../state/worship.atom";
 import BlogCreate from "../page/Blog/BlogCreate";
 import NoticeUpdate from "../page/Notice/NoticeUpdate";
 import BlogUpdate from "../page/Blog/BlogUpdate";
+import WorshipUpdate from "../page/Worship/WorshipUpdate";
+import WorshipItem from "../page/Worship/WorshipDetailComponents/WorshipItem";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -84,7 +86,7 @@ function Router() {
           <Route path="/worship/create" element={<WorshipCreate />} />
           <Route
             path="/worship/:id/update"
-            element={<NoticeUpdate data={noticeItem} />}
+            element={<WorshipUpdate data={weeklyItem} />}
           />
           <Route path="/blog/create" element={<BlogCreate />} />
           <Route

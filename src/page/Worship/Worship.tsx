@@ -3,9 +3,9 @@ import { useQuery } from "react-query";
 import { Link, useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
-import WorshipItem from "./WorshipDetail/WorshipItem";
+import WorshipItem from "./WorshipDetailComponents/WorshipItem";
 import { AnimatePresence } from "framer-motion";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
@@ -60,7 +60,7 @@ export interface IWorshipItems {
 function Worship() {
   const { login } = useRecoilValue(loginState);
   const { id } = useParams();
-  const [detailItem, setDetailItem] = useRecoilState(worship);
+  const setDetailItem = useSetRecoilState(worship);
   const [worshipModalState, setWorshipModalState] = useRecoilState(
     worshipModalControler
   );
