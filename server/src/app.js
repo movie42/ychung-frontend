@@ -64,7 +64,10 @@ app.use(
   })
 );
 
-app.use(express.static("build"));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+}
+
 app.set("JWT_SECRET", process.env.JWT_SECRET);
 app.use(morgan("dev"));
 app.use(express.json());
@@ -75,16 +78,18 @@ app.use(csrfProtection);
 app.use("/favicon", express.static("favicon"));
 app.use("/uploads", express.static("uploads"));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
-});
+if (process.env.NODE_ENV === "production") {
+  app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/build/index.html");
+  });
+}
 
 app.use("/", rootRouter);
-app.use("/notice", noticeRouter);
+app.use("/api/notice", noticeRouter);
 app.use("/worship", worshipRouter);
 app.use("/documents", documentsRouter);
 app.use("/blog", blogRouter);
 app.use("/user", userRouter);
-app.use("/api", api);
+// app.use("/api", api);
 
 export default app;
