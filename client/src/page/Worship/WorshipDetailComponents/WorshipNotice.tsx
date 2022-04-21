@@ -1,0 +1,100 @@
+import React from "react";
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { INoticeInterface } from "../../Notice/Notice";
+
+import { BsArrowRight } from "react-icons/bs";
+
+const Wrapper = styled.div`
+  overflow-x: hidden;
+  width: 100%;
+`;
+
+const ListContainer = styled.ul`
+  padding: 0;
+`;
+
+const ListItem = styled.li`
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
+  a {
+    font-size: 2.2rem;
+    color: ${(props) => props.theme.fontColor};
+    text-decoration: none;
+    p {
+      margin: 0 0 1rem 0;
+    }
+    div {
+      font-size: 1.6rem;
+    }
+  }
+  &:hover {
+    background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
+  }
+`;
+
+const UserInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ImageContainer = styled.div`
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.grayBackgroundColor};
+`;
+
+function WorshipNotice() {
+  const {
+    isLoading,
+    error,
+    data: notices,
+  } = useQuery(
+    "notice",
+    async () => {
+      const response = await fetch(`/notice`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+      });
+      const { data } = await response.json();
+      return data;
+    },
+    { staleTime: 10000 }
+  );
+  return isLoading ? (
+    <p>광고 불러오는 중...</p>
+  ) : (
+    <ListContainer>
+      {notices
+        .filter((item: INoticeInterface) => item.isWeekly)
+        .map((notice: INoticeInterface) => (
+          <ListItem key={notice._id}>
+            <a href={`/notice/${notice._id}`}>
+              <p>{notice.title}</p>
+              <div>
+                자세히 보기{" "}
+                <span>
+                  <BsArrowRight />
+                </span>
+              </div>
+            </a>
+          </ListItem>
+        ))}
+    </ListContainer>
+  );
+}
+
+export default WorshipNotice;
