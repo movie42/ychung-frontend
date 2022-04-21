@@ -72,17 +72,14 @@ function Worship() {
   } = useQuery(
     "weeklies",
     async () => {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/worship`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          mode: "cors",
-        }
-      );
+      const response = await fetch(`/worship`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        mode: "cors",
+      });
       const { data } = await response.json();
       return data;
     },

@@ -32,7 +32,7 @@ function Login() {
   } = useForm<LoginProps>();
 
   const [{ response, error, isLoading, csrfToken }, setOption] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/login`,
+    URL: `/login`,
   });
 
   const onSubmit = handleSubmit((data) => {

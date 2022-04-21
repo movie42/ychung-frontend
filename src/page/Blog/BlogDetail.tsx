@@ -35,7 +35,7 @@ interface IBlogDetailProps {
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigate = useNavigate();
   const [{ response, isLoading, csrfToken }, setOption] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/blog/${data._id}`,
+    URL: `/blog/${data._id}`,
   });
 
   const handleUpdate = () => {
