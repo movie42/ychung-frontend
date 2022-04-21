@@ -74,14 +74,17 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
             let formData = new FormData();
             formData.append("data", blob);
 
-            const responseToken = await fetch(`/getCSRFToken`, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "include",
-              mode: "cors",
-            });
+            const responseToken = await fetch(
+              `${process.env.REACT_APP_SERVER_URL}/getCSRFToken`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+                mode: "cors",
+              }
+            );
 
             const { CSRFToken } = await responseToken.json();
 
@@ -90,7 +93,10 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
               CSRFToken
             );
 
-            const response = await fetch(`/api/post-image`, postOption);
+            const response = await fetch(
+              `${process.env.REACT_APP_SERVER_URL}/api/post-image`,
+              postOption
+            );
 
             const { data } = await response.json();
 

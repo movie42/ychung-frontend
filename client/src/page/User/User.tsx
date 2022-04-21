@@ -39,7 +39,10 @@ interface UserProps {
 
 function User() {
   const { isLoading, data } = useQuery<UserProps>("userInfo", async () => {
-    const response = await fetch(`/user`, getRequest);
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/user`,
+      getRequest
+    );
     return await response.json();
   });
 

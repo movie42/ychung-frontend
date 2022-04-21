@@ -68,7 +68,7 @@ const BlogCreate: React.FC = () => {
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/blog/create`,
+    URL: `${process.env.REACT_APP_SERVER_URL}/blog/create`,
   });
 
   const onClick = handleSubmit((data) => {

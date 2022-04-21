@@ -60,7 +60,7 @@ function WorshipBlog() {
   } = useQuery(
     "posts",
     async () => {
-      const response = await fetch(`/blog`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/blog`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
