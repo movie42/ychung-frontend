@@ -63,6 +63,7 @@ app.use(
     }
   })
 );
+
 app.use(express.static("build"));
 app.set("JWT_SECRET", process.env.JWT_SECRET);
 app.use(morgan("dev"));

@@ -30,7 +30,7 @@ function Join() {
       );
     }
 
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/join`, {
+    const response = await fetch(`/join`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,17 +47,14 @@ function Join() {
   });
 
   const csrf = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER_URL}/getCSRFToken`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      }
-    );
+    const response = await fetch(`/getCSRFToken`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      mode: "cors",
+    });
     const parseResponse = await response.json();
 
     setCsrfToken(parseResponse.CSRFToken);
@@ -83,9 +80,7 @@ function Join() {
             },
             validate: {
               checkValue: async (value) => {
-                const dbEmail = await fetch(
-                  `${process.env.REACT_APP_SERVER_URL}/api/checked-db/email=${value}`
-                );
+                const dbEmail = await fetch(`/api/checked-db/email=${value}`);
                 return dbEmail.ok ? true : "이미 가입된 사용자입니다.";
               },
             },
@@ -105,7 +100,7 @@ function Join() {
             validate: {
               checkValue: async (value) => {
                 const dbEmail = await fetch(
-                  `${process.env.REACT_APP_SERVER_URL}/api/checked-db/userName=${value}`
+                  `/api/checked-db/userName=${value}`
                 );
                 return dbEmail.ok ? true : "이미 가입된 사용자입니다.";
               },

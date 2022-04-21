@@ -66,7 +66,7 @@ function WorshipCreate() {
   const queryClient = useQueryClient();
 
   const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/worship/create`,
+    URL: `/worship/create`,
   });
 
   const onSubmit = handleSubmit((data) => {

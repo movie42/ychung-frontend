@@ -71,7 +71,7 @@ const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
   const queryClient = useQueryClient();
 
   const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: `${process.env.REACT_APP_SERVER_URL}/worship/${id}`,
+    URL: `/worship/${id}`,
   });
 
   const onSubmit = handleSubmit((data) => {
