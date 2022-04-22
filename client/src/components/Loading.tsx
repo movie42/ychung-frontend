@@ -16,7 +16,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${(props) => props.theme.white};
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 20;
   h1 {
     position: fixed;

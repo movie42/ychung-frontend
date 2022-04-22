@@ -13,6 +13,8 @@ const Wrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   z-index: 10;
+  box-sizing: border-box;
+  overflow-x: hidden;
 `;
 
 const ModalBackground = styled(motion.span)`
@@ -31,6 +33,8 @@ const DetailContainer = styled(motion.div)`
   background-color: ${(props) => props.theme.white};
   overflow-y: auto;
   position: absolute;
+  max-width: 1040px;
+  margin: 0 auto;
   left: 0;
   right: 0;
   bottom: 0;
@@ -63,7 +67,7 @@ function PageDetailModal({ setDetailItem, children }: IPageDetailModal) {
   };
 
   useEffect(() => {
-    document.body.style.cssText = `position:fixed; top: -${window.scrollY}px`;
+    document.body.style.cssText = `position:fixed; top: -${window.scrollY}px; width:100%;`;
     return () => {
       const scrollY = document.body.style.top;
       document.body.style.cssText = `position : ""; top:"";`;

@@ -10,7 +10,9 @@ import { worship, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
 const WeeklyComponentInfoContainer = styled.div`
   display: flex;
@@ -27,9 +29,10 @@ const WeeklyComponentInfoContainer = styled.div`
 
 const ListContainer = styled.ul`
   display: grid;
+  grid-auto-rows: minmax(30rem, auto);
   margin: 0;
   @media (min-width: ${(props) => props.theme.screen.labtop}) {
-    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
     gap: 1.5rem;
   }
   padding: 0;

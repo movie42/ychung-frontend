@@ -10,6 +10,8 @@ import Header from "./components/Header/Header";
 const queryClient = new QueryClient();
 
 const Wrapper = styled.main`
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 1rem 2rem;
 `;
 
