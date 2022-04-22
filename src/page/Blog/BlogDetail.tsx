@@ -54,19 +54,17 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
 
   return (
     <PageDetailModal setDetailItem={setDetailItem}>
-      <>
-        <PageDetailModalHeader {...data}>
-          <ButtonContainer>
-            <Button buttonType="icon" onClick={handleUpdate}>
-              <AiFillEdit />
-            </Button>
-            <Button buttonType="icon" onClick={handleDelete}>
-              <MdDelete />
-            </Button>
-          </ButtonContainer>
-        </PageDetailModalHeader>
-        <Viewer paragraph={data.paragraph} />
-      </>
+      <PageDetailModalHeader {...data}>
+        <ButtonContainer>
+          <Button buttonType="icon" onClick={handleUpdate}>
+            <AiFillEdit />
+          </Button>
+          <Button buttonType="icon" onClick={handleDelete}>
+            <MdDelete />
+          </Button>
+        </ButtonContainer>
+      </PageDetailModalHeader>
+      <Viewer paragraph={data.paragraph} />
     </PageDetailModal>
   );
 }

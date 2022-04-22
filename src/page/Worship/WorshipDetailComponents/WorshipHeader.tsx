@@ -13,6 +13,7 @@ import { calculateDate } from "../../../utils/utilities/calculateDate";
 import { deleteRequest } from "../../../utils/utilities/httpMethod";
 
 const Wrapper = styled(motion.div)`
+  overflow-x: hidden;
   h1.head-title {
     font-size: 12rem;
     word-break: keep-all;
