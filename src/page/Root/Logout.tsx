@@ -8,7 +8,7 @@ const Logout = () => {
   const removeLoginState = useResetRecoilState(loginState);
   const navigate = useNavigate();
   const [{ response, error, isLoading }, setOptions] = useFetch({
-    URL: `/logout`,
+    URL: `/api/logout`,
   });
 
   useEffect(() => {

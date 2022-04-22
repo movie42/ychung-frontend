@@ -66,7 +66,7 @@ function WorshipCreate() {
   const queryClient = useQueryClient();
 
   const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: `/worship/create`,
+    URL: `/api/worship/create`,
   });
 
   const onSubmit = handleSubmit((data) => {

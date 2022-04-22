@@ -68,7 +68,7 @@ const NoticeCreate: React.FC = () => {
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/notice/create`,
+    URL: `/api/notice/create`,
   });
 
   const onClick = handleSubmit((data) => {

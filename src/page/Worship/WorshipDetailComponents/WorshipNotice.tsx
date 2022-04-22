@@ -61,7 +61,7 @@ function WorshipNotice() {
   } = useQuery(
     "notice",
     async () => {
-      const response = await fetch(`/notice`, {
+      const response = await fetch(`/api/notice`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

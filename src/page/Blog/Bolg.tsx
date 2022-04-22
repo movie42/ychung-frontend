@@ -64,7 +64,7 @@ function Blog() {
   } = useQuery(
     "posts",
     async () => {
-      const response = await fetch(`/blog`, {
+      const response = await fetch(`/api/blog`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

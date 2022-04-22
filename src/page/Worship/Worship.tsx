@@ -72,7 +72,7 @@ function Worship() {
   } = useQuery(
     "weeklies",
     async () => {
-      const response = await fetch(`/worship`, {
+      const response = await fetch(`/api/worship`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

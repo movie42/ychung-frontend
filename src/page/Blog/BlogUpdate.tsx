@@ -83,7 +83,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/blog/${data._id}`,
+    URL: `/api/blog/${data._id}`,
   });
 
   const onClick = handleSubmit((data) => {

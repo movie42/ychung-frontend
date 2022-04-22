@@ -32,7 +32,7 @@ function Login() {
   } = useForm<LoginProps>();
 
   const [{ response, error, isLoading, csrfToken }, setOption] = useFetch({
-    URL: `/login`,
+    URL: `/api/login`,
   });
 
   const onSubmit = handleSubmit((data) => {

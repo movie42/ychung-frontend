@@ -52,7 +52,7 @@ export const useFetch = ({
   };
 
   const csrf = async () => {
-    const response = await fetch(`/getCSRFToken`, {
+    const response = await fetch(`/api/csrf-token`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
