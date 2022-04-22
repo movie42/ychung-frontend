@@ -83,7 +83,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/notice/${data._id}`,
+    URL: `/api/notice/${data._id}`,
   });
 
   const onClick = handleSubmit((data) => {

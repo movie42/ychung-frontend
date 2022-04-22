@@ -35,7 +35,7 @@ interface INoticeDetailProps {
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
   const [{ response, isLoading, csrfToken }, setOption] = useFetch({
-    URL: `/notice/${data._id}`,
+    URL: `/api/notice/${data._id}`,
   });
 
   const handleUpdate = () => {

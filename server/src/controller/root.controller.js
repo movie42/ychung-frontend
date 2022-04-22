@@ -4,11 +4,14 @@ import User from "../model/User.model";
 import QT from "../model/Blog.model";
 import Weekly from "../model/Worship.model";
 import Notice from "../model/Notice.model";
-import Vote from "../model/Vote.model";
+
+export const authCSRFToken = (req, res) => {
+  return res.status(200).json({ CSRFToken: req.csrfToken() });
+};
 
 export const login = async (req, res) => {
   const {
-    body: { email, password }
+    body: { email, password },
   } = req;
 
   try {
@@ -30,14 +33,14 @@ export const login = async (req, res) => {
     const token = await jwt.sign(
       {
         _id: user._id,
-        email: user.email
+        email: user.email,
       },
       secret,
       {
         expiresIn: "7d",
         issuer: process.env.ORIGIN || "http://localhost:4000",
-        subject: "userInfo"
-      }
+        subject: "userInfo",
+      },
     );
 
     if (!token) {
@@ -50,7 +53,7 @@ export const login = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        maxAge: 604800
+        maxAge: 604800,
       })
       .status(200)
       .json({ data: { login: true, userId: user._id } });
@@ -60,33 +63,26 @@ export const login = async (req, res) => {
   }
 };
 
-// join
-export const getJoin = (req, res) => {
-  return res.render("root/join", {
-    pageTitle: "회원가입"
-  });
-};
-
 export const postJoin = async (req, res) => {
   console.log(req.body);
   const {
-    body: { email, name, userName, password, password2 }
+    body: { email, name, userName, password, password2 },
   } = req;
 
   try {
     const exists = await User.exists({
-      $or: [{ userName }, { email }]
+      $or: [{ userName }, { email }],
     });
 
     if (exists) {
       return res.status(400).json({
-        type: "isExistsError"
+        type: "isExistsError",
       });
     }
 
     if (password !== password2) {
       return res.status(400).json({
-        type: "isNotpasswordError"
+        type: "isNotpasswordError",
       });
     }
 
@@ -94,7 +90,7 @@ export const postJoin = async (req, res) => {
       email,
       userName,
       name,
-      password
+      password,
     });
 
     return res.sendStatus(200);
@@ -115,13 +111,13 @@ export const search = async (req, res) => {
   try {
     if (keyword) {
       const qtData = await QT.find({
-        title: new RegExp(keyword, "ig")
+        title: new RegExp(keyword, "ig"),
       });
       const weeklyData = await Weekly.find({
-        title: new RegExp(keyword, "ig")
+        title: new RegExp(keyword, "ig"),
       });
       const noticeData = await Notice.find({
-        title: new RegExp(keyword, "ig")
+        title: new RegExp(keyword, "ig"),
       });
       data.push(qtData);
       data.push(weeklyData);
@@ -130,37 +126,13 @@ export const search = async (req, res) => {
     return res.render("root/search", {
       pageTitle: keyword,
       keyword,
-      data
+      data,
     });
   } catch (e) {
     console.log(e);
     return res.status(400).render("root/join", {
       pageTitle: "회원가입",
-      errorMessage: "회원가입을 완료할 수 없습니다"
+      errorMessage: "회원가입을 완료할 수 없습니다",
     });
-  }
-};
-
-export const getVote = (req, res) => {
-  return res.render("root/vote", { pageTitle: "투표" });
-};
-
-export const postVote = async (req, res) => {
-  const {
-    body: { voteName },
-    session: {
-      user: { _id }
-    }
-  } = req;
-
-  try {
-    const data = await Vote.create({
-      voteName,
-      creator: _id
-    });
-
-    return res.status(200).json({ data });
-  } catch (e) {
-    console.log(e);
   }
 };

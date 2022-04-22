@@ -70,7 +70,6 @@ const BIBLE_DATA_SET = {
   rev: "요한계시록",
 };
 
-// list
 export const worshipWeeklylist = async (req, res) => {
   try {
     const data = (
@@ -84,16 +83,11 @@ export const worshipWeeklylist = async (req, res) => {
     return res.status(200).json({ data });
   } catch (error) {
     console.log(error);
-    return res.status(404).render("root/404", {
-      pageTitle: "페이지를 찾을 수 없습니다.",
-      errorMessage: "페이지를 찾을 수 없습니다. ",
+    return res.status(403).json({
+      message: "페이지를 찾을 수 없습니다. ",
     });
   }
 };
-
-// create
-export const getCreateWorshipEditor = (req, res) =>
-  res.render("worship/worshipCreate", { pageTitle: "주보 만들기" });
 
 export const createWorshipWeekly = async (req, res) => {
   const {
@@ -135,7 +129,7 @@ export const createWorshipWeekly = async (req, res) => {
     return res.status(200).json({ data });
   } catch (error) {
     console.log(error);
-    return res.status(400).render("root/404");
+    return res.status(403).json({ message: "주보를 작성할 수 없습니다." });
   }
 };
 
@@ -163,7 +157,7 @@ export const updateWorshipWeekly = async (req, res) => {
     const user = jwt.verify(token, secret);
 
     if (!user) {
-      return res.status(400).json({ message: "인증되지 않은 사용자입니다." });
+      return res.status(403).json({ message: "인증되지 않은 사용자입니다." });
     }
 
     const data = await Worship.findByIdAndUpdate(id, {
@@ -183,14 +177,12 @@ export const updateWorshipWeekly = async (req, res) => {
     return res.status(200).json({ data });
   } catch (error) {
     console.log(error);
-    return res.status(400).render("worship/worshipEdit", {
-      pageTitle: "주보 수정",
-      data,
+    return res.status(403).json({
+      message: "주보를 수정할 수 없습니다.",
     });
   }
 };
 
-// delete
 export const deleteWorshipWeekly = async (req, res) => {
   const {
     cookies: { token },
@@ -202,7 +194,7 @@ export const deleteWorshipWeekly = async (req, res) => {
     const user = jwt.verify(token, secret);
 
     if (!user) {
-      return res.status(400).json({ message: "인증되지 않은 사용자입니다." });
+      return res.status(403).json({ message: "인증되지 않은 사용자입니다." });
     }
 
     await Worship.findByIdAndDelete(id);
@@ -210,10 +202,8 @@ export const deleteWorshipWeekly = async (req, res) => {
     return res.status(200).json({ data: "success" });
   } catch (error) {
     console.log(error);
-    return res.status(404).render("root/404", {
-      pageTitle: "해당 정보를 삭제할 수 없습니다.",
-      errorMessage:
-        "해당 정보를 삭제하는 과정에서 알 수 없는 오류를 발견했습니다.",
+    return res.status(403).json({
+      message: "해당 정보를 삭제하는 과정에서 알 수 없는 오류를 발견했습니다.",
     });
   }
 };

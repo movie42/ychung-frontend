@@ -1,30 +1,17 @@
 import express from "express";
 import {
   userDetail,
-  getEditUser,
   postEditUser,
-  getEditPassword,
-  postEditPassword
+  postEditPassword,
 } from "../controller/user.controller";
-import { onlyPrivate, preUrl, photoUpload } from "../middleWare";
+import { photoUpload } from "../middleWare";
 
 const userRouter = express.Router();
 
-// userDetail
 userRouter.route("/").get(userDetail);
-
-// edit user profile
 userRouter
   .route("/:id([0-9a-f]{24})/edit-profile")
-  .all(onlyPrivate)
-  .get(getEditUser)
   .post(photoUpload, postEditUser);
-
-// edit password
-userRouter
-  .route("/:id([0-9a-f]{24})/edit-password")
-  .all(onlyPrivate)
-  .get(getEditPassword)
-  .post(postEditPassword);
+userRouter.route("/:id([0-9a-f]{24})/edit-password").post(postEditPassword);
 
 export default userRouter;

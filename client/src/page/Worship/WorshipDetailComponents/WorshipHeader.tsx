@@ -69,7 +69,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const navigate = useNavigate();
   const { login } = useRecoilValue(loginState);
   const [{ response, csrfToken }, setOptions] = useFetch({
-    URL: `/worship/${id}`,
+    URL: `/api/worship/${id}`,
   });
   const queryClient = useQueryClient();
 

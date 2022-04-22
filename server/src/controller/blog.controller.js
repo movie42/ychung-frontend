@@ -11,15 +11,11 @@ export const blogList = async (req, res) => {
     return res.status(200).json({ data });
   } catch (error) {
     console.log(e);
-    const errorMessage = "요청한 값을 찾을 수가 없습니다. ";
-    return res.status(400).render("blog/blogUpload", {
-      pageTitle: "블로그",
-      errorMessage,
+    return res.status(403).json({
+      message: "블로그 게시물을 찾을 수가 없습니다.",
     });
   }
 };
-
-// create
 
 export const postBlogWrite = async (req, res) => {
   const {
@@ -54,38 +50,17 @@ export const postBlogWrite = async (req, res) => {
   }
 };
 
-// detail
-export const blogDetail = async (req, res) => {
-  const {
-    params: { id },
-  } = req;
-
-  try {
-    const data = await Blog.findById(id)
-      .populate("comments")
-      .populate("creator");
-
-    return res
-      .status(200)
-      .render("blog/blogDetail", { pageTitle: data.title, data });
-  } catch (e) {
-    console.log(e);
-    const errorMessage = "페이지를 표시할 수 없습니다.";
-    return res
-      .status(404)
-      .render("root/404", { pageTitle: "블로그", errorMessage });
-  }
-};
-
-// update
-
 export const postBlogUpdate = async (req, res) => {
   const {
     body: { title, paragraph },
     params: { id },
+    cookies: { token },
   } = req;
 
   try {
+    const secret = req.app.get("JWT_SECRET");
+    const user = jwt.verify(token, secret);
+
     const data = await Blog.findByIdAndUpdate(
       { _id: id },
       {
@@ -103,7 +78,6 @@ export const postBlogUpdate = async (req, res) => {
   }
 };
 
-// delete
 export const blogDelete = async (req, res) => {
   const {
     cookies: { token },
@@ -117,11 +91,10 @@ export const blogDelete = async (req, res) => {
     if (!user) {
       return res.status(400).json({ data: "error" });
     }
-
     await Blog.findByIdAndDelete(id);
     return res.status(200).json({ data: "delete" });
   } catch (e) {
     console.log(e);
-    return res.status(404).render("404", { pageTitle: "접근할 수 없습니다." });
+    return res.status(403).json({ message: "삭제를 할수 없습니다." });
   }
 };

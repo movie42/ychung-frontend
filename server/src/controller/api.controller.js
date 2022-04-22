@@ -6,7 +6,7 @@ import Documents from "../model/Documents.model";
 import Worship from "../model/Worship.model";
 import Comment from "../model/Comments.model";
 
-export const getDB = async (req, res) => {
+export const validator = async (req, res) => {
   const {
     params: { name, value },
   } = req;

@@ -29,8 +29,8 @@ app.use((req, res, next) => {
 app.use(
   cors({
     origin: process.env.CORS_SERVER || "http://localhost:3000",
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
 
 app.use(helmet());
@@ -42,15 +42,15 @@ app.use(
       "script-src": ["'unsafe-eval'", process.env.URL], //development mode should allow 'unsafe-eval' because eval function
       "img-src": ["'self'", "data:", "https:"],
       "frame-src": "https://www.youtube.com/",
-      "font-src": ["data:", "https:"]
-    }
-  })
+      "font-src": ["data:", "https:"],
+    },
+  }),
 );
 app.use(
   helmet.hsts({
     maxAge: 31536000,
-    preload: true
-  })
+    preload: true,
+  }),
 );
 app.use(helmet.xssFilter());
 app.use(
@@ -59,9 +59,9 @@ app.use(
       fullscreen: ["self", '"https://www.youtube.com"'],
       displayCapture: ["self"],
       autoplay: [],
-      camera: []
-    }
-  })
+      camera: [],
+    },
+  }),
 );
 
 if (process.env.NODE_ENV === "production") {
@@ -84,12 +84,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.use("/", rootRouter);
-app.use("/api/notice", noticeRouter);
-app.use("/worship", worshipRouter);
-app.use("/documents", documentsRouter);
-app.use("/blog", blogRouter);
-app.use("/user", userRouter);
-// app.use("/api", api);
+app.use("/api", api);
 
 export default app;
