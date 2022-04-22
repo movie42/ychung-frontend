@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { IBlogItems } from "./Bolg";
+import { calculateDate } from "../../utils/utilities/calculateDate";
 
 import { HiUser } from "react-icons/hi";
-import { calculateDate } from "../../utils/utilities/calculateDate";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
 import { imageParser } from "../../utils/utilities/imageParser";
 
-const ListItem = styled.li`
+const Item: React.FC<React.LiHTMLAttributes<HTMLLIElement>> = styled.li<
+  React.LiHTMLAttributes<HTMLLIElement>
+>`
   width: 100%;
   box-sizing: border-box;
   box-shadow: 1.2rem 0.2rem 1.2rem rgba(0, 0, 0, 0.2);
@@ -31,7 +33,7 @@ const ListItem = styled.li`
   }
 `;
 
-const PostInfomContainer = styled.div`
+const PostInfoContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,24 +110,33 @@ const ItemDetailInfoContainer = styled.div`
   }
 `;
 
-interface BlogItem {
-  post: IBlogItems;
+interface UnkownType {
+  _id: string;
+  title: string;
+  paragraph: string;
+  creator: { userName: string };
+  comments: [];
+  views: number;
+  createdAt: string;
 }
 
-function BlogItems({ post }: BlogItem) {
-  const {
-    _id,
-    title,
-    paragraph,
-    creator: { _id: creatorId, name: creatorName, userName: creatorUserName },
-    comments,
-    views,
-    createdAt,
-  } = post;
+interface IItemProps<T>
+  extends React.DetailedHTMLProps<
+    React.LiHTMLAttributes<HTMLLIElement>,
+    HTMLLIElement
+  > {
+  data: T;
+}
+
+const ListItem = <T extends UnkownType>({
+  data,
+  ...rest
+}: React.PropsWithChildren<IItemProps<T>>) => {
+  const { _id, title, paragraph, creator, comments, views, createdAt } = data;
 
   return (
-    <ListItem>
-      <Link to={`/blog/${_id}`}>
+    <Item {...rest}>
+      <Link to={`${_id}`}>
         <ItemDetailContainer>
           {imageParser(paragraph) !== null && (
             <div className="thumnail-container">
@@ -134,33 +145,29 @@ function BlogItems({ post }: BlogItem) {
           )}
           <div className="title-paragraph-container">
             <h3>{title}</h3>
-            <p>
-              {`${paragraph
-                ?.replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
-                .replace(/\s+/g, " ")
-                .replace(/[\<\>]/g, "")
-                .slice(0, 100)}...`}
-            </p>
+            <p>{previewParagraph(paragraph)}</p>
           </div>
         </ItemDetailContainer>
-        <PostInfomContainer>
+
+        <PostInfoContainer>
           <UserInfoContainer>
             <ImageContainer>
               <HumanIcon />
             </ImageContainer>
             <InfoContainer>
-              <span>{creatorUserName}</span>
+              <span>{creator.userName}</span>
               <span>{calculateDate(createdAt)}</span>
             </InfoContainer>
           </UserInfoContainer>
+
           <ItemDetailInfoContainer>
             <span>조회수 {views}</span>
-            <span>댓글 {comments.length}</span>
+            <span>댓글 {comments?.length}</span>
           </ItemDetailInfoContainer>
-        </PostInfomContainer>
+        </PostInfoContainer>
       </Link>
-    </ListItem>
+    </Item>
   );
-}
+};
 
-export default BlogItems;
+export default ListItem;

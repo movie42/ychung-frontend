@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import NoticeItem from "./NoticeItem";
 import { Link, Outlet, useParams, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { notice, noticeModalControler } from "../../state/notice.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
+import ListContainer from "../../components/List/ListContainer";
+import ListItem from "../../components/List/ListItem";
 
 const NoticeListContainer = styled(motion.div)``;
+
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
 const NoticeComponentInfoContainer = styled.div`
   display: flex;
@@ -23,21 +28,6 @@ const NoticeComponentInfoContainer = styled.div`
       color: ${(props) => props.theme.basicColor};
     }
   }
-`;
-
-const Wrapper = styled.div`
-  width: 100%;
-`;
-
-const ListContainer = styled.ul`
-  display: grid;
-  grid-auto-rows: minmax(35rem, 42rem);
-  margin: 0;
-  @media (min-width: ${(props) => props.theme.screen.labtop}) {
-    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
-    gap: 1.5rem;
-  }
-  padding: 0;
 `;
 
 export interface INoticeInterface {
@@ -57,9 +47,8 @@ export interface INoticeInterface {
 
 function Notice() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const isLogin = useRecoilValue(loginState);
-  const [detailItem, setDetailItem] = useRecoilState(notice);
+  const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
@@ -67,7 +56,7 @@ function Notice() {
     isLoading,
     error,
     data: notices,
-  } = useQuery(
+  } = useQuery<INoticeInterface[]>(
     "notice",
     async () => {
       const response = await fetch(`/api/notice`, {
@@ -85,18 +74,16 @@ function Notice() {
   );
 
   const onClick = (id: string) => {
-    const [detailItem] = notices.filter(
-      (item: INoticeInterface) => item._id === id
-    );
-    setNoticeModalState(true);
-    setDetailItem({ ...detailItem });
+    if (notices) {
+      const [detailItem] = notices.filter((item) => item._id === id);
+      setNoticeModalState(true);
+      setDetailItem({ ...detailItem });
+    }
   };
 
   useEffect(() => {
-    if (id && !isLoading) {
-      const [detailItem] = notices.filter(
-        (item: INoticeInterface) => item._id === id
-      );
+    if (id && !isLoading && notices) {
+      const [detailItem] = notices.filter((item) => item._id === id);
       setNoticeModalState(true);
       setDetailItem({ ...detailItem });
     }
@@ -116,15 +103,14 @@ function Notice() {
                 </Link>
               )}
             </NoticeComponentInfoContainer>
-            <ListContainer>
-              {notices.map((notice: INoticeInterface) => (
-                <NoticeItem
-                  key={notice._id}
-                  onClick={onClick}
-                  notice={notice}
-                />
-              ))}
-            </ListContainer>
+            {notices && (
+              <ListContainer
+                data={notices}
+                renderData={(item) => (
+                  <ListItem data={item} onClick={() => onClick(item._id)} />
+                )}
+              />
+            )}
           </Wrapper>
           <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
         </NoticeListContainer>

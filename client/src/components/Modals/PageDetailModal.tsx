@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { movingCard, opacity } from "../../animation variants/modalAnimation";
 import { SetterOrUpdater } from "recoil";
-import { JsxChild, JsxElement } from "typescript";
 
 const Wrapper = styled(motion.div)`
   position: fixed;

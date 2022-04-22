@@ -8,7 +8,7 @@ import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
 import { useFetch } from "../../utils/customhooks/useFectch";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { deleteRequest } from "../../utils/utilities/httpMethod";
 
 const ButtonContainer = styled.div`

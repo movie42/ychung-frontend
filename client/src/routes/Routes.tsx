@@ -111,10 +111,13 @@ function Router() {
       ) : (
         <>
           <Route path="/login" element={<Login />} />
-          <Route path="/join" element={<Join />} />
+          {/* <Route path="/join" element={<Join />} /> */}
         </>
       )}
-      <Route path="*" element={<p>There's nothing here: 404!</p>} />
+      <Route
+        path="*"
+        element={<p>보여줄게 아무것도 없네요. URL을 다 입력해보세요.</p>}
+      />
     </Routes>
   );
 }
