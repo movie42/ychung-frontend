@@ -1,15 +1,9 @@
 import express from "express";
 import morgan from "morgan";
-import rootRouter from "./router/root.router";
-import worshipRouter from "./router/worship.router";
-import noticeRouter from "./router/notice.router";
 import api from "./router/api.router";
-import userRouter from "./router/user.router";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import { locals, csrfProtection } from "./middleWare";
-import documentsRouter from "./router/documents.router";
-import blogRouter from "./router/blog.router";
 import permissionsPolicy from "permissions-policy";
 import cors from "cors";
 
@@ -28,7 +22,11 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: process.env.CORS_SERVER || "http://localhost:3000",
+    origin: [
+      process.env.CORS_SERVER,
+      "https://yangchung.s3.amazonaws.com",
+      "https://www.youtube.com",
+    ],
     credentials: true,
   }),
 );
@@ -39,9 +37,14 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      "script-src": ["'unsafe-eval'", process.env.URL], //development mode should allow 'unsafe-eval' because eval function
-      "img-src": ["'self'", "data:", "https:"],
-      "frame-src": "https://www.youtube.com/",
+      "script-src": [process.env.URL],
+      "img-src": [
+        "'self'",
+        "data:",
+        "https:",
+        "https://yangchung.s3.amazonaws.com",
+      ],
+      "frame-src": "https://www.youtube.com",
       "font-src": ["data:", "https:"],
     },
   }),
