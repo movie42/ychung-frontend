@@ -51,21 +51,23 @@ const Nav = () => {
       <Item>
         <LinkButton to="/search">검색</LinkButton>
       </Item>
-      <Item>
-        <LinkButton to="/user/1">내 정보</LinkButton>
-      </Item>
       {login ? (
-        <Item>
-          <LinkButton to="/logout">로그아웃</LinkButton>
-        </Item>
+        <>
+          <Item>
+            <LinkButton to="/user/1">내 정보</LinkButton>
+          </Item>
+          <Item>
+            <LinkButton to="/logout">로그아웃</LinkButton>
+          </Item>
+        </>
       ) : (
         <>
           <Item>
             <LinkButton to="/login">로그인</LinkButton>
           </Item>
-          <Item>
+          {/* <Item>
             <LinkButton to="/join">회원가입</LinkButton>
-          </Item>
+          </Item> */}
         </>
       )}
     </Items>

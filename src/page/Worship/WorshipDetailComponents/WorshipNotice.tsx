@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { INoticeInterface } from "../../Notice/Notice";
 
 import { BsArrowRight } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -82,7 +83,7 @@ function WorshipNotice() {
         .filter((item: INoticeInterface) => item.isWeekly)
         .map((notice: INoticeInterface) => (
           <ListItem key={notice._id}>
-            <a href={`/notice/${notice._id}`}>
+            <Link to={`/notice/${notice._id}`}>
               <p>{notice.title}</p>
               <div>
                 자세히 보기{" "}
@@ -90,7 +91,7 @@ function WorshipNotice() {
                   <BsArrowRight />
                 </span>
               </div>
-            </a>
+            </Link>
           </ListItem>
         ))}
     </ListContainer>

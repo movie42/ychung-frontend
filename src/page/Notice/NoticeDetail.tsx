@@ -10,6 +10,7 @@ import Viewer from "../../components/Viewer";
 import { useFetch } from "../../utils/customhooks/useFectch";
 import { useNavigate } from "react-router-dom";
 import { deleteRequest } from "../../utils/utilities/httpMethod";
+import { loginState } from "../../state/Authrization";
 
 const ButtonContainer = styled.div`
   button {
@@ -34,6 +35,7 @@ interface INoticeDetailProps {
 
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
+  const { login } = useRecoilValue(loginState);
   const [{ response, isLoading, csrfToken }, setOption] = useFetch({
     URL: `/api/notice/${data._id}`,
   });
@@ -56,14 +58,16 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
     <PageDetailModal setDetailItem={setDetailItem}>
       <>
         <PageDetailModalHeader {...data}>
-          <ButtonContainer>
-            <Button buttonType="icon" onClick={handleUpdate}>
-              <AiFillEdit />
-            </Button>
-            <Button buttonType="icon" onClick={handleDelete}>
-              <MdDelete />
-            </Button>
-          </ButtonContainer>
+          {login && (
+            <ButtonContainer>
+              <Button buttonType="icon" onClick={handleUpdate}>
+                <AiFillEdit />
+              </Button>
+              <Button buttonType="icon" onClick={handleDelete}>
+                <MdDelete />
+              </Button>
+            </ButtonContainer>
+          )}
         </PageDetailModalHeader>
         <Viewer paragraph={data.paragraph} />
       </>

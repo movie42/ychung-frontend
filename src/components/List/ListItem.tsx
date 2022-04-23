@@ -63,6 +63,7 @@ const InfoContainer = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
+  z-index: -1;
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;

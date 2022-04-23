@@ -4,11 +4,12 @@ import { useQuery } from "react-query";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
 import Loading from "../../components/Loading";
 import ListItem from "../../components/List/ListItem";
 import ListContainer from "../../components/List/ListContainer";
+import { loginState } from "../../state/Authrization";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,6 +43,7 @@ export interface IBlogItems {
 }
 
 function Blog() {
+  const { login } = useRecoilValue(loginState);
   const { id } = useParams();
   const [detailItem, setDetailItem] = useRecoilState(blog);
   const [blogModalState, setBlogModalState] =
@@ -91,9 +93,11 @@ function Blog() {
         <Wrapper>
           <BlogComponentInfoContainer>
             <h1>블로그</h1>
-            <Link to={"/blog/create"}>
-              <AiFillPlusCircle />
-            </Link>
+            {login && (
+              <Link to={"/blog/create"}>
+                <AiFillPlusCircle />
+              </Link>
+            )}
           </BlogComponentInfoContainer>
 
           {posts && (

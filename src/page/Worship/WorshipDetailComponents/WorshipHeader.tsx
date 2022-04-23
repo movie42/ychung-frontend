@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useEffect } from "react";
 import { AiFillEdit } from "react-icons/ai";
+import { HiUser } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import { useQueryClient } from "react-query";
 import { useParams, useNavigate } from "react-router-dom";
@@ -15,8 +16,8 @@ import { deleteRequest } from "../../../utils/utilities/httpMethod";
 const Wrapper = styled(motion.div)`
   overflow-x: hidden;
   h1.head-title {
+    word-spacing: -4rem;
     font-size: 12rem;
-    word-break: keep-all;
     font-weight: 900;
     margin: 2rem 0;
   }
@@ -28,10 +29,23 @@ const UserInfoContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
+  position: relative;
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
+  z-index: -1;
+  overflow: hidden;
   background-color: ${(props) => props.theme.color.gray300};
+`;
+
+const HumanIcon = styled(HiUser)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.6rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  color: ${(props) => props.theme.color.gray100};
 `;
 
 const ButtonContainer = styled.div`
@@ -54,6 +68,9 @@ const InforContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 1rem;
+  span {
+    color: ${(props) => props.theme.color.gray400};
+  }
 `;
 
 interface IWorshipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -83,7 +100,6 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   };
 
   useEffect(() => {
-    console.log(response);
     if (response === "success") {
       queryClient.invalidateQueries("weeklies");
       navigate("/worship");
@@ -95,8 +111,12 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
       <h1 className="head-title">{title}</h1>
       <UserInfoContainer>
         <ImageContainer>
-          <img src="" alt="" />
+          <HumanIcon />
         </ImageContainer>
+        <InforContainer>
+          <span>{creator.userName}</span>
+          <span>{calculateDate(createdAt)}</span>
+        </InforContainer>
         {login && (
           <ButtonContainer>
             <Button buttonType="icon" onClick={handleUpdate}>
@@ -107,10 +127,6 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
             </Button>
           </ButtonContainer>
         )}
-        <InforContainer>
-          <span>{creator.userName}</span>
-          <span>{calculateDate(createdAt)}</span>
-        </InforContainer>
       </UserInfoContainer>
     </Wrapper>
   );
