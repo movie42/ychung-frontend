@@ -24,11 +24,9 @@ interface IProps {
 }
 
 const LinkButton = styled(Link)<IProps>`
-  @media (max-width: ${(props) => props.theme.screen.mobile}) {
-    text-decoration: none;
-    display: block;
-    color: ${(props) => props.theme.color.fontColorBlack};
-  }
+  display: block;
+  color: ${(props) => props.theme.color.fontColorBlack};
+  text-decoration: none;
 `;
 
 const Nav = () => {
@@ -45,17 +43,17 @@ const Nav = () => {
       <Item>
         <LinkButton to="/blog">블로그</LinkButton>
       </Item>
-      <Item>
+      {/* <Item>
         <LinkButton to="/documents">도큐멘트</LinkButton>
       </Item>
       <Item>
         <LinkButton to="/search">검색</LinkButton>
-      </Item>
+      </Item> */}
       {login ? (
         <>
-          <Item>
+          {/* <Item>
             <LinkButton to="/user/1">내 정보</LinkButton>
-          </Item>
+          </Item> */}
           <Item>
             <LinkButton to="/logout">로그아웃</LinkButton>
           </Item>

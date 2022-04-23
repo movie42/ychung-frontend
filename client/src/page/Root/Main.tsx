@@ -114,7 +114,7 @@ function Main() {
           환영합니다.
         </h1>
       </Section>
-      <Section className="main-section-2">
+      {/* <Section className="main-section-2">
         <TitleContainer>
           <h1>새로 오셨나요?</h1>
           <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
@@ -164,7 +164,7 @@ function Main() {
           />
           <Button buttonType="block">목걸이 다운 받기</Button>
         </Form>
-      </Section>
+      </Section> */}
     </Wrapper>
   );
 }
