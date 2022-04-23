@@ -12,6 +12,7 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   right: 0;
+  background-color: ${(props) => props.theme.color.background100};
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;

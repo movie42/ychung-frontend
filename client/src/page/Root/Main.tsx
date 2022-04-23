@@ -1,17 +1,18 @@
+import { motion } from "framer-motion";
 import React from "react";
-import { FieldValue, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { scrollAnimationVariants } from "../../animation variants/scrollAnimationVariants";
 import Button from "../../components/Buttons/Button";
 import Input from "../../components/Form/Input";
 
 const Wrapper = styled.div`
-  box-sizing: border-box;
+  height: calc(100vh - 100px);
 `;
 
-const Section = styled.section`
-  height: 95vh;
-
+const Section = styled(motion.section)`
+  height: 100%;
   h1,
   h2,
   h3,
@@ -20,15 +21,19 @@ const Section = styled.section`
   p {
     margin: 0;
     padding: 0;
+    line-height: 1.3;
   }
 
   &.main-section-1 {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     h1 {
-      font-size: 5rem;
+      &.emoji {
+        font-size: 10rem;
+      }
+      font-size: 7rem;
       font-weight: 900;
-      word-break: keep-all;
     }
   }
 
@@ -42,12 +47,11 @@ const Section = styled.section`
     h1 {
       font-size: 5rem;
       font-weight: 900;
-      word-break: keep-all;
       margin-bottom: 1rem;
     }
 
     h3 {
-      font-size: 3rem;
+      font-size: 2.6rem;
       font-weight: 300;
       word-break: keep-all;
     }
@@ -76,7 +80,18 @@ const Section = styled.section`
   }
 `;
 
-const SectionInput = styled(Input)``;
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SectionInput = styled(Input)`
+  font-size: 2.2rem;
+  border: 0;
+  padding: 1rem 0;
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
+  margin-bottom: 1rem;
+`;
 
 const TitleContainer = styled.div`
   margin-bottom: 1rem;
@@ -87,16 +102,25 @@ function Main() {
 
   return (
     <Wrapper>
-      <Section className="main-section-1">
-        <h1>양청에 오신 것을 환영합니다.</h1>
+      <Section
+        variants={scrollAnimationVariants}
+        exit="exit"
+        className="main-section-1">
+        <h1 className="emoji">😄</h1>
+        <h1>
+          양청에 <br />
+          오신 것을
+          <br />
+          환영합니다.
+        </h1>
       </Section>
-      {/* <Section className="main-section-2">
+      <Section className="main-section-2">
         <TitleContainer>
           <h1>새로 오셨나요?</h1>
           <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
         </TitleContainer>
         <div>
-          <a href="">새신자 등록</a>
+          <Link to="">양청과 함께하기</Link>
           <Link to="">예배 안내</Link>
         </div>
       </Section>
@@ -124,9 +148,9 @@ function Main() {
       <Section className="main-section-5">
         <TitleContainer>
           <h1>나를 소개하는 가장 쉬운 방법</h1>
-          <h3>명찰을 만들고 다른 사람에게 소개해보세요.</h3>
+          <h3>목걸이를 만들고 다른 사람에게 나를 소개해보세요.</h3>
         </TitleContainer>
-        <form>
+        <Form>
           <SectionInput
             register={register}
             registerName="name"
@@ -139,8 +163,8 @@ function Main() {
             placeholder="자기를 소개하는 한마디"
           />
           <Button buttonType="block">목걸이 다운 받기</Button>
-        </form>
-      </Section> */}
+        </Form>
+      </Section>
     </Wrapper>
   );
 }

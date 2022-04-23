@@ -102,12 +102,14 @@ function Router() {
         <Route path="/documents/account" element={<WorshipDetail />} />
         <Route path="/documents/account/:id" element={<WorshipDetail />} /> */}
       <Route path="/search" element={<Search />} />
-      <Route path="/user/:id" element={<User />} />
-      <Route path="/user/:id/works" element={<UserWorks />} />
-      <Route path="/user/:id/applications" element={<UserApplications />} />
-      <Route path="/user/:id/like" element={<UserLike />} />
       {login ? (
-        <Route path="/logout" element={<Logout />} />
+        <>
+          <Route path="/user/:id" element={<User />} />
+          <Route path="/user/:id/works" element={<UserWorks />} />
+          <Route path="/user/:id/applications" element={<UserApplications />} />
+          <Route path="/user/:id/like" element={<UserLike />} />
+          <Route path="/logout" element={<Logout />} />
+        </>
       ) : (
         <>
           <Route path="/login" element={<Login />} />

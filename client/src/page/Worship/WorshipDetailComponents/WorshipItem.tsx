@@ -54,6 +54,7 @@ const ImageContainer = styled.div`
   height: 4.5rem;
   border-radius: 50%;
   overflow: hidden;
+  z-index: -1;
   background-color: ${(props) => props.theme.color.gray100};
 `;
 
@@ -71,7 +72,7 @@ const ItemDetailContainer = styled.div`
   margin-top: 1rem;
   h3 {
     margin: 0;
-    font-size: 5rem;
+    font-size: 6rem;
     line-height: 1.3;
     word-break: keep-all;
     font-weight: 900;

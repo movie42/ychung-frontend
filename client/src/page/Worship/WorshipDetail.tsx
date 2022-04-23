@@ -20,6 +20,7 @@ const WorshipInfoContainer = styled(motion.div)`
 `;
 
 const WorshipGuide = styled.div`
+  margin-bottom: 2rem;
   ul {
     padding: 0;
   }
@@ -31,25 +32,29 @@ const WorshipGuide = styled.div`
   button {
     border: 1px solid ${(props) => props.theme.color.gray300};
     width: 100%;
-    padding: 0.8rem 2rem;
+    padding: 3rem 1rem;
     border-radius: 0.8rem;
     background-color: ${(props) => props.theme.color.fontColorWhite};
     cursor: pointer;
     p {
+      line-height: 1.5;
       &:first-child {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
       &:nth-child(2) {
-        font-size: 1.5rem;
+        font-size: 2rem;
       }
     }
     &:hover {
-      background-color: ${(props) => props.theme.color.gray300};
+      background-color: ${(props) => props.theme.color.primary400};
+      color: ${(props) => props.theme.color.fontColorWhite};
+      border: 1px soild ${(props) => props.theme.color.fontColorWhite};
     }
 
     &:active {
+      background-color: ${(props) => props.theme.color.secondary200};
       color: ${(props) => props.theme.color.fontColorWhite};
-      background-color: ${(props) => props.theme.color.primary400};
+      border: 1px soild ${(props) => props.theme.color.fontColorWhite};
     }
   }
 `;
@@ -157,15 +162,13 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
         <WorshipGuide>
           <h2>예배 안내</h2>
           <ul>
-            <li>코로나를 예방하기 위해 교회 내에서 음식물 반입 금지입니다.</li>
-            <li>
-              마스크는 KF94로 착용해주세요. 일반 마스크를 쓰고 오셨다면 1충에
-              구비된 마스크를 써주세요.
-            </li>
             <li>
               먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터 앉아주세요.
             </li>
-            <li>청년부 계좌로도 헌금을 할 수 있습니다.</li>
+          </ul>
+          <h2>헌금</h2>
+          <ul>
+            <li>청년부 계좌로 헌금을 할 수 있습니다.</li>
           </ul>
           <button onClick={() => copyText("3511093649103")}>
             <p>계좌번호 농협 351-1093-6491-03</p>
