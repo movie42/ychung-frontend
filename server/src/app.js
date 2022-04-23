@@ -38,6 +38,11 @@ const corsOptionDelegate = (req, callback) => {
 
 app.use(cors(corsOptionDelegate));
 
+app.use((req, res, next) => {
+  res.header("Cross-Origin-Resource-Policy", "cross-origin");
+  next();
+});
+
 app.use(helmet());
 
 app.use(
