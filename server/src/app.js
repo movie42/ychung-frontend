@@ -20,16 +20,23 @@ app.use((req, res, next) => {
   }
 });
 
-app.use(
-  cors({
-    origin: [
-      process.env.CORS_SERVER,
-      "https://yangchung.s3.amazonaws.com",
-      "https://www.youtube.com",
-    ],
-    credentials: true,
-  }),
-);
+const allowList = [
+  process.env.CORS_SERVER,
+  "https://yangchung.s3.amazonaws.com",
+  "https://www.youtube.com",
+];
+
+const corsOptionDelegate = (req, callback) => {
+  let corsOptions;
+  if (allowList.indexOf(req.header("Origin")) !== -1) {
+    corsOptions = { origin: true };
+  } else {
+    corsOptions = { origin: false };
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(corsOptionDelegate));
 
 app.use(helmet());
 
