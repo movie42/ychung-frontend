@@ -11,7 +11,7 @@ const Wrapper = styled.div`
       font-size: 2.5rem;
       p,
       div {
-        font-size: 1.8rem;
+        font-size: 2rem;
       }
     }
   }

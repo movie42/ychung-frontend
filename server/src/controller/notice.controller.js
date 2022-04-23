@@ -16,7 +16,7 @@ export const getNoticeData = async (req, res) => {
 
 export const postNewNoticeData = async (req, res) => {
   const {
-    body: { title, isWeekly, paragraph },
+    body: { title, startDate, endDate, summary, isWeekly, paragraph },
     cookies: { token },
   } = req;
 
@@ -29,6 +29,9 @@ export const postNewNoticeData = async (req, res) => {
     }
     const data = await Notice.create({
       title,
+      startDate,
+      endDate,
+      summary,
       isWeekly,
       paragraph,
       creator: user._id,

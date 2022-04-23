@@ -6,12 +6,20 @@ const noticeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  startDate: {
+    type: String,
+  },
+  endDate: {
+    type: String,
+  },
+  summary: {
+    type: String,
+  },
   isWeekly: { type: Boolean, default: false },
   paragraph: {
     type: String,
     required: true,
   },
-
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

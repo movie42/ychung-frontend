@@ -12,7 +12,6 @@ const queryClient = new QueryClient();
 const Wrapper = styled.main`
   overflow-x: hidden;
   overflow-y: auto;
-  margin-top: 8rem;
   padding: 1rem 2rem;
 `;
 

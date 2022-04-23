@@ -8,11 +8,14 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useFetch } from "../../utils/customhooks/useFectch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import { useNavigate } from "react-router-dom";
+import Label from "../../components/Form/Label";
+import Input from "../../components/Form/Input";
+import { currentDate } from "../../utils/utilities/calenderHelper";
 
 const Wrapper = styled.div`
   position: relative;
   height: 70vh;
-
+  z-index: 0;
   button.upload {
     position: absolute;
     top: -1rem;
@@ -54,11 +57,13 @@ const InputWrapper = styled.form`
   }
 
   div {
-    label {
-      margin-left: 0.5rem;
-    }
-    input {
-      width: unset;
+    &.flex {
+      label {
+        margin-left: 0.5rem;
+      }
+      input {
+        width: unset;
+      }
     }
   }
 `;
@@ -66,7 +71,11 @@ const InputWrapper = styled.form`
 const NoticeCreate: React.FC = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
     URL: `/api/notice/create`,
   });
@@ -92,20 +101,61 @@ const NoticeCreate: React.FC = () => {
         <AiOutlineCloudUpload />
       </button>
       <InputWrapper>
-        <label htmlFor="title">제목</label>
-        <input
-          placeholder="제목을 입력하세요."
-          {...register("title", { required: "제목을 입력하세요." })}
-          id="title"
-          type="text"
-        />
         <div>
-          <input
+          <Label htmlFor="title">제목</Label>
+          <Input
+            id="title"
+            type="text"
+            placeholder="제목을 입력하세요."
+            register={register}
+            registerName="title"
+            registerOptions={{ required: "제목을 입력하세요." }}
+          />
+        </div>
+        <div>
+          <Label htmlFor="startDate">행사 시작</Label>
+          <Input
+            type="date"
+            register={register}
+            registerName="startDate"
+            defaultValue={`${currentDate()}`}
+          />
+        </div>
+        <div>
+          <Label htmlFor="endDate">행사 끝</Label>
+          <Input
+            type="date"
+            register={register}
+            registerName="endDate"
+            registerOptions={{
+              validate: (value) =>
+                (value && value >= currentDate()) ||
+                "오늘 이전 날짜를 선택할 수 없어요.",
+            }}
+            defaultValue={`${currentDate()}`}
+          />
+          {<p>{errors?.endDate?.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="summary">행사 요약</Label>
+          <Input
+            type="text"
+            register={register}
+            registerName="summary"
+            registerOptions={{ min: 0, max: 100 }}
+            placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
+          />
+          {<p>{errors?.endDate?.message}</p>}
+        </div>
+        <div className="flex">
+          <Input
             id="isWeekly"
             type="checkbox"
-            {...register("isWeekly", { value: false })}
+            register={register}
+            registerName="isWeekly"
+            registerOptions={{ value: false }}
           />
-          <label htmlFor="isWeekly">주보에 표시하기</label>
+          <Label htmlFor="isWeekly">주보에 넣기</Label>
         </div>
       </InputWrapper>
       <EditorContainer reference={editorRef} />

@@ -33,6 +33,9 @@ const NoticeComponentInfoContainer = styled.div`
 export interface INoticeInterface {
   _id: string;
   title: string;
+  startDate: string;
+  endDate: string;
+  summary: string;
   isWeekly: boolean;
   paragraph: string;
   creator: {

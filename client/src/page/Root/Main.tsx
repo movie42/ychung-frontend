@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import React from "react";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -8,7 +8,7 @@ import Button from "../../components/Buttons/Button";
 import Input from "../../components/Form/Input";
 
 const Wrapper = styled.div`
-  height: calc(100vh - 100px);
+  height: 100vh;
 `;
 
 const Section = styled(motion.section)`
@@ -45,7 +45,10 @@ const Section = styled(motion.section)`
     flex-direction: column;
     justify-content: center;
     h1 {
-      font-size: 5rem;
+      br {
+        display: none;
+      }
+      font-size: 6rem;
       font-weight: 900;
       margin-bottom: 1rem;
     }
@@ -78,6 +81,61 @@ const Section = styled(motion.section)`
       }
     }
   }
+
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    &.main-section-1 {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      h1 {
+        br {
+          display: none;
+        }
+        &.emoji {
+          font-size: 6vw;
+          margin-right: 2vw;
+        }
+        font-size: 6vw;
+        font-weight: 900;
+      }
+    }
+
+    &.main-section-2,
+    &.main-section-3,
+    &.main-section-4,
+    &.main-section-5 {
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: center;
+      div {
+        h1 {
+          br {
+            display: block;
+          }
+          font-size: 5vw;
+          margin-bottom: 1vh;
+        }
+
+        h3 {
+          font-size: 2vw;
+        }
+        a {
+          width: 40rem;
+        }
+      }
+    }
+
+    &.main-section-3 {
+      div {
+        &:nth-child(2) {
+          margin-right: 2vw;
+        }
+      }
+    }
+    &.main-section-4 {
+      display: block;
+    }
+  }
 `;
 
 const Form = styled.div`
@@ -95,6 +153,9 @@ const SectionInput = styled(Input)`
 
 const TitleContainer = styled.div`
   margin-bottom: 1rem;
+  @media screen (min-width: ${(props) => props.theme.screen.labtop}) {
+    margin-bottom: 0;
+  }
 `;
 
 function Main() {
@@ -102,31 +163,33 @@ function Main() {
 
   return (
     <Wrapper>
-      <Section
-        variants={scrollAnimationVariants}
-        exit="exit"
-        className="main-section-1">
-        <h1 className="emoji">😄</h1>
+      <Section className="main-section-1">
+        <h1 className="emoji">😃</h1>
         <h1>
           양청에 <br />
-          오신 것을
-          <br />
+          오신 것을 <br />
           환영합니다.
         </h1>
       </Section>
-      {/* <Section className="main-section-2">
-        <TitleContainer>
-          <h1>새로 오셨나요?</h1>
-          <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
-        </TitleContainer>
+      <Section className="main-section-2">
+        <div className="logo-container"></div>
         <div>
-          <Link to="">양청과 함께하기</Link>
-          <Link to="">예배 안내</Link>
+          <TitleContainer>
+            <h1>새로 오셨나요?</h1>
+            <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
+          </TitleContainer>
+          <div>
+            <Link to="">양청과 함께하기</Link>
+            <Link to="">예배 안내</Link>
+          </div>
         </div>
       </Section>
       <Section className="main-section-3">
         <TitleContainer>
-          <h1>예수 안에서 함께 자라가요.</h1>
+          <h1>
+            예수 안에서
+            <br /> 함께 자라가요.
+          </h1>
           <h3>함께 배우고 성장하는 방법을 소개합니다.</h3>
         </TitleContainer>
         <div>
@@ -146,25 +209,33 @@ function Main() {
         </div>
       </Section>
       <Section className="main-section-5">
-        <TitleContainer>
-          <h1>나를 소개하는 가장 쉬운 방법</h1>
-          <h3>목걸이를 만들고 다른 사람에게 나를 소개해보세요.</h3>
-        </TitleContainer>
-        <Form>
-          <SectionInput
-            register={register}
-            registerName="name"
-            registerOptions={{ required: "이름을 알려주세요." }}
-            placeholder="이름"
-          />
-          <SectionInput
-            register={register}
-            registerName="expression"
-            placeholder="자기를 소개하는 한마디"
-          />
-          <Button buttonType="block">목걸이 다운 받기</Button>
-        </Form>
-      </Section> */}
+        <div>
+          <canvas></canvas>
+        </div>
+        <div>
+          <TitleContainer>
+            <h1>
+              나를 소개하는
+              <br /> 가장 쉬운 방법
+            </h1>
+            <h3>목걸이를 만들고 다른 사람에게 나를 소개해보세요.</h3>
+          </TitleContainer>
+          <Form>
+            <SectionInput
+              register={register}
+              registerName="name"
+              registerOptions={{ required: "이름을 알려주세요." }}
+              placeholder="이름"
+            />
+            <SectionInput
+              register={register}
+              registerName="expression"
+              placeholder="자기를 소개하는 한마디"
+            />
+            <Button buttonType="block">목걸이 다운 받기</Button>
+          </Form>
+        </div>
+      </Section>
     </Wrapper>
   );
 }
