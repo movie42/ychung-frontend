@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import { AiFillEdit } from "react-icons/ai";
@@ -48,6 +48,45 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
     setOption(deleteRequest(csrfToken));
   };
 
+  const convertDate = (date: string) => {
+    return date.split("-").join("");
+  };
+
+  const saveICS = (start: string, end?: string, summary?: string) => {
+    let icsFile = null;
+    var event =
+      "BEGIN:VCALENDAR\n" +
+      "CALSCALE:GREGORIAN\n" +
+      "METHOD:PUBLISH\n" +
+      "PRODID:-//Test Cal//EN\n" +
+      "VERSION:2.0\n" +
+      "BEGIN:VEVENT\n" +
+      "UID:test-1\n" +
+      "DTSTART;VALUE=DATE:" +
+      convertDate(start) +
+      "\n" +
+      "DTEND;VALUE=DATE:" +
+      (end && convertDate(end)) +
+      "\n" +
+      "SUMMARY:" +
+      summary +
+      "\n" +
+      "DESCRIPTION:" +
+      "\n" +
+      "END:VEVENT\n" +
+      "END:VCALENDAR";
+
+    var data = new File([event], "event", { type: "text/plain" });
+
+    if (icsFile !== null) {
+      window.URL.revokeObjectURL(icsFile);
+    }
+
+    icsFile = window.URL.createObjectURL(data);
+
+    return icsFile;
+  };
+
   useEffect(() => {
     if (response) {
       navigate("/notice");
@@ -69,6 +108,13 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
             </ButtonContainer>
           )}
         </PageDetailModalHeader>
+        {data.startDate && (
+          <a
+            download="event.ics"
+            href={`${saveICS(data?.startDate, data?.endDate, data?.summary)}`}>
+            일정을 달력에 저장하기
+          </a>
+        )}
         <Viewer paragraph={data.paragraph} />
       </>
     </PageDetailModal>
