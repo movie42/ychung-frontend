@@ -12,7 +12,7 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  background-color: ${(props) => props.theme.color.background100};
+  z-index: 1;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -62,10 +62,11 @@ const NavWrapper = styled(motion.nav)`
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 1;
   background-color: white;
   padding: 0 1rem 0 0;
   width: 100%;
-  z-index: 100;
+
   .closeBtn {
     position: absolute;
     z-index: 100;

@@ -120,6 +120,9 @@ const ItemDetailInfoContainer = styled.div`
 interface UnkownType {
   _id: string;
   title: string;
+  startDate?: string;
+  endDate?: string;
+  summary?: string;
   paragraph: string;
   creator: { userName: string };
   comments: [];
@@ -139,7 +142,18 @@ const ListItem = <T extends UnkownType>({
   data,
   ...rest
 }: React.PropsWithChildren<IItemProps<T>>) => {
-  const { _id, title, paragraph, creator, comments, views, createdAt } = data;
+  const {
+    _id,
+    title,
+    startDate,
+    endDate,
+    summary,
+    paragraph,
+    creator,
+    comments,
+    views,
+    createdAt,
+  } = data;
 
   return (
     <Item {...rest}>
