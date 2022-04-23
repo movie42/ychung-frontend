@@ -3,11 +3,9 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 
 const LogoSvg = styled(motion.svg)`
-  fill: ${(props) => props.theme.basicColor};
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  fill: ${(props) => props.theme.color.primary400};
+  width: 20rem;
+  height: 20rem;
 `;
 
 const Container = styled.div`
@@ -16,14 +14,14 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: ${(props) => props.theme.color.backgroundBlack70};
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   h1 {
-    position: fixed;
     color: white;
-    top: 43%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 10;
   }
 `;
@@ -49,7 +47,6 @@ const logoVariants = {
 const Loading = () => {
   return (
     <Container>
-      <h1>로딩중...</h1>
       <LogoSvg
         variants={logoVariants}
         initial="initial"
@@ -63,6 +60,7 @@ const Loading = () => {
           d="M141.81,26A81.9,81.9,0,1,0,71.1,164.78L60.29,175.59,84,199.27l53.12-53.12c1.61-1.38,3.2-2.81,4.72-4.34A81.88,81.88,0,0,0,141.81,26Z"
         />
       </LogoSvg>
+      <h1>잠시만 기다려주세요</h1>
     </Container>
   );
 };

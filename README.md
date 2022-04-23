@@ -1,5 +1,18 @@
 # 양청 프론트 앤드
 
+## Style
+
+### 🌈Color
+
+1. Basic Color
+   Primary : primary400
+   Secondary: secondary300
+   Error : error700
+   Gray : gray300
+   Background : background100
+   Background Transparent : backgroundBlack70
+   Font : fontColorBlack
+
 ## todo
 
 - 22.3.27~ 3.29

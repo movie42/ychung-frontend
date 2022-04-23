@@ -12,19 +12,23 @@ const ListItem = styled.li`
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   padding: 2rem 1rem;
   border-radius: 0.5rem;
-  border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   @media (min-width: ${(props) => props.theme.screen.labtop}) {
     box-shadow: 0rem 0 1rem rgba(0, 0, 0, 0.2);
-  }
-  &:hover {
-    z-index: 10;
   }
   a {
     display: grid;
     height: 100%;
-    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.color.fontColorBlack};
     text-decoration: none;
     grid-template-rows: 3fr 1fr;
+  }
+  &:hover {
+    z-index: 10;
+    background-color: ${(props) => props.theme.color.primary900};
+    a {
+      color: ${(props) => props.theme.color.fontColorWhite};
+    }
   }
 `;
 
@@ -40,7 +44,7 @@ const InfoContainer = styled.div`
     &:not(:first-child) {
       margin-top: 0.4rem;
     }
-    color: ${(props) => props.theme["fontColor-light"]};
+    color: ${(props) => props.theme.color.gray300};
   }
 `;
 
@@ -50,7 +54,7 @@ const ImageContainer = styled.div`
   height: 4.5rem;
   border-radius: 50%;
   overflow: hidden;
-  background-color: ${(props) => props.theme.grayBackgroundColor};
+  background-color: ${(props) => props.theme.color.gray100};
 `;
 
 const HumanIcon = styled(HiUser)`
@@ -60,7 +64,7 @@ const HumanIcon = styled(HiUser)`
   bottom: -0.6rem;
   width: 4.5rem;
   height: 4.5rem;
-  color: ${(props) => props.theme["grayBackgroundColor-light"]};
+  color: ${(props) => props.theme.color.gray300};
 `;
 
 const ItemDetailContainer = styled.div`
@@ -84,12 +88,13 @@ const ItemDetailContainer = styled.div`
     }
   }
   &:hover {
-    color: ${(props) => props.theme.sucessColor};
+    color: ${(props) => props.theme.color.fontColorWhite};
   }
 `;
 
 const ItemDetailInfoContainer = styled.div`
   display: flex;
+  color: ${(props) => props.theme.color.gray300};
   span {
     &:not(:first-child) {
       margin-left: 1rem;

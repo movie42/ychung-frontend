@@ -25,11 +25,11 @@ const ModalBackground = styled(motion.span)`
   width: 100%;
   height: 100%;
   z-index: 11;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: ${(props) => props.theme.color.backgroundBlack70};
 `;
 
 const DetailContainer = styled(motion.div)`
-  background-color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.color.background100};
   overflow-y: auto;
   position: absolute;
   max-width: 1040px;

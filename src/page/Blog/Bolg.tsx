@@ -19,10 +19,10 @@ const BlogComponentInfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   a {
-    color: ${(props) => props.theme.grayBackgroundColor};
+    color: ${(props) => props.theme.color.gray300};
     font-size: 4rem;
     &:hover {
-      color: ${(props) => props.theme.basicColor};
+      color: ${(props) => props.theme.color.primary400};
     }
   }
 `;

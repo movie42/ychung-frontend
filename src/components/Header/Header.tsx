@@ -29,7 +29,7 @@ const LogoContainer = styled.div`
 `;
 
 const LogoSvg = styled.svg`
-  fill: ${(props) => props.theme.basicColor};
+  fill: ${(props) => props.theme.color.primary400};
   position: relative;
   top: 50%;
   left: 50%;
@@ -76,7 +76,7 @@ const LinkButton = styled(Link)<IProps>`
   @media (max-width: ${(props) => props.theme.screen.mobile}) {
     text-decoration: none;
     display: block;
-    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.color.fontColorBlack};
   }
 `;
 

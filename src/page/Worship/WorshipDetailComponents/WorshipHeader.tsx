@@ -31,7 +31,7 @@ const ImageContainer = styled.div`
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
-  background-color: ${(props) => props.theme.grayBackgroundColor};
+  background-color: ${(props) => props.theme.color.gray300};
 `;
 
 const ButtonContainer = styled.div`
@@ -40,11 +40,11 @@ const ButtonContainer = styled.div`
     border: 0;
     svg {
       font-size: 4rem;
-      color: ${(props) => props.theme.grayBackgroundColor};
+      color: ${(props) => props.theme.color.gray300};
     }
     &:hover {
       svg {
-        color: ${(props) => props.theme.basicColor};
+        color: ${(props) => props.theme.color.primary400};
       }
     }
   }

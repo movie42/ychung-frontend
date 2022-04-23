@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { SetterOrUpdater, useRecoilValue } from "recoil";
+import { SetterOrUpdater } from "recoil";
 import { motion } from "framer-motion";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
 
@@ -16,7 +16,7 @@ const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-  background-color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.color.fontColorWhite};
 `;
 
 const WorshipGuide = styled.div`
@@ -29,11 +29,11 @@ const WorshipGuide = styled.div`
     line-height: 1.4;
   }
   button {
-    border: 1px solid ${(props) => props.theme.lineColor};
+    border: 1px solid ${(props) => props.theme.color.gray300};
     width: 100%;
     padding: 0.8rem 2rem;
     border-radius: 0.8rem;
-    background-color: ${(props) => props.theme.white};
+    background-color: ${(props) => props.theme.color.fontColorWhite};
     cursor: pointer;
     p {
       &:first-child {
@@ -44,12 +44,12 @@ const WorshipGuide = styled.div`
       }
     }
     &:hover {
-      background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
+      background-color: ${(props) => props.theme.color.gray300};
     }
 
     &:active {
-      color: ${(props) => props.theme.white};
-      background-color: ${(props) => props.theme.basicColor};
+      color: ${(props) => props.theme.color.fontColorWhite};
+      background-color: ${(props) => props.theme.color.primary400};
     }
   }
 `;
@@ -63,7 +63,7 @@ const WorshipItem = styled.li`
   display: flex;
   justify-content: space-between;
   font-size: 2.2rem;
-  border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   span {
     &:nth-child(1) {
       font-weight: bolder;
