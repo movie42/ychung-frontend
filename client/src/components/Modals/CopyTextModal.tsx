@@ -10,7 +10,7 @@ const ClipbordStateMessage = styled(motion.span)`
   margin: 0 auto;
   text-align: center;
   font-size: 2rem;
-  color: ${(props) => props.theme["fontColor-dark"]};
+  color: ${(props) => props.theme.color.fontColorBlack};
   z-index: 20;
   box-sizing: border-box;
   padding: 1rem 2rem;
@@ -18,7 +18,7 @@ const ClipbordStateMessage = styled(motion.span)`
   border-radius: 0.8rem;
   width: 100%;
   max-width: 1020px;
-  background-color: ${(props) => props.theme.grayBackgroundColor};
+  background-color: ${(props) => props.theme.color.gray300};
 `;
 
 interface ICopyTextModalProps {

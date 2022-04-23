@@ -27,7 +27,7 @@ const LinkButton = styled(Link)<IProps>`
   @media (max-width: ${(props) => props.theme.screen.mobile}) {
     text-decoration: none;
     display: block;
-    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.color.fontColorBlack};
   }
 `;
 

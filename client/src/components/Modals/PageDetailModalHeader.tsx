@@ -6,9 +6,9 @@ const HeadInfoContainer = styled.div`
   box-sizing: border-box;
   padding: 0;
   padding-bottom: 1.2rem;
-  border-bottom: 1px solid ${(props) => props.theme["grayBackgroundColor"]};
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   h1 {
-    font-size: 3.4rem;
+    font-size: 6rem;
     margin: 0;
     word-break: keep-all;
   }
@@ -22,7 +22,7 @@ const HeadInfoContainer = styled.div`
         grid-column-end: 4;
         grid-column: 1/4;
       }
-      color: ${(props) => props.theme["fontColor-light"]};
+      color: ${(props) => props.theme.color.gray400};
     }
   }
 `;

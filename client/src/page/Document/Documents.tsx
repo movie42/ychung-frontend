@@ -8,7 +8,7 @@ const ItemsContainer = styled.div``;
 
 const ItemContainer = styled.div`
   padding-bottom: 2rem;
-  border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
 `;
 
 function Documents() {
