@@ -116,7 +116,7 @@ function Router() {
       )}
       <Route
         path="*"
-        element={<p>보여줄게 아무것도 없네요. URL을 다 입력해보세요.</p>}
+        element={<p>보여줄게 아무것도 없네요. URL을 다시 입력해보세요.</p>}
       />
     </Routes>
   );
