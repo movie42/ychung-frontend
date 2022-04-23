@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Wrapper = styled.div`
   position: relative;
   height: 70vh;
-
+  z-index: -1;
   button.upload {
     position: absolute;
     top: -1rem;
