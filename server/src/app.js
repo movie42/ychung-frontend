@@ -97,10 +97,10 @@ app.use(csrfProtection);
 app.use("/favicon", express.static("favicon"));
 app.use("/uploads", express.static("uploads"));
 
-app.get("/", (req, res) => {
+app.use("/api", api);
+
+app.get("*", (req, res) => {
   res.sendFile(__dirname + "/build/index.html");
 });
-
-app.use("/api", api);
 
 export default app;
