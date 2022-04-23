@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { INoticeInterface } from "../../Notice/Notice";
 import { BsArrowRight } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -17,10 +18,10 @@ const ListItem = styled.li`
   box-sizing: border-box;
   width: 100%;
   padding: 1rem 2rem;
-  border-bottom: 1px solid ${(props) => props.theme.grayBackgroundColor};
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   a {
     font-size: 2.2rem;
-    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.color.fontColorBlack};
     text-decoration: none;
     p {
       margin: 0 0 1rem 0;
@@ -30,7 +31,7 @@ const ListItem = styled.li`
     }
   }
   &:hover {
-    background-color: ${(props) => props.theme["grayBackgroundColor-light"]};
+    background-color: ${(props) => props.theme.color.gray300};
   }
 `;
 
@@ -49,7 +50,7 @@ const ImageContainer = styled.div`
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
-  background-color: ${(props) => props.theme.grayBackgroundColor};
+  background-color: ${(props) => props.theme.color.gray300};
 `;
 
 function WorshipBlog() {
@@ -79,7 +80,7 @@ function WorshipBlog() {
     <ListContainer>
       {posts.slice(0, 3).map((post: INoticeInterface) => (
         <ListItem key={post._id}>
-          <a href={`/notice/${post._id}`}>
+          <Link to={`/notice/${post._id}`}>
             <p>{post.title}</p>
             <div>
               자세히 보기
@@ -87,7 +88,7 @@ function WorshipBlog() {
                 <BsArrowRight />
               </span>
             </div>
-          </a>
+          </Link>
         </ListItem>
       ))}
     </ListContainer>

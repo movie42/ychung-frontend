@@ -102,19 +102,24 @@ function Router() {
         <Route path="/documents/account" element={<WorshipDetail />} />
         <Route path="/documents/account/:id" element={<WorshipDetail />} /> */}
       <Route path="/search" element={<Search />} />
-      <Route path="/user/:id" element={<User />} />
-      <Route path="/user/:id/works" element={<UserWorks />} />
-      <Route path="/user/:id/applications" element={<UserApplications />} />
-      <Route path="/user/:id/like" element={<UserLike />} />
       {login ? (
-        <Route path="/logout" element={<Logout />} />
+        <>
+          <Route path="/user/:id" element={<User />} />
+          <Route path="/user/:id/works" element={<UserWorks />} />
+          <Route path="/user/:id/applications" element={<UserApplications />} />
+          <Route path="/user/:id/like" element={<UserLike />} />
+          <Route path="/logout" element={<Logout />} />
+        </>
       ) : (
         <>
           <Route path="/login" element={<Login />} />
-          <Route path="/join" element={<Join />} />
+          {/* <Route path="/join" element={<Join />} /> */}
         </>
       )}
-      <Route path="*" element={<p>There's nothing here: 404!</p>} />
+      <Route
+        path="*"
+        element={<p>보여줄게 아무것도 없네요. URL을 다시 입력해보세요.</p>}
+      />
     </Routes>
   );
 }

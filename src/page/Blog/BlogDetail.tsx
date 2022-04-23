@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilValue } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader";
 import { AiFillEdit } from "react-icons/ai";
@@ -8,8 +8,9 @@ import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
 import { useFetch } from "../../utils/customhooks/useFectch";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { deleteRequest } from "../../utils/utilities/httpMethod";
+import { loginState } from "../../state/Authrization";
 
 const ButtonContainer = styled.div`
   button {
@@ -17,11 +18,11 @@ const ButtonContainer = styled.div`
     border: 0;
     svg {
       font-size: 4rem;
-      color: ${(props) => props.theme.grayBackgroundColor};
+      color: ${(props) => props.theme.color.gray300};
     }
     &:hover {
       svg {
-        color: ${(props) => props.theme.basicColor};
+        color: ${(props) => props.theme.color.primary400};
       }
     }
   }
@@ -34,6 +35,7 @@ interface IBlogDetailProps {
 
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigate = useNavigate();
+  const { login } = useRecoilValue(loginState);
   const [{ response, isLoading, csrfToken }, setOption] = useFetch({
     URL: `/api/blog/${data._id}`,
   });
@@ -55,14 +57,16 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   return (
     <PageDetailModal setDetailItem={setDetailItem}>
       <PageDetailModalHeader {...data}>
-        <ButtonContainer>
-          <Button buttonType="icon" onClick={handleUpdate}>
-            <AiFillEdit />
-          </Button>
-          <Button buttonType="icon" onClick={handleDelete}>
-            <MdDelete />
-          </Button>
-        </ButtonContainer>
+        {login && (
+          <ButtonContainer>
+            <Button buttonType="icon" onClick={handleUpdate}>
+              <AiFillEdit />
+            </Button>
+            <Button buttonType="icon" onClick={handleDelete}>
+              <MdDelete />
+            </Button>
+          </ButtonContainer>
+        )}
       </PageDetailModalHeader>
       <Viewer paragraph={data.paragraph} />
     </PageDetailModal>

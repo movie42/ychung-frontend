@@ -1,27 +1,18 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import BlogItems from "./BlogItems";
 import { useQuery } from "react-query";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
 import Loading from "../../components/Loading";
+import ListItem from "../../components/List/ListItem";
+import ListContainer from "../../components/List/ListContainer";
+import { loginState } from "../../state/Authrization";
 
 const Wrapper = styled.div`
   width: 100%;
-`;
-
-const ListContainer = styled.ul`
-  display: grid;
-  grid-auto-rows: minmax(30rem, auto);
-  margin: 0;
-  @media (min-width: ${(props) => props.theme.screen.labtop}) {
-    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
-    gap: 1.5rem;
-  }
-  padding: 0;
 `;
 
 const BlogComponentInfoContainer = styled.div`
@@ -29,10 +20,10 @@ const BlogComponentInfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   a {
-    color: ${(props) => props.theme.grayBackgroundColor};
+    color: ${(props) => props.theme.color.gray300};
     font-size: 4rem;
     &:hover {
-      color: ${(props) => props.theme.basicColor};
+      color: ${(props) => props.theme.color.primary400};
     }
   }
 `;
@@ -52,6 +43,7 @@ export interface IBlogItems {
 }
 
 function Blog() {
+  const { login } = useRecoilValue(loginState);
   const { id } = useParams();
   const [detailItem, setDetailItem] = useRecoilState(blog);
   const [blogModalState, setBlogModalState] =
@@ -61,7 +53,7 @@ function Blog() {
     isLoading,
     error,
     data: posts,
-  } = useQuery(
+  } = useQuery<IBlogItems[]>(
     "posts",
     async () => {
       const response = await fetch(`/api/blog`, {
@@ -79,14 +71,16 @@ function Blog() {
   );
 
   const onClick = (id: string) => {
-    const [detailItem] = posts.filter((item: IBlogItems) => item._id === id);
-    setBlogModalState(true);
-    setDetailItem({ ...detailItem });
+    if (posts) {
+      const [detailItem] = posts.filter((item) => item._id === id);
+      setBlogModalState(true);
+      setDetailItem({ ...detailItem });
+    }
   };
 
   useEffect(() => {
-    if (id && !isLoading) {
-      const [detailItem] = posts.filter((item: IBlogItems) => item._id === id);
+    if (id && !isLoading && posts) {
+      const [detailItem] = posts.filter((item) => item._id === id);
       setBlogModalState(true);
       setDetailItem({ ...detailItem });
     }
@@ -99,15 +93,22 @@ function Blog() {
         <Wrapper>
           <BlogComponentInfoContainer>
             <h1>블로그</h1>
-            <Link to={"/blog/create"}>
-              <AiFillPlusCircle />
-            </Link>
+            {login && (
+              <Link to={"/blog/create"}>
+                <AiFillPlusCircle />
+              </Link>
+            )}
           </BlogComponentInfoContainer>
-          <ListContainer>
-            {posts?.map((post: IBlogItems) => (
-              <BlogItems key={post._id} post={post} />
-            ))}
-          </ListContainer>
+
+          {posts && (
+            <ListContainer
+              data={posts}
+              renderData={(item) => (
+                <ListItem data={item} onClick={() => onClick(item._id)} />
+              )}
+            />
+          )}
+
           <AnimatePresence>{blogModalState && <Outlet />}</AnimatePresence>
         </Wrapper>
       )}

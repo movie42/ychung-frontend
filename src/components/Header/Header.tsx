@@ -8,7 +8,11 @@ import Nav from "./Nav";
 import { navAnimationVariants } from "../../animation variants/navigationAnimationVariants";
 
 const HeaderContainer = styled.header`
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: ${(props) => props.theme.color.background100};
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -29,7 +33,7 @@ const LogoContainer = styled.div`
 `;
 
 const LogoSvg = styled.svg`
-  fill: ${(props) => props.theme.basicColor};
+  fill: ${(props) => props.theme.color.primary400};
   position: relative;
   top: 50%;
   left: 50%;
@@ -61,7 +65,7 @@ const NavWrapper = styled(motion.nav)`
   background-color: white;
   padding: 0 1rem 0 0;
   width: 100%;
-  z-index: 1;
+  z-index: 100;
   .closeBtn {
     position: absolute;
     z-index: 100;
@@ -76,7 +80,7 @@ const LinkButton = styled(Link)<IProps>`
   @media (max-width: ${(props) => props.theme.screen.mobile}) {
     text-decoration: none;
     display: block;
-    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.color.fontColorBlack};
   }
 `;
 

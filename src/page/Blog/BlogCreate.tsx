@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
@@ -19,17 +19,17 @@ const Wrapper = styled.div`
     right: 0;
     cursor: pointer;
     font-size: 3rem;
-    color: ${(props) => props.theme.white};
+    color: ${(props) => props.theme.color.fontColorWhite};
     padding: 0 0.4rem;
     margin: 0;
     border: 0;
     border-radius: 50%;
-    background-color: ${(props) => props.theme.lineColor};
+    background-color: ${(props) => props.theme.color.gray300};
     svg {
       transform: translate(0.1rem, 0.3rem);
     }
     &:hover {
-      background-color: ${(props) => props.theme.basicColor};
+      background-color: ${(props) => props.theme.color.primary400};
     }
   }
 `;
@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 const InputWrapper = styled.form`
   box-sizing: border-box;
   margin-bottom: 1rem;
-  border-bottom: 1px solid ${(props) => props.theme.lineColor};
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   label {
     font-size: 2rem;
     font-weight: 700;

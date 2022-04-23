@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -9,16 +9,16 @@ const ClipbordStateMessage = styled(motion.span)`
   bottom: 5rem;
   margin: 0 auto;
   text-align: center;
-  font-size: 2rem;
-  color: ${(props) => props.theme["fontColor-dark"]};
+  font-size: 2.4rem;
+  color: ${(props) => props.theme.color.fontColorWhite};
   z-index: 20;
   box-sizing: border-box;
-  padding: 1rem 2rem;
+  padding: 3rem 2rem;
   border: 0;
   border-radius: 0.8rem;
   width: 100%;
   max-width: 1020px;
-  background-color: ${(props) => props.theme.grayBackgroundColor};
+  background-color: ${(props) => props.theme.color.backgroundBlack80};
 `;
 
 interface ICopyTextModalProps {

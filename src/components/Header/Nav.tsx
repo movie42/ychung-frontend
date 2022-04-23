@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -27,7 +27,7 @@ const LinkButton = styled(Link)<IProps>`
   @media (max-width: ${(props) => props.theme.screen.mobile}) {
     text-decoration: none;
     display: block;
-    color: ${(props) => props.theme.fontColor};
+    color: ${(props) => props.theme.color.fontColorBlack};
   }
 `;
 
@@ -51,21 +51,23 @@ const Nav = () => {
       <Item>
         <LinkButton to="/search">검색</LinkButton>
       </Item>
-      <Item>
-        <LinkButton to="/user/1">내 정보</LinkButton>
-      </Item>
       {login ? (
-        <Item>
-          <LinkButton to="/logout">로그아웃</LinkButton>
-        </Item>
+        <>
+          <Item>
+            <LinkButton to="/user/1">내 정보</LinkButton>
+          </Item>
+          <Item>
+            <LinkButton to="/logout">로그아웃</LinkButton>
+          </Item>
+        </>
       ) : (
         <>
           <Item>
             <LinkButton to="/login">로그인</LinkButton>
           </Item>
-          <Item>
+          {/* <Item>
             <LinkButton to="/join">회원가입</LinkButton>
-          </Item>
+          </Item> */}
         </>
       )}
     </Items>
