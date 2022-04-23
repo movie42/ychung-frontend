@@ -1,22 +1,22 @@
 import React from "react";
-import { RegisterOptions, UseFormRegister } from "react-hook-form";
+import { FieldValue, RegisterOptions, UseFormRegister } from "react-hook-form";
 
-interface IInputProps<T>
+interface IInputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  register: UseFormRegister<T>;
+  register: any;
   registerName: any;
-  registerOptions?: RegisterOptions<T>;
+  registerOptions?: RegisterOptions;
 }
 
-const Input = <T extends unknown>({
+const Input = ({
   register,
   registerName,
   registerOptions,
   ...props
-}: React.PropsWithChildren<IInputProps<T>>) => {
+}: React.PropsWithChildren<IInputProps>) => {
   return <input {...props} {...register(registerName, registerOptions)} />;
 };
 

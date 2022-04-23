@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { INoticeInterface } from "../../Notice/Notice";
 import { BsArrowRight } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -79,7 +80,7 @@ function WorshipBlog() {
     <ListContainer>
       {posts.slice(0, 3).map((post: INoticeInterface) => (
         <ListItem key={post._id}>
-          <a href={`/notice/${post._id}`}>
+          <Link to={`/notice/${post._id}`}>
             <p>{post.title}</p>
             <div>
               자세히 보기
@@ -87,7 +88,7 @@ function WorshipBlog() {
                 <BsArrowRight />
               </span>
             </div>
-          </a>
+          </Link>
         </ListItem>
       ))}
     </ListContainer>

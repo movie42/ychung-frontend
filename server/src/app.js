@@ -85,9 +85,7 @@ app.use((req, res, next) => {
   next();
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("build"));
-}
+app.use(express.static("build"));
 
 app.set("JWT_SECRET", process.env.JWT_SECRET);
 app.use(morgan("dev"));
@@ -99,11 +97,9 @@ app.use(csrfProtection);
 app.use("/favicon", express.static("favicon"));
 app.use("/uploads", express.static("uploads"));
 
-if (process.env.NODE_ENV === "production") {
-  app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/build/index.html");
-  });
-}
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/build/index.html");
+});
 
 app.use("/api", api);
 
