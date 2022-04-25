@@ -150,8 +150,9 @@ export const checkGodpeopleBibleInstall = (
           userAgent.indexOf("android") > -1
             ? "https://play.google.com/store/apps/details?id=com.godpeople.GPBIBLE"
             : "https://apps.apple.com/kr/app/갓피플성경/id511852665";
-        return;
       }
+      clearTimers();
+      return;
     }
 
     if (window.confirm("웹으로 성경을 보여드려요?")) {
