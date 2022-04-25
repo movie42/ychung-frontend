@@ -96,11 +96,11 @@ export const godpeopleDeepLink = (
     return `${verse}`;
   };
 
-  window.location.replace(
-    `${url}?ujj=${BIBLE_DATA_SET[word]}${chapterParser(chapter)}${verseParser(
-      verse
-    )}`
-  );
+  const linkApp = `${url}?ujj=${BIBLE_DATA_SET[word]}${chapterParser(
+    chapter
+  )}${verseParser(verse)}/`;
+
+  window.location.href = linkApp;
 };
 
 export const createBibleLink = (
@@ -134,24 +134,30 @@ export const checkGodpeopleBibleInstall = (
   }, 500);
 
   const redirectStore = () => {
-    const ua = navigator.userAgent.toLocaleLowerCase();
+    const userAgent = navigator.userAgent.toLocaleLowerCase();
 
-    if (ua.indexOf("android") === -1 || ua.indexOf("ios") === -1) {
-      if (window.confirm("웹으로 성경을 보여드려요?")) {
-        window.location.href = createBibleLink(word, chapter, verse);
+    const isMobile = () => {
+      return (
+        userAgent.indexOf("iphone") ||
+        userAgent.indexOf("ipad") ||
+        userAgent.indexOf("android")
+      );
+    };
+
+    if (isMobile() > -1) {
+      if (window.confirm("갓피플 성경을 설치 하실래요?")) {
+        window.location.href =
+          userAgent.indexOf("android") > -1
+            ? "https://play.google.com/store/apps/details?id=com.godpeople.GPBIBLE"
+            : "https://apps.apple.com/kr/app/갓피플성경/id511852665";
+        return;
       }
-      return;
     }
 
-    if (window.confirm("갓피플 성경을 설치하실래요? ")) {
-      window.location.href =
-        ua.indexOf("android") > -1
-          ? "https://play.google.com/store/apps/details?id=com.godpeople.GPBIBLE"
-          : "https://apps.apple.com/kr/app/갓피플성경/id511852665";
-    } else {
-      if (window.confirm("웹으로 성경을 보여드려요?")) {
-        window.location.href = createBibleLink(word, chapter, verse);
-      }
+    if (window.confirm("웹으로 성경을 보여드려요?")) {
+      window.location.href = createBibleLink(word, chapter, verse);
     }
+
+    clearTimers();
   };
 };

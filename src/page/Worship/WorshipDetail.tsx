@@ -125,14 +125,19 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   };
 
   const handleBibleOpen = () => {
-    const link = godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
-    console.log(link);
+    godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
+    if (document.hidden) {
+      return;
+    }
     checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
   };
 
   useEffect(() => {
+    if (copyMessage === "계좌번호가 복사되었습니다.") {
+      window.location.href = `supertoss://link/`;
+      window.location.href = `kakaobank://link/`;
+    }
     const setMessage = setTimeout(() => setCopyMessage(""), 5000);
-
     return () => clearTimeout(setMessage);
   }, [copyMessage]);
 
