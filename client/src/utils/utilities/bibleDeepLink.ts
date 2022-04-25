@@ -96,9 +96,11 @@ export const godpeopleDeepLink = (
     return `${verse}`;
   };
 
-  window.location.href = `${url}?ujj=${BIBLE_DATA_SET[word]}${chapterParser(
-    chapter
-  )}${verseParser(verse)}`;
+  window.location.replace(
+    `${url}?ujj=${BIBLE_DATA_SET[word]}${chapterParser(chapter)}${verseParser(
+      verse
+    )}`
+  );
 };
 
 export const createBibleLink = (
@@ -134,11 +136,18 @@ export const checkGodpeopleBibleInstall = (
   const redirectStore = () => {
     const ua = navigator.userAgent.toLocaleLowerCase();
 
+    if (ua.indexOf("android") === -1) {
+      if (window.confirm("웹으로 성경을 보여드려요?")) {
+        window.location.href = createBibleLink(word, chapter, verse);
+      }
+      return;
+    }
+
     if (window.confirm("갓피플 성경을 설치하실래요? ")) {
       window.location.href =
         ua.indexOf("android") > -1
           ? "https://play.google.com/store/apps/details?id=com.godpeople.GPBIBLE"
-          : "https://apps.apple.com/kr/갓피플성경/id511852665";
+          : "https://apps.apple.com/kr/app/갓피플성경/id511852665";
     } else {
       if (window.confirm("웹으로 성경을 보여드려요?")) {
         window.location.href = createBibleLink(word, chapter, verse);

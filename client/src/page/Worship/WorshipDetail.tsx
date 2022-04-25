@@ -125,7 +125,8 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   };
 
   const handleBibleOpen = () => {
-    godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
+    const link = godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
+    console.log(link);
     checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
   };
 
