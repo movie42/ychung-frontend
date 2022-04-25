@@ -136,7 +136,7 @@ export const checkGodpeopleBibleInstall = (
   const redirectStore = () => {
     const ua = navigator.userAgent.toLocaleLowerCase();
 
-    if (ua.indexOf("android") === -1) {
+    if (ua.indexOf("android") === -1 || ua.indexOf("ios") === -1) {
       if (window.confirm("웹으로 성경을 보여드려요?")) {
         window.location.href = createBibleLink(word, chapter, verse);
       }
