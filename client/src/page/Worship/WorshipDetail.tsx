@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import { SetterOrUpdater } from "recoil";
 import { motion } from "framer-motion";
-import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
 
 import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
 import WorshipBlog from "./WorshipDetailComponents/WorshipBlog";
@@ -11,6 +10,11 @@ import WorshipHeader from "./WorshipDetailComponents/WorshipHeader";
 
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import CopyTextModal from "../../components/Modals/CopyTextModal";
+import {
+  checkGodpeopleBibleInstall,
+  godpeopleDeepLink,
+} from "../../utils/utilities/bibleDeepLink";
+import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -67,8 +71,21 @@ const WorshipItem = styled.li`
   padding: 0.7rem 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 2.2rem;
   border-bottom: 1px solid ${(props) => props.theme.color.gray300};
+  button {
+    padding: 0.8rem 0.5rem;
+    cursor: pointer;
+    border: 1px solid ${(props) => props.theme.color.primary700};
+    border-radius: 0.3rem;
+    color: ${(props) => props.theme.color.primary700};
+    background-color: unset;
+    &:hover {
+      background-color: ${(props) => props.theme.color.primary700};
+      color: ${(props) => props.theme.color.fontColorWhite};
+    }
+  }
   span {
     &:nth-child(1) {
       font-weight: bolder;
@@ -107,6 +124,11 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
     );
   };
 
+  const handleBibleOpen = () => {
+    godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
+    checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
+  };
+
   useEffect(() => {
     const setMessage = setTimeout(() => setCopyMessage(""), 5000);
 
@@ -122,16 +144,11 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
           <WorshipItems>
             <WorshipItem>
               <span>본문</span>
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href={`https://www.bskorea.or.kr/bible/korbibReadpage.php?version=SAENEW&book=${data?.word}&chap=${data?.chapter}&sec=${data?.verse}`}>
-                <span>
-                  {`${chapterNameTransferFromEngToKr(data?.word)} `}
-                  {data?.chapter}장 {data?.verse}
-                  {data?.verse_end && `~ ${data?.verse_end}`}절
-                </span>
-              </a>
+              <button onClick={handleBibleOpen}>
+                {`${chapterNameTransferFromEngToKr(data?.word)} `}
+                {data?.chapter}장 {data?.verse}
+                {data?.verse_end && `~ ${data?.verse_end}`}절
+              </button>
             </WorshipItem>
             <WorshipItem>
               <span>강론</span>
