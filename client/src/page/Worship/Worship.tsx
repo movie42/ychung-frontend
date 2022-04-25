@@ -9,9 +9,14 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
+import {
+  checkGodpeopleBibleInstall,
+  godpeopleDeepLink,
+} from "../../utils/utilities/bibleDeepLink";
 
 const Wrapper = styled.div`
   width: 100%;
+  margin-top: 8rem;
 `;
 
 const WeeklyComponentInfoContainer = styled.div`
