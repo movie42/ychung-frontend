@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { SetterOrUpdater, useRecoilValue } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader";
 import { AiFillEdit } from "react-icons/ai";
@@ -8,9 +8,11 @@ import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
 import { useFetch } from "../../utils/customhooks/useFectch";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { deleteRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
+import { useSetView } from "../../utils/customhooks/useSetView";
+import { blog } from "../../state/blog.atom";
 
 const ButtonContainer = styled.div`
   button {
@@ -35,7 +37,10 @@ interface IBlogDetailProps {
 
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { login } = useRecoilValue(loginState);
+  const [postData, setPostData] = useRecoilState(blog);
+  const countViews = useSetView(`/api/blog/${id}/count-views`, setPostData);
   const [{ response, isLoading, csrfToken }, setOption] = useFetch({
     URL: `/api/blog/${data._id}`,
   });
@@ -47,6 +52,10 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const handleDelete = () => {
     setOption(deleteRequest(csrfToken));
   };
+
+  useEffect(() => {
+    countViews();
+  }, []);
 
   useEffect(() => {
     if (response) {
