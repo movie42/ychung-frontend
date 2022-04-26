@@ -24,7 +24,6 @@ const ListItem = styled.li`
     grid-template-rows: 3fr 1fr;
   }
   &:hover {
-    z-index: 10;
     background-color: ${(props) => props.theme.color.primary900};
     a {
       color: ${(props) => props.theme.color.fontColorWhite};

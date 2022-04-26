@@ -75,6 +75,7 @@ const InforContainer = styled.div`
 
 interface IWorshipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
+  views: number;
   creator: {
     userName: string;
   };
@@ -82,7 +83,7 @@ interface IWorshipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
-  const { title, createdAt, creator } = props;
+  const { title, createdAt, creator, views } = props;
   const { id } = useParams();
   const navigate = useNavigate();
   const { login } = useRecoilValue(loginState);
@@ -114,6 +115,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
           <HumanIcon />
         </ImageContainer>
         <InforContainer>
+          <span>{views}</span>
           <span>{creator.userName}</span>
           <span>{calculateDate(createdAt)}</span>
         </InforContainer>

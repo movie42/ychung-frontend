@@ -22,7 +22,6 @@ const Item: React.FC<React.LiHTMLAttributes<HTMLLIElement>> = styled.li<
     box-shadow: 0rem 0 1.2rem ${(props) => props.theme.color.backgroundBlack20};
   }
   &:hover {
-    z-index: 10;
     background-color: ${(props) => props.theme.color.primary900};
     a {
       color: ${(props) => props.theme.color.fontColorWhite};

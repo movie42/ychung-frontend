@@ -14,6 +14,7 @@ import ListItem from "../../components/List/ListItem";
 const NoticeListContainer = styled(motion.div)``;
 
 const Wrapper = styled.div`
+  margin-top: 8rem;
   width: 100%;
 `;
 

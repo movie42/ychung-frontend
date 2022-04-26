@@ -13,6 +13,7 @@ import { loginState } from "../../state/Authrization";
 
 const Wrapper = styled.div`
   width: 100%;
+  margin-top: 8rem;
 `;
 
 const BlogComponentInfoContainer = styled.div`
