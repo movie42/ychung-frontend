@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 import { motion } from "framer-motion";
-import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 
 import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
@@ -17,8 +16,9 @@ import {
   godpeopleDeepLink,
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
-import { postRequest } from "../../utils/utilities/httpMethod";
 import { worship } from "../../state/worship.atom";
+import { useCopyText } from "../../utils/customhooks/useCopyText";
+import { useSetView } from "../../utils/customhooks/useSetView";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -115,59 +115,17 @@ interface IWorshipDetailProps {
 }
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
-  const [copyMessage, setCopyMessage] = useState("");
-  const [csrfToken, setCsrfToken] = useState<string>("");
   const { id } = useParams();
   const [worshipData, setWorshipData] = useRecoilState(worship);
-  const {
-    isSuccess,
-    mutate,
-    data: serverView,
-  } = useMutation(async (body: any) => {
-    const response = await fetch(
-      `/api/worship/${id}/count-views`,
-      postRequest(body, csrfToken)
-    );
-    return await response.json();
-  });
-
-  const csrf = async () => {
-    const response = await fetch(`/api/csrf-token`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      mode: "cors",
-    });
-
-    const result = await response.json();
-    setCsrfToken(result.CSRFToken);
-  };
-
-  const copyText = async (text: string) => {
-    navigator.clipboard.writeText(text).then(
-      () => {
-        setCopyMessage("계좌번호가 복사되었습니다.");
-      },
-      () => {
-        setCopyMessage("지원하지 않는 브라우저 입니다.");
-      }
-    );
-  };
+  const countViews = useSetView(
+    `/api/worship/${id}/count-views`,
+    setWorshipData
+  );
+  const { copyMessage, copyText } = useCopyText();
 
   const handleBibleOpen = () => {
     godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
-    if (document.hidden) {
-      return;
-    }
     checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
-  };
-
-  const countViews = async () => {
-    await csrf();
-    const body = { views: 1 };
-    mutate(body);
   };
 
   useEffect(() => {
@@ -175,17 +133,12 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   }, []);
 
   useEffect(() => {
-    if (isSuccess) {
-      setWorshipData((pre) => ({ ...pre, views: serverView.views }));
-    }
-  }, [serverView]);
-
-  useEffect(() => {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
       window.location.href = `kakaobank://link/`;
-      window.location.href = `supertoss://link/`;
     }
-    const setMessage = setTimeout(() => setCopyMessage(""), 5000);
+
+    const setMessage = setTimeout(() => copyText("", ""), 5000);
+
     return () => clearTimeout(setMessage);
   }, [copyMessage]);
 
@@ -241,7 +194,10 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
           <ul>
             <li>청년부 계좌로 헌금을 할 수 있습니다.</li>
           </ul>
-          <button onClick={() => copyText("3511093649103")}>
+          <button
+            onClick={() =>
+              copyText("3511093649103", "계좌번호가 복사되었습니다.")
+            }>
             <p>계좌번호 농협 351-1093-6491-03</p>
             <p>복사하려면 클릭하세요</p>
           </button>
