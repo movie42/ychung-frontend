@@ -31,6 +31,14 @@ import NoticeUpdate from "../page/Notice/NoticeUpdate";
 import BlogUpdate from "../page/Blog/BlogUpdate";
 import WorshipUpdate from "../page/Worship/WorshipUpdate";
 import WorshipItem from "../page/Worship/WorshipDetailComponents/WorshipItem";
+import Rules from "../page/Document/Rules/Rules";
+import RulesDetail from "../page/Document/Rules/RulesDetail";
+import Menuel from "../page/Document/Menuel/Menuel";
+import MenuelDetail from "../page/Document/Menuel/MenuelDetail";
+import Account from "../page/Document/Account/Account";
+import AccountDetail from "../page/Document/Account/AccountDetail";
+import Application from "../page/Document/Application/Application";
+import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -75,7 +83,20 @@ function Router() {
           }
         />
       </Route>
-      <Route path="/documents" element={<Documents />} />
+      <Route path="/documents" element={<Documents />}>
+        <Route path="rule" element={<Rules />}>
+          <Route path=":id" element={<RulesDetail />} />
+        </Route>
+        <Route path="menual" element={<Menuel />}>
+          <Route path=":id" element={<MenuelDetail />} />
+        </Route>
+        <Route path="applications" element={<Application />}>
+          <Route path=":id" element={<ApplicationDetail />} />
+        </Route>
+        <Route path="account" element={<Account />}>
+          <Route path=":id" element={<AccountDetail />} />
+        </Route>
+      </Route>
       <Route element={<PrivateRoute />}>
         <Route path="/notice/create" element={<NoticeCreate />} />
         <Route
@@ -93,14 +114,6 @@ function Router() {
           element={<BlogUpdate data={blogItem} />}
         />
       </Route>
-      {/* <Route path="/documents/rule" element={<WorshipDetail />} />
-        <Route path="/documents/rule/:id" element={<WorshipDetail />} />
-        <Route path="/documents/menual" element={<WorshipDetail />} />
-        <Route path="/documents/menual/:id" element={<WorshipDetail />} />
-        <Route path="/documents/applications" element={<WorshipDetail />} />
-        <Route path="/documents/applications/:id" element={<WorshipDetail />} />
-        <Route path="/documents/account" element={<WorshipDetail />} />
-        <Route path="/documents/account/:id" element={<WorshipDetail />} /> */}
       <Route path="/search" element={<Search />} />
       {login ? (
         <>
