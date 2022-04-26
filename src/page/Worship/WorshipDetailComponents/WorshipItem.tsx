@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { calculateDate } from "../../../utils/utilities/calculateDate";
-import { IWorshipItems } from "../Worship";
+import { IWorshipItems } from "../../../state/worship.atom";
 import { HiUser } from "react-icons/hi";
 import { BsArrowRight } from "react-icons/bs";
 

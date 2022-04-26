@@ -9,10 +9,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { worship, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
-import {
-  checkGodpeopleBibleInstall,
-  godpeopleDeepLink,
-} from "../../utils/utilities/bibleDeepLink";
+import { IWorshipItems } from "../../state/worship.atom";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,28 +39,6 @@ const ListContainer = styled.ul`
   }
   padding: 0;
 `;
-
-export interface IWorshipItems {
-  _id: string;
-  title: string;
-  word: string;
-  chapter: number;
-  verse: number;
-  verse_end: number;
-  pastor: string;
-  worshipTeam: string;
-  prayer: string;
-  advertisement: string;
-  reader: string;
-  offering: string;
-  benediction: string;
-  creator: {
-    _id: string;
-    userName: string;
-  };
-  views: number;
-  createdAt: string;
-}
 
 function Worship() {
   const { login } = useRecoilValue(loginState);

@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 import ListContainer from "../../components/List/ListContainer";
 import ListItem from "../../components/List/ListItem";
+import { INoticeInterface } from "../../state/notice.atom";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -30,24 +31,6 @@ const NoticeComponentInfoContainer = styled.div`
     }
   }
 `;
-
-export interface INoticeInterface {
-  _id: string;
-  title: string;
-  startDate: string;
-  endDate: string;
-  summary: string;
-  isWeekly: boolean;
-  paragraph: string;
-  creator: {
-    _id: string;
-    name: string;
-    userName: string;
-  };
-  comments: [];
-  views: number;
-  createdAt: string;
-}
 
 function Notice() {
   const { id } = useParams();

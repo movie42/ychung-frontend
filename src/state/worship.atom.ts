@@ -1,5 +1,26 @@
 import { atom } from "recoil";
-import { IWorshipItems } from "../page/Worship/Worship";
+
+export interface IWorshipItems {
+  _id: string;
+  title: string;
+  word: string;
+  chapter: number;
+  verse: number;
+  verse_end: number;
+  pastor: string;
+  worshipTeam: string;
+  prayer: string;
+  advertisement: string;
+  reader: string;
+  offering: string;
+  benediction: string;
+  creator: {
+    _id: string;
+    userName: string;
+  };
+  views: number;
+  createdAt: string;
+}
 
 export const worship = atom<IWorshipItems>({
   key: "worsiph",

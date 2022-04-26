@@ -1,8 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { INoticeInterface } from "../../Notice/Notice";
-
+import { INoticeInterface } from "../../../state/notice.atom";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
