@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { calculateDate } from "../../../utils/utilities/calculateDate";
-import { IWorshipItems } from "../Worship";
+import { IWorshipItems } from "../../../state/worship.atom";
 import { HiUser } from "react-icons/hi";
 import { BsArrowRight } from "react-icons/bs";
 
@@ -24,7 +24,6 @@ const ListItem = styled.li`
     grid-template-rows: 3fr 1fr;
   }
   &:hover {
-    z-index: 10;
     background-color: ${(props) => props.theme.color.primary900};
     a {
       color: ${(props) => props.theme.color.fontColorWhite};

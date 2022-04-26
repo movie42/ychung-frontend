@@ -98,3 +98,20 @@ export const blogDelete = async (req, res) => {
     return res.status(403).json({ message: "삭제를 할수 없습니다." });
   }
 };
+
+export const countPostViews = async (req, res) => {
+  const {
+    params: { id },
+    body: { views },
+  } = req;
+
+  try {
+    const blogViews = await Blog.findById({ _id: id });
+    blogViews.views = blogViews.views + views;
+    await blogViews.save();
+    return res.status(200).json({ views: blogViews.views });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "조회수를 더 할 수 없습니다." });
+  }
+};

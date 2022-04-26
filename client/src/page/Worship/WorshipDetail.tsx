@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 
 import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
 import WorshipBlog from "./WorshipDetailComponents/WorshipBlog";
@@ -15,6 +16,9 @@ import {
   godpeopleDeepLink,
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
+import { worship } from "../../state/worship.atom";
+import { useCopyText } from "../../utils/customhooks/useCopyText";
+import { useSetView } from "../../utils/customhooks/useSetView";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -111,33 +115,30 @@ interface IWorshipDetailProps {
 }
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
-  const [copyMessage, setCopyMessage] = useState("");
-
-  const copyText = async (text: string) => {
-    navigator.clipboard.writeText(text).then(
-      () => {
-        setCopyMessage("계좌번호가 복사되었습니다.");
-      },
-      () => {
-        setCopyMessage("지원하지 않는 브라우저 입니다.");
-      }
-    );
-  };
+  const { id } = useParams();
+  const [worshipData, setWorshipData] = useRecoilState(worship);
+  const countViews = useSetView(
+    `/api/worship/${id}/count-views`,
+    setWorshipData
+  );
+  const { copyMessage, copyText } = useCopyText();
 
   const handleBibleOpen = () => {
     godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
-    if (document.hidden) {
-      return;
-    }
     checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
   };
 
   useEffect(() => {
+    countViews();
+  }, []);
+
+  useEffect(() => {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
-      window.location.href = `supertoss://link/`;
       window.location.href = `kakaobank://link/`;
     }
-    const setMessage = setTimeout(() => setCopyMessage(""), 5000);
+
+    const setMessage = setTimeout(() => copyText("", ""), 5000);
+
     return () => clearTimeout(setMessage);
   }, [copyMessage]);
 
@@ -145,7 +146,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
     <>
       <CopyTextModal text={copyMessage} />
       <PageDetailModal setDetailItem={setDetailItem}>
-        <WorshipHeader {...data} />
+        <WorshipHeader {...data} views={worshipData?.views} />
         <WorshipInfoContainer>
           <WorshipItems>
             <WorshipItem>
@@ -193,7 +194,10 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
           <ul>
             <li>청년부 계좌로 헌금을 할 수 있습니다.</li>
           </ul>
-          <button onClick={() => copyText("3511093649103")}>
+          <button
+            onClick={() =>
+              copyText("3511093649103", "계좌번호가 복사되었습니다.")
+            }>
             <p>계좌번호 농협 351-1093-6491-03</p>
             <p>복사하려면 클릭하세요</p>
           </button>

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { SetterOrUpdater, useRecoilValue } from "recoil";
+import React, { useEffect } from "react";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
@@ -8,9 +8,13 @@ import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
 import { useFetch } from "../../utils/customhooks/useFectch";
-import { useNavigate } from "react-router-dom";
-import { deleteRequest } from "../../utils/utilities/httpMethod";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteRequest, postRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
+import { notice } from "../../state/notice.atom";
+import { useFetchToken } from "../../utils/customhooks/useFetchToken";
+import { useMutation } from "react-query";
+import { useSetView } from "../../utils/customhooks/useSetView";
 
 const ButtonContainer = styled.div`
   button {
@@ -35,7 +39,10 @@ interface INoticeDetailProps {
 
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { login } = useRecoilValue(loginState);
+  const [noticeData, setNoticeData] = useRecoilState(notice);
+  const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
   const [{ response, isLoading, csrfToken }, setOption] = useFetch({
     URL: `/api/notice/${data._id}`,
   });
@@ -86,6 +93,10 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
 
     return icsFile;
   };
+
+  useEffect(() => {
+    countViews();
+  }, []);
 
   useEffect(() => {
     if (response) {

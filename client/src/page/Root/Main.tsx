@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { scrollAnimationVariants } from "../../animation variants/scrollAnimationVariants";
 import Button from "../../components/Buttons/Button";
 import Input from "../../components/Form/Input";
+import Canvas from "../../components/Canvas";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -153,12 +154,13 @@ const SectionInput = styled(Input)`
 
 const TitleContainer = styled.div`
   margin-bottom: 1rem;
-  @media screen (min-width: ${(props) => props.theme.screen.labtop}) {
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
     margin-bottom: 0;
   }
 `;
 
 function Main() {
+  const canvasRef = useRef(null);
   const { register, handleSubmit } = useForm();
 
   return (
@@ -208,17 +210,14 @@ function Main() {
           <Link to="">교육 지원비 신청하기</Link>
         </div>
       </Section>
-      <Section className="main-section-5">
-        <div>
-          <canvas></canvas>
-        </div>
+      {/* <Section className="main-section-5">
         <div>
           <TitleContainer>
             <h1>
               나를 소개하는
               <br /> 가장 쉬운 방법
             </h1>
-            <h3>목걸이를 만들고 다른 사람에게 나를 소개해보세요.</h3>
+            <h3>명찰을 만들고 다른 사람에게 나를 소개해보세요.</h3>
           </TitleContainer>
           <Form>
             <SectionInput
@@ -232,10 +231,10 @@ function Main() {
               registerName="expression"
               placeholder="자기를 소개하는 한마디"
             />
-            <Button buttonType="block">목걸이 다운 받기</Button>
+            <Button buttonType="block">명찰 다운 받기</Button>
           </Form>
         </div>
-      </Section>
+      </Section> */}
     </Wrapper>
   );
 }

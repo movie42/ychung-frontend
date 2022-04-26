@@ -10,9 +10,11 @@ import Loading from "../../components/Loading";
 import ListItem from "../../components/List/ListItem";
 import ListContainer from "../../components/List/ListContainer";
 import { loginState } from "../../state/Authrization";
+import { IBlogItems } from "../../state/blog.atom";
 
 const Wrapper = styled.div`
   width: 100%;
+  margin-top: 8rem;
 `;
 
 const BlogComponentInfoContainer = styled.div`
@@ -27,20 +29,6 @@ const BlogComponentInfoContainer = styled.div`
     }
   }
 `;
-
-export interface IBlogItems {
-  _id: string;
-  title: string;
-  paragraph: string;
-  creator: {
-    _id: string;
-    name: string;
-    userName: string;
-  };
-  comments: [];
-  views: number;
-  createdAt: string;
-}
 
 function Blog() {
   const { login } = useRecoilValue(loginState);

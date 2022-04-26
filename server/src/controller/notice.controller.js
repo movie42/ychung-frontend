@@ -101,3 +101,20 @@ export const deleteNotice = async (req, res) => {
     });
   }
 };
+
+export const countNoticeViews = async (req, res) => {
+  const {
+    params: { id },
+    body: { views },
+  } = req;
+
+  try {
+    const noticeViews = await Notice.findById({ _id: id });
+    noticeViews.views = noticeViews.views + views;
+    await noticeViews.save();
+    return res.status(200).json({ views: noticeViews.views });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "조회수를 더 할 수 없습니다." });
+  }
+};
