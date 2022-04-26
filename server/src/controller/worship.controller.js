@@ -207,3 +207,20 @@ export const deleteWorshipWeekly = async (req, res) => {
     });
   }
 };
+
+export const countWeeklyViews = async (req, res) => {
+  const {
+    params: { id },
+    body: { views },
+  } = req;
+
+  try {
+    const weeklyViews = await Worship.findById({ _id: id });
+    weeklyViews.views = weeklyViews.views + views;
+    await weeklyViews.save();
+    return res.status(200).json({ views: weeklyViews.views });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "조회수를 더 할 수 없습니다." });
+  }
+};
