@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 import { motion } from "framer-motion";
+import { useMutation } from "react-query";
+import { useParams } from "react-router-dom";
 
 import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
 import WorshipBlog from "./WorshipDetailComponents/WorshipBlog";
@@ -15,6 +17,8 @@ import {
   godpeopleDeepLink,
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
+import { postRequest } from "../../utils/utilities/httpMethod";
+import { worship } from "../../state/worship.atom";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -112,6 +116,34 @@ interface IWorshipDetailProps {
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const [copyMessage, setCopyMessage] = useState("");
+  const [csrfToken, setCsrfToken] = useState<string>("");
+  const { id } = useParams();
+  const [worshipData, setWorshipData] = useRecoilState(worship);
+  const {
+    isSuccess,
+    mutate,
+    data: serverView,
+  } = useMutation(async (body: any) => {
+    const response = await fetch(
+      `/api/worship/${id}/count-views`,
+      postRequest(body, csrfToken)
+    );
+    return await response.json();
+  });
+
+  const csrf = async () => {
+    const response = await fetch(`/api/csrf-token`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      mode: "cors",
+    });
+
+    const result = await response.json();
+    setCsrfToken(result.CSRFToken);
+  };
 
   const copyText = async (text: string) => {
     navigator.clipboard.writeText(text).then(
@@ -132,10 +164,26 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
     checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
   };
 
+  const countViews = async () => {
+    await csrf();
+    const body = { views: 1 };
+    mutate(body);
+  };
+
+  useEffect(() => {
+    countViews();
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setWorshipData((pre) => ({ ...pre, views: serverView.views }));
+    }
+  }, [serverView]);
+
   useEffect(() => {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
-      window.location.href = `supertoss://link/`;
       window.location.href = `kakaobank://link/`;
+      window.location.href = `supertoss://link/`;
     }
     const setMessage = setTimeout(() => setCopyMessage(""), 5000);
     return () => clearTimeout(setMessage);
@@ -145,7 +193,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
     <>
       <CopyTextModal text={copyMessage} />
       <PageDetailModal setDetailItem={setDetailItem}>
-        <WorshipHeader {...data} />
+        <WorshipHeader {...data} views={worshipData?.views} />
         <WorshipInfoContainer>
           <WorshipItems>
             <WorshipItem>
