@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { InitialData, initialData } from "./initialData";
-import Task from "./Task";
+import Human from "./Human";
 import { Droppable } from "react-beautiful-dnd";
-
-interface IColumnProps {
-  state: InitialData;
-  column: {
-    id: string;
-    title: string;
-    taskIds: string[];
-  };
-}
+import { useRecoilState } from "recoil";
+import {
+  educationGroup,
+  EducationGroupData,
+} from "../../state/educationGroup.atom";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -42,23 +37,24 @@ const TaskList: React.FC<
   min-height: 100px;
 `;
 
-const Column = ({ state, column }: IColumnProps) => {
-  const [columnState, setState] = useState<InitialData>(state);
+interface IColumnProps {
+  group: EducationGroupData;
+}
+
+const Group = ({ group }: IColumnProps) => {
+  const [columnState, setState] = useRecoilState(educationGroup);
+  console.log(group);
   return (
     <Container>
-      <Title>{column.title}</Title>
-      <Droppable droppableId={column.id}>
+      <Title>{group.name}</Title>
+      <Droppable droppableId={group.id}>
         {(provided, snapshot) => (
           <TaskList
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}>
-            {column.taskIds.map((taskId, index) => (
-              <Task
-                key={taskId}
-                index={index}
-                task={columnState.tasks[taskId]}
-              />
+            {group.humanIds.map((humanId, index) => (
+              <Human key={humanId} index={index} humanId={humanId} />
             ))}
             {provided.placeholder}
           </TaskList>
@@ -68,4 +64,4 @@ const Column = ({ state, column }: IColumnProps) => {
   );
 };
 
-export default Column;
+export default Group;
