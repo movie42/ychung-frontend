@@ -13,6 +13,7 @@ import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
 
 const Wrapper = styled.div`
+  margin-top: 8rem;
   position: relative;
   height: 70vh;
   z-index: 0;
