@@ -10,6 +10,7 @@ import { postRequest } from "../../utils/utilities/httpMethod";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
+  margin-top: 8rem;
   position: relative;
   height: 70vh;
   z-index: -1;

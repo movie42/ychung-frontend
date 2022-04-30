@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human";
 import { Droppable } from "react-beautiful-dnd";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   educationGroup,
   EducationGroupData,
+  People,
+  peopleState,
 } from "../../state/educationGroup.atom";
+import { useForm } from "react-hook-form";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -20,7 +23,7 @@ const Title = styled.h3`
   padding: 1rem;
 `;
 
-const TaskList: React.FC<
+const PersonList: React.FC<
   | { isDraggingOver: boolean }
   | React.DetailedHTMLProps<
       React.HTMLAttributes<HTMLDivElement>,
@@ -42,14 +45,43 @@ interface IColumnProps {
 }
 
 const Group = ({ group }: IColumnProps) => {
-  const [columnState, setState] = useRecoilState(educationGroup);
-  console.log(group);
+  const { register, handleSubmit, reset } = useForm<People>();
+  const [addPeopleInput, setPeopleInput] = useState(false);
+  const setPeople = useSetRecoilState(peopleState);
+  const [groups, setGroups] = useRecoilState(educationGroup);
+
+  const openAddPeopleInput = () => {
+    setPeopleInput(!addPeopleInput);
+  };
+
+  const addPeople = handleSubmit((data) => {
+    const id = String(Date.now());
+    setPeople((pre) => [
+      ...pre,
+      { id, name: data.name, groupId: group.id, type: group.type },
+    ]);
+
+    setGroups((pre) => [
+      ...pre.filter((value) => value.id !== group.id),
+      { ...group, humanIds: [...group.humanIds, id] },
+    ]);
+
+    reset();
+  });
+
   return (
     <Container>
+      {addPeopleInput && (
+        <form onSubmit={addPeople}>
+          <label htmlFor="name">참가자 추가</label>
+          <input id="name" type="text" {...register("name")} />
+        </form>
+      )}
+      <button onClick={openAddPeopleInput}>참가자</button>
       <Title>{group.name}</Title>
       <Droppable droppableId={group.id}>
         {(provided, snapshot) => (
-          <TaskList
+          <PersonList
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}>
@@ -57,7 +89,7 @@ const Group = ({ group }: IColumnProps) => {
               <Human key={humanId} index={index} humanId={humanId} />
             ))}
             {provided.placeholder}
-          </TaskList>
+          </PersonList>
         )}
       </Droppable>
     </Container>

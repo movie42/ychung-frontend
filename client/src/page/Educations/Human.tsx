@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-import { people } from "../../state/educationGroup.atom";
+import { peopleState } from "../../state/educationGroup.atom";
 
 const Container: React.FC<
   | { isDragging: boolean }
@@ -42,8 +42,8 @@ interface ITaskInterface
 }
 
 const Human = ({ humanId, index }: ITaskInterface) => {
-  const [peopleState, setPeopleState] = useRecoilState(people);
-  const [person] = peopleState.filter((value) => value.id === humanId);
+  const people = useRecoilValue(peopleState);
+  const [person] = people.filter((value) => value.id === humanId);
   return (
     <Draggable draggableId={person.id} index={index}>
       {(provided, snapshot) => (
