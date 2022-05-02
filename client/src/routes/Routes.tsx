@@ -40,6 +40,8 @@ import AccountDetail from "../page/Document/Account/AccountDetail";
 import Application from "../page/Document/Application/Application";
 import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
 import Educations from "../page/Educations/Educations";
+import EducationsUpdate from "../page/Educations/EducationsUpdate";
+import EducationCreate from "../page/Educations/EducationCreate";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -99,6 +101,8 @@ function Router() {
         </Route>
       </Route>
       <Route path="/education" element={<Educations />} />
+      <Route path="/education/create" element={<EducationCreate />} />
+      <Route path="/education/:id/update" element={<EducationsUpdate />} />
       <Route element={<PrivateRoute />}>
         <Route path="/notice/create" element={<NoticeCreate />} />
         <Route
