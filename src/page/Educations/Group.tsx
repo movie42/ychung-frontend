@@ -2,15 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human";
 import { Droppable } from "react-beautiful-dnd";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   educationGroup,
-  EducationGroupData,
   People,
   peopleState,
 } from "../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
 import { usePostData } from "../../utils/customhooks/usePostData";
+import { compare } from "../../utils/utilities/compare";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -53,41 +53,41 @@ interface IColumnProps {
 const Group = ({ group }: IColumnProps) => {
   const { register, handleSubmit, reset } = useForm<People>();
   const [addPeopleInput, setPeopleInput] = useState(false);
-  const setPeople = useSetRecoilState(peopleState);
+  const [people, setPeople] = useRecoilState(peopleState);
   const [groups, setGroups] = useRecoilState(educationGroup);
-  const { mutationHandler, isSuccess, data, isLoading } = usePostData("");
+  const { mutationHandler, isSuccess, data, isLoading } = usePostData(
+    "/api/education/people"
+  );
 
   const openAddPeopleInput = () => {
     setPeopleInput(!addPeopleInput);
   };
 
-  const onSubmitData = useCallback(
-    (data) => {
-      const id = String(Date.now());
-      setPeople((pre) => [
-        ...pre,
-        { id, name: data.name, groupId: group.id, type: group.type },
-      ]);
+  const onSubmitData = handleSubmit((data) => {
+    mutationHandler({
+      name: data.name,
+      type: group.type,
+      groupIds: [group.id],
+    });
+  });
 
+  useEffect(() => {
+    if (isSuccess) {
+      const { _id: id, name, type, groupIds } = data.people;
+      setPeople((pre) => [...pre, { id, name, type, groupIds }]);
       setGroups((pre) =>
         [
           ...pre.filter((value) => value.id !== group.id),
-          { ...group, humanIds: [...group.humanIds, id] },
-        ].sort((a, b) => Number(a.id) - Number(b.id))
+          { ...group, humanIds: [...group.humanIds, data.people._id] },
+        ].sort(compare)
       );
-      reset();
-    },
-    [group]
-  );
-
-  useEffect(() => {
-    mutationHandler(groups);
-  }, [groups]);
+    }
+  }, [isSuccess]);
 
   return (
     <Container>
       {addPeopleInput && (
-        <form onSubmit={handleSubmit(onSubmitData)}>
+        <form onSubmit={onSubmitData}>
           <label htmlFor="name">참가자 추가</label>
           <input id="name" type="text" {...register("name")} />
         </form>

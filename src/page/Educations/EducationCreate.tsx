@@ -15,7 +15,7 @@ function EducationCreate() {
   const navigate = useNavigate();
   const setGroupsState = useSetRecoilState(educationGroups);
   const { mutationHandler, isSuccess, data, isLoading } = usePostData(
-    "/api/education/group"
+    "/api/education/groups"
   );
 
   useEffect(() => {
@@ -24,9 +24,8 @@ function EducationCreate() {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data.group);
-      setGroupsState({ ...data.group });
-      navigate(`/education/${data.group._id}/update`);
+      setGroupsState({ ...data.groups });
+      navigate(`/education/groups/${data.groups._id}/update`);
     }
   }, [isSuccess]);
 

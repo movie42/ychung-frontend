@@ -3,7 +3,7 @@ import { atom } from "recoil";
 export interface People {
   id: string;
   name: string;
-  groupId: string;
+  groupIds: string[];
   type: "student" | "worker" | "new" | "etc";
 }
 
@@ -11,7 +11,7 @@ export interface EducationGroupData {
   id: string;
   name: string;
   type: "student" | "worker" | "new" | "etc";
-  humanIds: string[];
+  humanIds: People[];
 }
 
 export interface EducationGroupsData {
