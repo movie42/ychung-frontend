@@ -6,7 +6,7 @@ const groups = mongoose.Schema({
   groups: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "EducationGroup",
+      ref: "Group",
     },
   ],
   createdAt: { type: Date, default: Date.now },
@@ -18,22 +18,22 @@ const group = mongoose.Schema({
   humanIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "EducationPeople",
+      ref: "People",
     },
   ],
 });
 
 const people = mongoose.Schema({
   name: { type: String, requreid: true },
-  groupId: [
+  groupIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "EducationGroup",
+      ref: "Group",
     },
   ],
   type: { type: String, requreid: true },
 });
 
-export const groupsModel = mongoose.model("EducationGroups", groups);
-export const groupModel = mongoose.model("EducationGroup", group);
-export const peopleModel = mongoose.model("EducationPeople", people);
+export const groupsModel = mongoose.model("EducationGroup", groups);
+export const groupModel = mongoose.model("Group", group);
+export const peopleModel = mongoose.model("People", people);
