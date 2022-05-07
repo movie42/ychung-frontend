@@ -39,7 +39,9 @@ import AccountDetail from "../page/Document/Account/AccountDetail";
 import Application from "../page/Document/Application/Application";
 import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
 import Educations from "../page/Educations/Educations";
-import EducationsAdmin from "../page/Educations/EducationsAdmin";
+import EducationsUpdate from "../page/Educations/EducationsUpdate";
+import EducationCreate from "../page/Educations/EducationCreate";
+import EducationGroupsDetail from "../page/Educations/EducationGroupsDetail";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -99,6 +101,13 @@ function Router() {
           <Route path=":id" element={<AccountDetail />} />
         </Route>
       </Route>
+      <Route path="/education" element={<Educations />} />
+      <Route path="/education/groups/create" element={<EducationCreate />} />
+      <Route path="/education/groups/:id" element={<EducationGroupsDetail />} />
+      <Route
+        path="/education/groups/:id/update"
+        element={<EducationsUpdate />}
+      />
       <Route element={<PrivateRoute />}>
         <Route path="/notice/create" element={<NoticeCreate />} />
         <Route

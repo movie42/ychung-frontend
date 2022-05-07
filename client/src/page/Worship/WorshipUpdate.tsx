@@ -9,6 +9,7 @@ import { useFetch } from "../../utils/customhooks/useFectch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 
 const Wrapper = styled.div`
+  margin-top: 8rem;
   position: relative;
   height: 70vh;
 

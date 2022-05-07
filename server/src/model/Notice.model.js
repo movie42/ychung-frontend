@@ -35,21 +35,6 @@ const noticeSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  year: { type: String, default: `${now.getFullYear()}년` },
-  month: { type: String, default: `${now.getMonth() + 1}월` },
-  date: { type: String, default: `${now.getDate()}일` },
-  day: {
-    type: String,
-    default: `${["일", "월", "화", "수", "목", "금", "토"][now.getDay()]}요일`,
-  },
-  time: {
-    type: String,
-    default: `${now.getHours() > 12 ? "오후" : "오전"} ${
-      now.getHours() % 12 < 10
-        ? "0" + (now.getHours() % 12)
-        : now.getHours() % 12
-    }:${now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()}`,
-  },
   createdAt: {
     type: Date,
     default: Date.now,

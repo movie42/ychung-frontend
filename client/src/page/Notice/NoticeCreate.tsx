@@ -77,6 +77,7 @@ const NoticeCreate: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
     URL: `/api/notice/create`,
   });

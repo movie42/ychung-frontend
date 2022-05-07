@@ -189,6 +189,12 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
             <li>
               먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터 앉아주세요.
             </li>
+            <li>
+              <strong>코로나 방역지침이 완화되었습니다.</strong> 온라인 예배자는
+              출석예배로 전환해 주시고 소그룹 등 교회 활동이 회복되도록
+              노력해주세요.
+            </li>
+            <li>5월22일부터 교회 식당 운영을 재개합니다.</li>
           </ul>
           <h2>헌금</h2>
           <ul>

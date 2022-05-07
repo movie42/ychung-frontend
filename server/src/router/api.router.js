@@ -1,21 +1,14 @@
 import express from "express";
 import {
-  registerComments,
-  deleteComment,
   validator,
   postEditorImage,
   patchNoticeToWeekly,
 } from "../controller/api.controller";
-import {
-  deleteNotice,
-  getNoticeData,
-  patchNoticeData,
-  postNewNoticeData,
-} from "../controller/notice.controller";
-import { login, logout, postJoin, search } from "../controller/root.controller";
-import { editorImage, isAuth, authorityHandler } from "../middleWare";
+
+import { editorImage } from "../middleWare";
 import blogRouter from "./blog.router";
 import documentsRouter from "./documents.router";
+import educationRouter from "./education.router";
 import noticeRouter from "./notice.router";
 import rootRouter from "./root.router";
 import userRouter from "./user.router";
@@ -34,6 +27,7 @@ api.use("/", rootRouter);
 api.use("/user", userRouter);
 api.use("/notice", noticeRouter);
 api.use("/worship", worshipRouter);
+api.use("/education", educationRouter);
 api.use("/blog", blogRouter);
 api.use("/documents", documentsRouter);
 
