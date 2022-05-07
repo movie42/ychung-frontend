@@ -42,6 +42,7 @@ import Educations from "../page/Educations/Educations";
 import EducationsUpdate from "../page/Educations/EducationsUpdate";
 import EducationCreate from "../page/Educations/EducationCreate";
 import EducationGroupsDetail from "../page/Educations/EducationGroupsDetail";
+import EducationsAdmin from "../page/Educations/EducationsAdmin";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
