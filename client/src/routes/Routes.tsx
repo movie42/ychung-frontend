@@ -8,7 +8,6 @@ import Logout from "../page/Root/Logout";
 import Main from "../page/Root/Main";
 import User from "../page/User/User";
 import Worship from "../page/Worship/Worship";
-import Header from "../components/Header/Header";
 import Notice from "../page/Notice/Notice";
 import Search from "../page/Search/Search";
 import WorshipDetail from "../page/Worship/WorshipDetail";
@@ -39,6 +38,8 @@ import Account from "../page/Document/Account/Account";
 import AccountDetail from "../page/Document/Account/AccountDetail";
 import Application from "../page/Document/Application/Application";
 import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
+import Educations from "../page/Educations/Educations";
+import EducationsAdmin from "../page/Educations/EducationsAdmin";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -83,6 +84,7 @@ function Router() {
           }
         />
       </Route>
+      <Route path="/education" element={<Educations />} />
       <Route path="/documents" element={<Documents />}>
         <Route path="rule" element={<Rules />}>
           <Route path=":id" element={<RulesDetail />} />
@@ -122,6 +124,7 @@ function Router() {
           <Route path="/user/:id/applications" element={<UserApplications />} />
           <Route path="/user/:id/like" element={<UserLike />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/education/admin" element={<EducationsAdmin />} />
         </>
       ) : (
         <>
