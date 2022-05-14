@@ -46,7 +46,7 @@ export const postNewNoticeData = async (req, res) => {
 
 export const patchNoticeData = async (req, res) => {
   const {
-    body: { title, isWeekly, paragraph },
+    body: { title, isWeekly, paragraph, startDate, endDate, summary },
     params: { id },
     cookies: { token },
   } = req;
@@ -64,6 +64,9 @@ export const patchNoticeData = async (req, res) => {
       {
         title,
         isWeekly,
+        startDate,
+        endDate,
+        summary,
         paragraph,
       },
     );
