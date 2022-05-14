@@ -74,7 +74,7 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
             let formData = new FormData();
             formData.append("data", blob);
 
-            const responseToken = await fetch(`/getCSRFToken`, {
+            const responseToken = await fetch(`/api/csrf-token`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -93,8 +93,7 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
             const response = await fetch(`/api/post-image`, postOption);
 
             const { data } = await response.json();
-
-            callback(data, "alt text");
+            callback(data, "이미지의 이름을 입력하세요.");
           },
         }}
         previewStyle="tab"

@@ -7,6 +7,9 @@ import { useFetch } from "../../utils/customhooks/useFectch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import EditorContainer from "../../components/Editor";
 import { useNavigate } from "react-router-dom";
+import Label from "../../components/Form/Label";
+import Input from "../../components/Form/Input";
+import { currentDate } from "../../utils/utilities/calenderHelper";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -66,23 +69,30 @@ const InputWrapper = styled.form`
 interface NoticeDetail {
   _id: string;
   title: string;
+  startDate: string;
+  endDate: string;
+  summary: string;
   isWeekly: boolean;
   paragraph: string;
   creator: {
     _id: string;
+    userName: string;
+    name: string;
   };
-  comments: [];
-  views: number;
   createdAt: string;
 }
 
 interface INoticeDetailProps {
-  data: any;
+  data: NoticeDetail;
 }
 const NoticeUpdate = ({ data }: INoticeDetailProps) => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
     URL: `/api/notice/${data._id}`,
   });
@@ -108,23 +118,59 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
         <AiOutlineCloudUpload />
       </button>
       <InputWrapper>
-        <label htmlFor="title">제목</label>
-        <input
-          placeholder="제목을 입력하세요."
-          {...register("title", {
-            required: "제목을 입력하세요.",
-            value: data.title,
-          })}
-          id="title"
-          type="text"
-        />
         <div>
-          <input
+          <Label htmlFor="title">제목</Label>
+          <Input
+            id="title"
+            type="text"
+            placeholder="제목을 입력하세요."
+            register={register}
+            registerName="title"
+            defaultValue={data.title}
+            registerOptions={{ required: "제목을 입력하세요." }}
+          />
+        </div>
+        <div>
+          <Label htmlFor="startDate">행사 시작</Label>
+          <Input
+            type="date"
+            register={register}
+            registerName="startDate"
+            defaultValue={`${currentDate()}`}
+          />
+        </div>
+        <div>
+          <Label htmlFor="endDate">행사 끝</Label>
+          <Input
+            type="date"
+            register={register}
+            registerName="endDate"
+            defaultValue={`${currentDate()}`}
+          />
+          {<p>{errors?.endDate?.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="summary">행사 요약</Label>
+          <Input
+            type="text"
+            register={register}
+            registerName="summary"
+            registerOptions={{ min: 0, max: 100 }}
+            defaultValue={data.summary}
+            placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
+          />
+          {<p>{errors?.endDate?.message}</p>}
+        </div>
+        <div className="flex">
+          <Input
             id="isWeekly"
             type="checkbox"
-            {...register("isWeekly", { value: data.isWeekly })}
+            register={register}
+            registerName="isWeekly"
+            defaultChecked={data.isWeekly}
+            registerOptions={{ value: false }}
           />
-          <label htmlFor="isWeekly">주보에 표시하기</label>
+          <Label htmlFor="isWeekly">주보에 넣기</Label>
         </div>
       </InputWrapper>
       <EditorContainer initialValue={data.paragraph} reference={editorRef} />
