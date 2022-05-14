@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,6 @@ const Wrapper = styled.div`
   margin-top: 8rem;
   position: relative;
   height: 70vh;
-  z-index: -1;
   button.upload {
     position: absolute;
     top: -1rem;
