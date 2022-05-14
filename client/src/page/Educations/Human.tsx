@@ -45,11 +45,12 @@ interface ITaskInterface
 const Human = ({ humanId, index }: ITaskInterface) => {
   const people = useRecoilValue(peopleState);
   const [person] = people.filter((value) => value.id === humanId);
-  const { mutationHandler, isSuccess, data, isLoading } = usePostData("");
+  const [mutationHandler, isSuccess, data, isLoading] = usePostData("");
 
   useEffect(() => {
     mutationHandler(people);
   }, [people]);
+
   return (
     <Draggable draggableId={person.id} index={index}>
       {(provided, snapshot) => (

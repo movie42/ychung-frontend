@@ -2,7 +2,7 @@ import { groupsModel, groupModel, peopleModel } from "../model/Education.Model";
 
 export const getEducationGroups = async (req, res) => {
   try {
-    const data = await groupsModel.find().populate("groups");
+    const data = await groupsModel.find();
 
     return res.status(200).json({ data });
   } catch (e) {

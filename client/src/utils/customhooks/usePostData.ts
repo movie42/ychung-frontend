@@ -16,5 +16,5 @@ export const usePostData = (url: RequestInfo) => {
     mutate(body);
   };
 
-  return { mutationHandler, isSuccess, data, isLoading };
+  return [mutationHandler, isSuccess, data, isLoading] as const;
 };

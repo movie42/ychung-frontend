@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 function EducationCreate() {
   const navigate = useNavigate();
   const setGroupsState = useSetRecoilState(educationGroups);
-  const { mutationHandler, isSuccess, data, isLoading } = usePostData(
+  const [mutationHandler, isSuccess, data, isLoading] = usePostData(
     "/api/education/groups"
   );
 

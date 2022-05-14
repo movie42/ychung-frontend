@@ -27,6 +27,7 @@ educationRouter
   .delete(deleteEducationGroups);
 
 educationRouter.route("/group").get(getEducationGroup).post(postEducationGroup);
+
 educationRouter
   .route("/group/:id([0-9a-f]{24})")
   .post(updateEducationGroup)
@@ -36,6 +37,7 @@ educationRouter
   .route("/people")
   .get(getEducationPeople)
   .post(postEducationPeople);
+
 educationRouter
   .route("/people/:id([0-9a-f]{24})")
   .post(updateEducationPeople)

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
 

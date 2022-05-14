@@ -7,7 +7,7 @@ import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteRequest, postRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";

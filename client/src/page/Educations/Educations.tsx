@@ -5,10 +5,7 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Loading from "../../components/Loading";
-import {
-  educationGroups,
-  EducationGroupsData,
-} from "../../state/educationGroup.atom";
+import { educationGroups } from "../../state/educationGroup.atom";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -44,7 +41,7 @@ const Educations = () => {
   );
 
   const createGroup = () => {
-    navigate("/education/create");
+    navigate("/education/groups/create");
   };
 
   const moveToDetail = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -54,13 +51,12 @@ const Educations = () => {
         (value) => value._id === id
       );
       setEducationGroups({ id: _id, title, isPublic, groups });
+
       isPublic
         ? navigate(`/education/groups/${id}`)
         : navigate(`/education/groups/${id}/update`);
     }
   };
-
-  console.log(data);
 
   return isLoading ? (
     <Loading />

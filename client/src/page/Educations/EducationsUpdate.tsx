@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 
 import Input from "../../components/Form/Input";
@@ -24,13 +24,10 @@ function EducationUpdate() {
   const [groupsState, setGroupsState] = useRecoilState(educationGroups);
   const [groupState, setGroupState] = useRecoilState(educationGroup);
   const [people, setPeople] = useRecoilState(peopleState);
+
   const { register, handleSubmit, reset } = useForm<EducationGroupData>();
-  const {
-    mutationHandler: groupsMutationHandler,
-    isSuccess: isUpdateGroupsSuccess,
-    data: updateGroupsData,
-  } = usePostData(`/api/education/groups/${id}`);
-  const { mutationHandler, isSuccess, data, isLoading } = usePostData(
+
+  const [mutationHandler, isSuccess, data, isLoading] = usePostData(
     "/api/education/group"
   );
 
@@ -47,17 +44,6 @@ function EducationUpdate() {
       setGroupState((pre) => [...pre, { id, name, humanIds, type }]);
     }
   }, [isSuccess]);
-
-  useEffect(() => {
-    setGroupsState((pre) => ({
-      ...pre,
-      groups: groupState,
-    }));
-  }, [groupState]);
-
-  useEffect(() => {
-    groupsMutationHandler({ ...groupsState });
-  }, [groupsState]);
 
   return (
     <Wrapper>

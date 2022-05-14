@@ -11,14 +11,14 @@ export interface EducationGroupData {
   id: string;
   name: string;
   type: "student" | "worker" | "new" | "etc";
-  humanIds: People[];
+  humanIds: string[];
 }
 
 export interface EducationGroupsData {
   id: string;
   title: string;
   isPublic: boolean;
-  groups: EducationGroupData[];
+  groups: string[];
 }
 
 export const peopleState = atom<People[]>({

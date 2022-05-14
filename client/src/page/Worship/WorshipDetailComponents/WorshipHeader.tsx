@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
-import { useFetch } from "../../../utils/customhooks/useFectch";
+import { useFetch } from "../../../utils/customhooks/useFetch";
 import { calculateDate } from "../../../utils/utilities/calculateDate";
 import { deleteRequest } from "../../../utils/utilities/httpMethod";
 

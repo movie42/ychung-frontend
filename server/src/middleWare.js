@@ -11,8 +11,8 @@ import csurf from "csurf";
 const s3 = new aws.S3({
   credentials: {
     accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_SECRET
-  }
+    secretAccessKey: process.env.AWS_SECRET,
+  },
 });
 
 const s3ImageUploader = multerS3({
@@ -29,21 +29,23 @@ const s3ImageUploader = multerS3({
       },
       transform: async function (req, file, cb) {
         cb(null, await sharp().resize(5000).png({ quality: 100 }));
-      }
-    }
+      },
+    },
   ],
-  acl: "public-read"
+  acl: "public-read",
 });
 
 const multerProfile = multer({
   dest: "uploads/profile",
   limits: { fileSize: 15000 },
-  storage: process.env.NODE_ENV === "production" ? s3ImageUploader : undefined
+  // storage: process.env.NODE_ENV === "production" ? s3ImageUploader : undefined
+  storage: s3ImageUploader,
 });
 
 const multerEditorImage = multer({
   dest: "uploads/editorImage",
-  storage: process.env.NODE_ENV === "production" ? s3ImageUploader : undefined
+  // storage: process.env.NODE_ENV === "production" ? s3ImageUploader : undefined,
+  storage: s3ImageUploader,
 });
 
 export const editorImage = multerEditorImage.any();
@@ -53,8 +55,8 @@ export const csrfProtection = csurf({
     key: "_csrf",
     path: "/",
     httpOnly: true,
-    maxAge: 3600
-  }
+    maxAge: 3600,
+  },
 });
 
 export const locals = (req, res, next) => {
@@ -97,7 +99,7 @@ export function authorityHandler(req, res, next) {
 
   return res.render("root/404", {
     pageTitle: "404",
-    errorMessage: "접근 권한이 없습니다."
+    errorMessage: "접근 권한이 없습니다.",
   });
 }
 
@@ -119,7 +121,7 @@ export const onlyPrivate = (req, res, next) => {
 
 export const view = async (req, res, next) => {
   const {
-    params: { id }
+    params: { id },
   } = req;
 
   const dataName = req.baseUrl.slice(1);
@@ -127,7 +129,7 @@ export const view = async (req, res, next) => {
   const DATA = {
     blog: Blog,
     notice: Notice,
-    worship: Worship
+    worship: Worship,
   };
 
   const data = await DATA[dataName].findById(id);
@@ -135,7 +137,7 @@ export const view = async (req, res, next) => {
   if (!data) {
     return res.status(404).render("root/404", {
       pageTitle: "게시물을 찾을 수 없습니다.",
-      errorMessage: "게시물을 찾을 수 없습니다. "
+      errorMessage: "게시물을 찾을 수 없습니다. ",
     });
   }
 

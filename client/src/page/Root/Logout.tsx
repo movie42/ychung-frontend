@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useResetRecoilState } from "recoil";
 import { loginState } from "../../state/Authrization";
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 
 const Logout = () => {
   const removeLoginState = useResetRecoilState(loginState);

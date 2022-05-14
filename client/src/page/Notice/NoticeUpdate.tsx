@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import EditorContainer from "../../components/Editor";
 import { useNavigate } from "react-router-dom";
