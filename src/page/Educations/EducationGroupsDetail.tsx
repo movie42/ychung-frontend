@@ -14,9 +14,9 @@ const EducationGroupsDetail = () => {
 
   return (
     <Wrapper>
-      <h1>{groups.title}</h1>
-      <ul>
-        {groups.groups.filter((value) => value.type === "student").length !==
+      {/* <h1>{groups.title}</h1>
+       <ul>
+         {groups.groups.filter((value) => value.type === "student").length !==
           0 &&
           groups.groups.map((value) => (
             <li>
@@ -30,7 +30,7 @@ const EducationGroupsDetail = () => {
               </div>
             </li>
           ))}
-      </ul>
+      </ul> */}
     </Wrapper>
   );
 };

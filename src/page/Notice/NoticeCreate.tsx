@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import { useNavigate } from "react-router-dom";
 import Label from "../../components/Form/Label";

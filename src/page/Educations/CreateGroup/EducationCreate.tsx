@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { useSetRecoilState } from "recoil";
-import { educationGroups } from "../../state/educationGroup.atom";
-import { usePostData } from "../../utils/customhooks/usePostData";
+import { educationGroups } from "../../../state/educationGroup.atom";
+import { usePostData } from "../../../utils/customhooks/usePostData";
 import { useNavigate } from "react-router";
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 function EducationCreate() {
   const navigate = useNavigate();
   const setGroupsState = useSetRecoilState(educationGroups);
-  const { mutationHandler, isSuccess, data, isLoading } = usePostData(
+  const [mutationHandler, isSuccess, data, isLoading] = usePostData(
     "/api/education/groups"
   );
 

@@ -7,7 +7,7 @@ import { AiFillEdit } from "react-icons/ai";
 import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
-import { useFetch } from "../../utils/customhooks/useFectch";
+import { useFetch } from "../../utils/customhooks/useFetch";
 import { useNavigate, useParams } from "react-router";
 import { deleteRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";

@@ -8,7 +8,6 @@ import Logout from "../page/Root/Logout";
 import Main from "../page/Root/Main";
 import User from "../page/User/User";
 import Worship from "../page/Worship/Worship";
-import Header from "../components/Header/Header";
 import Notice from "../page/Notice/Notice";
 import Search from "../page/Search/Search";
 import WorshipDetail from "../page/Worship/WorshipDetail";
@@ -40,8 +39,8 @@ import AccountDetail from "../page/Document/Account/AccountDetail";
 import Application from "../page/Document/Application/Application";
 import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
 import Educations from "../page/Educations/Educations";
-import EducationsUpdate from "../page/Educations/EducationsUpdate";
-import EducationCreate from "../page/Educations/EducationCreate";
+import EducationsUpdate from "../page/Educations/UpdateGroup/EducationsUpdate";
+import EducationCreate from "../page/Educations/CreateGroup/EducationCreate";
 import EducationGroupsDetail from "../page/Educations/EducationGroupsDetail";
 
 function Router() {
@@ -87,6 +86,7 @@ function Router() {
           }
         />
       </Route>
+      <Route path="/education" element={<Educations />} />
       <Route path="/documents" element={<Documents />}>
         <Route path="rule" element={<Rules />}>
           <Route path=":id" element={<RulesDetail />} />

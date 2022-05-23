@@ -5,12 +5,13 @@ import { Droppable } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import {
   educationGroup,
+  educationGroups,
   People,
   peopleState,
-} from "../../state/educationGroup.atom";
+} from "../../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
-import { usePostData } from "../../utils/customhooks/usePostData";
-import { compare } from "../../utils/utilities/compare";
+import { usePostData } from "../../../utils/customhooks/usePostData";
+import { compare } from "../../../utils/utilities/compare";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -54,8 +55,10 @@ const Group = ({ group }: IColumnProps) => {
   const { register, handleSubmit, reset } = useForm<People>();
   const [addPeopleInput, setPeopleInput] = useState(false);
   const [people, setPeople] = useRecoilState(peopleState);
-  const [groups, setGroups] = useRecoilState(educationGroup);
-  const { mutationHandler, isSuccess, data, isLoading } = usePostData(
+  const [groupsState, setGroupsState] = useRecoilState(educationGroups);
+  const [groupState, setGroupState] = useRecoilState(educationGroup);
+
+  const [mutationHandler, isSuccess, data, isLoading] = usePostData(
     "/api/education/people"
   );
 
@@ -75,7 +78,7 @@ const Group = ({ group }: IColumnProps) => {
     if (isSuccess) {
       const { _id: id, name, type, groupIds } = data.people;
       setPeople((pre) => [...pre, { id, name, type, groupIds }]);
-      setGroups((pre) =>
+      setGroupState((pre) =>
         [
           ...pre.filter((value) => value.id !== group.id),
           { ...group, humanIds: [...group.humanIds, data.people._id] },
@@ -83,6 +86,18 @@ const Group = ({ group }: IColumnProps) => {
       );
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    const groupsId = groupState.map((value) => value.id);
+    setGroupsState((pre) => ({
+      ...pre,
+      groups: groupsId,
+    }));
+  }, [groupState]);
+
+  useEffect(() => {
+    console.log(groupsState);
+  }, [groupsState]);
 
   return (
     <Container>
