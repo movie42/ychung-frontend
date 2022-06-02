@@ -181,8 +181,10 @@ function Main() {
             <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
           </TitleContainer>
           <div>
-            <Link to="">양청과 함께하기</Link>
-            <Link to="">예배 안내</Link>
+            <a href="https://forms.gle/f6bVV6uCryXK3n1U7" target="_blank">
+              양청과 함께하기
+            </a>
+            {/* <Link to="">예배 안내</Link> */}
           </div>
         </div>
       </Section>
@@ -195,10 +197,16 @@ function Main() {
           <h3>함께 배우고 성장하는 방법을 소개합니다.</h3>
         </TitleContainer>
         <div>
-          <Link to="">소그룹 참여하기</Link>
-          <Link to="">일대일 양육 신청하기</Link>
-          <Link to="">동아리 신청하기</Link>
-          <Link to="">봉사 신청하기</Link>
+          {/* <Link to="">소그룹 참여하기</Link>
+          <Link to="">일대일 양육 신청하기</Link> */}
+          <a
+            target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
+            동아리 신청하기
+          </a>
+          <a target="_blank" href="https://forms.gle/4TUo5gTMGWp6zb8J6">
+            봉사 신청하기
+          </a>
         </div>
       </Section>
       <Section className="main-section-4">
@@ -207,7 +215,11 @@ function Main() {
           <h3>당신의 신앙 성장을 지원해드립니다.</h3>
         </TitleContainer>
         <div>
-          <Link to="">교육 지원비 신청하기</Link>
+          <a
+            href="https://docs.google.com/forms/d/1Zszlov0YSkdVXnz75JVki85wPIqxAc0nfhNWbQvtWSA/viewform?edit_requested=true"
+            target="_blank">
+            교육 지원비 신청하기
+          </a>
         </div>
       </Section>
       {/* <Section className="main-section-5">
