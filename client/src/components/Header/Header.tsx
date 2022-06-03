@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { faClose, faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import styled from "styled-components";
 import Nav from "./Nav";
 import { navAnimationVariants } from "../../animation variants/navigationAnimationVariants";
@@ -118,12 +117,7 @@ const Header = () => {
         </LinkButton>
       </LogoContainer>
       <ButtonContainer>
-        <FontAwesomeIcon
-          viewBox="-100 0 448 512"
-          onClick={handleMenuBtn}
-          className="menuBtn"
-          icon={faBars}
-        />
+        <AiOutlineMenu onClick={handleMenuBtn} className="menuBtn" />
       </ButtonContainer>
       <AnimatePresence>
         {menu && (
@@ -132,11 +126,7 @@ const Header = () => {
             initial="init"
             animate="animate"
             exit="exit">
-            <FontAwesomeIcon
-              onClick={handleCloseBtn}
-              className="closeBtn"
-              icon={faClose}
-            />
+            <AiOutlineClose onClick={handleCloseBtn} className="closeBtn" />
             <Nav />
           </NavWrapper>
         )}
