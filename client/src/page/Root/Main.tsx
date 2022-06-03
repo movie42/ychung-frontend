@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { scrollAnimationVariants } from "../../animation variants/scrollAnimationVariants";
+import { BsChevronDoubleDown } from "react-icons/bs";
 import Button from "../../components/Buttons/Button";
 import Input from "../../components/Form/Input";
 import Canvas from "../../components/Canvas";
+import { useInView } from "react-intersection-observer";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -139,6 +140,20 @@ const Section = styled(motion.section)`
   }
 `;
 
+const ArrowContainer = styled(motion.div)`
+  position: fixed;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .arrowIcon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+`;
+
 const Form = styled.div`
   display: flex;
   flex-direction: column;
@@ -159,19 +174,44 @@ const TitleContainer = styled.div`
   }
 `;
 
+const iconVariant = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
+
 function Main() {
+  const control = useAnimation();
+  const [ref, inView] = useInView();
   const canvasRef = useRef(null);
   const { register, handleSubmit } = useForm();
 
+  useEffect(() => {
+    if (inView) {
+      control.start("visible");
+    } else {
+      control.start("hidden");
+    }
+  }, [control, inView]);
+
   return (
     <Wrapper>
-      <Section className="main-section-1">
+      <Section
+        className="main-section-1"
+        variants={iconVariant}
+        initial="hidden"
+        exit="hidden"
+        ref={ref}
+        animate={control}>
         <h1 className="emoji">😃</h1>
         <h1>
           양청에 <br />
           오신 것을 <br />
           환영합니다.
         </h1>
+        <ArrowContainer>
+          <BsChevronDoubleDown className="arrowIcon" />
+          <p>더 많은 내용 보기</p>
+        </ArrowContainer>
       </Section>
       <Section className="main-section-2">
         <div className="logo-container"></div>
