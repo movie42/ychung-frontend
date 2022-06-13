@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { postRequest } from "../utilities/httpMethod";
+import { deleteRequest } from "../utilities/httpMethod";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
-interface IusePostProps {
+interface IuseDeleteProps {
   url: RequestInfo;
   queryKey: string;
 }
 
-const usePost = ({ url, queryKey }: IusePostProps) => {
+const useDelete = ({ url, queryKey }: IuseDeleteProps) => {
   const { csrf, csrfToken } = useGetCSRFToken();
   const queryClient = useQueryClient();
 
-  const postHelper = async (postData: any) => {
-    const response = await fetch(url, postRequest(postData, csrfToken));
+  const deleteHelper = async () => {
+    const response = await fetch(url, deleteRequest(csrfToken));
     return response.json();
   };
 
@@ -21,11 +21,11 @@ const usePost = ({ url, queryKey }: IusePostProps) => {
     csrf();
   }, []);
 
-  return useMutation(postHelper, {
+  return useMutation(deleteHelper, {
     onSuccess: () => {
-      return queryClient.invalidateQueries(queryKey, { exact: true });
+      queryClient.invalidateQueries(queryKey, { exact: true });
     },
   });
 };
 
-export default usePost;
+export default useDelete;

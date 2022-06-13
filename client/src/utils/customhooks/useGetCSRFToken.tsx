@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useFetchToken = () => {
+export const useGetCSRFToken = () => {
   const [csrfToken, setCsrfToken] = useState<string>("");
 
   const csrf = async () => {

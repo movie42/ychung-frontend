@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { SetterOrUpdater } from "recoil";
 import { postRequest } from "../utilities/httpMethod";
-import { useFetchToken } from "./useFetchToken";
+import { useGetCSRFToken } from "./useGetCSRFToken";
 
-export const useSetView = <T>(
+export const useSetView = <T,>(
   url: RequestInfo,
   recoilSetter: SetterOrUpdater<T>
 ) => {
-  const { csrfToken, csrf } = useFetchToken();
+  const { csrfToken, csrf } = useGetCSRFToken();
   const {
     isSuccess,
     mutate,

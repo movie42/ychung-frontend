@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
+
 import { BIBLE_DATA_SET } from "../../bible";
-import { useFetch } from "../../utils/customhooks/useFetch";
-import { postRequest } from "../../utils/utilities/httpMethod";
+import usePost from "../../utils/customhooks/usePost";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -67,16 +67,20 @@ const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm();
-  const queryClient = useQueryClient();
 
-  const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: `/api/worship/${id}`,
+  const { mutate } = usePost({
+    url: `/api/worship/${id}`,
+    queryKey: "weeklies",
   });
 
   const onSubmit = handleSubmit((data) => {
-    handleOptions(postRequest(data, csrfToken));
+    mutate(data, {
+      onSuccess: (response) => {
+        const { data } = response;
+        navigate(`/worship/${data._id}`);
+      },
+    });
   });
 
   const paintObject = () => {
@@ -86,13 +90,6 @@ const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
     });
     return list;
   };
-
-  useEffect(() => {
-    if (response) {
-      queryClient.invalidateQueries("weeklies");
-      navigate(`/worship/${response._id}`);
-    }
-  }, [response]);
 
   return (
     <Wrapper>
