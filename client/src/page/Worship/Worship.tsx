@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { Link, useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
@@ -10,6 +10,7 @@ import { worship, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
+import { getWeekliesData } from "../../utils/utilities/httpMethod";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,25 +50,14 @@ function Worship() {
   );
 
   const {
+    isSuccess,
     isLoading,
-    error,
+    isRefetching,
     data: weeklies,
-  } = useQuery(
-    "weeklies",
-    async () => {
-      const response = await fetch(`/api/worship`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      });
-      const { data } = await response.json();
-      return data;
-    },
-    { staleTime: 10000 }
-  );
+  } = useQuery("weeklies", getWeekliesData, {
+    staleTime: 120000,
+    cacheTime: 300000,
+  });
 
   const onClick = (id: string) => {
     const [detailItem] = weeklies.filter(
@@ -78,14 +68,14 @@ function Worship() {
   };
 
   useEffect(() => {
-    if (id && !isLoading) {
+    if (id && isSuccess && !isRefetching) {
       const [detailItem] = weeklies.filter(
         (item: IWorshipItems) => item._id === id
       );
       setWorshipModalState(true);
       setDetailItem({ ...detailItem });
     }
-  }, [id, isLoading]);
+  }, [id, isSuccess, isRefetching]);
 
   return (
     <>

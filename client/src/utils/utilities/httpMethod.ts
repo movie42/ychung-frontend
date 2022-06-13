@@ -7,6 +7,12 @@ export const getRequest: RequestInit = {
   mode: "cors",
 };
 
+export const getWeekliesData = async () => {
+  const response = await fetch(`/api/worship`, getRequest);
+  const { data } = await response.json();
+  return data;
+};
+
 export const postRequest = (body: any, csrfToken: string): RequestInit => {
   const data = JSON.stringify({ ...body });
   return {
