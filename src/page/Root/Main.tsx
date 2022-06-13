@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { scrollAnimationVariants } from "../../animation variants/scrollAnimationVariants";
+import { BsChevronDoubleDown } from "react-icons/bs";
 import Button from "../../components/Buttons/Button";
 import Input from "../../components/Form/Input";
 import Canvas from "../../components/Canvas";
+import { useInView } from "react-intersection-observer";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -139,6 +140,20 @@ const Section = styled(motion.section)`
   }
 `;
 
+const ArrowContainer = styled(motion.div)`
+  position: fixed;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .arrowIcon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+`;
+
 const Form = styled.div`
   display: flex;
   flex-direction: column;
@@ -159,19 +174,44 @@ const TitleContainer = styled.div`
   }
 `;
 
+const iconVariant = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
+
 function Main() {
+  const control = useAnimation();
+  const [ref, inView] = useInView();
   const canvasRef = useRef(null);
   const { register, handleSubmit } = useForm();
 
+  useEffect(() => {
+    if (inView) {
+      control.start("visible");
+    } else {
+      control.start("hidden");
+    }
+  }, [control, inView]);
+
   return (
     <Wrapper>
-      <Section className="main-section-1">
+      <Section
+        className="main-section-1"
+        variants={iconVariant}
+        initial="hidden"
+        exit="hidden"
+        ref={ref}
+        animate={control}>
         <h1 className="emoji">😃</h1>
         <h1>
           양청에 <br />
           오신 것을 <br />
           환영합니다.
         </h1>
+        <ArrowContainer>
+          <BsChevronDoubleDown className="arrowIcon" />
+          <p>더 많은 내용 보기</p>
+        </ArrowContainer>
       </Section>
       <Section className="main-section-2">
         <div className="logo-container"></div>
@@ -181,8 +221,10 @@ function Main() {
             <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
           </TitleContainer>
           <div>
-            <Link to="">양청과 함께하기</Link>
-            <Link to="">예배 안내</Link>
+            <a href="https://forms.gle/f6bVV6uCryXK3n1U7" target="_blank">
+              양청과 함께하기
+            </a>
+            {/* <Link to="">예배 안내</Link> */}
           </div>
         </div>
       </Section>
@@ -195,10 +237,16 @@ function Main() {
           <h3>함께 배우고 성장하는 방법을 소개합니다.</h3>
         </TitleContainer>
         <div>
-          <Link to="">소그룹 참여하기</Link>
-          <Link to="">일대일 양육 신청하기</Link>
-          <Link to="">동아리 신청하기</Link>
-          <Link to="">봉사 신청하기</Link>
+          {/* <Link to="">소그룹 참여하기</Link>
+          <Link to="">일대일 양육 신청하기</Link> */}
+          <a
+            target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
+            동아리 신청하기
+          </a>
+          <a target="_blank" href="https://forms.gle/4TUo5gTMGWp6zb8J6">
+            봉사 신청하기
+          </a>
         </div>
       </Section>
       <Section className="main-section-4">
@@ -207,7 +255,11 @@ function Main() {
           <h3>당신의 신앙 성장을 지원해드립니다.</h3>
         </TitleContainer>
         <div>
-          <Link to="">교육 지원비 신청하기</Link>
+          <a
+            href="https://docs.google.com/forms/d/1Zszlov0YSkdVXnz75JVki85wPIqxAc0nfhNWbQvtWSA/viewform?edit_requested=true"
+            target="_blank">
+            교육 지원비 신청하기
+          </a>
         </div>
       </Section>
       {/* <Section className="main-section-5">
