@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useQueryClient } from "react-query";
-import { useNavigate } from "react-router";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 import { BIBLE_DATA_SET } from "../../bible";
-import { useFetch } from "../../utils/customhooks/useFetch";
-import { postRequest } from "../../utils/utilities/httpMethod";
+import usePost from "../../utils/customhooks/usePost";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -58,20 +57,21 @@ const InputWrapper = styled.form`
 
 function WorshipCreate() {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm();
-  const queryClient = useQueryClient();
 
-  const [{ response, isLoading, error, csrfToken }, handleOptions] = useFetch({
-    URL: `/api/worship/create`,
-  });
+  const {
+    mutate,
+    isSuccess,
+    data: response,
+  } = usePost({ url: "/api/worship/create", queryKey: "weeklies" });
 
   const onSubmit = handleSubmit((data) => {
-    handleOptions(postRequest(data, csrfToken));
+    mutate(data);
   });
 
   const paintObject = () => {
@@ -83,11 +83,11 @@ function WorshipCreate() {
   };
 
   useEffect(() => {
-    if (response) {
-      queryClient.invalidateQueries("weeklies");
-      navigate(`/worship/${response._id}`);
+    if (isSuccess) {
+      const { data } = response;
+      navigate(`/worship/${data._id}`);
     }
-  }, [response]);
+  }, [isSuccess]);
 
   return (
     <Wrapper>
