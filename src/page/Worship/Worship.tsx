@@ -68,6 +68,7 @@ function Worship() {
   };
 
   useEffect(() => {
+    console.log(isRefetching);
     if (id && isSuccess && !isRefetching) {
       const [detailItem] = weeklies.filter(
         (item: IWorshipItems) => item._id === id

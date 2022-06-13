@@ -1,9 +1,6 @@
-import { EducationGroupData } from "../../state/educationGroup.atom";
+import { Group } from "../../state/educationGroup.atom";
 
-export const compare = (
-  a: EducationGroupData,
-  b: EducationGroupData
-): number => {
+export const compare = (a: Group, b: Group): number => {
   if (a.id > b.id) {
     return 1;
   }

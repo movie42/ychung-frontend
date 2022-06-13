@@ -1,17 +1,15 @@
+import React from "react";
 import { motion } from "framer-motion";
-import React, { useEffect } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { HiUser } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
-import { useQueryClient } from "react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
-import { useFetch } from "../../../utils/customhooks/useFetch";
+import useDelete from "../../../utils/customhooks/useDelete";
 import { calculateDate } from "../../../utils/utilities/calculateDate";
-import { deleteRequest } from "../../../utils/utilities/httpMethod";
 
 const Wrapper = styled(motion.div)`
   overflow-x: hidden;
@@ -87,25 +85,19 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { login } = useRecoilValue(loginState);
-  const [{ response, csrfToken }, setOptions] = useFetch({
-    URL: `/api/worship/${id}`,
+
+  const { mutate, isSuccess } = useDelete({
+    url: `/api/worship/${id}`,
+    queryKey: "weeklies",
   });
-  const queryClient = useQueryClient();
 
   const handleUpdate = () => {
     navigate(`/worship/${id}/update`);
   };
 
   const handleDelete = () => {
-    setOptions(deleteRequest(csrfToken));
+    mutate(undefined, { onSuccess: () => navigate("/worship") });
   };
-
-  useEffect(() => {
-    if (response === "success") {
-      queryClient.invalidateQueries("weeklies");
-      navigate("/worship");
-    }
-  }, [response]);
 
   return (
     <Wrapper>
