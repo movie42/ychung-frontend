@@ -3,17 +3,15 @@ import styled from "styled-components";
 
 import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 
 import {
-  educationGroup,
-  EducationGroupData,
-  educationGroups,
-  peopleState,
+  groupInfoState,
+  Group,
+  groupState,
 } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
-import { usePostData } from "../../../utils/customhooks/usePostData";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -21,51 +19,33 @@ const Wrapper = styled.div`
 
 function EducationUpdate() {
   const { id } = useParams();
-  const [groupsState, setGroupsState] = useRecoilState(educationGroups);
-  const [groupState, setGroupState] = useRecoilState(educationGroup);
-  const [people, setPeople] = useRecoilState(peopleState);
+  const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
+  const { register, handleSubmit, reset } = useForm<Group>();
+  // const [groupInfoMutation, isSuccess, data, isLoading] = usePostData(
+  //   `/api/education/groups/${id}`
+  // );
 
-  const { register, handleSubmit, reset } = useForm<EducationGroupData>();
+  const toggleButton = () => {
+    // groupInfoMutation({ ...groupInfo, isPublic: !groupInfo.isPublic });
+  };
 
-  const [mutationHandler, isSuccess, data, isLoading] = usePostData(
-    "/api/education/group"
-  );
-
-  const addGroup = handleSubmit((data) => {
-    mutationHandler(data);
-    reset();
-  });
-
-  const toggleButton = () => {};
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { _id: id, name, humanIds, type } = data.group;
-      setGroupState((pre) => [...pre, { id, name, humanIds, type }]);
-    }
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     const { updateGroups } = data;
+  //     setGroupInfo((pre) => ({ ...pre, isPublic: updateGroups.isPublic }));
+  //   }
+  // }, [isSuccess]);
 
   return (
     <Wrapper>
-      {/* 눌렀을 때, Input으로 변하기 */}
       <Input
         type="text"
         register={register}
         registerName="title"
-        defaultValue="소그룹1"
+        defaultValue={groupInfo.title}
       />
-      {/* toggle 버튼으로 변경하기 */}
       <button onClick={toggleButton}>소그룹 공개하기</button>
-      <form onSubmit={addGroup}>
-        <Input type="text" register={register} registerName={"name"} />
-        <select {...register("type")}>
-          <option value="student">학생</option>
-          <option value="worker">직장</option>
-          <option value="new">새신자</option>
-          <option value="etc">기타</option>
-        </select>
-        <button>소그룹 추가하기</button>
-      </form>
+      <div>{`${groupInfo.isPublic}`}</div>
       <GroupContainer />
     </Wrapper>
   );

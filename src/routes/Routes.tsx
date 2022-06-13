@@ -24,7 +24,7 @@ import PrivateRoute from "./PrivateRoute";
 import NoticeCreate from "../page/Notice/NoticeCreate";
 import { notice, noticeModalControler } from "../state/notice.atom";
 import { blog, blogModalControler } from "../state/blog.atom";
-import { worship, worshipModalControler } from "../state/worship.atom";
+import { worshipDetail, worshipModalControler } from "../state/worship.atom";
 import BlogCreate from "../page/Blog/BlogCreate";
 import NoticeUpdate from "../page/Notice/NoticeUpdate";
 import BlogUpdate from "../page/Blog/BlogUpdate";
@@ -51,7 +51,7 @@ function Router() {
   const blogItem = useRecoilValue(blog);
   const setBlogModalState = useSetRecoilState(blogModalControler);
 
-  const weeklyItem = useRecoilValue(worship);
+  const weeklyItem = useRecoilValue(worshipDetail);
   const setWeeklyModalState = useSetRecoilState(worshipModalControler);
   return (
     <Routes>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { educationGroups } from "../../state/educationGroup.atom";
+import { groupInfoState } from "../../state/educationGroup.atom";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 
 const EducationGroupsDetail = () => {
   const navigate = useNavigate();
-  const groups = useRecoilValue(educationGroups);
+  const groups = useRecoilValue(groupInfoState);
 
   return (
     <Wrapper>

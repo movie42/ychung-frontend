@@ -22,7 +22,7 @@ export interface IWorshipItems {
   createdAt: string;
 }
 
-export const worship = atom<IWorshipItems>({
+export const worshipDetail = atom<IWorshipItems>({
   key: "worsiph",
   default: {
     _id: "",

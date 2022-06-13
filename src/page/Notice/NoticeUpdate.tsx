@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
+import usePost from "../../utils/customhooks/usePost";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -93,8 +94,14 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/api/notice/${data._id}`,
+
+  const {
+    mutate,
+    isSuccess,
+    data: response,
+  } = usePost({
+    url: `/api/notice/${data._id}`,
+    queryKey: "notice",
   });
 
   const onClick = handleSubmit((data) => {
@@ -103,14 +110,15 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
       ...data,
       paragraph: editorParser,
     };
-    handleOption(postRequest(formData, csrfToken));
+    mutate(formData);
   });
 
   useEffect(() => {
-    if (response) {
-      navigate(`/notice/${response._id}`);
+    if (isSuccess) {
+      const { data } = response;
+      navigate(`/notice/${data._id}`);
     }
-  }, [response]);
+  }, [isSuccess]);
 
   return (
     <Wrapper>

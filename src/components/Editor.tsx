@@ -1,6 +1,9 @@
 import React from "react";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
 import { postRequestMultipartFormData } from "../utils/utilities/httpMethod";
 
@@ -102,7 +105,8 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
         initialValue={initialValue ? initialValue : ""}
         initialEditType="markdown"
         useCommandShortcut={true}
-        language="ko-KR"
+        // language="ko-KR"
+        plugins={[colorSyntax]}
       />
     </Wrapper>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
@@ -9,12 +9,11 @@ import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
 import { useFetch } from "../../utils/customhooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteRequest, postRequest } from "../../utils/utilities/httpMethod";
+import { deleteRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
 import { notice } from "../../state/notice.atom";
-import { useFetchToken } from "../../utils/customhooks/useFetchToken";
-import { useMutation } from "react-query";
 import { useSetView } from "../../utils/customhooks/useSetView";
+import useDelete from "../../utils/customhooks/useDelete";
 
 const ButtonContainer = styled.div`
   button {
@@ -41,10 +40,12 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
   const { id } = useParams();
   const { login } = useRecoilValue(loginState);
-  const [noticeData, setNoticeData] = useRecoilState(notice);
+  const setNoticeData = useSetRecoilState(notice);
   const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
-  const [{ response, isLoading, csrfToken }, setOption] = useFetch({
-    URL: `/api/notice/${data._id}`,
+
+  const { mutate } = useDelete({
+    url: `/api/notice/${data._id}`,
+    queryKey: "notice",
   });
 
   const handleUpdate = () => {
@@ -52,7 +53,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   };
 
   const handleDelete = () => {
-    setOption(deleteRequest(csrfToken));
+    mutate(undefined, { onSuccess: () => navigate("/notice") });
   };
 
   const convertDate = (date: string) => {
@@ -97,12 +98,6 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   useEffect(() => {
     countViews();
   }, []);
-
-  useEffect(() => {
-    if (response) {
-      navigate("/notice");
-    }
-  }, [response]);
 
   return (
     <PageDetailModal setDetailItem={setDetailItem}>

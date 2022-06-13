@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Loading from "../../components/Loading";
-import { educationGroups } from "../../state/educationGroup.atom";
+import { groupInfoState } from "../../state/educationGroup.atom";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -22,7 +22,7 @@ interface IEducationFetchData {
 
 const Educations = () => {
   const navigate = useNavigate();
-  const setEducationGroups = useSetRecoilState(educationGroups);
+  const setEducationGroups = useSetRecoilState(groupInfoState);
   const { isLoading, isSuccess, error, data } = useQuery<IEducationFetchData[]>(
     "notice",
     async () => {

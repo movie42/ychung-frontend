@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import { peopleState } from "../../../state/educationGroup.atom";
-import { usePostData } from "../../../utils/customhooks/usePostData";
+import { peopleState } from "../../../../state/educationGroup.atom";
+import usePost from "../../../../utils/customhooks/usePost";
 
 const Container: React.FC<
   | { isDragging: boolean }
@@ -45,10 +45,10 @@ interface ITaskInterface
 const Human = ({ humanId, index }: ITaskInterface) => {
   const people = useRecoilValue(peopleState);
   const [person] = people.filter((value) => value.id === humanId);
-  const [mutationHandler, isSuccess, data, isLoading] = usePostData("");
+  // const {} = usePost("");
 
   useEffect(() => {
-    mutationHandler(people);
+    // mutationHandler(people);
   }, [people]);
 
   return (

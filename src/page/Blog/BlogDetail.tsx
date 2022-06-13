@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader";
 import { AiFillEdit } from "react-icons/ai";
 import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
-import { useFetch } from "../../utils/customhooks/useFetch";
 import { useNavigate, useParams } from "react-router";
-import { deleteRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
 import { useSetView } from "../../utils/customhooks/useSetView";
 import { blog } from "../../state/blog.atom";
+import useDelete from "../../utils/customhooks/useDelete";
 
 const ButtonContainer = styled.div`
   button {
@@ -39,10 +38,12 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigate = useNavigate();
   const { id } = useParams();
   const { login } = useRecoilValue(loginState);
-  const [postData, setPostData] = useRecoilState(blog);
+  const setPostData = useSetRecoilState(blog);
   const countViews = useSetView(`/api/blog/${id}/count-views`, setPostData);
-  const [{ response, isLoading, csrfToken }, setOption] = useFetch({
-    URL: `/api/blog/${data._id}`,
+
+  const { mutate } = useDelete({
+    url: `/api/blog/${data._id}`,
+    queryKey: "posts",
   });
 
   const handleUpdate = () => {
@@ -50,18 +51,12 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   };
 
   const handleDelete = () => {
-    setOption(deleteRequest(csrfToken));
+    mutate(undefined, { onSuccess: () => navigate("/blog") });
   };
 
   useEffect(() => {
     countViews();
   }, []);
-
-  useEffect(() => {
-    if (response) {
-      navigate("/blog");
-    }
-  }, [response]);
 
   return (
     <PageDetailModal setDetailItem={setDetailItem}>

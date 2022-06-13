@@ -3,10 +3,10 @@ import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import { useFetch } from "../../utils/customhooks/useFetch";
 import { postRequest } from "../../utils/utilities/httpMethod";
 import EditorContainer from "../../components/Editor";
 import { useNavigate } from "react-router-dom";
+import usePost from "../../utils/customhooks/usePost";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -83,8 +83,14 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
-  const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/api/blog/${data._id}`,
+
+  const {
+    mutate,
+    isSuccess,
+    data: response,
+  } = usePost({
+    url: `/api/blog/create`,
+    queryKey: "posts",
   });
 
   const onClick = handleSubmit((data) => {
@@ -93,14 +99,15 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
       ...data,
       paragraph: editorParser,
     };
-    handleOption(postRequest(formData, csrfToken));
+    mutate(formData);
   });
 
   useEffect(() => {
-    if (response) {
-      navigate(`/blog/${response._id}`);
+    if (isSuccess) {
+      const { data } = response;
+      navigate(`/blog/${data._id}`);
     }
-  }, [response]);
+  }, [isSuccess]);
 
   return (
     <Wrapper>

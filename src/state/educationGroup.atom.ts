@@ -7,14 +7,14 @@ export interface People {
   type: "student" | "worker" | "new" | "etc";
 }
 
-export interface EducationGroupData {
+export interface Group {
   id: string;
   name: string;
   type: "student" | "worker" | "new" | "etc";
   humanIds: string[];
 }
 
-export interface EducationGroupsData {
+export interface GroupInfo {
   id: string;
   title: string;
   isPublic: boolean;
@@ -26,12 +26,12 @@ export const peopleState = atom<People[]>({
   default: [],
 });
 
-export const educationGroup = atom<EducationGroupData[]>({
+export const groupState = atom<Group[]>({
   key: "educationGroup",
   default: [],
 });
 
-export const educationGroups = atom<EducationGroupsData>({
+export const groupInfoState = atom<GroupInfo>({
   key: "educationGroups",
-  default: <EducationGroupsData>{},
+  default: <GroupInfo>{},
 });

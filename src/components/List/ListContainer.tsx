@@ -17,7 +17,7 @@ interface IListComponentProps<T> {
   renderData: (item: T) => React.ReactNode;
 }
 
-const ListContainer = <T extends { _id: string }>({
+const ListContainer = <T extends unknown>({
   data,
   renderData,
 }: React.PropsWithChildren<IListComponentProps<T>>) => {
