@@ -24,7 +24,7 @@ import PrivateRoute from "./PrivateRoute";
 import NoticeCreate from "../page/Notice/NoticeCreate";
 import { notice, noticeModalControler } from "../state/notice.atom";
 import { blog, blogModalControler } from "../state/blog.atom";
-import { worship, worshipModalControler } from "../state/worship.atom";
+import { worshipDetail, worshipModalControler } from "../state/worship.atom";
 import BlogCreate from "../page/Blog/BlogCreate";
 import NoticeUpdate from "../page/Notice/NoticeUpdate";
 import BlogUpdate from "../page/Blog/BlogUpdate";
@@ -39,10 +39,9 @@ import AccountDetail from "../page/Document/Account/AccountDetail";
 import Application from "../page/Document/Application/Application";
 import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
 import Educations from "../page/Educations/Educations";
-import EducationsUpdate from "../page/Educations/EducationsUpdate";
-import EducationCreate from "../page/Educations/EducationCreate";
+import EducationsUpdate from "../page/Educations/UpdateGroup/EducationsUpdate";
+import EducationCreate from "../page/Educations/CreateGroup/EducationCreate";
 import EducationGroupsDetail from "../page/Educations/EducationGroupsDetail";
-import EducationsAdmin from "../page/Educations/EducationsAdmin";
 
 function Router() {
   const { login, userId } = useRecoilValue(loginState);
@@ -52,7 +51,7 @@ function Router() {
   const blogItem = useRecoilValue(blog);
   const setBlogModalState = useSetRecoilState(blogModalControler);
 
-  const weeklyItem = useRecoilValue(worship);
+  const weeklyItem = useRecoilValue(worshipDetail);
   const setWeeklyModalState = useSetRecoilState(worshipModalControler);
   return (
     <Routes>
@@ -134,7 +133,6 @@ function Router() {
           <Route path="/user/:id/applications" element={<UserApplications />} />
           <Route path="/user/:id/like" element={<UserLike />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/education/admin" element={<EducationsAdmin />} />
         </>
       ) : (
         <>

@@ -35,6 +35,7 @@ export const updateEducationGroups = async (req, res) => {
   } = req;
 
   try {
+    console.log(isPublic);
     const updateGroups = await groupsModel.findByIdAndUpdate(
       {
         _id: id,
@@ -42,7 +43,7 @@ export const updateEducationGroups = async (req, res) => {
       { title, isPublic, groups },
     );
 
-    return res.sendStatus(200);
+    return res.status(200).json({ updateGroups });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });
