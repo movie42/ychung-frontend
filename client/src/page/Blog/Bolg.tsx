@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useQuery } from "react-query";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
 import Loading from "../../components/Loading";
 import ListItem from "../../components/List/ListItem";
 import ListContainer from "../../components/List/ListContainer";
 import { loginState } from "../../state/Authrization";
 import { IBlogItems } from "../../state/blog.atom";
+import { useGet } from "../../utils/customhooks/useGet";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -33,30 +33,19 @@ const BlogComponentInfoContainer = styled.div`
 function Blog() {
   const { login } = useRecoilValue(loginState);
   const { id } = useParams();
-  const [detailItem, setDetailItem] = useRecoilState(blog);
+  const setDetailItem = useSetRecoilState(blog);
   const [blogModalState, setBlogModalState] =
     useRecoilState(blogModalControler);
 
   const {
+    isSuccess,
+    isRefetching,
     isLoading,
-    error,
     data: posts,
-  } = useQuery<IBlogItems[]>(
-    "posts",
-    async () => {
-      const response = await fetch(`/api/blog`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      });
-      const { data } = await response.json();
-      return data;
-    },
-    { staleTime: 10000 }
-  );
+  } = useGet<IBlogItems[]>({
+    url: `/api/blog`,
+    queryKey: "posts",
+  });
 
   const onClick = (id: string) => {
     if (posts) {
@@ -67,12 +56,12 @@ function Blog() {
   };
 
   useEffect(() => {
-    if (id && !isLoading && posts) {
+    if (id && isSuccess && !isRefetching) {
       const [detailItem] = posts.filter((item) => item._id === id);
       setBlogModalState(true);
       setDetailItem({ ...detailItem });
     }
-  }, [id, isLoading]);
+  }, [id, isSuccess, isRefetching]);
 
   return (
     <>

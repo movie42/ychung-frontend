@@ -5,9 +5,8 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../utils/customhooks/useFetch";
-import { postRequest } from "../../utils/utilities/httpMethod";
 import { useNavigate } from "react-router-dom";
+import usePost from "../../utils/customhooks/usePost";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -67,8 +66,14 @@ const BlogCreate: React.FC = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
-  const [{ response, error, isLoading, csrfToken }, handleOption] = useFetch({
-    URL: `/api/blog/create`,
+
+  const {
+    mutate,
+    isSuccess,
+    data: response,
+  } = usePost({
+    url: `/api/blog/create`,
+    queryKey: "posts",
   });
 
   const onClick = handleSubmit((data) => {
@@ -77,14 +82,15 @@ const BlogCreate: React.FC = () => {
       ...data,
       paragraph: editorParser,
     };
-    handleOption(postRequest(formData, csrfToken));
+    mutate(formData);
   });
 
   useEffect(() => {
-    if (response) {
-      navigate(`/blog/${response._id}`);
+    if (isSuccess) {
+      const { data } = response;
+      navigate(`/blog/${data._id}`);
     }
-  }, [response]);
+  }, [isSuccess]);
 
   return (
     <Wrapper>

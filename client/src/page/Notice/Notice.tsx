@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
 import styled from "styled-components";
 import { Link, Outlet, useParams, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,6 +10,7 @@ import { loginState } from "../../state/Authrization";
 import ListContainer from "../../components/List/ListContainer";
 import ListItem from "../../components/List/ListItem";
 import { INoticeInterface } from "../../state/notice.atom";
+import { useGet } from "../../utils/customhooks/useGet";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -34,31 +34,20 @@ const NoticeComponentInfoContainer = styled.div`
 
 function Notice() {
   const { id } = useParams();
-  const isLogin = useRecoilValue(loginState);
+  const { login } = useRecoilValue(loginState);
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
   const {
+    isSuccess,
+    isRefetching,
     isLoading,
-    error,
     data: notices,
-  } = useQuery<INoticeInterface[]>(
-    "notice",
-    async () => {
-      const response = await fetch(`/api/notice`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      });
-      const { data } = await response.json();
-      return data;
-    },
-    { staleTime: 10000 }
-  );
+  } = useGet<INoticeInterface[]>({
+    url: `/api/notice`,
+    queryKey: "notice",
+  });
 
   const onClick = (id: string) => {
     if (notices) {
@@ -69,12 +58,12 @@ function Notice() {
   };
 
   useEffect(() => {
-    if (id && !isLoading && notices) {
+    if (id && isSuccess && !isRefetching) {
       const [detailItem] = notices.filter((item) => item._id === id);
       setNoticeModalState(true);
       setDetailItem({ ...detailItem });
     }
-  }, [id, isLoading]);
+  }, [id, isSuccess, isRefetching]);
 
   return (
     <>
@@ -84,7 +73,7 @@ function Notice() {
           <Wrapper>
             <NoticeComponentInfoContainer>
               <h1>공지사항</h1>
-              {isLogin.login && (
+              {login && (
                 <Link to={"/notice/create"}>
                   <AiFillPlusCircle />
                 </Link>

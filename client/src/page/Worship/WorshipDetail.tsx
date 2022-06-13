@@ -16,7 +16,7 @@ import {
   godpeopleDeepLink,
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
-import { worship } from "../../state/worship.atom";
+import { worshipDetail } from "../../state/worship.atom";
 import { useCopyText } from "../../utils/customhooks/useCopyText";
 import { useSetView } from "../../utils/customhooks/useSetView";
 
@@ -116,7 +116,7 @@ interface IWorshipDetailProps {
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const { id } = useParams();
-  const [worshipData, setWorshipData] = useRecoilState(worship);
+  const [worshipData, setWorshipData] = useRecoilState(worshipDetail);
   const countViews = useSetView(
     `/api/worship/${id}/count-views`,
     setWorshipData
@@ -136,9 +136,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
       window.location.href = `kakaobank://link/`;
     }
-
     const setMessage = setTimeout(() => copyText("", ""), 5000);
-
     return () => clearTimeout(setMessage);
   }, [copyMessage]);
 

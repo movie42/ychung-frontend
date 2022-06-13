@@ -6,11 +6,12 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import WorshipItem from "./WorshipDetailComponents/WorshipItem";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { worship, worshipModalControler } from "../../state/worship.atom";
+import { worshipDetail, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
 import { getWeekliesData } from "../../utils/utilities/httpMethod";
+import { useGet } from "../../utils/customhooks/useGet";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -44,7 +45,7 @@ const ListContainer = styled.ul`
 function Worship() {
   const { login } = useRecoilValue(loginState);
   const { id } = useParams();
-  const setDetailItem = useSetRecoilState(worship);
+  const setDetailItem = useSetRecoilState(worshipDetail);
   const [worshipModalState, setWorshipModalState] = useRecoilState(
     worshipModalControler
   );
@@ -54,25 +55,24 @@ function Worship() {
     isLoading,
     isRefetching,
     data: weeklies,
-  } = useQuery("weeklies", getWeekliesData, {
-    staleTime: 120000,
-    cacheTime: 300000,
+  } = useGet<IWorshipItems[]>({
+    url: `/api/worship`,
+    queryKey: "weeklies",
   });
 
-  const onClick = (id: string) => {
-    const [detailItem] = weeklies.filter(
-      (item: IWorshipItems) => item._id === id
-    );
-    setWorshipModalState(true);
-    setDetailItem({ ...detailItem });
-  };
-
-  useEffect(() => {
-    console.log(isRefetching);
-    if (id && isSuccess && !isRefetching) {
+  const onClick = (id: string): void => {
+    if (weeklies) {
       const [detailItem] = weeklies.filter(
         (item: IWorshipItems) => item._id === id
       );
+      setWorshipModalState(true);
+      setDetailItem({ ...detailItem });
+    }
+  };
+
+  useEffect(() => {
+    if (id && isSuccess && !isRefetching) {
+      const [detailItem] = weeklies.filter((item) => item._id === id);
       setWorshipModalState(true);
       setDetailItem({ ...detailItem });
     }
