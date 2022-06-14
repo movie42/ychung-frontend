@@ -1,16 +1,12 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 
-import {
-  groupInfoState,
-  Group,
-  groupState,
-} from "../../../state/educationGroup.atom";
+import { groupInfoState, Group } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
 
 const Wrapper = styled.div`
