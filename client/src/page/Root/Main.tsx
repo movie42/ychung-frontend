@@ -1,12 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { BsChevronDoubleDown } from "react-icons/bs";
-import Button from "../../components/Buttons/Button";
 import Input from "../../components/Form/Input";
-import Canvas from "../../components/Canvas";
 import { useInView } from "react-intersection-observer";
 
 const Wrapper = styled.div`
@@ -182,8 +178,6 @@ const iconVariant = {
 function Main() {
   const control = useAnimation();
   const [ref, inView] = useInView();
-  const canvasRef = useRef(null);
-  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     if (inView) {

@@ -1,9 +1,8 @@
-import { Editor } from "@toast-ui/react-editor";
 import React, { useEffect, useRef } from "react";
+import { Editor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import { postRequest } from "../../utils/utilities/httpMethod";
 import EditorContainer from "../../components/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 import usePost from "../../utils/customhooks/usePost";

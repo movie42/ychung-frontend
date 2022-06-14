@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Blog from "../page/Blog/Bolg";
 import Documents from "../page/Document/Documents";
 import Join from "../page/Root/Join";
@@ -17,7 +17,7 @@ import UserWorks from "../page/User/UserWorks";
 import UserApplications from "../page/User/UserApplications";
 import UserLike from "../page/User/UserLike";
 import NoticeDetail from "../page/Notice/NoticeDetail";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginState } from "../state/Authrization";
 import PrivateRoute from "./PrivateRoute";
 
@@ -29,7 +29,7 @@ import BlogCreate from "../page/Blog/BlogCreate";
 import NoticeUpdate from "../page/Notice/NoticeUpdate";
 import BlogUpdate from "../page/Blog/BlogUpdate";
 import WorshipUpdate from "../page/Worship/WorshipUpdate";
-import WorshipItem from "../page/Worship/WorshipDetailComponents/WorshipItem";
+
 import Rules from "../page/Document/Rules/Rules";
 import RulesDetail from "../page/Document/Rules/RulesDetail";
 import Menuel from "../page/Document/Menuel/Menuel";
@@ -42,8 +42,10 @@ import Educations from "../page/Educations/Educations";
 import EducationsUpdate from "../page/Educations/UpdateGroup/EducationsUpdate";
 import EducationCreate from "../page/Educations/CreateGroup/EducationCreate";
 import EducationGroupsDetail from "../page/Educations/EducationGroupsDetail";
+import { AnimatePresence } from "framer-motion";
 
 function Router() {
+  const location = useLocation();
   const { login, userId } = useRecoilValue(loginState);
   const noticeItem = useRecoilValue(notice);
   const setNoticeModalState = useSetRecoilState(noticeModalControler);
@@ -54,7 +56,7 @@ function Router() {
   const weeklyItem = useRecoilValue(worshipDetail);
   const setWeeklyModalState = useSetRecoilState(worshipModalControler);
   return (
-    <Routes>
+    <Routes location={location} key={location.key}>
       <Route path="/" element={<Main />} />
       <Route path="/notice" element={<Notice />}>
         <Route

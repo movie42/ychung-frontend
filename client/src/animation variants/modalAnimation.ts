@@ -2,10 +2,11 @@ export const opacity = {
   initial: {
     opacity: 0,
   },
-  animate: {
+  enter: {
     opacity: 1,
     transition: {
       duration: 0.2,
+      delayChildren: 0.3,
     },
   },
   exit: {
@@ -17,10 +18,9 @@ export const movingCard = {
   initial: {
     y: "100%",
   },
-  animate: {
+  enter: {
     y: 0,
     transition: {
-      delay: 0.1,
       type: "tween",
     },
   },
