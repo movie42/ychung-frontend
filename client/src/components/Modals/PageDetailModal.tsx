@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { movingCard, opacity } from "../../animation variants/modalAnimation";
 import { SetterOrUpdater } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Wrapper = styled(motion.div)`
   position: fixed;
@@ -63,9 +63,11 @@ interface IPageDetailModal extends React.HTMLAttributes<HTMLDivElement> {
 
 function PageDetailModal({ setDetailItem, children }: IPageDetailModal) {
   const navigate = useNavigate();
+  const location = useLocation();
   const modalHandler = () => {
+    const [blank, root] = location.pathname.split("/");
     setDetailItem(false);
-    setTimeout(() => navigate(-1), 200);
+    setTimeout(() => navigate(`/${root}`), 200);
   };
 
   useEffect(() => {
