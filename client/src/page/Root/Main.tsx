@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import {
+  motion,
+  useTransform,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
 import styled from "styled-components";
 import { BsChevronDoubleDown } from "react-icons/bs";
 import Input from "../../components/Form/Input";
-import { useInView } from "react-intersection-observer";
 
-const Wrapper = styled.div`
-  height: 100vh;
-`;
+const Wrapper = styled(motion.div)``;
 
 const Section = styled(motion.section)`
-  height: 100%;
+  height: 100vh;
   h1,
   h2,
   h3,
@@ -140,7 +142,6 @@ const ArrowContainer = styled(motion.div)`
   position: fixed;
   bottom: 4rem;
   left: 50%;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -170,40 +171,41 @@ const TitleContainer = styled.div`
   }
 `;
 
-const iconVariant = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
+const arrowVariants: Variants = {
+  init: {
+    x: -50,
+  },
+  animate: {
+    x: -50,
+    y: [-30, 0],
+    transition: {
+      y: { yoyo: 20, duration: 1, ease: "easeInOut" },
+    },
+  },
 };
 
 function Main() {
-  const control = useAnimation();
-  const [ref, inView] = useInView();
-
-  useEffect(() => {
-    if (inView) {
-      control.start("visible");
-    } else {
-      control.start("hidden");
-    }
-  }, [control, inView]);
+  const { scrollYProgress } = useViewportScroll();
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
     <Wrapper>
-      <Section
-        className="main-section-1"
-        variants={iconVariant}
-        initial="hidden"
-        exit="hidden"
-        ref={ref}
-        animate={control}>
+      <Section className="main-section-1">
         <h1 className="emoji">😃</h1>
         <h1>
           양청에 <br />
           오신 것을 <br />
           환영합니다.
         </h1>
-        <ArrowContainer>
-          <BsChevronDoubleDown className="arrowIcon" />
+        <ArrowContainer
+          style={{ opacity }}
+          initial="init"
+          variants={arrowVariants}
+          animate="animate">
+          <BsChevronDoubleDown
+            className="arrowIcon"
+            onClick={() => scrollYProgress.set(0.25)}
+          />
           <p>더 많은 내용 보기</p>
         </ArrowContainer>
       </Section>
