@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import PageDetailModal from "../../components/Modals/PageDetailModal";
 import { AiFillEdit } from "react-icons/ai";
@@ -7,13 +7,12 @@ import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
-import { useFetch } from "../../utils/customhooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
 import { notice } from "../../state/notice.atom";
 import { useSetView } from "../../utils/customhooks/useSetView";
 import useDelete from "../../utils/customhooks/useDelete";
+import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal";
 
 const ButtonContainer = styled.div`
   button {
@@ -43,17 +42,18 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const setNoticeData = useSetRecoilState(notice);
   const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
 
-  const { mutate } = useDelete({
-    url: `/api/notice/${data._id}`,
-    queryKey: "notice",
-  });
+  const { mutate, isConfirmModal, setIsConfirmModal, isDelete, setIsDelete } =
+    useDelete({
+      url: `/api/notice/${data._id}`,
+      queryKey: "notice",
+    });
 
   const handleUpdate = () => {
     navigate(`/notice/${data._id}/update`);
   };
 
   const handleDelete = () => {
-    mutate(undefined, { onSuccess: () => navigate("/notice") });
+    setIsConfirmModal(true);
   };
 
   const convertDate = (date: string) => {
@@ -99,31 +99,54 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
     countViews();
   }, []);
 
+  useEffect(() => {
+    if (isDelete) {
+      mutate(undefined, {
+        onSuccess: () => {
+          setIsConfirmModal(false);
+          navigate("/notice");
+        },
+      });
+    }
+  }, [isDelete]);
+
   return (
-    <PageDetailModal setDetailItem={setDetailItem}>
-      <>
-        <PageDetailModalHeader {...data}>
-          {login && (
-            <ButtonContainer>
-              <Button buttonType="icon" onClick={handleUpdate}>
-                <AiFillEdit />
-              </Button>
-              <Button buttonType="icon" onClick={handleDelete}>
-                <MdDelete />
-              </Button>
-            </ButtonContainer>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsConfirmModal={setIsConfirmModal}
+          setIsDelete={setIsDelete}
+        />
+      )}
+      <PageDetailModal setDetailItem={setDetailItem}>
+        <>
+          <PageDetailModalHeader {...data}>
+            {login && (
+              <ButtonContainer>
+                <Button buttonType="icon" onClick={handleUpdate}>
+                  <AiFillEdit />
+                </Button>
+                <Button buttonType="icon" onClick={handleDelete}>
+                  <MdDelete />
+                </Button>
+              </ButtonContainer>
+            )}
+          </PageDetailModalHeader>
+          {data.startDate && (
+            <a
+              download="event.ics"
+              href={`${saveICS(
+                data?.startDate,
+                data?.endDate,
+                data?.summary
+              )}`}>
+              일정을 달력에 저장하기
+            </a>
           )}
-        </PageDetailModalHeader>
-        {data.startDate && (
-          <a
-            download="event.ics"
-            href={`${saveICS(data?.startDate, data?.endDate, data?.summary)}`}>
-            일정을 달력에 저장하기
-          </a>
-        )}
-        <Viewer paragraph={data.paragraph} />
-      </>
-    </PageDetailModal>
+          <Viewer paragraph={data.paragraph} />
+        </>
+      </PageDetailModal>
+    </>
   );
 }
 

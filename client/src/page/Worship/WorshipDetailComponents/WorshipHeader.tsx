@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { AiFillEdit } from "react-icons/ai";
 import { HiUser } from "react-icons/hi";
@@ -10,6 +10,7 @@ import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
 import useDelete from "../../../utils/customhooks/useDelete";
 import { calculateDate } from "../../../utils/utilities/calculateDate";
+import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 
 const Wrapper = styled(motion.div)`
   overflow-x: hidden;
@@ -86,43 +87,58 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const navigate = useNavigate();
   const { login } = useRecoilValue(loginState);
 
-  const { mutate, isSuccess } = useDelete({
-    url: `/api/worship/${id}`,
-    queryKey: "weeklies",
-  });
+  const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
+    useDelete({
+      url: `/api/worship/${id}`,
+      queryKey: "weeklies",
+    });
 
   const handleUpdate = () => {
     navigate(`/worship/${id}/update`);
   };
 
   const handleDelete = () => {
-    mutate(undefined, { onSuccess: () => navigate("/worship") });
+    setIsConfirmModal(true);
   };
 
+  useEffect(() => {
+    if (isDelete) {
+      mutate(undefined, { onSuccess: () => navigate("/worship") });
+    }
+  }, [isDelete]);
+
   return (
-    <Wrapper>
-      <h1 className="head-title">{title}</h1>
-      <UserInfoContainer>
-        <ImageContainer>
-          <HumanIcon />
-        </ImageContainer>
-        <InforContainer>
-          <span>{views}</span>
-          <span>{creator.userName}</span>
-          <span>{calculateDate(createdAt)}</span>
-        </InforContainer>
-        {login && (
-          <ButtonContainer>
-            <Button buttonType="icon" onClick={handleUpdate}>
-              <AiFillEdit />
-            </Button>
-            <Button buttonType="icon" onClick={handleDelete}>
-              <MdDelete />
-            </Button>
-          </ButtonContainer>
-        )}
-      </UserInfoContainer>
-    </Wrapper>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsConfirmModal={setIsConfirmModal}
+          setIsDelete={setIsDelete}
+        />
+      )}
+      <Wrapper>
+        <h1 className="head-title">{title}</h1>
+        <UserInfoContainer>
+          <ImageContainer>
+            <HumanIcon />
+          </ImageContainer>
+          <InforContainer>
+            <span>{views}</span>
+            <span>{creator.userName}</span>
+            <span>{calculateDate(createdAt)}</span>
+          </InforContainer>
+          {login && (
+            <ButtonContainer>
+              <Button buttonType="icon" onClick={handleUpdate}>
+                <AiFillEdit />
+              </Button>
+              <Button buttonType="icon" onClick={handleDelete}>
+                <MdDelete />
+              </Button>
+            </ButtonContainer>
+          )}
+        </UserInfoContainer>
+      </Wrapper>
+    </>
   );
 };
 
