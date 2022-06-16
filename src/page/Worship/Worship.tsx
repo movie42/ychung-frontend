@@ -1,19 +1,18 @@
 import React, { useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
 import { Link, useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import WorshipItem from "./WorshipDetailComponents/WorshipItem";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { worshipDetail, worshipModalControler } from "../../state/worship.atom";
 import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
-import { getWeekliesData } from "../../utils/utilities/httpMethod";
 import { useGet } from "../../utils/customhooks/useGet";
+import { movingCard } from "../../animation variants/modalAnimation";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width: 100%;
   margin-top: 8rem;
 `;

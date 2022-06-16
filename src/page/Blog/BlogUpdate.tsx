@@ -1,11 +1,10 @@
-import { Editor } from "@toast-ui/react-editor";
 import React, { useEffect, useRef } from "react";
+import { Editor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import { postRequest } from "../../utils/utilities/httpMethod";
 import EditorContainer from "../../components/Editor";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import usePost from "../../utils/customhooks/usePost";
 
 const Wrapper = styled.div`
@@ -80,6 +79,7 @@ interface IBlogDetailProps {
   data: any;
 }
 const BlogUpdate = ({ data }: IBlogDetailProps) => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();
@@ -89,7 +89,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
     isSuccess,
     data: response,
   } = usePost({
-    url: `/api/blog/create`,
+    url: `/api/blog/${id}`,
     queryKey: "posts",
   });
 

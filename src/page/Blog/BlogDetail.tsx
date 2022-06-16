@@ -12,6 +12,7 @@ import { loginState } from "../../state/Authrization";
 import { useSetView } from "../../utils/customhooks/useSetView";
 import { blog } from "../../state/blog.atom";
 import useDelete from "../../utils/customhooks/useDelete";
+import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal";
 
 const ButtonContainer = styled.div`
   button {
@@ -41,39 +42,54 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const setPostData = useSetRecoilState(blog);
   const countViews = useSetView(`/api/blog/${id}/count-views`, setPostData);
 
-  const { mutate } = useDelete({
-    url: `/api/blog/${data._id}`,
-    queryKey: "posts",
-  });
+  const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
+    useDelete({
+      url: `/api/blog/${data._id}`,
+      queryKey: "posts",
+    });
 
   const handleUpdate = () => {
     navigate(`/blog/${data._id}/update`);
   };
 
   const handleDelete = () => {
-    mutate(undefined, { onSuccess: () => navigate("/blog") });
+    setIsConfirmModal(true);
   };
 
   useEffect(() => {
     countViews();
   }, []);
 
+  useEffect(() => {
+    if (isDelete) {
+      mutate(undefined, { onSuccess: () => navigate("/blog") });
+    }
+  }, [isDelete]);
+
   return (
-    <PageDetailModal setDetailItem={setDetailItem}>
-      <PageDetailModalHeader {...data}>
-        {login && (
-          <ButtonContainer>
-            <Button buttonType="icon" onClick={handleUpdate}>
-              <AiFillEdit />
-            </Button>
-            <Button buttonType="icon" onClick={handleDelete}>
-              <MdDelete />
-            </Button>
-          </ButtonContainer>
-        )}
-      </PageDetailModalHeader>
-      <Viewer paragraph={data.paragraph} />
-    </PageDetailModal>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsConfirmModal={setIsConfirmModal}
+          setIsDelete={setIsDelete}
+        />
+      )}
+      <PageDetailModal setDetailItem={setDetailItem}>
+        <PageDetailModalHeader {...data}>
+          {login && (
+            <ButtonContainer>
+              <Button buttonType="icon" onClick={handleUpdate}>
+                <AiFillEdit />
+              </Button>
+              <Button buttonType="icon" onClick={handleDelete}>
+                <MdDelete />
+              </Button>
+            </ButtonContainer>
+          )}
+        </PageDetailModalHeader>
+        <Viewer paragraph={data.paragraph} />
+      </PageDetailModal>
+    </>
   );
 }
 
