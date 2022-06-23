@@ -25,7 +25,7 @@ interface ICopyTextModalProps {
   text: string;
 }
 
-const CopyTextModal: React.FC<ICopyTextModalProps> = ({ text }) => {
+const CopyTextModal = ({ text }: ICopyTextModalProps) => {
   return (
     <AnimatePresence>
       {text !== "" && (
