@@ -1,17 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const Item: React.FC<ITextAreaProps> = styled.textarea<ITextAreaProps>`
+const Item = styled.textarea<ITextAreaProps>`
   border: 0;
 `;
 
 interface ITextAreaProps
-  extends React.DetailedHTMLProps<
-    React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-    HTMLTextAreaElement
-  > {}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-const Textarea: React.FC<ITextAreaProps> = ({ ...props }) => {
+const Textarea = ({ ...props }: ITextAreaProps) => {
   return <Item {...props}></Item>;
 };
 
