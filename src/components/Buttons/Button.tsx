@@ -18,7 +18,7 @@ interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType: "block" | "icon";
 }
 
-const Button: React.FC<IButtonProps> = ({ buttonType, ...props }) => {
+const Button = ({ buttonType, ...props }: IButtonProps) => {
   return buttonType === "icon" ? (
     <IconButtonStyle {...props}>{props.children}</IconButtonStyle>
   ) : (
