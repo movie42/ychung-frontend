@@ -11,6 +11,7 @@ import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
 import usePost from "../../utils/customhooks/usePost";
+import FormItem from "../../components/Form/FormItem";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -126,60 +127,52 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
         <AiOutlineCloudUpload />
       </button>
       <InputWrapper>
-        <div>
+        <FormItem>
           <Label htmlFor="title">제목</Label>
           <Input
             id="title"
             type="text"
             placeholder="제목을 입력하세요."
-            register={register}
-            registerName="title"
             defaultValue={data.title}
-            registerOptions={{ required: "제목을 입력하세요." }}
+            {...register("title", { required: "제목을 입력하세요." })}
           />
-        </div>
-        <div>
+        </FormItem>
+        <FormItem>
           <Label htmlFor="startDate">행사 시작</Label>
           <Input
             type="date"
-            register={register}
-            registerName="startDate"
             defaultValue={`${currentDate()}`}
+            {...register("startDate", { required: "제목을 입력하세요." })}
           />
-        </div>
-        <div>
+        </FormItem>
+        <FormItem>
           <Label htmlFor="endDate">행사 끝</Label>
           <Input
             type="date"
-            register={register}
-            registerName="endDate"
             defaultValue={`${currentDate()}`}
+            {...register("endDate", { required: "제목을 입력하세요." })}
           />
           {<p>{errors?.endDate?.message}</p>}
-        </div>
-        <div>
+        </FormItem>
+        <FormItem>
           <Label htmlFor="summary">행사 요약</Label>
           <Input
             type="text"
-            register={register}
-            registerName="summary"
-            registerOptions={{ min: 0, max: 100 }}
             defaultValue={data.summary}
+            {...register("summary", { min: 0, max: 100 })}
             placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
           />
           {<p>{errors?.endDate?.message}</p>}
-        </div>
-        <div className="flex">
+        </FormItem>
+        <FormItem className="flex">
           <Input
             id="isWeekly"
             type="checkbox"
-            register={register}
-            registerName="isWeekly"
             defaultChecked={data.isWeekly}
-            registerOptions={{ value: false }}
+            {...register("isWeekly", { value: false })}
           />
           <Label htmlFor="isWeekly">주보에 넣기</Label>
-        </div>
+        </FormItem>
       </InputWrapper>
       <EditorContainer initialValue={data.paragraph} reference={editorRef} />
     </Wrapper>
