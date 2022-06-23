@@ -14,7 +14,7 @@ import Select from "../../components/Form/Select";
 const Wrapper = styled.div`
   margin-top: 8rem;
   position: relative;
-  height: 70vh;
+  height: 100vh;
 
   button.upload {
     position: absolute;
