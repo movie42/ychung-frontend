@@ -36,10 +36,7 @@ interface IPageDetailModalHeader extends React.HTMLAttributes<HTMLDivElement> {
   createdAt: string;
 }
 
-const PageDetailModalHeader: React.FC<IPageDetailModalHeader> = ({
-  views,
-  ...props
-}) => {
+const PageDetailModalHeader = ({ views, ...props }: IPageDetailModalHeader) => {
   const { title, createdAt, creator } = props;
   return (
     <HeadInfoContainer>

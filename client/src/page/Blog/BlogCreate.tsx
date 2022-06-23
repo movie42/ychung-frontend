@@ -62,7 +62,7 @@ const InputWrapper = styled.form`
   }
 `;
 
-const BlogCreate: React.FC = () => {
+const BlogCreate = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit } = useForm();

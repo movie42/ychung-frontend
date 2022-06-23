@@ -1,15 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-interface ILabelProps
-  extends React.DetailedHTMLProps<
-    React.LabelHTMLAttributes<HTMLLabelElement>,
-    HTMLLabelElement
-  > {
-  children: React.ReactNode | string;
+interface ILabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  children: ReactNode;
 }
 
-const Label: React.FC<ILabelProps> = ({ ...props }) => {
-  return <label {...props}>{props.children}</label>;
+const Label = ({ children, ...props }: ILabelProps) => {
+  return <label {...props}>{children}</label>;
 };
 
 export default Label;

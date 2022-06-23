@@ -7,9 +7,7 @@ import { HiUser } from "react-icons/hi";
 import { previewParagraph } from "../../utils/utilities/previewParagraph";
 import { imageParser } from "../../utils/utilities/imageParser";
 
-const Item: React.FC<React.LiHTMLAttributes<HTMLLIElement>> = styled.li<
-  React.LiHTMLAttributes<HTMLLIElement>
->`
+const Item = styled.li`
   width: 100%;
   box-sizing: border-box;
   box-shadow: 0.2rem 0.2rem 0.8rem
@@ -129,18 +127,11 @@ interface UnkownType {
   createdAt: string;
 }
 
-interface IItemProps<T>
-  extends React.DetailedHTMLProps<
-    React.LiHTMLAttributes<HTMLLIElement>,
-    HTMLLIElement
-  > {
+interface IItemProps<T> extends React.LiHTMLAttributes<HTMLLIElement> {
   data: T;
 }
 
-const ListItem = <T extends UnkownType>({
-  data,
-  ...rest
-}: React.PropsWithChildren<IItemProps<T>>) => {
+const ListItem = <T extends UnkownType>({ data, ...rest }: IItemProps<T>) => {
   const {
     _id,
     title,
