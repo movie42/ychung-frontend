@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/Buttons/Button";
 import FormItem from "../../components/Form/FormItem";
+import SEO from "../../components/SEO/SEO";
 
 interface SubmitProps {
   email: string;
@@ -68,6 +69,7 @@ function Join() {
 
   return (
     <>
+      <SEO title="회원가입" keywords="회원가입" />
       <h1>회원 가입</h1>
       <form onSubmit={onSubmit}>
         <FormItem>

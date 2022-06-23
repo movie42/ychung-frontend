@@ -4,8 +4,9 @@ import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import usePost from "../../utils/customhooks/usePost";
+import SEO from "../../components/SEO/SEO";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -33,7 +34,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const InputWrapper = styled.form`
+const Form = styled.form`
   box-sizing: border-box;
   margin-bottom: 1rem;
   border-bottom: 1px solid ${(props) => props.theme.color.gray300};
@@ -110,24 +111,30 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
   }, [isSuccess]);
 
   return (
-    <Wrapper>
-      <button className="upload" onClick={onClick}>
-        <AiOutlineCloudUpload />
-      </button>
-      <InputWrapper>
-        <label htmlFor="title">제목</label>
-        <input
-          placeholder="제목을 입력하세요."
-          {...register("title", {
-            required: "제목을 입력하세요.",
-            value: data.title,
-          })}
-          id="title"
-          type="text"
-        />
-      </InputWrapper>
-      <EditorContainer initialValue={data.paragraph} reference={editorRef} />
-    </Wrapper>
+    <>
+      <SEO
+        title="블로그 포스트 수정"
+        keywords="블로그, 양정교회 청년부 블로그, 양청 블로그"
+      />
+      <Wrapper>
+        <button className="upload" onClick={onClick}>
+          <AiOutlineCloudUpload />
+        </button>
+        <Form>
+          <label htmlFor="title">제목</label>
+          <input
+            placeholder="제목을 입력하세요."
+            {...register("title", {
+              required: "제목을 입력하세요.",
+              value: data.title,
+            })}
+            id="title"
+            type="text"
+          />
+        </Form>
+        <EditorContainer initialValue={data.paragraph} reference={editorRef} />
+      </Wrapper>
+    </>
   );
 };
 

@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import styled from "styled-components";
 import { loginState } from "./state/Authrization";
 import Router from "./routes/Routes";
 import Header from "./components/Header/Header";
-
-const queryClient = new QueryClient();
+import SEO from "./components/SEO/SEO";
 
 const Wrapper = styled.main`
   overflow-x: hidden;
@@ -31,12 +28,10 @@ function App() {
 
   return (
     <>
+      <SEO />
       <Header />
       <Wrapper>
-        <QueryClientProvider client={queryClient}>
-          <Router />
-          <ReactQueryDevtools initialIsOpen={true} />
-        </QueryClientProvider>
+        <Router />
       </Wrapper>
     </>
   );

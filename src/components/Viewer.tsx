@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 `;
 
 interface IViwerProps {
-  paragraph: string;
+  paragraph?: string;
 }
 
 const Viewer = ({ paragraph }: IViwerProps) => {
