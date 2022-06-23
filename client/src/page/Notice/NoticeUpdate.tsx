@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const InputWrapper = styled.form`
+const Form = styled.form`
   box-sizing: border-box;
   margin-bottom: 1rem;
   border-bottom: 1px solid ${(props) => props.theme.color.gray300};
@@ -126,7 +126,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
       <button className="upload" onClick={onClick}>
         <AiOutlineCloudUpload />
       </button>
-      <InputWrapper>
+      <Form>
         <FormItem>
           <Label htmlFor="title">제목</Label>
           <Input
@@ -173,7 +173,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
           />
           <Label htmlFor="isWeekly">주보에 넣기</Label>
         </FormItem>
-      </InputWrapper>
+      </Form>
       <EditorContainer initialValue={data.paragraph} reference={editorRef} />
     </Wrapper>
   );

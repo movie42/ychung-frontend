@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  FieldValue,
-  FieldValues,
-  RegisterOptions,
-  UseFormRegister,
-} from "react-hook-form";
 
 interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 

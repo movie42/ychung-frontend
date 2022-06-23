@@ -156,14 +156,6 @@ const Form = styled.div`
   flex-direction: column;
 `;
 
-const SectionInput = styled(Input)`
-  font-size: 2.2rem;
-  border: 0;
-  padding: 1rem 0;
-  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
-  margin-bottom: 1rem;
-`;
-
 const TitleContainer = styled.div`
   margin-bottom: 1rem;
   @media (min-width: ${(props) => props.theme.screen.labtop}) {
@@ -220,7 +212,6 @@ function Main() {
             <a href="https://forms.gle/f6bVV6uCryXK3n1U7" target="_blank">
               양청과 함께하기
             </a>
-            {/* <Link to="">예배 안내</Link> */}
           </div>
         </div>
       </Section>
@@ -233,8 +224,6 @@ function Main() {
           <h3>함께 배우고 성장하는 방법을 소개합니다.</h3>
         </TitleContainer>
         <div>
-          {/* <Link to="">소그룹 참여하기</Link>
-          <Link to="">일대일 양육 신청하기</Link> */}
           <a
             target="_blank"
             href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
@@ -258,31 +247,6 @@ function Main() {
           </a>
         </div>
       </Section>
-      {/* <Section className="main-section-5">
-        <div>
-          <TitleContainer>
-            <h1>
-              나를 소개하는
-              <br /> 가장 쉬운 방법
-            </h1>
-            <h3>명찰을 만들고 다른 사람에게 나를 소개해보세요.</h3>
-          </TitleContainer>
-          <Form>
-            <SectionInput
-              register={register}
-              registerName="name"
-              registerOptions={{ required: "이름을 알려주세요." }}
-              placeholder="이름"
-            />
-            <SectionInput
-              register={register}
-              registerName="expression"
-              placeholder="자기를 소개하는 한마디"
-            />
-            <Button buttonType="block">명찰 다운 받기</Button>
-          </Form>
-        </div>
-      </Section> */}
     </Wrapper>
   );
 }

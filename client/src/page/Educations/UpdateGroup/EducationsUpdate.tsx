@@ -14,9 +14,9 @@ const Wrapper = styled.div`
 `;
 
 function EducationUpdate() {
-  const { id } = useParams();
-  const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
-  const { register, handleSubmit, reset } = useForm<Group>();
+  // const { id } = useParams();
+  // const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
+  // const { register, handleSubmit, reset } = useForm<Group>();
   // const [groupInfoMutation, isSuccess, data, isLoading] = usePostData(
   //   `/api/education/groups/${id}`
   // );
@@ -31,20 +31,17 @@ function EducationUpdate() {
   //     setGroupInfo((pre) => ({ ...pre, isPublic: updateGroups.isPublic }));
   //   }
   // }, [isSuccess]);
-
-  return (
-    <Wrapper>
-      <Input
-        type="text"
-        register={register}
-        registerName="title"
-        defaultValue={groupInfo.title}
-      />
-      <button onClick={toggleButton}>소그룹 공개하기</button>
-      <div>{`${groupInfo.isPublic}`}</div>
-      <GroupContainer />
-    </Wrapper>
-  );
+  return null;
+  // return (
+  //   <Wrapper>
+  //     <Input
+  //       type="text"
+  //     />
+  //     <button onClick={toggleButton}>소그룹 공개하기</button>
+  //     <div>{`${groupInfo.isPublic}`}</div>
+  //     <GroupContainer />
+  //   </Wrapper>
+  // );
 }
 
 export default EducationUpdate;

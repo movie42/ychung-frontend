@@ -25,13 +25,7 @@ const Title = styled.h3`
   padding: 1rem;
 `;
 
-const PersonList: React.FC<
-  | { isDraggingOver: boolean }
-  | React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >
-> = styled.div<{ isDraggingOver: boolean }>`
+const PersonList = styled.div<{ isDraggingOver: boolean }>`
   padding: 1rem;
   transition: all 0.2s ease-in-out;
   background-color: ${(props) =>
@@ -87,31 +81,32 @@ const Group = ({ item }: IGroupProps) => {
   //   console.log(groupInfo);
   // }, [groupInfo]);
 
-  return (
-    <Container>
-      {addPeopleInput && (
-        <form onSubmit={onSubmitData}>
-          <label htmlFor="name">참가자 추가</label>
-          <input id="name" type="text" {...register("name")} />
-        </form>
-      )}
-      <button onClick={openAddPeopleInput}>참가자</button>
-      <Title>{item.name}</Title>
-      <Droppable droppableId={item.id}>
-        {(provided, snapshot) => (
-          <PersonList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}>
-            {/* {group.humanIds.map((humanId, index) => (
-              <Human key={humanId} index={index} humanId={humanId} />
-            ))} */}
-            {provided.placeholder}
-          </PersonList>
-        )}
-      </Droppable>
-    </Container>
-  );
+  // return (
+  //   <Container>
+  //     {addPeopleInput && (
+  //       <form onSubmit={onSubmitData}>
+  //         <label htmlFor="name">참가자 추가</label>
+  //         <input id="name" type="text" {...register("name")} />
+  //       </form>
+  //     )}
+  //     <button onClick={openAddPeopleInput}>참가자</button>
+  //     <Title>{item.name}</Title>
+  //     <Droppable droppableId={item.id}>
+  //       {(provided, snapshot) => (
+  //         <PersonList
+  //           ref={provided.innerRef}
+  //           {...provided.droppableProps}
+  //           isDraggingOver={snapshot.isDraggingOver}>
+  //           {/* {group.humanIds.map((humanId, index) => (
+  //             <Human key={humanId} index={index} humanId={humanId} />
+  //           ))} */}
+  //           {provided.placeholder}
+  //         </PersonList>
+  //       )}
+  //     </Droppable>
+  //   </Container>
+  // );
+  return null;
 };
 
 export default Group;

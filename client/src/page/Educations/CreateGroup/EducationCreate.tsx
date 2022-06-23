@@ -11,8 +11,8 @@ const Wrapper = styled.div`
 `;
 
 function EducationCreate() {
-  const navigate = useNavigate();
-  const setGroupInfo = useSetRecoilState(groupInfoState);
+  // const navigate = useNavigate();
+  // const setGroupInfo = useSetRecoilState(groupInfoState);
   // const [mutationHandler, isSuccess, data, isLoading] = usePostData(
   //   "/api/education/groups"
   // );

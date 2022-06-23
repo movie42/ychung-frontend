@@ -1,21 +1,21 @@
 import { atom } from "recoil";
 
 export interface People {
-  id: string;
+  _id: string;
   name: string;
   groupIds: string[];
   type: "student" | "worker" | "new" | "etc";
 }
 
 export interface Group {
-  id: string;
+  _id: string;
   name: string;
   type: "student" | "worker" | "new" | "etc";
   humanIds: string[];
 }
 
 export interface GroupInfo {
-  id: string;
+  _id: string;
   title: string;
   isPublic: boolean;
   groups: string[];

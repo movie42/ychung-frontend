@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const InputWrapper = styled.form`
+const Form = styled.form`
   box-sizing: border-box;
   margin-bottom: 1rem;
   border-bottom: 1px solid ${(props) => props.theme.color.gray300};
@@ -114,7 +114,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
       <button className="upload" onClick={onClick}>
         <AiOutlineCloudUpload />
       </button>
-      <InputWrapper>
+      <Form>
         <label htmlFor="title">제목</label>
         <input
           placeholder="제목을 입력하세요."
@@ -125,7 +125,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
           id="title"
           type="text"
         />
-      </InputWrapper>
+      </Form>
       <EditorContainer initialValue={data.paragraph} reference={editorRef} />
     </Wrapper>
   );

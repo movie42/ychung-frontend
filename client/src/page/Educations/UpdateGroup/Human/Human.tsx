@@ -1,23 +1,19 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Draggable } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  Draggable,
+  DraggableProvided,
+  DraggableStateSnapshot,
+} from "react-beautiful-dnd";
+import { useRecoilValue } from "recoil";
+import { People, peopleState } from "../../../../state/educationGroup.atom";
 
-import { peopleState } from "../../../../state/educationGroup.atom";
-import usePost from "../../../../utils/customhooks/usePost";
-
-const Container: React.FC<
-  | { isDragging: boolean }
-  | React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >
-> = styled.div<{
+const Container = styled.div<{
   isDragging: boolean;
 }>`
   display: flex;
   padding: 1rem;
-  border: 1px solid ${(props) => props.theme.color.gray300};
+  /* border: 1px solid ${(props) => props.theme.color.gray300}; */
   margin-bottom: 0.4rem;
   background-color: ${(props) =>
     props.isDragging
@@ -25,39 +21,20 @@ const Container: React.FC<
       : props.theme.color.background100};
 `;
 
-const Handle = styled.div`
-  width: 2rem;
-  height: 2rem;
-  background-color: orange;
-  border-radius: 0.4rem;
-  margin-right: 0.8rem;
-`;
-
-interface ITaskInterface
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {
+interface ITaskInterface {
   index: number;
-  humanId: string;
+  person: People;
 }
 
-const Human = ({ humanId, index }: ITaskInterface) => {
-  const people = useRecoilValue(peopleState);
-  const [person] = people.filter((value) => value.id === humanId);
-  // const {} = usePost("");
-
-  useEffect(() => {
-    // mutationHandler(people);
-  }, [people]);
-
+const Human = ({ index, person }: ITaskInterface) => {
   return (
-    <Draggable draggableId={person.id} index={index}>
+    <Draggable draggableId={person._id} index={index}>
       {(provided, snapshot) => (
         <Container
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           isDragging={snapshot.isDragging}
+          key={person._id}
           ref={provided.innerRef}>
           {person.name}
         </Container>
