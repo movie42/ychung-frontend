@@ -16,9 +16,11 @@ import {
   godpeopleDeepLink,
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
-import { worshipDetail } from "../../state/worship.atom";
+import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
 import { useCopyText } from "../../utils/customhooks/useCopyText";
 import { useSetView } from "../../utils/customhooks/useSetView";
+import SEO from "../../components/SEO/SEO";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -111,7 +113,7 @@ const BlogContainer = styled.div``;
 
 interface IWorshipDetailProps {
   setDetailItem: SetterOrUpdater<boolean>;
-  data?: any;
+  data?: IWorshipItems;
 }
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
@@ -124,8 +126,10 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const { copyMessage, copyText } = useCopyText();
 
   const handleBibleOpen = () => {
-    godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
-    checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
+    if (data) {
+      godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
+      checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
+    }
   };
 
   useEffect(() => {
@@ -142,6 +146,11 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
 
   return (
     <>
+      <SEO
+        title={data?.title}
+        description={data?.title}
+        keywords={`양청 주보, 주보, 양정교회 청년부 주보, ${data?.title}`}
+      />
       <CopyTextModal text={copyMessage} />
       <PageDetailModal setDetailItem={setDetailItem}>
         <WorshipHeader {...data} views={worshipData?.views} />
@@ -150,7 +159,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
             <WorshipItem>
               <span>본문</span>
               <button onClick={handleBibleOpen}>
-                {`${chapterNameTransferFromEngToKr(data?.word)} `}
+                {`${data?.word && chapterNameTransferFromEngToKr(data?.word)} `}
                 {data?.chapter}장 {data?.verse}
                 {data?.verse_end && `~ ${data?.verse_end}`}절
               </button>

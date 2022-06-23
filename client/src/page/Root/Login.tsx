@@ -12,6 +12,7 @@ import Button from "../../components/Buttons/Button";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import FormItem from "../../components/Form/FormItem";
+import SEO from "../../components/SEO/SEO";
 
 const Wrapper = styled.div`
   display: flex;
@@ -76,42 +77,45 @@ function Login() {
   }, [response]);
 
   return (
-    <Wrapper>
-      <h1>로그인</h1>
-      {error?.message && <Label>{error?.message}</Label>}
-      <form onSubmit={onSubmit}>
-        <FormItemContainer>
-          <FormItem>
-            <Label htmlFor="email">이메일</Label>
-            <Input
-              id="email"
-              type="text"
-              {...register("email", {
-                required: "이메일을 입력하세요",
-                pattern: {
-                  value:
-                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: "이메일이 아닙니다.",
-                },
-              })}
-            />
-          </FormItem>
-          <Label>{errors?.email?.message}</Label>
-        </FormItemContainer>
-        <FormItemContainer>
-          <FormItem>
-            <Label htmlFor="password">비밀번호</Label>
-            <Input
-              id="password"
-              type="password"
-              {...register("password", { required: "비밀번호를 입력하세요" })}
-            />
-          </FormItem>
-          <Label>{errors?.password?.message}</Label>
-        </FormItemContainer>
-        <LoginButton buttonType="block">로그인</LoginButton>
-      </form>
-    </Wrapper>
+    <>
+      <SEO title="로그인" />
+      <Wrapper>
+        <h1>로그인</h1>
+        {error?.message && <Label>{error?.message}</Label>}
+        <form onSubmit={onSubmit}>
+          <FormItemContainer>
+            <FormItem>
+              <Label htmlFor="email">이메일</Label>
+              <Input
+                id="email"
+                type="text"
+                {...register("email", {
+                  required: "이메일을 입력하세요",
+                  pattern: {
+                    value:
+                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: "이메일이 아닙니다.",
+                  },
+                })}
+              />
+            </FormItem>
+            <Label>{errors?.email?.message}</Label>
+          </FormItemContainer>
+          <FormItemContainer>
+            <FormItem>
+              <Label htmlFor="password">비밀번호</Label>
+              <Input
+                id="password"
+                type="password"
+                {...register("password", { required: "비밀번호를 입력하세요" })}
+              />
+            </FormItem>
+            <Label>{errors?.password?.message}</Label>
+          </FormItemContainer>
+          <LoginButton buttonType="block">로그인</LoginButton>
+        </form>
+      </Wrapper>
+    </>
   );
 }
 

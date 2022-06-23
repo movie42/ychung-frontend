@@ -7,11 +7,12 @@ import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useFetch } from "../../utils/customhooks/useFetch";
 import { postRequest } from "../../utils/utilities/httpMethod";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
 import usePost from "../../utils/customhooks/usePost";
+import SEO from "../../components/SEO/SEO";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -102,61 +103,68 @@ const NoticeCreate = () => {
   }, [isSuccess]);
 
   return (
-    <Wrapper>
-      <button className="upload" onClick={onClick}>
-        <AiOutlineCloudUpload />
-      </button>
-      <Form>
-        <div>
-          <Label htmlFor="title">제목</Label>
-          <Input
-            id="title"
-            type="text"
-            placeholder="제목을 입력하세요."
-            {...register("title", { required: "제목을 입력하세요." })}
-          />
-        </div>
-        <div>
-          <Label htmlFor="startDate">행사 시작</Label>
-          <Input
-            type="date"
-            {...register("startDate", { required: "제목을 입력하세요." })}
-            defaultValue={`${currentDate()}`}
-          />
-        </div>
-        <div>
-          <Label htmlFor="endDate">행사 끝</Label>
-          <Input
-            type="date"
-            {...register("endDate", {
-              validate: (value) =>
-                (value && value >= currentDate()) ||
-                "오늘 이전 날짜를 선택할 수 없어요.",
-            })}
-            defaultValue={`${currentDate()}`}
-          />
-          {<p>{errors?.endDate?.message}</p>}
-        </div>
-        <div>
-          <Label htmlFor="summary">행사 요약</Label>
-          <Input
-            type="text"
-            {...register("summary", { min: 0, max: 100 })}
-            placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
-          />
-          {<p>{errors?.endDate?.message}</p>}
-        </div>
-        <div className="flex">
-          <Input
-            id="isWeekly"
-            type="checkbox"
-            {...register("isWeekly", { value: false })}
-          />
-          <Label htmlFor="isWeekly">주보에 넣기</Label>
-        </div>
-      </Form>
-      <EditorContainer reference={editorRef} />
-    </Wrapper>
+    <>
+      <SEO
+        title="공지사항 작성"
+        keywords="공지, 공지사항, 양청 공지사항, 양정교회 청년부 공지사항"
+      />
+
+      <Wrapper>
+        <button className="upload" onClick={onClick}>
+          <AiOutlineCloudUpload />
+        </button>
+        <Form>
+          <div>
+            <Label htmlFor="title">제목</Label>
+            <Input
+              id="title"
+              type="text"
+              placeholder="제목을 입력하세요."
+              {...register("title", { required: "제목을 입력하세요." })}
+            />
+          </div>
+          <div>
+            <Label htmlFor="startDate">행사 시작</Label>
+            <Input
+              type="date"
+              {...register("startDate", { required: "제목을 입력하세요." })}
+              defaultValue={`${currentDate()}`}
+            />
+          </div>
+          <div>
+            <Label htmlFor="endDate">행사 끝</Label>
+            <Input
+              type="date"
+              {...register("endDate", {
+                validate: (value) =>
+                  (value && value >= currentDate()) ||
+                  "오늘 이전 날짜를 선택할 수 없어요.",
+              })}
+              defaultValue={`${currentDate()}`}
+            />
+            {<p>{errors?.endDate?.message}</p>}
+          </div>
+          <div>
+            <Label htmlFor="summary">행사 요약</Label>
+            <Input
+              type="text"
+              {...register("summary", { min: 0, max: 100 })}
+              placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
+            />
+            {<p>{errors?.endDate?.message}</p>}
+          </div>
+          <div className="flex">
+            <Input
+              id="isWeekly"
+              type="checkbox"
+              {...register("isWeekly", { value: false })}
+            />
+            <Label htmlFor="isWeekly">주보에 넣기</Label>
+          </div>
+        </Form>
+        <EditorContainer reference={editorRef} />
+      </Wrapper>
+    </>
   );
 };
 

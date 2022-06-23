@@ -28,12 +28,12 @@ const HeadInfoContainer = styled.div`
 `;
 
 interface IPageDetailModalHeader extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
-  creator: {
-    userName: string;
+  title?: string;
+  creator?: {
+    userName?: string;
   };
-  views: number;
-  createdAt: string;
+  views?: number;
+  createdAt?: string;
 }
 
 const PageDetailModalHeader = ({ views, ...props }: IPageDetailModalHeader) => {
@@ -43,9 +43,9 @@ const PageDetailModalHeader = ({ views, ...props }: IPageDetailModalHeader) => {
       <h1>{title}</h1>
       {props.children}
       <div className="noticeInfo">
-        <span>글쓴이 : {creator.userName}</span>
+        <span>글쓴이 : {creator?.userName}</span>
         <span>조회수 : {views}</span>
-        <span>날짜 : {calculateDate(createdAt)}</span>
+        <span>날짜 : {createdAt && calculateDate(createdAt)}</span>
       </div>
     </HeadInfoContainer>
   );

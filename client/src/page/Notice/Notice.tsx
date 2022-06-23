@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, Outlet, useParams, useNavigate } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -11,6 +17,7 @@ import ListContainer from "../../components/List/ListContainer";
 import ListItem from "../../components/List/ListItem";
 import { INoticeInterface } from "../../state/notice.atom";
 import { useGet } from "../../utils/customhooks/useGet";
+import SEO from "../../components/SEO/SEO";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -67,6 +74,10 @@ function Notice() {
 
   return (
     <>
+      <SEO
+        title="공지사항"
+        keywords="공지, 공지사항, 양청 공지사항, 양정교회 청년부 공지사항"
+      />
       <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
       {!isLoading && (
         <NoticeListContainer>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -11,6 +11,7 @@ import ListContainer from "../../components/List/ListContainer";
 import { loginState } from "../../state/Authrization";
 import { IBlogItems } from "../../state/blog.atom";
 import { useGet } from "../../utils/customhooks/useGet";
+import SEO from "../../components/SEO/SEO";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -65,6 +66,10 @@ function Blog() {
 
   return (
     <>
+      <SEO
+        title="블로그"
+        keywords="블로그, 양정교회 청년부 블로그, 양청 블로그"
+      />
       {<AnimatePresence>{isLoading && <Loading />}</AnimatePresence>}
       {!isLoading && (
         <Wrapper>

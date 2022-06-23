@@ -7,12 +7,14 @@ import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Viewer from "../../components/Viewer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loginState } from "../../state/Authrization";
-import { notice } from "../../state/notice.atom";
+import { INoticeInterface, notice } from "../../state/notice.atom";
 import { useSetView } from "../../utils/customhooks/useSetView";
 import useDelete from "../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal";
+import SEO from "../../components/SEO/SEO";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
 
 const ButtonContainer = styled.div`
   button {
@@ -32,7 +34,7 @@ const ButtonContainer = styled.div`
 
 interface INoticeDetailProps {
   setDetailItem: SetterOrUpdater<boolean>;
-  data?: any;
+  data?: INoticeInterface;
 }
 
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
@@ -44,12 +46,12 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
 
   const { mutate, isConfirmModal, setIsConfirmModal, isDelete, setIsDelete } =
     useDelete({
-      url: `/api/notice/${data._id}`,
+      url: `/api/notice/${data?._id}`,
       queryKey: "notice",
     });
 
   const handleUpdate = () => {
-    navigate(`/notice/${data._id}/update`);
+    navigate(`/notice/${data?._id}/update`);
   };
 
   const handleDelete = () => {
@@ -112,6 +114,11 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
 
   return (
     <>
+      <SEO
+        title={data?.title}
+        description={data?.paragraph && previewParagraph(data?.paragraph)}
+        keywords={`공지, 공지사항, 양청 공지사항, 양정교회 청년부 공지사항, ${data?.title}`}
+      />
       {isConfirmModal && (
         <ConfirmDeleteModal
           setIsConfirmModal={setIsConfirmModal}
@@ -132,7 +139,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
               </ButtonContainer>
             )}
           </PageDetailModalHeader>
-          {data.startDate && (
+          {data?.startDate && (
             <a
               download="event.ics"
               href={`${saveICS(
@@ -143,7 +150,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
               일정을 달력에 저장하기
             </a>
           )}
-          <Viewer paragraph={data.paragraph} />
+          <Viewer paragraph={data?.paragraph} />
         </>
       </PageDetailModal>
     </>

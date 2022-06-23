@@ -12,6 +12,8 @@ import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
 import usePost from "../../utils/customhooks/usePost";
 import FormItem from "../../components/Form/FormItem";
+import SEO from "../../components/SEO/SEO";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -122,60 +124,67 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
   }, [isSuccess]);
 
   return (
-    <Wrapper>
-      <button className="upload" onClick={onClick}>
-        <AiOutlineCloudUpload />
-      </button>
-      <Form>
-        <FormItem>
-          <Label htmlFor="title">제목</Label>
-          <Input
-            id="title"
-            type="text"
-            placeholder="제목을 입력하세요."
-            defaultValue={data.title}
-            {...register("title", { required: "제목을 입력하세요." })}
-          />
-        </FormItem>
-        <FormItem>
-          <Label htmlFor="startDate">행사 시작</Label>
-          <Input
-            type="date"
-            defaultValue={`${currentDate()}`}
-            {...register("startDate", { required: "제목을 입력하세요." })}
-          />
-        </FormItem>
-        <FormItem>
-          <Label htmlFor="endDate">행사 끝</Label>
-          <Input
-            type="date"
-            defaultValue={`${currentDate()}`}
-            {...register("endDate", { required: "제목을 입력하세요." })}
-          />
-          {<p>{errors?.endDate?.message}</p>}
-        </FormItem>
-        <FormItem>
-          <Label htmlFor="summary">행사 요약</Label>
-          <Input
-            type="text"
-            defaultValue={data.summary}
-            {...register("summary", { min: 0, max: 100 })}
-            placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
-          />
-          {<p>{errors?.endDate?.message}</p>}
-        </FormItem>
-        <FormItem className="flex">
-          <Input
-            id="isWeekly"
-            type="checkbox"
-            defaultChecked={data.isWeekly}
-            {...register("isWeekly", { value: false })}
-          />
-          <Label htmlFor="isWeekly">주보에 넣기</Label>
-        </FormItem>
-      </Form>
-      <EditorContainer initialValue={data.paragraph} reference={editorRef} />
-    </Wrapper>
+    <>
+      <SEO
+        title={`${data?.title} 수정`}
+        description={data?.paragraph && previewParagraph(data?.paragraph)}
+        keywords="공지, 공지사항, 양청 공지사항, 양정교회 청년부 공지사항"
+      />
+      <Wrapper>
+        <button className="upload" onClick={onClick}>
+          <AiOutlineCloudUpload />
+        </button>
+        <Form>
+          <FormItem>
+            <Label htmlFor="title">제목</Label>
+            <Input
+              id="title"
+              type="text"
+              placeholder="제목을 입력하세요."
+              defaultValue={data.title}
+              {...register("title", { required: "제목을 입력하세요." })}
+            />
+          </FormItem>
+          <FormItem>
+            <Label htmlFor="startDate">행사 시작</Label>
+            <Input
+              type="date"
+              defaultValue={`${currentDate()}`}
+              {...register("startDate", { required: "제목을 입력하세요." })}
+            />
+          </FormItem>
+          <FormItem>
+            <Label htmlFor="endDate">행사 끝</Label>
+            <Input
+              type="date"
+              defaultValue={`${currentDate()}`}
+              {...register("endDate", { required: "제목을 입력하세요." })}
+            />
+            {<p>{errors?.endDate?.message}</p>}
+          </FormItem>
+          <FormItem>
+            <Label htmlFor="summary">행사 요약</Label>
+            <Input
+              type="text"
+              defaultValue={data.summary}
+              {...register("summary", { min: 0, max: 100 })}
+              placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
+            />
+            {<p>{errors?.endDate?.message}</p>}
+          </FormItem>
+          <FormItem className="flex">
+            <Input
+              id="isWeekly"
+              type="checkbox"
+              defaultChecked={data.isWeekly}
+              {...register("isWeekly", { value: false })}
+            />
+            <Label htmlFor="isWeekly">주보에 넣기</Label>
+          </FormItem>
+        </Form>
+        <EditorContainer initialValue={data.paragraph} reference={editorRef} />
+      </Wrapper>
+    </>
   );
 };
 

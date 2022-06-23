@@ -73,12 +73,12 @@ const InforContainer = styled.div`
 `;
 
 interface IWorshipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
-  views: number;
-  creator: {
-    userName: string;
+  title?: string;
+  views?: number;
+  creator?: {
+    userName?: string;
   };
-  createdAt: string;
+  createdAt?: string;
 }
 
 const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
@@ -123,8 +123,8 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
           </ImageContainer>
           <InforContainer>
             <span>{views}</span>
-            <span>{creator.userName}</span>
-            <span>{calculateDate(createdAt)}</span>
+            <span>{creator?.userName}</span>
+            <span>{createdAt && calculateDate(createdAt)}</span>
           </InforContainer>
           {login && (
             <ButtonContainer>

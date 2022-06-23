@@ -11,6 +11,7 @@ import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
 import { useGet } from "../../utils/customhooks/useGet";
 import { movingCard } from "../../animation variants/modalAnimation";
+import SEO from "../../components/SEO/SEO";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -79,6 +80,7 @@ function Worship() {
 
   return (
     <>
+      <SEO title="주보" keywords="양청 주보, 주보, 양정교회 청년부 주보" />
       {<AnimatePresence>{isLoading && <Loading />}</AnimatePresence>}
       {!isLoading && (
         <Wrapper>

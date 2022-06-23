@@ -1,6 +1,6 @@
 export const previewParagraph = (item: string) => {
   const newPreview = item
-    .replace(/[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
+    .replace(/\!\[(.*)\]|[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
     .replace(/\s+/g, " ");
   return newPreview.length < 100
     ? newPreview

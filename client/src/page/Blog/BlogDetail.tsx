@@ -7,12 +7,14 @@ import { AiFillEdit } from "react-icons/ai";
 import Button from "../../components/Buttons/Button";
 import { MdDelete } from "react-icons/md";
 import Viewer from "../../components/Viewer";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { loginState } from "../../state/Authrization";
 import { useSetView } from "../../utils/customhooks/useSetView";
-import { blog } from "../../state/blog.atom";
+import { blog, IBlogItems } from "../../state/blog.atom";
 import useDelete from "../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal";
+import SEO from "../../components/SEO/SEO";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
 
 const ButtonContainer = styled.div`
   button {
@@ -32,7 +34,7 @@ const ButtonContainer = styled.div`
 
 interface IBlogDetailProps {
   setDetailItem: SetterOrUpdater<boolean>;
-  data?: any;
+  data?: IBlogItems;
 }
 
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
@@ -44,12 +46,12 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
 
   const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
     useDelete({
-      url: `/api/blog/${data._id}`,
+      url: `/api/blog/${data?._id}`,
       queryKey: "posts",
     });
 
   const handleUpdate = () => {
-    navigate(`/blog/${data._id}/update`);
+    navigate(`/blog/${data?._id}/update`);
   };
 
   const handleDelete = () => {
@@ -68,6 +70,11 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
 
   return (
     <>
+      <SEO
+        title={data?.title}
+        description={data?.paragraph && previewParagraph(data?.paragraph)}
+        keywords={`블로그, 양정교회 청년부 블로그, 양청 블로그, ${data?.title}`}
+      />
       {isConfirmModal && (
         <ConfirmDeleteModal
           setIsConfirmModal={setIsConfirmModal}
@@ -87,7 +94,7 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
             </ButtonContainer>
           )}
         </PageDetailModalHeader>
-        <Viewer paragraph={data.paragraph} />
+        <Viewer paragraph={data?.paragraph} />
       </PageDetailModal>
     </>
   );

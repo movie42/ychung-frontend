@@ -181,73 +181,75 @@ function Main() {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
-    <Wrapper>
-      <Section className="main-section-1">
-        <h1 className="emoji">😃</h1>
-        <h1>
-          양청에 <br />
-          오신 것을 <br />
-          환영합니다.
-        </h1>
-        <ArrowContainer
-          style={{ opacity }}
-          initial="init"
-          variants={arrowVariants}
-          animate="animate">
-          <BsChevronDoubleDown
-            className="arrowIcon"
-            onClick={() => scrollYProgress.set(0.25)}
-          />
-          <p>더 많은 내용 보기</p>
-        </ArrowContainer>
-      </Section>
-      <Section className="main-section-2">
-        <div className="logo-container"></div>
-        <div>
+    <>
+      <Wrapper>
+        <Section className="main-section-1">
+          <h1 className="emoji">😃</h1>
+          <h1>
+            양청에 <br />
+            오신 것을 <br />
+            환영합니다.
+          </h1>
+          <ArrowContainer
+            style={{ opacity }}
+            initial="init"
+            variants={arrowVariants}
+            animate="animate">
+            <BsChevronDoubleDown
+              className="arrowIcon"
+              onClick={() => scrollYProgress.set(0.25)}
+            />
+            <p>더 많은 내용 보기</p>
+          </ArrowContainer>
+        </Section>
+        <Section className="main-section-2">
+          <div className="logo-container"></div>
+          <div>
+            <TitleContainer>
+              <h1>새로 오셨나요?</h1>
+              <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
+            </TitleContainer>
+            <div>
+              <a href="https://forms.gle/f6bVV6uCryXK3n1U7" target="_blank">
+                양청과 함께하기
+              </a>
+            </div>
+          </div>
+        </Section>
+        <Section className="main-section-3">
           <TitleContainer>
-            <h1>새로 오셨나요?</h1>
-            <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
+            <h1>
+              예수 안에서
+              <br /> 함께 자라가요.
+            </h1>
+            <h3>함께 배우고 성장하는 방법을 소개합니다.</h3>
           </TitleContainer>
           <div>
-            <a href="https://forms.gle/f6bVV6uCryXK3n1U7" target="_blank">
-              양청과 함께하기
+            <a
+              target="_blank"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
+              동아리 신청하기
+            </a>
+            <a target="_blank" href="https://forms.gle/4TUo5gTMGWp6zb8J6">
+              봉사 신청하기
             </a>
           </div>
-        </div>
-      </Section>
-      <Section className="main-section-3">
-        <TitleContainer>
-          <h1>
-            예수 안에서
-            <br /> 함께 자라가요.
-          </h1>
-          <h3>함께 배우고 성장하는 방법을 소개합니다.</h3>
-        </TitleContainer>
-        <div>
-          <a
-            target="_blank"
-            href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
-            동아리 신청하기
-          </a>
-          <a target="_blank" href="https://forms.gle/4TUo5gTMGWp6zb8J6">
-            봉사 신청하기
-          </a>
-        </div>
-      </Section>
-      <Section className="main-section-4">
-        <TitleContainer>
-          <h1>양청은 당신의 성장을 응원합니다.</h1>
-          <h3>당신의 신앙 성장을 지원해드립니다.</h3>
-        </TitleContainer>
-        <div>
-          <a
-            href="https://docs.google.com/forms/d/1Zszlov0YSkdVXnz75JVki85wPIqxAc0nfhNWbQvtWSA/viewform?edit_requested=true"
-            target="_blank">
-            교육 지원비 신청하기
-          </a>
-        </div>
-      </Section>
-    </Wrapper>
+        </Section>
+        <Section className="main-section-4">
+          <TitleContainer>
+            <h1>양청은 당신의 성장을 응원합니다.</h1>
+            <h3>당신의 신앙 성장을 지원해드립니다.</h3>
+          </TitleContainer>
+          <div>
+            <a
+              href="https://docs.google.com/forms/d/1Zszlov0YSkdVXnz75JVki85wPIqxAc0nfhNWbQvtWSA/viewform?edit_requested=true"
+              target="_blank">
+              교육 지원비 신청하기
+            </a>
+          </div>
+        </Section>
+      </Wrapper>
+    </>
   );
 }
 
