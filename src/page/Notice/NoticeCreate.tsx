@@ -70,7 +70,7 @@ const InputWrapper = styled.form`
   }
 `;
 
-const NoticeCreate: React.FC = () => {
+const NoticeCreate = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
   const {
@@ -113,17 +113,14 @@ const NoticeCreate: React.FC = () => {
             id="title"
             type="text"
             placeholder="제목을 입력하세요."
-            register={register}
-            registerName="title"
-            registerOptions={{ required: "제목을 입력하세요." }}
+            {...register("title", { required: "제목을 입력하세요." })}
           />
         </div>
         <div>
           <Label htmlFor="startDate">행사 시작</Label>
           <Input
             type="date"
-            register={register}
-            registerName="startDate"
+            {...register("startDate", { required: "제목을 입력하세요." })}
             defaultValue={`${currentDate()}`}
           />
         </div>
@@ -131,13 +128,11 @@ const NoticeCreate: React.FC = () => {
           <Label htmlFor="endDate">행사 끝</Label>
           <Input
             type="date"
-            register={register}
-            registerName="endDate"
-            registerOptions={{
+            {...register("endDate", {
               validate: (value) =>
                 (value && value >= currentDate()) ||
                 "오늘 이전 날짜를 선택할 수 없어요.",
-            }}
+            })}
             defaultValue={`${currentDate()}`}
           />
           {<p>{errors?.endDate?.message}</p>}
@@ -146,9 +141,7 @@ const NoticeCreate: React.FC = () => {
           <Label htmlFor="summary">행사 요약</Label>
           <Input
             type="text"
-            register={register}
-            registerName="summary"
-            registerOptions={{ min: 0, max: 100 }}
+            {...register("summary", { min: 0, max: 100 })}
             placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
           />
           {<p>{errors?.endDate?.message}</p>}
@@ -157,9 +150,7 @@ const NoticeCreate: React.FC = () => {
           <Input
             id="isWeekly"
             type="checkbox"
-            register={register}
-            registerName="isWeekly"
-            registerOptions={{ value: false }}
+            {...register("isWeekly", { value: false })}
           />
           <Label htmlFor="isWeekly">주보에 넣기</Label>
         </div>

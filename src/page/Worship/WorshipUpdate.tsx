@@ -7,6 +7,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { BIBLE_DATA_SET } from "../../bible";
 import usePost from "../../utils/customhooks/usePost";
+import { IWorshipItems } from "../../state/worship.atom";
+import InputStyle from "../../components/Form/Input";
+import LabelStyle from "../../components/Form/Label";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -34,33 +37,37 @@ const Wrapper = styled.div`
   }
 `;
 
-const InputWrapper = styled.form`
+const Form = styled.form`
   box-sizing: border-box;
   margin-bottom: 1rem;
-  div {
-    border-bottom: 1px solid ${(props) => props.theme.color.gray300};
-    label {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-right: 0.5rem;
-    }
-    input {
-      width: 80%;
-      box-sizing: border-box;
-      padding: 0.8rem;
-      border: 0;
-      text-align: left;
-      font-size: 3rem;
-      outline: 0;
-    }
+`;
+
+const FormItemContainer = styled.div`
+  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
+  label {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+  input {
+    width: 80%;
+    box-sizing: border-box;
+    padding: 0.8rem;
+    border: 0;
+    text-align: left;
+    font-size: 3rem;
+    outline: 0;
   }
 `;
 
+const Input = styled(InputStyle)``;
+const Label = styled(LabelStyle)``;
+
 interface IWorshipUpdate {
-  data?: any;
+  data?: IWorshipItems;
 }
 
-const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
+const WorshipUpdate = ({ data }: IWorshipUpdate) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const {
@@ -97,60 +104,51 @@ const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
       <button className="upload" onClick={onSubmit}>
         <AiOutlineCloudUpload />
       </button>
-      <InputWrapper onSubmit={onSubmit}>
-        <div>
-          <label htmlFor="title">제목</label>
-          <input
+      <Form onSubmit={onSubmit}>
+        <FormItemContainer>
+          <Label htmlFor="title">제목</Label>
+          <Input
             id="title"
             type="text"
             placeholder="강론 제목이 무엇인가요?"
             defaultValue={data?.title}
-            {...register("title", {
-              required: "강론 제목을 알려주세요.",
-            })}
+            {...register("title", { required: "제목이 반드시 필요합니다." })}
           />
-        </div>
+        </FormItemContainer>
         {errors.title && <p>{errors?.title?.message}</p>}
-        <div>
-          <label htmlFor="word">본문</label>
+        <FormItemContainer>
+          <Label htmlFor="word">본문</Label>
           <select id="word" {...register("word")} defaultValue={data?.word}>
-            {paintObject().map((value) => value)}
+            {paintObject().map((label, value) => (
+              <option value={value}>{label}</option>
+            ))}
           </select>
-        </div>
+        </FormItemContainer>
         {errors.word && <p>{errors?.word?.message}</p>}
-        <div>
-          <label htmlFor="chapter">장</label>
-          <input
+        <FormItemContainer>
+          <Label htmlFor="chapter">장</Label>
+          <Input
             id="chapter"
             type="number"
             defaultValue={data?.chapter}
-            {...register("chapter", {
-              required: "장을 입력하세요.",
-            })}
+            {...register("chapter", { required: "장을 입력하세요." })}
           />
-        </div>
-        <div>
-          <label htmlFor="verse">시작 절</label>
-          <input
+        </FormItemContainer>
+        <FormItemContainer>
+          <Label htmlFor="verse">시작 절</Label>
+          <Input
             id="verse"
             type="number"
             defaultValue={data?.verse}
-            {...register("verse", {
-              required: "절을 입력하세요.",
-            })}
+            {...register("verse", { required: "절을 입력하세요." })}
           />
-          <label htmlFor="verse_end">끝 절</label>
-          <input
-            id="verse_end"
-            type="number"
-            defaultValue={data?.verse_end}
-            {...register("verse_end")}
-          />
-        </div>
+          <Label htmlFor="verse_end">끝 절</Label>
+          <Input id="verse_end" type="number" {...register("verse_end")} />
+        </FormItemContainer>
         {errors.verse_end && <p>{errors?.verse_end?.message}</p>}
-        <div>
-          <label htmlFor="pastor">강론</label>
-          <input
+        <FormItemContainer>
+          <Label htmlFor="pastor">강론</Label>
+          <Input
             id="pastor"
             type="text"
             defaultValue={data?.pastor}
@@ -158,44 +156,42 @@ const WorshipUpdate: React.FC<IWorshipUpdate> = ({ data }) => {
               required: "강론을 누가 하는지 알려주세요.",
             })}
           />
-        </div>
-        <div>
-          <label htmlFor="worshipTeam">찬양</label>
-          <input
+        </FormItemContainer>
+        <FormItemContainer>
+          <Label htmlFor="worshipTeam">찬양</Label>
+          <Input
             id="worshipTeam"
             type="text"
             placeholder="찬양 팀이 누구인가요?"
             defaultValue={data?.worshipTeam}
-            {...register("worshipTeam", {
-              required: "찬양 팀을 알려주세요.",
-            })}
+            {...register("worshipTeam", { required: "찬양 팀을 알려주세요." })}
           />
-        </div>
-        <div>
-          <label htmlFor="prayer">대표기도</label>
-          <input
+        </FormItemContainer>
+        <FormItemContainer>
+          <Label htmlFor="prayer">대표기도</Label>
+          <Input
             id="prayer"
             type="text"
             placeholder="대표를 누구하나요?"
-            defaultValue={data.prayer}
+            defaultValue={data?.prayer}
             {...register("prayer", {
               required: "대표기도를 누가하는지 알려주세요.",
             })}
           />
-        </div>
-        <div>
-          <label htmlFor="advertisement">광고</label>
-          <input
+        </FormItemContainer>
+        <FormItemContainer>
+          <Label htmlFor="advertisement">광고</Label>
+          <Input
             id="advertisement"
             type="text"
             placeholder="광고를 누가 하나요?"
-            defaultValue={data.advertisement}
+            defaultValue={data?.advertisement}
             {...register("advertisement", {
               required: "누가 광고를 하는지 알려주세요.",
             })}
           />
-        </div>
-      </InputWrapper>
+        </FormItemContainer>
+      </Form>
     </Wrapper>
   );
 };
