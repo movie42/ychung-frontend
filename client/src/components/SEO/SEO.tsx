@@ -29,6 +29,8 @@ const SEO = ({
       <meta property="og:site_name" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={imgsrc} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:url" content={`https://y-chung.com${pathname}`} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
