@@ -6,13 +6,14 @@ import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { BIBLE_DATA_SET } from "../../bible";
-import usePost from "../../utils/customhooks/usePost";
+import usePostOrPatch from "../../utils/customhooks/usePost";
 import { IWorshipItems } from "../../state/worship.atom";
 import Input from "../../components/Form/Input";
 import Label from "../../components/Form/Label";
 import FormItem from "../../components/Form/FormItem";
 import Select from "../../components/Form/Select";
 import SEO from "../../components/SEO/SEO";
+import { FetchDataProps } from "../../lib/interface";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -124,18 +125,23 @@ const WorshipUpdate = ({ data }: IWorshipUpdate) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IWorshipItems>();
 
-  const { mutate } = usePost({
+  const { mutate } = usePostOrPatch<
+    FetchDataProps<IWorshipItems>,
+    Error,
+    IWorshipItems
+  >({
     url: `/api/worship/${id}`,
     queryKey: "weeklies",
+    method: "POST",
   });
 
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
       onSuccess: (response) => {
         const { data } = response;
-        navigate(`/worship/${data._id}`);
+        navigate(`/worship/${data?._id}`);
       },
     });
   });

@@ -33,5 +33,5 @@ export const groupState = atom<Group[]>({
 
 export const groupInfoState = atom<GroupInfo>({
   key: "educationGroups",
-  default: <GroupInfo>{},
+  default: { _id: "", title: "", isPublic: false, groups: [] },
 });

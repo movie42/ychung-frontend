@@ -5,9 +5,11 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useLocation, useNavigate } from "react-router-dom";
-import usePost from "../../utils/customhooks/usePost";
+import { useNavigate } from "react-router-dom";
+import usePostOrPatch from "../../utils/customhooks/usePost";
 import SEO from "../../components/SEO/SEO";
+import { FetchDataProps } from "../../lib/interface";
+import { IBlogItems } from "../../state/blog.atom";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -66,32 +68,32 @@ const Form = styled.form`
 const BlogCreate = () => {
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
-  const { register, handleSubmit } = useForm();
-
-  const {
-    mutate,
-    isSuccess,
-    data: response,
-  } = usePost({
+  const { register, handleSubmit } = useForm<IBlogItems>();
+  const { mutate } = usePostOrPatch<
+    FetchDataProps<IBlogItems>,
+    Error,
+    IBlogItems
+  >({
     url: `/api/blog/create`,
     queryKey: "posts",
+    method: "POST",
   });
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    const formData = {
-      ...data,
-      paragraph: editorParser,
-    };
-    mutate(formData);
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { data } = response;
-      navigate(`/blog/${data._id}`);
+    if (editorParser) {
+      const formData = {
+        ...data,
+        paragraph: editorParser,
+      };
+      mutate(formData, {
+        onSuccess: (response) => {
+          const { data } = response;
+          navigate(`/blog/${data?._id}`);
+        },
+      });
     }
-  }, [isSuccess]);
+  });
 
   return (
     <>

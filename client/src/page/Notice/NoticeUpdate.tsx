@@ -4,16 +4,17 @@ import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 import { useFetch } from "../../utils/customhooks/useFetch";
-import { postRequest } from "../../utils/utilities/httpMethod";
+import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
 import EditorContainer from "../../components/Editor";
 import { useNavigate } from "react-router-dom";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
-import usePost from "../../utils/customhooks/usePost";
+import usePostOrPatch from "../../utils/customhooks/usePost";
 import FormItem from "../../components/Form/FormItem";
 import SEO from "../../components/SEO/SEO";
 import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import { FetchDataProps } from "../../lib/interface";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -96,30 +97,33 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<NoticeDetail>();
 
   const {
     mutate,
     isSuccess,
     data: response,
-  } = usePost({
-    url: `/api/notice/${data._id}`,
+  } = usePostOrPatch<FetchDataProps<NoticeDetail>, Error, NoticeDetail>({
+    url: `/api/notice/${data?._id}`,
     queryKey: "notice",
+    method: "POST",
   });
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    const formData = {
-      ...data,
-      paragraph: editorParser,
-    };
-    mutate(formData);
+    if (editorParser) {
+      const formData = {
+        ...data,
+        paragraph: editorParser,
+      };
+      mutate(formData);
+    }
   });
 
   useEffect(() => {
     if (isSuccess) {
       const { data } = response;
-      navigate(`/notice/${data._id}`);
+      navigate(`/notice/${data?._id}`);
     }
   }, [isSuccess]);
 
@@ -141,7 +145,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
               id="title"
               type="text"
               placeholder="제목을 입력하세요."
-              defaultValue={data.title}
+              defaultValue={data?.title}
               {...register("title", { required: "제목을 입력하세요." })}
             />
           </FormItem>
@@ -166,7 +170,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
             <Label htmlFor="summary">행사 요약</Label>
             <Input
               type="text"
-              defaultValue={data.summary}
+              defaultValue={data?.summary}
               {...register("summary", { min: 0, max: 100 })}
               placeholder="달력에 들어갈 메시지를 100자 이내로 적어주세요."
             />
@@ -176,13 +180,13 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
             <Input
               id="isWeekly"
               type="checkbox"
-              defaultChecked={data.isWeekly}
+              defaultChecked={data?.isWeekly}
               {...register("isWeekly", { value: false })}
             />
             <Label htmlFor="isWeekly">주보에 넣기</Label>
           </FormItem>
         </Form>
-        <EditorContainer initialValue={data.paragraph} reference={editorRef} />
+        <EditorContainer initialValue={data?.paragraph} reference={editorRef} />
       </Wrapper>
     </>
   );

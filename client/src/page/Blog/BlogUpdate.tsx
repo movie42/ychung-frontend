@@ -5,8 +5,9 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import usePost from "../../utils/customhooks/usePost";
+import usePostOrPatch from "../../utils/customhooks/usePost";
 import SEO from "../../components/SEO/SEO";
+import { FetchDataProps } from "../../lib/interface";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -83,32 +84,33 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const editorRef = useRef<Editor>(null);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<BlogDetail>();
 
   const {
     mutate,
     isSuccess,
     data: response,
-  } = usePost({
+  } = usePostOrPatch<FetchDataProps<BlogDetail>, Error, BlogDetail>({
     url: `/api/blog/${id}`,
     queryKey: "posts",
+    method: "POST",
   });
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    const formData = {
-      ...data,
-      paragraph: editorParser,
-    };
-    mutate(formData);
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { data } = response;
-      navigate(`/blog/${data._id}`);
+    if (editorParser) {
+      const formData = {
+        ...data,
+        paragraph: editorParser,
+      };
+      mutate(formData, {
+        onSuccess: (response) => {
+          const { data } = response;
+          navigate(`/blog/${data?._id}`);
+        },
+      });
     }
-  }, [isSuccess]);
+  });
 
   return (
     <>
