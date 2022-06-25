@@ -40,10 +40,10 @@ const TitleInput = styled(Input)`
 `;
 
 const ButtonContainer = styled.div`
-  justify-content: flex-end;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  p {
+  span {
     margin-right: 1rem;
   }
 `;
@@ -113,11 +113,11 @@ function EducationUpdate() {
           </form>
         </div>
         <ButtonContainer>
-          <p>
+          <span>
             {groupInfo.isPublic
               ? "소그룹을 공개하고 있습니다."
               : "아직 작성 중인 소그룹입니다."}
-          </p>
+          </span>
           <ToggleButton
             isActive={groupInfo?.isPublic}
             size={4}

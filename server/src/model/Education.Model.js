@@ -21,17 +21,13 @@ const group = mongoose.Schema({
       ref: "People",
     },
   ],
+  createdAt: { type: Date, default: Date.now },
 });
 
 const people = mongoose.Schema({
   name: { type: String, requreid: true },
-  groupIds: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Group",
-    },
-  ],
   type: { type: String, requreid: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 export const groupsModel = mongoose.model("EducationGroup", groups);

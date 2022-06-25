@@ -5,7 +5,7 @@ import { useGetCSRFToken } from "./useGetCSRFToken";
 
 interface IusePostProps {
   url: RequestInfo;
-  queryKey: string;
+  queryKey: string | string[];
   method: "POST" | "PATCH";
 }
 

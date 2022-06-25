@@ -9,7 +9,7 @@ interface IFetchProps<T>
     "queryKey" | "queryFn"
   > {
   url: RequestInfo;
-  queryKey: string;
+  queryKey: string | string[];
 }
 
 export const useGet = <T,>({ url, queryKey, ...rest }: IFetchProps<T>) => {
