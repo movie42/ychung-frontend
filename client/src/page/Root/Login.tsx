@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 import { useFetch } from "../../utils/customhooks/useFetch";
-import { postRequest } from "../../utils/utilities/httpMethod";
+import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
 import { loginState } from "../../state/Authrization";
 
 import Button from "../../components/Buttons/Button";
@@ -64,7 +64,7 @@ function Login() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    const postOption = postRequest(data, csrfToken);
+    const postOption = postOrPatchRequest(data, csrfToken, "POST");
     setOption(postOption);
   });
 

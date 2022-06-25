@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { SetterOrUpdater } from "recoil";
-import { postRequest } from "../utilities/httpMethod";
+import { postOrPatchRequest } from "../utilities/httpMethod";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
 export const useSetView = <T,>(
@@ -14,7 +14,10 @@ export const useSetView = <T,>(
     mutate,
     data: serverView,
   } = useMutation(async (body: any) => {
-    const response = await fetch(url, postRequest(body, csrfToken));
+    const response = await fetch(
+      url,
+      postOrPatchRequest(body, csrfToken, "POST")
+    );
     return await response.json();
   });
 

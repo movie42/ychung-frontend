@@ -5,12 +5,14 @@ import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 import { BIBLE_DATA_SET } from "../../bible";
-import usePost from "../../utils/customhooks/usePost";
+import usePostOrPatch from "../../utils/customhooks/usePost";
 import FormItem from "../../components/Form/FormItem";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import Select from "../../components/Form/Select";
 import SEO from "../../components/SEO/SEO";
+import { IWorshipItems } from "../../state/worship.atom";
+import { FetchDataProps } from "../../lib/interface";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -100,16 +102,25 @@ const WorshipCreate = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IWorshipItems>();
 
   const {
     mutate,
     isSuccess,
     data: response,
-  } = usePost({ url: "/api/worship/create", queryKey: "weeklies" });
+  } = usePostOrPatch<FetchDataProps<IWorshipItems>, Error, IWorshipItems>({
+    url: "/api/worship/create",
+    queryKey: "weeklies",
+    method: "POST",
+  });
 
   const onSubmit = handleSubmit((data) => {
-    mutate(data);
+    mutate(data, {
+      onSuccess: (response) => {
+        const { data } = response;
+        navigate(`/worship/${data?._id}`);
+      },
+    });
   });
 
   const paintObject = () => {
@@ -119,13 +130,6 @@ const WorshipCreate = () => {
     });
     return list;
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { data } = response;
-      navigate(`/worship/${data._id}`);
-    }
-  }, [isSuccess]);
 
   return (
     <>

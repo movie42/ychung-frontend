@@ -6,13 +6,15 @@ import styled from "styled-components";
 import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useFetch } from "../../utils/customhooks/useFetch";
-import { postRequest } from "../../utils/utilities/httpMethod";
+import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
 import { useLocation, useNavigate } from "react-router-dom";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
-import usePost from "../../utils/customhooks/usePost";
+import usePostOrPatch from "../../utils/customhooks/usePost";
 import SEO from "../../components/SEO/SEO";
+import { INoticeInterface } from "../../state/notice.atom";
+import { FetchDataProps } from "../../lib/interface";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -78,29 +80,33 @@ const NoticeCreate = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<INoticeInterface>();
 
-  const {
-    mutate,
-    isSuccess,
-    data: response,
-  } = usePost({ url: `/api/notice/create`, queryKey: "notice" });
+  const { mutate } = usePostOrPatch<
+    FetchDataProps<INoticeInterface>,
+    Error,
+    INoticeInterface
+  >({
+    url: `/api/notice/create`,
+    queryKey: "notice",
+    method: "POST",
+  });
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    const formData = {
-      ...data,
-      paragraph: editorParser,
-    };
-    mutate(formData);
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { data } = response;
-      navigate(`/notice/${data._id}`);
+    if (editorParser) {
+      const formData = {
+        ...data,
+        paragraph: editorParser,
+      };
+      mutate(formData, {
+        onSuccess: (response) => {
+          const { data } = response;
+          navigate(`/notice/${data?._id}`);
+        },
+      });
     }
-  }, [isSuccess]);
+  });
 
   return (
     <>
