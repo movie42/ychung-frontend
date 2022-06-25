@@ -51,7 +51,7 @@ export const login = async (req, res) => {
       .cookie("token", token, {
         path: "/",
         httpOnly: true,
-        maxAge: 86400000,
+        maxAge: 864000,
       })
       .status(200)
       .json({ data: { login: true, userId: user._id } });
@@ -100,6 +100,7 @@ export const postJoin = async (req, res) => {
 
 export const logout = (req, res) => {
   res.clearCookie("token");
+  res.clearCookie("_csrf");
   return res.status(200).json({ data: { logout: true } });
 };
 

@@ -119,6 +119,7 @@ const GroupContainer = () => {
       ...start,
       humanIds: startHunamIdsGroup,
     };
+
     const finishHunamIdsGroup = Array.from(finish.humanIds);
     finishHunamIdsGroup.splice(destination.index, 0, draggableId);
     const newFinish = {

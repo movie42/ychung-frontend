@@ -21,7 +21,8 @@ interface CreateGroup {
 function EducationCreate() {
   const navigate = useNavigate();
   const setGroupInfo = useSetRecoilState(groupInfoState);
-  const { mutate, isSuccess, data, isLoading } = usePostOrPatch<
+
+  const { mutate, isLoading } = usePostOrPatch<
     FetchDataProps<GroupInfo>,
     Error,
     CreateGroup
@@ -32,21 +33,25 @@ function EducationCreate() {
   });
 
   useEffect(() => {
-    mutate(
-      { title: "소그룹1", isPublic: false, groups: [] },
-      {
-        onSuccess: (response) => {
-          const { data } = response;
-          if (data) {
-            setGroupInfo(data);
-            setTimeout(
-              () => navigate(`/education/groups/${data?._id}/update`),
-              3000
-            );
-          }
-        },
-      }
-    );
+    const postDelay = setTimeout(() => {
+      mutate(
+        { title: "소그룹1", isPublic: false, groups: [] },
+        {
+          onSuccess: (response) => {
+            const { data } = response;
+            if (data) {
+              setGroupInfo(data);
+              setTimeout(
+                () => navigate(`/education/groups/${data?._id}/update`),
+                3000
+              );
+            }
+          },
+        }
+      );
+    }, 3000);
+
+    return () => clearTimeout(postDelay);
   }, []);
 
   return <Wrapper>{!isLoading && <Loading />}</Wrapper>;
