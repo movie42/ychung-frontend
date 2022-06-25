@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Loading from "../../components/Loading";
 import { groupInfoState } from "../../state/educationGroup.atom";
+import { useGet } from "../../utils/customhooks/useGet";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -21,60 +22,43 @@ interface IEducationFetchData {
 }
 
 const Educations = () => {
-  // const navigate = useNavigate();
-  // const setEducationGroups = useSetRecoilState(groupInfoState);
-  // const { isLoading, isSuccess, error, data } = useQuery<IEducationFetchData[]>(
-  //   "notice",
-  //   async () => {
-  //     const response = await fetch(`/api/education/groups`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       credentials: "include",
-  //       mode: "cors",
-  //     });
-  //     const { data } = await response.json();
-  //     return data;
-  //   },
-  //   { staleTime: 10000 }
-  // );
+  const navigate = useNavigate();
 
-  // const createGroup = () => {
-  //   navigate("/education/groups/create");
-  // };
+  const { isLoading, data } = useGet<IEducationFetchData[]>({
+    url: "/api/education/groups",
+    queryKey: "educations",
+  });
 
-  // const moveToDetail = (e: React.MouseEvent<HTMLLIElement>) => {
-  //   const id = e.currentTarget.dataset.id;
-  //   if (data) {
-  //     const [{ _id, title, isPublic, groups }] = data.filter(
-  //       (value) => value._id === id
-  //     );
-  //     setEducationGroups({ id: _id, title, isPublic, groups });
+  const createGroup = () => {
+    navigate("/education/groups/create");
+  };
 
-  //     isPublic
-  //       ? navigate(`/education/groups/${id}`)
-  //       : navigate(`/education/groups/${id}/update`);
-  //   }
-  // };
+  const moveToDetail = (e: React.MouseEvent<HTMLLIElement>) => {
+    const id = e.currentTarget.dataset.id;
+    if (data) {
+      const [{ isPublic }] = data.filter((value) => value._id === id);
+      isPublic
+        ? navigate(`/education/groups/${id}`)
+        : navigate(`/education/groups/${id}/update`);
+    }
+  };
 
-  // return isLoading ? (
-  //   <Loading />
-  // ) : (
-  //   <Wrapper>
-  //     <CreateGroupButton onClick={createGroup} buttonType="block">
-  //       추가하기
-  //     </CreateGroupButton>
-  //     <ul>
-  //       {data?.map((value) => (
-  //         <li key={value._id} data-id={value._id} onClick={moveToDetail}>
-  //           {value.title}
-  //         </li>
-  //       ))}
-  //     </ul>
-  //   </Wrapper>
-  // );
-  return null;
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Wrapper>
+      <CreateGroupButton onClick={createGroup} buttonType="block">
+        추가하기
+      </CreateGroupButton>
+      <ul>
+        {data?.map((value) => (
+          <li key={value._id} data-id={value._id} onClick={moveToDetail}>
+            {value.title}
+          </li>
+        ))}
+      </ul>
+    </Wrapper>
+  );
 };
 
 export default Educations;
