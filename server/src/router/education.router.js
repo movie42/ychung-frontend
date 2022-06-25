@@ -17,6 +17,7 @@ import {
 
 const educationRouter = express.Router();
 
+// 소그룹 전체 데이터
 educationRouter
   .route("/groups")
   .get(getEducationGroups)
@@ -29,15 +30,18 @@ educationRouter
   .post(updateEducationGroups)
   .delete(deleteEducationGroups);
 
-educationRouter.route("/group").post(postEducationGroup);
+// 소그룹 개별 데이터
+educationRouter
+  .route("/groups/:id([0-9a-f]{24})/group")
+  .get(getEducationGroup)
+  .post(postEducationGroup);
+
+educationRouter.route("/group/:id([0-9a-f]{24})").delete(deleteEducationGroup);
+
+educationRouter.route("/group/update").patch(updateEducationGroup);
 
 educationRouter
-  .route("/group/:id([0-9a-f]{24})")
-  .post(updateEducationGroup)
-  .delete(deleteEducationGroup);
-
-educationRouter
-  .route("/people")
+  .route("/group/:id([0-9a-f]{24})/people")
   .get(getEducationPeople)
   .post(postEducationPeople);
 

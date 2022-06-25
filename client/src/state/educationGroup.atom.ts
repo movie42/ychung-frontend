@@ -3,7 +3,6 @@ import { atom } from "recoil";
 export interface People {
   _id: string;
   name: string;
-  groupIds: string[];
   type: "student" | "worker" | "new" | "etc";
 }
 
@@ -26,7 +25,7 @@ export const peopleState = atom<People[]>({
   default: [],
 });
 
-export const groupState = atom<Group[]>({
+export const groupsState = atom<Group[]>({
   key: "educationGroup",
   default: [],
 });

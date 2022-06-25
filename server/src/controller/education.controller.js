@@ -76,8 +76,13 @@ export const getEducationGroup = async (req, res) => {
   } = req;
 
   try {
-    const data = await groupModel.findById({ _id: id });
-    console.log(id, data);
+    const { groups } = await groupsModel.findById(id);
+
+    if (groups.length === 0) {
+      return res.status(200).json({ data: [] });
+    }
+    const data = await groupModel.find({ _id: groups });
+
     return res.status(200).json({ data });
   } catch (e) {
     console.log(e);
@@ -86,9 +91,15 @@ export const getEducationGroup = async (req, res) => {
 };
 
 export const postEducationGroup = async (req, res) => {
-  const { body } = req;
+  const {
+    body,
+    params: { id },
+  } = req;
   try {
     const data = await groupModel.create({ ...body });
+    const groupInfo = await groupsModel.findById(id);
+    await groupInfo.groups.push(data._id);
+    await groupInfo.save();
     return res.status(200).json({ data });
   } catch (e) {
     console.log(e);
@@ -96,12 +107,35 @@ export const postEducationGroup = async (req, res) => {
   }
 };
 
-export const updateEducationGroup = (req, res) => {};
+export const updateEducationGroup = async (req, res) => {
+  const {
+    body: { _id, name, humanIds, type },
+  } = req;
+
+  try {
+    const data = await groupModel.findByIdAndUpdate(
+      { _id },
+      { name, humanIds, type },
+    );
+
+    return res.status(200).json({ data });
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "오류가 발생했습니다." });
+  }
+};
 export const deleteEducationGroup = (req, res) => {};
 
 export const getEducationPeople = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
   try {
-    const people = await peopleModel.find();
+    const { humanIds: data } = await groupModel
+      .findById(id)
+      .populate("humanIds");
+
     return res.status(200).json({ data });
   } catch (e) {
     console.log(e);
@@ -110,10 +144,16 @@ export const getEducationPeople = async (req, res) => {
 };
 
 export const postEducationPeople = async (req, res) => {
-  const { body } = req;
+  const {
+    body,
+    params: { id },
+  } = req;
 
   try {
+    const group = await groupModel.findById(id);
     const data = await peopleModel.create({ ...body });
+    await group.humanIds.push(data._id);
+    await group.save();
     return res.status(200).json({ data });
   } catch (e) {
     console.log(e);
