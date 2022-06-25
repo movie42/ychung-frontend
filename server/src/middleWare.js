@@ -55,7 +55,7 @@ export const csrfProtection = csurf({
     key: "_csrf",
     path: "/",
     httpOnly: true,
-    maxAge: 3600,
+    maxAge: 864000,
   },
 });
 
