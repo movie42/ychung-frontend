@@ -12,6 +12,7 @@ import {
   postEducationPeople,
   updateEducationPeople,
   deleteEducationPeople,
+  getEducationDetailGroups,
 } from "../controller/education.controller";
 
 const educationRouter = express.Router();
@@ -23,10 +24,12 @@ educationRouter
 
 educationRouter
   .route("/groups/:id([0-9a-f]{24})")
+  .get(getEducationDetailGroups)
+  .patch(updateEducationGroups)
   .post(updateEducationGroups)
   .delete(deleteEducationGroups);
 
-educationRouter.route("/group").get(getEducationGroup).post(postEducationGroup);
+educationRouter.route("/group").post(postEducationGroup);
 
 educationRouter
   .route("/group/:id([0-9a-f]{24})")

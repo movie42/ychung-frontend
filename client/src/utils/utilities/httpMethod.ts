@@ -13,10 +13,14 @@ export const getWeekliesData = async () => {
   return data;
 };
 
-export const postRequest = (body: any, csrfToken: string): RequestInit => {
+export const postOrPatchRequest = (
+  body: any,
+  csrfToken: string,
+  method: "POST" | "PATCH"
+): RequestInit => {
   const data = JSON.stringify({ ...body });
   return {
-    method: "POST",
+    method,
     headers: {
       "Content-Type": "application/json",
       "X-CSRF-Token": csrfToken,
