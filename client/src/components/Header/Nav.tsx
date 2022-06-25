@@ -43,9 +43,7 @@ const Nav = () => {
       <Item>
         <LinkButton to="/blog">블로그</LinkButton>
       </Item>
-      <Item>
-        <LinkButton to="/education">교육</LinkButton>
-      </Item>
+      <Item>{/* <LinkButton to="/education">교육</LinkButton> */}</Item>
       {/* <Item>
         <LinkButton to="/documents">도큐멘트</LinkButton>
       </Item> */}
