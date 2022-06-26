@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DragDropContext,
   DropResult,
@@ -10,30 +10,71 @@ import styled from "styled-components";
 import Group from "./Group";
 import {
   peopleState,
-  groupState,
   groupInfoState,
   Group as GroupProps,
+  groupsState,
 } from "../../../state/educationGroup.atom";
 import { compare } from "../../../utils/utilities/compare";
 import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
+import usePostOrPatch from "../../../utils/customhooks/usePost";
+import { FetchDataProps } from "../../../lib/interface";
+import { useGet } from "../../../utils/customhooks/useGet";
+import { useParams } from "react-router";
+import { useQueryClient } from "react-query";
+import Loading from "../../../components/Loading";
 
 const DragDropContainer = styled.div`
   display: flex;
 `;
 
+interface SendGroupProps {
+  _id?: string;
+  name?: string;
+  type?: "student" | "worker" | "new" | "etc";
+  humanIds?: string[];
+}
 const GroupContainer = () => {
-  const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
-  const [group, setGroup] = useRecoilState(groupState);
+  const { id } = useParams();
+  const groupInfo = useRecoilValue(groupInfoState);
+  const [groupId, setGroupId] = useState("");
+  const [group, setGroup] = useRecoilState(groupsState);
   const [people, setPeople] = useRecoilState(peopleState);
   const { register, handleSubmit, reset } = useForm<GroupProps>();
+  const queryClient = useQueryClient();
 
-  // const [mutationHandler, isSuccess, data, isLoading] = usePostData(
-  //   "/api/education/group"
-  // );
+  const { data, isLoading } = useGet<GroupProps[]>({
+    url: `/api/education/groups/${id}/group`,
+    queryKey: "groups",
+    onSuccess: (response) => {
+      if (response) {
+        setGroup(response);
+      }
+    },
+  });
+
+  const { mutate } = usePostOrPatch<
+    FetchDataProps<GroupProps>,
+    Error,
+    GroupProps
+  >({
+    url: `/api/education/groups/${id}/group`,
+    queryKey: "groups",
+    method: "POST",
+  });
+
+  const { mutate: updateGroup } = usePostOrPatch<
+    FetchDataProps<GroupProps>,
+    Error,
+    SendGroupProps
+  >({
+    url: `/api/education/group/update`,
+    queryKey: "",
+    method: "PATCH",
+  });
 
   const addGroup = handleSubmit((data) => {
-    // mutationHandler(data);
+    mutate(data);
     reset();
   });
 
@@ -48,21 +89,28 @@ const GroupContainer = () => {
     ) {
       return;
     }
-    const [start] = group.filter((value) => value.id === source.droppableId);
+    const [start] = group.filter((value) => value._id === source.droppableId);
     const [finish] = group.filter(
-      (value) => value.id === destination.droppableId
+      (value) => value._id === destination.droppableId
     );
-    if (start.id === finish.id) {
+    if (start._id === finish._id) {
       const newHunamIdsGroup = Array.from(start.humanIds);
       newHunamIdsGroup.splice(source.index, 1);
       newHunamIdsGroup.splice(destination.index, 0, draggableId);
+
       const newGroup = {
         ...start,
         humanIds: newHunamIdsGroup,
       };
-      const preState = group.filter((value) => value.id === draggableId);
-      const newState = [...preState, newGroup].sort(compare);
-      setGroup(newState);
+      updateGroup(
+        { ...newGroup },
+        {
+          onSuccess: (response) => {
+            queryClient.invalidateQueries("groups");
+            queryClient.invalidateQueries(["people", response.data?._id]);
+          },
+        }
+      );
       return;
     }
 
@@ -72,39 +120,42 @@ const GroupContainer = () => {
       ...start,
       humanIds: startHunamIdsGroup,
     };
+
     const finishHunamIdsGroup = Array.from(finish.humanIds);
     finishHunamIdsGroup.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
       humanIds: finishHunamIdsGroup,
     };
-    const [newPerson] = people.filter((value) => value.id === draggableId);
-    const prePeople = people.filter((value) => value.id !== draggableId);
 
-    const newPersonState = {
-      ...newPerson,
-      type: finish.type,
-    };
-
-    setPeople([...prePeople, newPersonState]);
-    const preState = group.filter(
-      (value) => value.id !== start.id && value.id !== finish.id
+    updateGroup(
+      { ...newStart },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("groups");
+          queryClient.invalidateQueries(["people", newStart._id]);
+          queryClient.invalidateQueries(["people", newFinish._id]);
+        },
+      }
     );
-    const newState = [...preState, newStart, newFinish].sort(compare);
-    setGroup(newState);
+    updateGroup(
+      { ...newFinish },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("groups");
+          queryClient.invalidateQueries(["people", newStart._id]);
+          queryClient.invalidateQueries(["people", newFinish._id]);
+        },
+      }
+    );
   };
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     const { group: newGroup } = data;
-  //     setGroup((pre) => [...pre, newGroup]);
-  //   }
-  // }, [isSuccess]);
-
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <form onSubmit={addGroup}>
-        <Input type="text" register={register} registerName={"name"} />
+        <Input type="text" {...register("name")} />
         <select {...register("type")}>
           <option value="student">학생</option>
           <option value="worker">직장</option>
@@ -124,7 +175,7 @@ const GroupContainer = () => {
                   ?.filter((value) => value.type === "new")
                   .map((group) => (
                     <>
-                      <Group key={group.id} item={group} />
+                      <Group key={group._id} item={group} />
                     </>
                   ))}
               </div>
@@ -137,7 +188,7 @@ const GroupContainer = () => {
                   ?.filter((value) => value.type === "student")
                   .map((group) => (
                     <>
-                      <Group key={group.id} item={group} />
+                      <Group key={group._id} item={group} />
                     </>
                   ))}
               </div>
@@ -150,7 +201,7 @@ const GroupContainer = () => {
                   ?.filter((value) => value.type === "worker")
                   .map((group) => (
                     <>
-                      <Group key={group.id} item={group} />
+                      <Group key={group._id} item={group} />
                     </>
                   ))}
               </div>
@@ -163,7 +214,7 @@ const GroupContainer = () => {
                   ?.filter((value) => value.type === "etc")
                   .map((group) => (
                     <>
-                      <Group key={group.id} item={group} />
+                      <Group key={group._id} item={group} />
                     </>
                   ))}
               </div>

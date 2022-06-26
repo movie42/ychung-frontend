@@ -4,7 +4,7 @@ import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import {
-  groupState,
+  groupsState,
   groupInfoState,
   People,
   peopleState,
@@ -12,6 +12,9 @@ import {
 } from "../../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
 import { compare } from "../../../utils/utilities/compare";
+import usePostOrPatch from "../../../utils/customhooks/usePost";
+import { useGet } from "../../../utils/customhooks/useGet";
+import { FetchDataProps } from "../../../lib/interface";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -25,13 +28,7 @@ const Title = styled.h3`
   padding: 1rem;
 `;
 
-const PersonList: React.FC<
-  | { isDraggingOver: boolean }
-  | React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLDivElement>,
-      HTMLDivElement
-    >
-> = styled.div<{ isDraggingOver: boolean }>`
+const PersonList = styled.div<{ isDraggingOver: boolean }>`
   padding: 1rem;
   transition: all 0.2s ease-in-out;
   background-color: ${(props) =>
@@ -46,50 +43,48 @@ interface IGroupProps {
   item: GroupProps;
 }
 
+interface SendPeople {
+  name: string;
+  type: "student" | "worker" | "new" | "etc";
+}
+
 const Group = ({ item }: IGroupProps) => {
   const { register, handleSubmit, reset } = useForm<People>();
-  const [addPeopleInput, setPeopleInput] = useState(false);
+  const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
+  const [people, setPeople] = useState<People[]>();
 
-  const [people, setPeople] = useRecoilState(peopleState);
-  const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
-  const [group, setGroup] = useRecoilState(groupState);
+  const { data } = useGet<People[]>({
+    url: `/api/education/group/${item._id}/people`,
+    queryKey: ["people", item._id],
+    onSuccess: (response) => {
+      setPeople(response);
+    },
+  });
 
-  // const [mutationHandler, isSuccess, data, isLoading] = usePostData(
-  //   "/api/education/people"
-  // );
+  const { mutate } = usePostOrPatch<
+    FetchDataProps<People[]>,
+    Error,
+    SendPeople
+  >({
+    url: `/api/education/group/${item._id}/people`,
+    queryKey: ["people", item._id],
+    method: "POST",
+  });
 
   const openAddPeopleInput = () => {
-    setPeopleInput(!addPeopleInput);
+    setIsOpenPeopleInput(!isOpenPeopleInput);
   };
 
   const onSubmitData = handleSubmit((data) => {
-    // mutationHandler({
-    //   name: data.name,
-    //   type: group.type,
-    //   groupIds: [group.id],
-    // });
+    mutate({
+      name: data.name,
+      type: item.type,
+    });
   });
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     const { _id: id, name, type, groupIds } = data.people;
-  //     setPeople((pre) => [...pre, { id, name, type, groupIds }]);
-  //     // setGroup((pre) =>
-  //     //   [
-  //     //     ...pre.filter((value) => value.id !== group.id),
-  //     //     { ...group, humanIds: [...group.humanIds, data.people._id] },
-  //     //   ].sort(compare)
-  //     // );
-  //   }
-  // }, [isSuccess]);
-
-  // useEffect(() => {
-  //   console.log(groupInfo);
-  // }, [groupInfo]);
 
   return (
     <Container>
-      {addPeopleInput && (
+      {isOpenPeopleInput && (
         <form onSubmit={onSubmitData}>
           <label htmlFor="name">참가자 추가</label>
           <input id="name" type="text" {...register("name")} />
@@ -97,15 +92,15 @@ const Group = ({ item }: IGroupProps) => {
       )}
       <button onClick={openAddPeopleInput}>참가자</button>
       <Title>{item.name}</Title>
-      <Droppable droppableId={item.id}>
+      <Droppable droppableId={item._id}>
         {(provided, snapshot) => (
           <PersonList
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}>
-            {/* {group.humanIds.map((humanId, index) => (
-              <Human key={humanId} index={index} humanId={humanId} />
-            ))} */}
+            {people?.map((person, index) => (
+              <Human key={person._id} index={index} person={person} />
+            ))}
             {provided.placeholder}
           </PersonList>
         )}

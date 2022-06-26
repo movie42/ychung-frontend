@@ -14,11 +14,6 @@ const PrivateRoute = ({ children }: IPrivatRouteProps) => {
   if (!login) {
     return <Login />;
   }
-
-  //   if (userId !== "hi") {
-  //     return <p>권한이 없습니다.</p>;
-  //   }
-
   return children ? children : <Outlet />;
 };
 

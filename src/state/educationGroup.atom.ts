@@ -1,21 +1,20 @@
 import { atom } from "recoil";
 
 export interface People {
-  id: string;
+  _id: string;
   name: string;
-  groupIds: string[];
   type: "student" | "worker" | "new" | "etc";
 }
 
 export interface Group {
-  id: string;
+  _id: string;
   name: string;
   type: "student" | "worker" | "new" | "etc";
   humanIds: string[];
 }
 
 export interface GroupInfo {
-  id: string;
+  _id: string;
   title: string;
   isPublic: boolean;
   groups: string[];
@@ -26,12 +25,12 @@ export const peopleState = atom<People[]>({
   default: [],
 });
 
-export const groupState = atom<Group[]>({
+export const groupsState = atom<Group[]>({
   key: "educationGroup",
   default: [],
 });
 
 export const groupInfoState = atom<GroupInfo>({
   key: "educationGroups",
-  default: <GroupInfo>{},
+  default: { _id: "", title: "", isPublic: false, groups: [] },
 });

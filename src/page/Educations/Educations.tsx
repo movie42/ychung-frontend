@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import Loading from "../../components/Loading";
 import { groupInfoState } from "../../state/educationGroup.atom";
+import { useGet } from "../../utils/customhooks/useGet";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -22,23 +23,11 @@ interface IEducationFetchData {
 
 const Educations = () => {
   const navigate = useNavigate();
-  const setEducationGroups = useSetRecoilState(groupInfoState);
-  const { isLoading, isSuccess, error, data } = useQuery<IEducationFetchData[]>(
-    "notice",
-    async () => {
-      const response = await fetch(`/api/education/groups`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      });
-      const { data } = await response.json();
-      return data;
-    },
-    { staleTime: 10000 }
-  );
+
+  const { isLoading, data } = useGet<IEducationFetchData[]>({
+    url: "/api/education/groups",
+    queryKey: "educations",
+  });
 
   const createGroup = () => {
     navigate("/education/groups/create");
@@ -47,11 +36,7 @@ const Educations = () => {
   const moveToDetail = (e: React.MouseEvent<HTMLLIElement>) => {
     const id = e.currentTarget.dataset.id;
     if (data) {
-      const [{ _id, title, isPublic, groups }] = data.filter(
-        (value) => value._id === id
-      );
-      setEducationGroups({ id: _id, title, isPublic, groups });
-
+      const [{ isPublic }] = data.filter((value) => value._id === id);
       isPublic
         ? navigate(`/education/groups/${id}`)
         : navigate(`/education/groups/${id}/update`);
