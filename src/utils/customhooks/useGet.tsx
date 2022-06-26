@@ -1,14 +1,18 @@
 import React from "react";
-import { useQuery } from "react-query";
+import { QueryKey, useQuery, UseQueryOptions } from "react-query";
 import { SetterOrUpdater } from "recoil";
 import { getRequest } from "../utilities/httpMethod";
 
-interface IFetchProps<T> {
+interface IFetchProps<T>
+  extends Omit<
+    UseQueryOptions<T, unknown, T, QueryKey>,
+    "queryKey" | "queryFn"
+  > {
   url: RequestInfo;
-  queryKey: string;
+  queryKey: string | string[];
 }
 
-export const useGet = <T,>({ url, queryKey }: IFetchProps<T>) => {
+export const useGet = <T,>({ url, queryKey, ...rest }: IFetchProps<T>) => {
   return useQuery<T>(
     queryKey,
     async () => {
@@ -19,6 +23,7 @@ export const useGet = <T,>({ url, queryKey }: IFetchProps<T>) => {
     {
       staleTime: 120000,
       cacheTime: 300000,
+      ...rest,
     }
   );
 };

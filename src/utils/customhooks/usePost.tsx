@@ -1,19 +1,27 @@
 import React, { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { postRequest } from "../utilities/httpMethod";
+import { postOrPatchRequest } from "../utilities/httpMethod";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
 interface IusePostProps {
   url: RequestInfo;
-  queryKey: string;
+  queryKey: string | string[];
+  method: "POST" | "PATCH";
 }
 
-const usePost = ({ url, queryKey }: IusePostProps) => {
+const usePostOrPatch = <TData, TError, TVariables>({
+  url,
+  queryKey,
+  method,
+}: IusePostProps) => {
   const { csrf, csrfToken } = useGetCSRFToken();
   const queryClient = useQueryClient();
 
-  const postHelper = async (postData: any) => {
-    const response = await fetch(url, postRequest(postData, csrfToken));
+  const postHelper = async (postData: TVariables): Promise<TData> => {
+    const response = await fetch(
+      url,
+      postOrPatchRequest(postData, csrfToken, method)
+    );
     return response.json();
   };
 
@@ -21,11 +29,11 @@ const usePost = ({ url, queryKey }: IusePostProps) => {
     csrf();
   }, []);
 
-  return useMutation(postHelper, {
+  return useMutation<TData, TError, TVariables, unknown>(postHelper, {
     onSuccess: () => {
-      return queryClient.invalidateQueries(queryKey, { exact: true });
+      queryClient.invalidateQueries(queryKey);
     },
   });
 };
 
-export default usePost;
+export default usePostOrPatch;
