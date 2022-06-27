@@ -32,7 +32,7 @@ const BlogComponentInfoContainer = styled.div`
 `;
 
 function Blog() {
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const { id } = useParams();
   const setDetailItem = useSetRecoilState(blog);
   const [blogModalState, setBlogModalState] =
@@ -75,7 +75,7 @@ function Blog() {
         <Wrapper>
           <BlogComponentInfoContainer>
             <h1>블로그</h1>
-            {login && (
+            {isLogin && (
               <Link to={"/blog/create"}>
                 <AiFillPlusCircle />
               </Link>
@@ -85,7 +85,7 @@ function Blog() {
           {posts && (
             <ListContainer
               data={posts}
-              renderData={(item) => (
+              renderFunc={(item) => (
                 <ListItem data={item} onClick={() => onClick(item._id)} />
               )}
             />

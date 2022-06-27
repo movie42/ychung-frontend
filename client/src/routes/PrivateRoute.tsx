@@ -9,16 +9,11 @@ interface IPrivatRouteProps {
 }
 
 const PrivateRoute = ({ children }: IPrivatRouteProps) => {
-  const { login, userId } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
 
-  if (!login) {
+  if (!isLogin) {
     return <Login />;
   }
-
-  //   if (userId !== "hi") {
-  //     return <p>권한이 없습니다.</p>;
-  //   }
-
   return children ? children : <Outlet />;
 };
 

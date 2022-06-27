@@ -22,6 +22,7 @@ import { FetchDataProps } from "../../../lib/interface";
 import { useGet } from "../../../utils/customhooks/useGet";
 import { useParams } from "react-router";
 import { useQueryClient } from "react-query";
+import Loading from "../../../components/Loading";
 
 const DragDropContainer = styled.div`
   display: flex;
@@ -42,7 +43,7 @@ const GroupContainer = () => {
   const { register, handleSubmit, reset } = useForm<GroupProps>();
   const queryClient = useQueryClient();
 
-  const { data } = useGet<GroupProps[]>({
+  const { data, isLoading } = useGet<GroupProps[]>({
     url: `/api/education/groups/${id}/group`,
     queryKey: "groups",
     onSuccess: (response) => {
@@ -149,7 +150,9 @@ const GroupContainer = () => {
     );
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <form onSubmit={addGroup}>
         <Input type="text" {...register("name")} />
