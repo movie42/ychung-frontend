@@ -30,7 +30,7 @@ const LinkButton = styled(Link)<IProps>`
 `;
 
 const Nav = () => {
-  const { login, userId } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
 
   return (
     <Items>
@@ -43,14 +43,16 @@ const Nav = () => {
       <Item>
         <LinkButton to="/blog">블로그</LinkButton>
       </Item>
-      <Item>{/* <LinkButton to="/education">교육</LinkButton> */}</Item>
+      <Item>
+        <LinkButton to="/education">교육</LinkButton>
+      </Item>
       {/* <Item>
         <LinkButton to="/documents">도큐멘트</LinkButton>
       </Item> */}
       {/* <Item>
         <LinkButton to="/search">검색</LinkButton>
       </Item> */}
-      {login ? (
+      {isLogin ? (
         <>
           {/* <Item>
             <LinkButton to="/user/1">내 정보</LinkButton>

@@ -40,7 +40,7 @@ interface INoticeDetailProps {
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const setNoticeData = useSetRecoilState(notice);
   const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
 
@@ -128,7 +128,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
       <PageDetailModal setDetailItem={setDetailItem}>
         <>
           <PageDetailModalHeader {...data}>
-            {login && (
+            {isLogin && (
               <ButtonContainer>
                 <Button buttonType="icon" onClick={handleUpdate}>
                   <AiFillEdit />

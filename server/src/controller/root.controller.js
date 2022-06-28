@@ -30,31 +30,58 @@ export const login = async (req, res) => {
         .json({ message: "비밀번호를 잘못 입력하였습니다." });
     }
 
-    const token = await jwt.sign(
+    const accessToken = await jwt.sign(
       {
         _id: user._id,
         email: user.email,
+        authority: user.authority,
       },
       secret,
       {
-        expiresIn: "7d",
+        expiresIn: 60 * 60 * 1000,
         issuer: process.env.ORIGIN || "http://localhost:4000",
-        subject: "userInfo",
+        subject: "access token",
       },
     );
 
-    if (!token) {
-      throw new Error("알수없는 이유로 로그인 할 수 없습니다.");
+    const refreshToken = await jwt.sign(
+      {
+        _id: user.id,
+      },
+      secret,
+      {
+        expiresIn: 7 * 60 * 60 * 1000,
+        issuer: process.env.ORIGIN || "http://localhost:4000",
+        subject: "refresh token",
+      },
+    );
+
+    if (!accessToken && !refreshToken) {
+      throw new Error("알 수 없는 이유로 로그인 할 수 없습니다.");
     }
 
+    res.cookie("accessToken", accessToken, {
+      path: "/",
+      httpOnly: true,
+      maxAge: 60 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      path: "/",
+      httpOnly: true,
+      maxAge: 60 * 60 * 1000,
+    });
+
     return res
-      .cookie("token", token, {
-        path: "/",
-        httpOnly: true,
-        maxAge: 864000,
-      })
       .status(200)
-      .json({ data: { login: true, userId: user._id } });
+      .json({
+        data: {
+          isLogin: true,
+          _id: user._id,
+          email: user.email,
+          authority: user.authority,
+        },
+      });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ error: "로그인을 할 수 없습니다." });

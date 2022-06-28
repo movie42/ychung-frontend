@@ -43,7 +43,7 @@ const ListContainer = styled.ul`
 `;
 
 function Worship() {
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const { id } = useParams();
   const setDetailItem = useSetRecoilState(worshipDetail);
   const [worshipModalState, setWorshipModalState] = useRecoilState(
@@ -86,7 +86,7 @@ function Worship() {
         <Wrapper>
           <WeeklyComponentInfoContainer>
             <h1>주보</h1>
-            {login && (
+            {isLogin && (
               <Link to="/worship/create">
                 <AiFillPlusCircle />
               </Link>

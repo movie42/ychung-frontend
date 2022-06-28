@@ -85,7 +85,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const { title, createdAt, creator, views } = props;
   const { id } = useParams();
   const navigate = useNavigate();
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
 
   const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
     useDelete({
@@ -126,7 +126,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
             <span>{creator?.userName}</span>
             <span>{createdAt && calculateDate(createdAt)}</span>
           </InforContainer>
-          {login && (
+          {isLogin && (
             <ButtonContainer>
               <Button buttonType="icon" onClick={handleUpdate}>
                 <AiFillEdit />

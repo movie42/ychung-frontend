@@ -41,12 +41,12 @@ import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
 import Educations from "../page/Educations/Educations";
 import EducationsUpdate from "../page/Educations/UpdateGroup/EducationsUpdate";
 import EducationCreate from "../page/Educations/CreateGroup/EducationCreate";
-import EducationGroupsDetail from "../page/Educations/EducationGroupsDetail";
+import EducationGroupsDetail from "../page/Educations/Detail/EducationGroupsDetail";
 import { AnimatePresence } from "framer-motion";
 
 function Router() {
   const location = useLocation();
-  const { login, userId } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const noticeItem = useRecoilValue(notice);
   const setNoticeModalState = useSetRecoilState(noticeModalControler);
 
@@ -103,14 +103,13 @@ function Router() {
           <Route path=":id" element={<AccountDetail />} />
         </Route>
       </Route>
-      <Route path="/education" element={<Educations />} />
-      <Route path="/education/groups/create" element={<EducationCreate />} />
       <Route path="/education/groups/:id" element={<EducationGroupsDetail />} />
-      <Route
-        path="/education/groups/:id/update"
-        element={<EducationsUpdate />}
-      />
       <Route element={<PrivateRoute />}>
+        <Route path="/education/groups/create" element={<EducationCreate />} />
+        <Route
+          path="/education/groups/:id/update"
+          element={<EducationsUpdate />}
+        />
         <Route path="/notice/create" element={<NoticeCreate />} />
         <Route
           path="/notice/:id/update"
@@ -126,22 +125,17 @@ function Router() {
           path="/blog/:id/update"
           element={<BlogUpdate data={blogItem} />}
         />
+        <Route path="/user/:id" element={<User />} />
+        <Route path="/user/:id/works" element={<UserWorks />} />
+        <Route path="/user/:id/applications" element={<UserApplications />} />
+        <Route path="/user/:id/like" element={<UserLike />} />
+        <Route path="/logout" element={<Logout />} />
       </Route>
       <Route path="/search" element={<Search />} />
-      {login ? (
-        <>
-          <Route path="/user/:id" element={<User />} />
-          <Route path="/user/:id/works" element={<UserWorks />} />
-          <Route path="/user/:id/applications" element={<UserApplications />} />
-          <Route path="/user/:id/like" element={<UserLike />} />
-          <Route path="/logout" element={<Logout />} />
-        </>
-      ) : (
-        <>
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/join" element={<Join />} /> */}
-        </>
-      )}
+
+      <Route path="/login" element={<Login />} />
+      {/* <Route path="/join" element={<Join />} /> */}
+
       <Route
         path="*"
         element={<p>보여줄게 아무것도 없네요. URL을 다시 입력해보세요.</p>}

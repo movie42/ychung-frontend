@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Input from "../../../components/Form/Input";
@@ -18,6 +18,7 @@ import ToggleButton from "../../../components/Buttons/Toggle";
 import { FetchDataProps } from "../../../lib/interface";
 import Label from "../../../components/Form/Label";
 import { group } from "console";
+import Loading from "../../../components/Loading";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -66,7 +67,11 @@ function EducationUpdate() {
     reset,
   } = useForm<GroupInfo>();
 
-  const { data: response, isSuccess } = useGet<GroupInfo>({
+  const {
+    data: response,
+    isSuccess,
+    isLoading,
+  } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
     queryKey: "group",
     onSuccess: (response) => {
@@ -96,7 +101,9 @@ function EducationUpdate() {
     groupInfoMutation({ title });
   });
 
-  return (
+  return isLoading && !isSuccess ? (
+    <Loading />
+  ) : (
     <Wrapper>
       <Header>
         <div>

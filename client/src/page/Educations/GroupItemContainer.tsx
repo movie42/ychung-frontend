@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const List = styled.ul`
   display: grid;
-  grid-auto-rows: minmax(30rem, auto);
   margin: 0;
   @media (min-width: ${(props) => props.theme.screen.labtop}) {
     grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
@@ -12,17 +11,17 @@ const List = styled.ul`
   padding: 0;
 `;
 
-interface IListComponentProps<T>
+interface IGroupItemContainerProps<T>
   extends React.HTMLAttributes<HTMLUListElement> {
   data: T[];
   renderFunc: (item: T) => React.ReactNode;
 }
 
-const ListContainer = <T extends unknown>({
+const GroupItemContainer = <T extends unknown>({
   data,
   renderFunc,
-}: IListComponentProps<T>) => {
+}: IGroupItemContainerProps<T>) => {
   return <List>{data.map(renderFunc)}</List>;
 };
 
-export default ListContainer;
+export default GroupItemContainer;
