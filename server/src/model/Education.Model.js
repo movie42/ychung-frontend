@@ -17,8 +17,8 @@ const groups = mongoose.Schema({
 });
 
 const group = mongoose.Schema({
-  name: { type: String },
-  type: { type: String },
+  name: { type: String, requreid: true, unique: true },
+  type: { type: String, requreid: true },
   humanIds: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -29,7 +29,7 @@ const group = mongoose.Schema({
 });
 
 const people = mongoose.Schema({
-  name: { type: String, requreid: true },
+  name: { type: String, requreid: true, unique: true },
   type: { type: String, requreid: true },
   createdAt: { type: Date, default: Date.now },
 });

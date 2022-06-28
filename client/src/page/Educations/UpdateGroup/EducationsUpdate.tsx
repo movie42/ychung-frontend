@@ -19,6 +19,7 @@ import { FetchDataProps } from "../../../lib/interface";
 import Label from "../../../components/Form/Label";
 import { group } from "console";
 import Loading from "../../../components/Loading";
+import { useQueryClient } from "react-query";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -64,14 +65,9 @@ function EducationUpdate() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<GroupInfo>();
 
-  const {
-    data: response,
-    isSuccess,
-    isLoading,
-  } = useGet<GroupInfo>({
+  const { isLoading, isFetching } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
     queryKey: "group",
     onSuccess: (response) => {
@@ -101,17 +97,28 @@ function EducationUpdate() {
     groupInfoMutation({ title });
   });
 
-  return isLoading && !isSuccess ? (
-    <Loading />
-  ) : (
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isFetching) {
+    return <Loading />;
+  }
+
+  return (
     <Wrapper>
       <Header>
+        {/* TODO: 
+        1. 이벤트 쓰로틀 걸고 사용자 
+        2.쓰기가 끝나면 자동으로 저장되기 
+        3. 저장되는 동안 상태 메시지 보여주기  
+        4. 저장이 끝난 후에 상태 메시지 보여주기 */}
         <div>
           <form onSubmit={changeTitle}>
             <TitleInput
               type="text"
               defaultValue={groupInfo?.title}
-              placeholder="소그룹 이름을 입력하세요."
+              placeholder="소그룹 제목을 입력하세요."
               {...register("title", {
                 required: "제목은 반드시 입력해야합니다.",
               })}
@@ -122,7 +129,7 @@ function EducationUpdate() {
         <ButtonContainer>
           <span>
             {groupInfo.isPublic
-              ? "소그룹을 공개하고 있습니다."
+              ? "소그룹이 공개 중 입니다."
               : "아직 작성 중인 소그룹입니다."}
           </span>
           <ToggleButton

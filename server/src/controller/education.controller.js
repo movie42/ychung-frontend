@@ -61,9 +61,15 @@ export const updateEducationGroups = async (req, res) => {
   }
 };
 
-export const deleteEducationGroups = (req, res) => {
+export const deleteEducationGroups = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
   try {
-    return res.status(200).json({});
+    const data = await groupsModel.findByIdAndDelete({ _id: id });
+
+    return res.sendStatus(200);
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });
@@ -124,7 +130,20 @@ export const updateEducationGroup = async (req, res) => {
     return res.status(400).json({ message: "오류가 발생했습니다." });
   }
 };
-export const deleteEducationGroup = (req, res) => {};
+export const deleteEducationGroup = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  try {
+    const data = await groupModel.findByIdAndDelete({ _id: id });
+
+    return res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "오류가 발생했습니다." });
+  }
+};
 
 export const getEducationPeople = async (req, res) => {
   const {
@@ -161,18 +180,34 @@ export const postEducationPeople = async (req, res) => {
   }
 };
 
-export const updateEducationPeople = (req, res) => {
+export const updateEducationPeople = async (req, res) => {
+  const {
+    body,
+    params: { id },
+  } = req;
+
   try {
-    return res.status(200).json({});
+    const data = await peopleModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        ...body,
+      },
+    );
+
+    return res.status(200).json({ data });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });
   }
 };
 
-export const deleteEducationPeople = (req, res) => {
+export const deleteEducationPeople = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
   try {
-    return res.status(200).json({});
+    const data = await peopleModel.findByIdAndDelete(id);
+    return res.sendStatus(200);
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });

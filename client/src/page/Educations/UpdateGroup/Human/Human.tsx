@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  Draggable,
-  DraggableProvided,
-  DraggableStateSnapshot,
-} from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 import { useRecoilValue } from "recoil";
 import { People, peopleState } from "../../../../state/educationGroup.atom";
+import { MdDragHandle } from "react-icons/md";
 
 const Container = styled.div<{
   isDragging: boolean;
@@ -15,10 +12,20 @@ const Container = styled.div<{
   padding: 1rem;
   /* border: 1px solid ${(props) => props.theme.color.gray300}; */
   margin-bottom: 0.4rem;
+  border: 1px solid ${(props) => props.theme.color.gray300};
+  justify-content: space-between;
+  border-radius: 0.5rem;
   background-color: ${(props) =>
     props.isDragging
-      ? props.theme.color.secondary400
+      ? props.theme.color.primary700
       : props.theme.color.background100};
+  color: ${(props) =>
+    props.isDragging
+      ? props.theme.color.fontColorWhite
+      : props.theme.color.fontColorBlack};
+  &:hover {
+    background-color: ${(props) => props.theme.color.gray300};
+  }
 `;
 
 interface ITaskInterface {
@@ -37,6 +44,7 @@ const Human = ({ index, person }: ITaskInterface) => {
           key={person._id}
           ref={provided.innerRef}>
           {person.name}
+          <MdDragHandle />
         </Container>
       )}
     </Draggable>

@@ -1,7 +1,7 @@
 import { userInfo } from "os";
 import React, { useEffect, useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
@@ -51,6 +51,7 @@ interface IEducationFetchData {
 
 const Educations = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { isLogin } = useRecoilValue(loginState);
 
   const { isLoading, data } = useGet<IEducationFetchData[]>({
@@ -71,6 +72,12 @@ const Educations = () => {
         : navigate(`/education/groups/${id}/update`);
     }
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries("group");
+    queryClient.invalidateQueries("groups");
+    queryClient.invalidateQueries("people");
+  }, []);
 
   return isLoading ? (
     <Loading />

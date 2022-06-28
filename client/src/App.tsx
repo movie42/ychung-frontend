@@ -14,7 +14,7 @@ const Wrapper = styled.main`
 
 function App() {
   const currentLogin = useSetRecoilState(loginState);
-  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const currentUser = JSON.parse(localStorage.getItem("ycUser") || "{}");
 
   useEffect(() => {
     if (!currentUser) {
