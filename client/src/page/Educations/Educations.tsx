@@ -73,12 +73,6 @@ const Educations = () => {
     }
   };
 
-  useEffect(() => {
-    queryClient.invalidateQueries("group");
-    queryClient.invalidateQueries("groups");
-    queryClient.invalidateQueries("people");
-  }, []);
-
   return isLoading ? (
     <Loading />
   ) : (

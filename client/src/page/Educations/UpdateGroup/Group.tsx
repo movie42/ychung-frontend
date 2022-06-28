@@ -158,6 +158,8 @@ const Group = ({ item }: IGroupProps) => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
   };
 
+  const updateGroup = () => {};
+
   const deleteGroup = () => {
     setIsConfirmModal(true);
   };
@@ -194,7 +196,7 @@ const Group = ({ item }: IGroupProps) => {
             <button onClick={openAddPeopleInput}>
               <MdPersonAdd />
             </button>
-            <button>
+            <button onClick={updateGroup}>
               <MdEdit />
             </button>
             <button onClick={deleteGroup}>

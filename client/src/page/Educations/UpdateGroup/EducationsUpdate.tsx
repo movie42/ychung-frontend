@@ -60,22 +60,15 @@ interface GroupInfoSend {
 function EducationUpdate() {
   const { id } = useParams();
 
-  const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<GroupInfo>();
 
-  const { data } = useGet<GroupInfo>({
+  const { data, isSuccess, isLoading, isRefetching } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
     queryKey: "group",
-    onSuccess: (response) => {
-      if (response) {
-        setGroupInfo(response);
-      }
-    },
   });
 
   const { mutate: groupInfoMutation } = usePostOrPatch<
@@ -89,16 +82,15 @@ function EducationUpdate() {
   });
 
   const toggleButton = () => {
-    groupInfoMutation({ isPublic: !groupInfo.isPublic });
+    groupInfoMutation({ isPublic: !data?.isPublic });
   };
 
   const changeTitle = handleSubmit((data) => {
     const { title } = data;
-    setGroupInfo((pre) => ({ ...pre, title }));
     groupInfoMutation({ title });
   });
 
-  return (
+  return !isLoading && !isRefetching ? (
     <Wrapper>
       <Header>
         {/* TODO: 
@@ -110,7 +102,7 @@ function EducationUpdate() {
           <form onSubmit={changeTitle}>
             <TitleInput
               type="text"
-              defaultValue={groupInfo?.title}
+              defaultValue={data?.title}
               placeholder="소그룹 제목을 입력하세요."
               {...register("title", {
                 required: "제목은 반드시 입력해야합니다.",
@@ -121,12 +113,12 @@ function EducationUpdate() {
         </div>
         <ButtonContainer>
           <span>
-            {groupInfo.isPublic
+            {data?.isPublic
               ? "소그룹이 공개 중 입니다."
               : "아직 작성 중인 소그룹입니다."}
           </span>
           <ToggleButton
-            isActive={groupInfo?.isPublic}
+            isActive={data?.isPublic ? data?.isPublic : false}
             size={4}
             onClick={toggleButton}
           />
@@ -134,6 +126,8 @@ function EducationUpdate() {
       </Header>
       <GroupContainer />
     </Wrapper>
+  ) : (
+    <Loading />
   );
 }
 
