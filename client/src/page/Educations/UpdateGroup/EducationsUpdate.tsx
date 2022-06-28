@@ -59,6 +59,7 @@ interface GroupInfoSend {
 
 function EducationUpdate() {
   const { id } = useParams();
+
   const [groupInfo, setGroupInfo] = useRecoilState(groupInfoState);
 
   const {
@@ -67,7 +68,7 @@ function EducationUpdate() {
     formState: { errors },
   } = useForm<GroupInfo>();
 
-  const { isLoading, isFetching } = useGet<GroupInfo>({
+  const { data } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
     queryKey: "group",
     onSuccess: (response) => {
@@ -96,14 +97,6 @@ function EducationUpdate() {
     setGroupInfo((pre) => ({ ...pre, title }));
     groupInfoMutation({ title });
   });
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isFetching) {
-    return <Loading />;
-  }
 
   return (
     <Wrapper>

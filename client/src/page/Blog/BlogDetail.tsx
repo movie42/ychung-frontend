@@ -77,6 +77,8 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
       />
       {isConfirmModal && (
         <ConfirmDeleteModal
+          title="블로그 포스트를 삭제하시겠습니까?"
+          subtitle="삭제하면 데이터를 복구할 수 없습니다."
           setIsConfirmModal={setIsConfirmModal}
           setIsDelete={setIsDelete}
         />

@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import {
+  QueryKey,
+  useMutation,
+  UseMutationOptions,
+  useQueryClient,
+  UseQueryOptions,
+} from "react-query";
 import { deleteRequest } from "../utilities/httpMethod";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
-interface IuseDeleteProps {
+interface IuseDeleteProps<T>
+  extends Omit<UseMutationOptions<T, unknown, void, unknown>, "mutationFn"> {
   url: RequestInfo;
   queryKey: string;
 }
 
-const useDelete = ({ url, queryKey }: IuseDeleteProps) => {
+const useDelete = <T,>({ url, queryKey, ...rest }: IuseDeleteProps<T>) => {
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
 
   const { csrf, csrfToken } = useGetCSRFToken();
-  const queryClient = useQueryClient();
 
   const deleteHelper = async () => {
     const response = await fetch(url, deleteRequest(csrfToken));
@@ -24,11 +30,7 @@ const useDelete = ({ url, queryKey }: IuseDeleteProps) => {
     csrf();
   }, []);
 
-  const mutation = useMutation(deleteHelper, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(queryKey, { exact: true });
-    },
-  });
+  const mutation = useMutation<T>(deleteHelper, { ...rest });
 
   return {
     isConfirmModal,

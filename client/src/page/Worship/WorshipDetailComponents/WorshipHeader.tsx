@@ -111,6 +111,8 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
     <>
       {isConfirmModal && (
         <ConfirmDeleteModal
+          title="주보를 삭제하시겠습니까?"
+          subtitle="삭제하면 데이터를 복구할 수 없습니다."
           setIsConfirmModal={setIsConfirmModal}
           setIsDelete={setIsDelete}
         />

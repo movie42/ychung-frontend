@@ -23,6 +23,9 @@ import {
   MdPersonAdd,
   MdRemoveCircle,
 } from "react-icons/md";
+import useDelete from "../../../utils/customhooks/useDelete";
+import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
+import { useQueryClient } from "react-query";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -114,6 +117,7 @@ interface SendPeople {
 }
 
 const Group = ({ item }: IGroupProps) => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<People>();
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
   const [people, setPeople] = useState<People[]>();
@@ -136,13 +140,27 @@ const Group = ({ item }: IGroupProps) => {
     method: "POST",
   });
 
-  // const {mutate:deleteGroupMutate} = useDelete({URL:""})
+  const {
+    mutate: deleteGroupMutate,
+    isConfirmModal,
+    setIsConfirmModal,
+    isDelete,
+    setIsDelete,
+  } = useDelete({
+    url: `/api/education/group/${item._id}`,
+    queryKey: "groups",
+    onSuccess: () => {
+      queryClient.invalidateQueries("groups");
+    },
+  });
 
   const openAddPeopleInput = () => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
   };
 
-  const deleteGroup = () => {};
+  const deleteGroup = () => {
+    setIsConfirmModal(true);
+  };
 
   const onSubmitData = handleSubmit((data) => {
     mutate({
@@ -151,46 +169,64 @@ const Group = ({ item }: IGroupProps) => {
     });
   });
 
+  useEffect(() => {
+    if (isDelete) {
+      deleteGroupMutate();
+      setIsConfirmModal(false);
+      setIsDelete(false);
+    }
+  }, [isDelete]);
+
   return (
-    <Container data-id={item._id}>
-      <Header>
-        <Title>{item.name}</Title>
-        <ButtonContainer>
-          <button onClick={openAddPeopleInput}>
-            <MdPersonAdd />
-          </button>
-          <button>
-            <MdEdit />
-          </button>
-          <button onClick={deleteGroup}>
-            <MdDelete />
-          </button>
-        </ButtonContainer>
-      </Header>
-      {isOpenPeopleInput && (
-        <Form onSubmit={onSubmitData}>
-          <input
-            id="name"
-            placeholder="이름을 적고 엔터!"
-            type="text"
-            {...register("name")}
-          />
-        </Form>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsDelete={setIsDelete}
+          setIsConfirmModal={setIsConfirmModal}
+          title="그룹을 삭제하시겠습니까?"
+          subtitle="그룹을 삭제하면 복구할 수 없습니다. 참가자는 그대로 남습니다."
+        />
       )}
-      <Droppable droppableId={item._id}>
-        {(provided, snapshot) => (
-          <PersonList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}>
-            {people?.map((person, index) => (
-              <Human key={person._id} index={index} person={person} />
-            ))}
-            {provided.placeholder}
-          </PersonList>
+      <Container data-id={item._id}>
+        <Header>
+          <Title>{item.name}</Title>
+          <ButtonContainer>
+            <button onClick={openAddPeopleInput}>
+              <MdPersonAdd />
+            </button>
+            <button>
+              <MdEdit />
+            </button>
+            <button onClick={deleteGroup}>
+              <MdDelete />
+            </button>
+          </ButtonContainer>
+        </Header>
+        {isOpenPeopleInput && (
+          <Form onSubmit={onSubmitData}>
+            <input
+              id="name"
+              placeholder="이름을 적고 엔터!"
+              type="text"
+              {...register("name")}
+            />
+          </Form>
         )}
-      </Droppable>
-    </Container>
+        <Droppable droppableId={item._id}>
+          {(provided, snapshot) => (
+            <PersonList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}>
+              {people?.map((person, index) => (
+                <Human key={person._id} index={index} person={person} />
+              ))}
+              {provided.placeholder}
+            </PersonList>
+          )}
+        </Droppable>
+      </Container>
+    </>
   );
 };
 

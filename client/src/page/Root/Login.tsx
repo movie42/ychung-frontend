@@ -62,30 +62,32 @@ function Login() {
     handleSubmit,
   } = useForm<LoginType>();
 
-  const { mutate, isLoading } = usePostOrPatch<
-    FetchDataProps<LoginProps>,
-    Error,
-    LoginType
-  >({
+  const {
+    mutate,
+    isLoading,
+    isSuccess,
+    data: response,
+  } = usePostOrPatch<FetchDataProps<LoginProps>, Error, LoginType>({
     url: `/api/login`,
     queryKey: "login",
     method: "POST",
   });
 
   const onSubmit = handleSubmit((data) => {
-    mutate(data, {
-      onSuccess: (response) => {
-        const { data } = response;
-        if (data) {
-          setIsLogin({ ...data });
-          localStorage.setItem("ycUser", JSON.stringify(data));
-          navigate("/");
-        }
-      },
-    });
+    mutate(data);
   });
 
-  return !isLoading ? (
+  useEffect(() => {
+    if (isSuccess) {
+      const { data } = response;
+      if (data) {
+        setIsLogin(data);
+        navigate("/");
+      }
+    }
+  }, [isSuccess]);
+
+  return (
     <>
       <SEO title="로그인" />
       <Wrapper>
@@ -125,8 +127,6 @@ function Login() {
         </form>
       </Wrapper>
     </>
-  ) : (
-    <Loading />
   );
 }
 

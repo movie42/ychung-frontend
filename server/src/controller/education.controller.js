@@ -69,7 +69,7 @@ export const deleteEducationGroups = async (req, res) => {
   try {
     const data = await groupsModel.findByIdAndDelete({ _id: id });
 
-    return res.sendStatus(200);
+    return res.status(200).json({ data: { success: "ok" } });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });
@@ -138,7 +138,7 @@ export const deleteEducationGroup = async (req, res) => {
   try {
     const data = await groupModel.findByIdAndDelete({ _id: id });
 
-    return res.sendStatus(200);
+    return res.status(200).json({ data: { success: "ok" } });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });
@@ -207,7 +207,7 @@ export const deleteEducationPeople = async (req, res) => {
   } = req;
   try {
     const data = await peopleModel.findByIdAndDelete(id);
-    return res.sendStatus(200);
+    return res.status(200).json({ data: { success: "ok" } });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ message: "오류가 발생했습니다." });

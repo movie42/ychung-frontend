@@ -37,6 +37,7 @@ const DropableItemContainer = styled.div`
     margin: 0 1rem;
   }
 `;
+
 const AddGroupContainer = styled.div`
   display: flex;
   align-items: center;
@@ -141,7 +142,7 @@ const GroupContainer = () => {
     SendGroupProps
   >({
     url: `/api/education/group/update`,
-    queryKey: "",
+    queryKey: "group",
     method: "PATCH",
   });
 
@@ -179,7 +180,7 @@ const GroupContainer = () => {
         {
           onSuccess: (response) => {
             queryClient.invalidateQueries("groups");
-            queryClient.invalidateQueries(["people", response.data?._id]);
+            queryClient.invalidateQueries(["people", start._id]);
           },
         }
       );
@@ -222,9 +223,7 @@ const GroupContainer = () => {
     );
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  return (
     <Wrapper>
       <AddGroupContainer>
         <Header>
@@ -264,9 +263,7 @@ const GroupContainer = () => {
                   {group
                     ?.filter((value) => value.type === "new")
                     .map((group) => (
-                      <>
-                        <Group key={group._id} item={group} />
-                      </>
+                      <Group key={group._id} item={group} />
                     ))}
                 </div>
               )}
@@ -278,9 +275,7 @@ const GroupContainer = () => {
                   {group
                     ?.filter((value) => value.type === "student")
                     .map((group) => (
-                      <>
-                        <Group key={group._id} item={group} />
-                      </>
+                      <Group key={group._id} item={group} />
                     ))}
                 </div>
               )}
@@ -292,9 +287,7 @@ const GroupContainer = () => {
                   {group
                     ?.filter((value) => value.type === "worker")
                     .map((group) => (
-                      <>
-                        <Group key={group._id} item={group} />
-                      </>
+                      <Group key={group._id} item={group} />
                     ))}
                 </div>
               )}
@@ -305,9 +298,7 @@ const GroupContainer = () => {
                   {group
                     ?.filter((value) => value.type === "etc")
                     .map((group) => (
-                      <>
-                        <Group key={group._id} item={group} />
-                      </>
+                      <Group key={group._id} item={group} />
                     ))}
                 </div>
               )}

@@ -121,6 +121,8 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
       />
       {isConfirmModal && (
         <ConfirmDeleteModal
+          title="공지를 삭제하시겠습니까?"
+          subtitle="삭제하면 데이터를 복구할 수 없습니다."
           setIsConfirmModal={setIsConfirmModal}
           setIsDelete={setIsDelete}
         />
