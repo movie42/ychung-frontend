@@ -21,8 +21,8 @@ export const useGet = <T,>({ url, queryKey, ...rest }: IFetchProps<T>) => {
       return data;
     },
     {
-      staleTime: 120000,
-      cacheTime: 300000,
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 60 * 60 * 1000,
       ...rest,
     }
   );
