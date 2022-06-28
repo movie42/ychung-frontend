@@ -37,6 +37,7 @@ const Logout = () => {
     if (isSuccess) {
       timeout = setTimeout(() => {
         removeLoginState();
+        localStorage.removeItem("ycUser");
         navigate("/");
       }, 2000);
     }
