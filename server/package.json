@@ -38,7 +38,8 @@
     "node-fetch": "^3.2.3",
     "permissions-policy": "^0.6.0",
     "request": "^2.88.2",
-    "sharp": "^0.30.3"
+    "sharp": "^0.30.3",
+    "@babel/runtime": "^7.17.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -46,7 +47,6 @@
     "@babel/node": "^7.16.8",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
-    "@babel/runtime": "^7.17.8",
     "nodemon": "^2.0.15"
   }
 }
