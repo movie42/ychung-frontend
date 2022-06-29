@@ -54,7 +54,7 @@ interface FetchGroup {
 const DetailGroup = ({ group }: IDetailGroupProps) => {
   const { data: humans } = useGet<People[]>({
     url: `/api/education/group/${group?._id}/people`,
-    queryKey: ["people", group?._id ? group._id : "1"],
+    queryKey: ["people", group?._id ? group._id : ""],
   });
 
   return (

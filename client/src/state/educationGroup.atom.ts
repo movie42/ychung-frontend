@@ -20,15 +20,8 @@ export interface GroupInfo {
   groups: string[];
 }
 
-export interface GroupAndPeople {
-  _id: string;
-  name: string;
-  type: "student" | "worker" | "new" | "etc";
-  humanIds: People[];
-}
-
-export const groupAndpeopleState = atom<GroupAndPeople[]>({
-  key: "groupAndPeople",
+export const poepleState = atom<People[]>({
+  key: "people",
   default: [],
 });
 

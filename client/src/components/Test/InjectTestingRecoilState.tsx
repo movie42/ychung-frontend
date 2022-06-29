@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { groupAndpeopleState, People } from "../../state/educationGroup.atom";
+import { People } from "../../state/educationGroup.atom";
 
 interface IInjectTestingRecoilStateProps {
-  people: People[];
+  people: People;
 }
 
 const InjectTestingRecoilState = ({

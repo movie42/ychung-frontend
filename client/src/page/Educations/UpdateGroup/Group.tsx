@@ -4,11 +4,8 @@ import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  groupsState,
-  groupInfoState,
   People,
   Group as GroupProps,
-  groupAndpeopleState,
 } from "../../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
 import { compare } from "../../../utils/utilities/compare";
@@ -119,12 +116,11 @@ interface SendPeople {
 const Group = ({ item }: IGroupProps) => {
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<People>();
-  const groupAndpeople = useRecoilValue(groupAndpeopleState);
-  const [people] = groupAndpeople
-    .filter((person) => person._id === item._id)
-    .map((value) => value.humanIds);
-
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
+  const { data: people } = useGet<People[]>({
+    url: `/api/education/group/${item._id}/people`,
+    queryKey: ["people", item._id],
+  });
 
   const { mutate: addNewPeople } = usePostOrPatch<
     FetchDataProps<People[]>,
@@ -132,7 +128,7 @@ const Group = ({ item }: IGroupProps) => {
     SendPeople
   >({
     url: `/api/education/group/${item._id}/people`,
-    queryKey: "people",
+    queryKey: ["people", item._id],
     method: "POST",
   });
 
@@ -216,7 +212,7 @@ const Group = ({ item }: IGroupProps) => {
               ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}>
-              {people.map((person, index) => (
+              {people?.map((person, index) => (
                 <Human key={person._id} index={index} person={person} />
               ))}
               {provided.placeholder}

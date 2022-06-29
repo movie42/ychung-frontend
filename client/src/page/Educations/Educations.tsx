@@ -63,14 +63,14 @@ const Educations = () => {
     navigate("/education/groups/create");
   };
 
-  const moveToDetail = (e: React.MouseEvent<HTMLLIElement>) => {
-    const id = e.currentTarget.dataset.id;
-    if (data) {
-      const [{ isPublic }] = data.filter((value) => value._id === id);
-      isPublic
-        ? navigate(`/education/groups/${id}`)
-        : navigate(`/education/groups/${id}/update`);
-    }
+  const moveToDetail = (
+    e: React.MouseEvent<HTMLLIElement>,
+    _id: string,
+    isPublic: boolean
+  ) => {
+    isPublic
+      ? navigate(`/education/groups/${_id}`)
+      : navigate(`/education/groups/${_id}/update`);
   };
 
   return isLoading ? (
@@ -82,23 +82,24 @@ const Educations = () => {
           <h1>교육</h1>
         </TextContainer>
       </Header>
-      <GroupSection>
-        <Header>
-          <TextContainer>
-            <h2>소그룹</h2>
-            {data?.filter((value) => value.isPublic).length !== 0 ? (
-              <p>참여하고 있는 소그룹을 선택해주세요.</p>
-            ) : (
-              <p>공개중인 소그룹이 없습니다.</p>
+
+      {data && (
+        <GroupSection>
+          <Header>
+            <TextContainer>
+              <h2>소그룹</h2>
+              {data?.filter((value) => value.isPublic).length !== 0 ? (
+                <p>참여하고 있는 소그룹을 선택해주세요.</p>
+              ) : (
+                <p>공개중인 소그룹이 없습니다.</p>
+              )}
+            </TextContainer>
+            {isLogin && (
+              <CreateGroupButton onClick={createGroup} buttonType="block">
+                <AiOutlineCloudUpload />
+              </CreateGroupButton>
             )}
-          </TextContainer>
-          {isLogin && (
-            <CreateGroupButton onClick={createGroup} buttonType="block">
-              <AiOutlineCloudUpload />
-            </CreateGroupButton>
-          )}
-        </Header>
-        {data && (
+          </Header>
           <GroupItemContainer
             style={{ border: "1px solid #333333" }}
             data={data.filter((value) => value.isPublic)}
@@ -106,40 +107,41 @@ const Educations = () => {
               <GroupItem
                 key={item._id}
                 data-id={item._id}
-                onClick={moveToDetail}>
+                onClick={(e) => moveToDetail(e, item._id, item.isPublic)}>
                 <h3>{item.title}</h3>
                 <span>{calculateDate(item.createdAt.toString())}</span>
               </GroupItem>
             )}
           />
-        )}
-        {data && isLogin && (
-          <>
-            <Header>
-              <TextContainer>
-                <h2>작성 중인 소그룹</h2>
-              </TextContainer>
-            </Header>
-            {data.length !== 0 ? (
-              <GroupItemContainer
-                style={{ border: "1px solid #333333" }}
-                data={data.filter((value) => !value.isPublic)}
-                renderFunc={(item: IEducationFetchData) => (
-                  <GroupItem
-                    key={item._id}
-                    data-id={item._id}
-                    onClick={moveToDetail}>
-                    <h3>{item.title}</h3>
-                    <span>{calculateDate(item.createdAt.toString())}</span>
-                  </GroupItem>
-                )}
-              />
-            ) : (
-              <p>작성 중인 소그룹이 없습니다.</p>
-            )}
-          </>
-        )}
-      </GroupSection>
+        </GroupSection>
+      )}
+
+      {data && isLogin && (
+        <GroupSection>
+          <Header>
+            <TextContainer>
+              <h2>작성 중인 소그룹</h2>
+            </TextContainer>
+          </Header>
+          {data.length !== 0 ? (
+            <GroupItemContainer
+              style={{ border: "1px solid #333333" }}
+              data={data.filter((value) => !value.isPublic)}
+              renderFunc={(item: IEducationFetchData) => (
+                <GroupItem
+                  key={item._id}
+                  data-id={item._id}
+                  onClick={(e) => moveToDetail(e, item._id, item.isPublic)}>
+                  <h3>{item.title}</h3>
+                  <span>{calculateDate(item.createdAt.toString())}</span>
+                </GroupItem>
+              )}
+            />
+          ) : (
+            <p>작성 중인 소그룹이 없습니다.</p>
+          )}
+        </GroupSection>
+      )}
     </Wrapper>
   );
 };

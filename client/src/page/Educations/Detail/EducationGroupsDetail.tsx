@@ -33,7 +33,7 @@ const EducationGroupsDetail = () => {
   const { id } = useParams();
   const { data, isLoading } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
-    queryKey: "group",
+    queryKey: "groupInfo",
   });
 
   return isLoading ? (

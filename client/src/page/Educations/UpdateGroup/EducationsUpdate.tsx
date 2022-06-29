@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import { useRecoilState } from "recoil";
 import { useParams } from "react-router-dom";
 
-import {
-  groupInfoState,
-  Group,
-  GroupInfo,
-} from "../../../state/educationGroup.atom";
+import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
 import usePostOrPatch from "../../../utils/customhooks/usePost";
 import { useGet } from "../../../utils/customhooks/useGet";
 import ToggleButton from "../../../components/Buttons/Toggle";
 import { FetchDataProps } from "../../../lib/interface";
-import Label from "../../../components/Form/Label";
-import { group } from "console";
 import Loading from "../../../components/Loading";
-import { useQueryClient } from "react-query";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -59,16 +51,15 @@ interface GroupInfoSend {
 
 function EducationUpdate() {
   const { id } = useParams();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<GroupInfo>();
 
-  const { data, isSuccess, isLoading, isRefetching } = useGet<GroupInfo>({
+  const { data: groupInfo, isRefetching } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
-    queryKey: "group",
+    queryKey: "groupInfo",
   });
 
   const { mutate: groupInfoMutation } = usePostOrPatch<
@@ -77,12 +68,12 @@ function EducationUpdate() {
     GroupInfoSend
   >({
     url: `/api/education/groups/${id}`,
-    queryKey: "group",
+    queryKey: "groupInfo",
     method: "PATCH",
   });
 
   const toggleButton = () => {
-    groupInfoMutation({ isPublic: !data?.isPublic });
+    groupInfoMutation({ isPublic: !groupInfo?.isPublic });
   };
 
   const changeTitle = handleSubmit((data) => {
@@ -90,7 +81,9 @@ function EducationUpdate() {
     groupInfoMutation({ title });
   });
 
-  return !isLoading && !isRefetching ? (
+  return isRefetching ? (
+    <Loading />
+  ) : (
     <Wrapper>
       <Header>
         {/* TODO: 
@@ -102,7 +95,7 @@ function EducationUpdate() {
           <form onSubmit={changeTitle}>
             <TitleInput
               type="text"
-              defaultValue={data?.title}
+              defaultValue={groupInfo?.title}
               placeholder="소그룹 제목을 입력하세요."
               {...register("title", {
                 required: "제목은 반드시 입력해야합니다.",
@@ -113,21 +106,20 @@ function EducationUpdate() {
         </div>
         <ButtonContainer>
           <span>
-            {data?.isPublic
+            {groupInfo?.isPublic
               ? "소그룹이 공개 중 입니다."
               : "아직 작성 중인 소그룹입니다."}
           </span>
+
           <ToggleButton
-            isActive={data?.isPublic ? data?.isPublic : false}
+            isActive={groupInfo?.isPublic ? groupInfo?.isPublic : false}
             size={4}
             onClick={toggleButton}
           />
         </ButtonContainer>
       </Header>
-      <GroupContainer />
+      <GroupContainer groupInfo={groupInfo} />
     </Wrapper>
-  ) : (
-    <Loading />
   );
 }
 

@@ -7,13 +7,9 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import Group from "./Group";
 import {
-  groupAndpeopleState,
-  groupInfoState,
   Group as GroupProps,
-  groupsState,
-  GroupAndPeople,
+  GroupInfo,
 } from "../../../state/educationGroup.atom";
 import { compare } from "../../../utils/utilities/compare";
 import Input from "../../../components/Form/Input";
@@ -25,6 +21,7 @@ import { useParams } from "react-router";
 import { useQueryClient } from "react-query";
 import Loading from "../../../components/Loading";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";
+import Group from "./Group";
 
 const Wrapper = styled.div``;
 
@@ -110,32 +107,27 @@ interface SendGroupProps {
   type?: "student" | "worker" | "new" | "etc";
   humanIds?: string[];
 }
-const GroupContainer = () => {
+
+interface IGroupContainerProps {
+  groupInfo: GroupInfo | undefined;
+}
+
+const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
   const { id } = useParams();
-  const groupInfo = useRecoilValue(groupInfoState);
-  const [group, setGroup] = useRecoilState(groupsState);
-  const setGroupAndPeople = useSetRecoilState(groupAndpeopleState);
   const { register, handleSubmit, reset } = useForm<GroupProps>();
   const queryClient = useQueryClient();
-
-  const { data, isLoading } = useGet<GroupAndPeople[]>({
+  const {
+    data: group,
+    isLoading,
+    isFetching,
+  } = useGet<GroupProps[]>({
     url: `/api/education/groups/${id}/group`,
     queryKey: "groups",
-    onSuccess: (response) => {
-      if (response) {
-        const group = response.map((value) => ({
-          _id: value._id,
-          name: value.name,
-          type: value.type,
-          humanIds: value.humanIds.map((value) => value._id),
-        }));
-        setGroup(group);
-        setGroupAndPeople(response);
-      }
-    },
+    cacheTime: 5 * 60 * 1000,
+    keepPreviousData: true,
   });
 
-  const { mutate } = usePostOrPatch<
+  const { mutate: updateGroupInfo } = usePostOrPatch<
     FetchDataProps<GroupProps>,
     Error,
     GroupProps
@@ -151,12 +143,12 @@ const GroupContainer = () => {
     SendGroupProps
   >({
     url: `/api/education/group/update`,
-    queryKey: "group",
+    queryKey: "groupInfo",
     method: "PATCH",
   });
 
   const addGroup = handleSubmit((data) => {
-    mutate(data);
+    updateGroupInfo(data);
     reset();
   });
 
@@ -171,60 +163,69 @@ const GroupContainer = () => {
     ) {
       return;
     }
-    const [start] = group.filter((value) => value._id === source.droppableId);
-    const [finish] = group.filter(
-      (value) => value._id === destination.droppableId
-    );
-    if (start._id === finish._id) {
-      const newHunamIdsGroup = Array.from(start.humanIds);
-      newHunamIdsGroup.splice(source.index, 1);
-      newHunamIdsGroup.splice(destination.index, 0, draggableId);
 
-      const newGroup = {
+    if (group) {
+      const [start] = group?.filter(
+        (value) => value._id === source.droppableId
+      );
+      const [finish] = group?.filter(
+        (value) => value._id === destination.droppableId
+      );
+
+      if (start._id === finish._id) {
+        const newHunamIdsGroup = Array.from(start.humanIds);
+        newHunamIdsGroup.splice(source.index, 1);
+        newHunamIdsGroup.splice(destination.index, 0, draggableId);
+
+        const newGroup = {
+          ...start,
+          humanIds: newHunamIdsGroup,
+        };
+        updateGroup(
+          { ...newGroup },
+          {
+            onSuccess: (response) => {
+              queryClient.invalidateQueries("groups");
+              queryClient.invalidateQueries("people");
+            },
+          }
+        );
+        return;
+      }
+
+      const startHunamIdsGroup = Array.from(start.humanIds);
+      startHunamIdsGroup.splice(source.index, 1);
+      const newStart = {
         ...start,
-        humanIds: newHunamIdsGroup,
+        humanIds: startHunamIdsGroup,
       };
+
+      const finishHunamIdsGroup = Array.from(finish.humanIds);
+      finishHunamIdsGroup.splice(destination.index, 0, draggableId);
+      const newFinish = {
+        ...finish,
+        humanIds: finishHunamIdsGroup,
+      };
+
       updateGroup(
-        { ...newGroup },
+        { ...newStart },
         {
-          onSuccess: (response) => {
+          onSuccess: () => {
             queryClient.invalidateQueries("groups");
+            queryClient.invalidateQueries("people");
           },
         }
       );
-      return;
+      updateGroup(
+        { ...newFinish },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries("groups");
+            queryClient.invalidateQueries("people");
+          },
+        }
+      );
     }
-
-    const startHunamIdsGroup = Array.from(start.humanIds);
-    startHunamIdsGroup.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      humanIds: startHunamIdsGroup,
-    };
-
-    const finishHunamIdsGroup = Array.from(finish.humanIds);
-    finishHunamIdsGroup.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      humanIds: finishHunamIdsGroup,
-    };
-
-    updateGroup(
-      { ...newStart },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries("groups");
-        },
-      }
-    );
-    updateGroup(
-      { ...newFinish },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries("groups");
-        },
-      }
-    );
   };
 
   return (
