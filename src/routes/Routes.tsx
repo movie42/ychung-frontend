@@ -46,7 +46,7 @@ import { AnimatePresence } from "framer-motion";
 
 function Router() {
   const location = useLocation();
-  const { login, userId } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const noticeItem = useRecoilValue(notice);
   const setNoticeModalState = useSetRecoilState(noticeModalControler);
 

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import Loading from "../../../components/Loading";
 import usePostOrPatch from "../../../utils/customhooks/usePost";
 import { FetchDataProps } from "../../../lib/interface";
+import { useQueryClient } from "react-query";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -20,6 +21,7 @@ interface CreateGroup {
 
 function EducationCreate() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const setGroupInfo = useSetRecoilState(groupInfoState);
 
   const { mutate, isLoading } = usePostOrPatch<
@@ -45,6 +47,9 @@ function EducationCreate() {
                 () => navigate(`/education/groups/${data?._id}/update`),
                 3000
               );
+              queryClient.invalidateQueries("group");
+              queryClient.invalidateQueries("groups");
+              queryClient.invalidateQueries("people");
             }
           },
         }

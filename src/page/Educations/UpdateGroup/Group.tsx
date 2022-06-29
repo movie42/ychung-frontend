@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  groupsState,
-  groupInfoState,
   People,
-  peopleState,
   Group as GroupProps,
 } from "../../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
@@ -15,22 +12,58 @@ import { compare } from "../../../utils/utilities/compare";
 import usePostOrPatch from "../../../utils/customhooks/usePost";
 import { useGet } from "../../../utils/customhooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
+import Loading from "../../../components/Loading";
+import {
+  MdAddCircle,
+  MdDelete,
+  MdEdit,
+  MdPersonAdd,
+  MdRemoveCircle,
+} from "react-icons/md";
+import useDelete from "../../../utils/customhooks/useDelete";
+import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
+import { useQueryClient } from "react-query";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
-  padding: 1rem;
-  width: 220px;
+  border-radius: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
+  margin: 1rem 0;
 `;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ButtonContainer = styled.div`
+  button {
+    cursor: pointer;
+    background-color: unset;
+    border: 0;
+    font-size: 2.5rem;
+    color: ${(props) => props.theme.color.gray300};
+    &:hover {
+      color: ${(props) => props.theme.color.primary300};
+    }
+  }
+`;
+
 const Title = styled.h3`
   font-size: 2.2rem;
-  padding: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const PersonList = styled.div<{ isDraggingOver: boolean }>`
-  padding: 1rem;
+  box-sizing: border-box;
+  margin: 2rem 0;
+  font-size: 1.8rem;
   transition: all 0.2s ease-in-out;
+  padding: ${(props) => props.isDraggingOver && "1rem"};
+  border-radius: 0.5rem;
   background-color: ${(props) =>
     props.isDraggingOver
       ? props.theme.color.primary300
@@ -39,29 +72,62 @@ const PersonList = styled.div<{ isDraggingOver: boolean }>`
   min-height: 100px;
 `;
 
+const AddPersonButton = styled.button`
+  cursor: pointer;
+  border: 0;
+  padding: 1rem;
+  border: 1px solid ${(props) => props.theme.color.gray300};
+  border-radius: 0.5rem;
+  background-color: unset;
+  font-size: 1.7rem;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  color: ${(props) => props.theme.color.gray500};
+  &:hover {
+    border: 1px solid ${(props) => props.theme.color.primary300};
+    background-color: ${(props) => props.theme.color.primary300};
+    color: ${(props) => props.theme.color.fontColorWhite};
+  }
+`;
+
+const Form = styled.form`
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.8rem;
+    border: 1px solid ${(props) => props.theme.color.gray300};
+  }
+`;
+
 interface IGroupProps {
   item: GroupProps;
 }
 
 interface SendPeople {
-  name: string;
-  type: "student" | "worker" | "new" | "etc";
+  name?: string;
+  type?: "student" | "worker" | "new" | "etc";
 }
 
 const Group = ({ item }: IGroupProps) => {
-  const { register, handleSubmit, reset } = useForm<People>();
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, reset } = useForm<{
+    name?: string;
+    type?: "student" | "worker" | "new" | "etc";
+    groupName?: string;
+  }>();
+  const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
-  const [people, setPeople] = useState<People[]>();
-
-  const { data } = useGet<People[]>({
+  const { data: people } = useGet<People[]>({
     url: `/api/education/group/${item._id}/people`,
     queryKey: ["people", item._id],
-    onSuccess: (response) => {
-      setPeople(response);
-    },
   });
 
-  const { mutate } = usePostOrPatch<
+  const { mutate: addNewPeople } = usePostOrPatch<
     FetchDataProps<People[]>,
     Error,
     SendPeople
@@ -71,41 +137,134 @@ const Group = ({ item }: IGroupProps) => {
     method: "POST",
   });
 
+  const { mutate: updateGroupName } = usePostOrPatch<
+    FetchDataProps<GroupProps>,
+    Error,
+    { _id?: string; name?: string }
+  >({
+    url: `/api/education/group/update`,
+    queryKey: "groups",
+    method: "PATCH",
+  });
+
+  const {
+    mutate: deleteGroupMutate,
+    isConfirmModal,
+    setIsConfirmModal,
+    isDelete,
+    setIsDelete,
+  } = useDelete({
+    url: `/api/education/group/${item._id}`,
+    queryKey: "groups",
+    onSuccess: () => {
+      queryClient.invalidateQueries("groups");
+    },
+  });
+
   const openAddPeopleInput = () => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
   };
 
-  const onSubmitData = handleSubmit((data) => {
-    mutate({
+  const deleteGroup = () => {
+    setIsConfirmModal(true);
+  };
+
+  const handleSearchBox = () => {};
+
+  const onSubmitNewPeopleName = handleSubmit((data) => {
+    addNewPeople({
       name: data.name,
       type: item.type,
     });
+    reset();
   });
 
+  const onSubmitUpdateGroupName = handleSubmit((data) => {
+    updateGroupName({ _id: item._id, name: data.groupName });
+    reset();
+    setIsUpdate(false);
+  });
+
+  useEffect(() => {
+    if (isDelete) {
+      deleteGroupMutate();
+      setIsConfirmModal(false);
+      setIsDelete(false);
+    }
+  }, [isDelete]);
+
   return (
-    <Container>
-      {isOpenPeopleInput && (
-        <form onSubmit={onSubmitData}>
-          <label htmlFor="name">참가자 추가</label>
-          <input id="name" type="text" {...register("name")} />
-        </form>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsDelete={setIsDelete}
+          setIsConfirmModal={setIsConfirmModal}
+          title="그룹을 삭제하시겠습니까?"
+          subtitle="그룹을 삭제하면 복구할 수 없습니다. 참가자는 그대로 남습니다."
+        />
       )}
-      <button onClick={openAddPeopleInput}>참가자</button>
-      <Title>{item.name}</Title>
-      <Droppable droppableId={item._id}>
-        {(provided, snapshot) => (
-          <PersonList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}>
-            {people?.map((person, index) => (
-              <Human key={person._id} index={index} person={person} />
-            ))}
-            {provided.placeholder}
-          </PersonList>
+      <Container data-id={item._id}>
+        <Header>
+          {!isUpdate ? (
+            <>
+              <Title>{item.name}</Title>
+              <ButtonContainer>
+                <button onClick={openAddPeopleInput}>
+                  <MdPersonAdd />
+                </button>
+                <button onClick={() => setIsUpdate(true)}>
+                  <MdEdit />
+                </button>
+                <button onClick={deleteGroup}>
+                  <MdDelete />
+                </button>
+              </ButtonContainer>
+            </>
+          ) : (
+            <>
+              <Form onSubmit={onSubmitUpdateGroupName}>
+                <input
+                  id="groupName"
+                  defaultValue={item.name}
+                  placeholder="이름을 적고 엔터!"
+                  type="text"
+                  {...register("groupName")}
+                />
+              </Form>
+              <ButtonContainer>
+                <button onClick={onSubmitUpdateGroupName}>
+                  <MdEdit />
+                </button>
+              </ButtonContainer>
+            </>
+          )}
+        </Header>
+        {isOpenPeopleInput && (
+          <Form onSubmit={onSubmitNewPeopleName}>
+            <input
+              id="name"
+              placeholder="이름을 적고 엔터!"
+              type="text"
+              onClick={handleSearchBox}
+              {...register("name")}
+            />
+          </Form>
         )}
-      </Droppable>
-    </Container>
+        <Droppable droppableId={item._id}>
+          {(provided, snapshot) => (
+            <PersonList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}>
+              {people?.map((person, index) => (
+                <Human key={person._id} index={index} person={person} />
+              ))}
+              {provided.placeholder}
+            </PersonList>
+          )}
+        </Droppable>
+      </Container>
+    </>
   );
 };
 

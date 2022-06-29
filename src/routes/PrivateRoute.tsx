@@ -9,9 +9,9 @@ interface IPrivatRouteProps {
 }
 
 const PrivateRoute = ({ children }: IPrivatRouteProps) => {
-  const { login, userId } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
 
-  if (!login) {
+  if (!isLogin) {
     return <Login />;
   }
   return children ? children : <Outlet />;
