@@ -6,13 +6,16 @@ import styled from "styled-components";
 
 import { useFetch } from "../../utils/customhooks/useFetch";
 import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
-import { loginState } from "../../state/Authrization";
+import { LoginProps, loginState } from "../../state/Authrization";
 
 import Button from "../../components/Buttons/Button";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
 import FormItem from "../../components/Form/FormItem";
 import SEO from "../../components/SEO/SEO";
+import usePostOrPatch from "../../utils/customhooks/usePost";
+import { FetchDataProps } from "../../lib/interface";
+import Loading from "../../components/Loading";
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,29 +62,38 @@ function Login() {
     handleSubmit,
   } = useForm<LoginType>();
 
-  const [{ response, error, csrfToken }, setOption] = useFetch({
-    URL: `/api/login`,
+  const {
+    mutate,
+    isLoading,
+    isSuccess,
+    data: response,
+  } = usePostOrPatch<FetchDataProps<LoginProps>, Error, LoginType>({
+    url: `/api/login`,
+    queryKey: "login",
+    method: "POST",
   });
 
   const onSubmit = handleSubmit((data) => {
-    const postOption = postOrPatchRequest(data, csrfToken, "POST");
-    setOption(postOption);
+    mutate(data);
   });
 
   useEffect(() => {
-    if (response?.login) {
-      localStorage.setItem("user", JSON.stringify(response));
-      setIsLogin(response);
-      navigate("/");
+    if (isSuccess) {
+      const { data } = response;
+      if (data) {
+        setIsLogin(data);
+        localStorage.setItem("ycUser", JSON.stringify(data));
+        navigate("/");
+      }
     }
-  }, [response]);
+  }, [isSuccess]);
 
   return (
     <>
       <SEO title="로그인" />
       <Wrapper>
         <h1>로그인</h1>
-        {error?.message && <Label>{error?.message}</Label>}
+        {/* {error?.message && <Label>{error?.message}</Label>} */}
         <form onSubmit={onSubmit}>
           <FormItemContainer>
             <FormItem>
