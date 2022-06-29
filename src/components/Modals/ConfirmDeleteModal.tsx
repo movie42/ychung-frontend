@@ -33,6 +33,7 @@ const ModalItemContainer = styled.div`
   .button-container {
     align-self: flex-end;
     button {
+      cursor: pointer;
       font-size: 1.8rem;
       margin-left: 0.8rem;
       background-color: unset;
@@ -50,11 +51,15 @@ const ModalItemContainer = styled.div`
 `;
 
 interface IConfirmDeleteModalProps {
+  title: string;
+  subtitle: string;
   setIsDelete: React.Dispatch<React.SetStateAction<boolean>>;
   setIsConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ConfirmDeleteModal = ({
+  title,
+  subtitle,
   setIsDelete,
   setIsConfirmModal,
 }: IConfirmDeleteModalProps) => {
@@ -62,8 +67,8 @@ const ConfirmDeleteModal = ({
     <ConfirmModal>
       <ModalItemContainer>
         <div className="info-container">
-          <h1>정말 삭제하실껀가요?</h1>
-          <p>삭제하면 복구할 수 없습니다.</p>
+          <h1>{title}</h1>
+          <p>{subtitle}</p>
         </div>
         <div className="button-container">
           <button className="confirm-button" onClick={() => setIsDelete(true)}>

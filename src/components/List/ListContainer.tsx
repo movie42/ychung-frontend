@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.ul`
+const List = styled.ul`
   display: grid;
   grid-auto-rows: minmax(30rem, auto);
   margin: 0;
@@ -12,16 +12,17 @@ const Wrapper = styled.ul`
   padding: 0;
 `;
 
-interface IListComponentProps<T> {
+interface IListComponentProps<T>
+  extends React.HTMLAttributes<HTMLUListElement> {
   data: T[];
-  renderData: (item: T) => React.ReactNode;
+  renderFunc: (item: T) => React.ReactNode;
 }
 
 const ListContainer = <T extends unknown>({
   data,
-  renderData,
-}: React.PropsWithChildren<IListComponentProps<T>>) => {
-  return <Wrapper>{data.map(renderData)}</Wrapper>;
+  renderFunc,
+}: IListComponentProps<T>) => {
+  return <List>{data.map(renderFunc)}</List>;
 };
 
 export default ListContainer;
