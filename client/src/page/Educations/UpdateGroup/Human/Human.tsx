@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
-import { useRecoilValue } from "recoil";
-import { People, peopleState } from "../../../../state/educationGroup.atom";
+import { People } from "../../../../state/educationGroup.atom";
 import { MdDragHandle } from "react-icons/md";
 
 const Container = styled.div<{

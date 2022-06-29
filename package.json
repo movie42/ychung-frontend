@@ -12,7 +12,7 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "start": "cd server && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "cd client && npm ci && cd ../ && cd server && npm ci"
+    "install": "cd client && npm install && cd ../ && cd server && npm install"
   },
   "keywords": [],
   "author": "",

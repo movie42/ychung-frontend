@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { peopleState, People } from "../../state/educationGroup.atom";
+import { groupAndpeopleState, People } from "../../state/educationGroup.atom";
 
 interface IInjectTestingRecoilStateProps {
   people: People[];
@@ -9,11 +9,11 @@ interface IInjectTestingRecoilStateProps {
 const InjectTestingRecoilState = ({
   people,
 }: IInjectTestingRecoilStateProps) => {
-  const setPeople = useSetRecoilState(peopleState);
+  // const setPeople = useSetRecoilState(groupAndpeopleState);
 
-  useEffect(() => {
-    setPeople(people);
-  }, []);
+  // useEffect(() => {
+  //   setPeople(people);
+  // }, []);
 
   return null;
 };

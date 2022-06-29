@@ -4,15 +4,16 @@ import {
   DropResult,
   ResponderProvided,
 } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 import Group from "./Group";
 import {
-  peopleState,
+  groupAndpeopleState,
   groupInfoState,
   Group as GroupProps,
   groupsState,
+  GroupAndPeople,
 } from "../../../state/educationGroup.atom";
 import { compare } from "../../../utils/utilities/compare";
 import Input from "../../../components/Form/Input";
@@ -113,15 +114,23 @@ const GroupContainer = () => {
   const { id } = useParams();
   const groupInfo = useRecoilValue(groupInfoState);
   const [group, setGroup] = useRecoilState(groupsState);
+  const setGroupAndPeople = useSetRecoilState(groupAndpeopleState);
   const { register, handleSubmit, reset } = useForm<GroupProps>();
   const queryClient = useQueryClient();
 
-  const { data, isLoading } = useGet<GroupProps[]>({
+  const { data, isLoading } = useGet<GroupAndPeople[]>({
     url: `/api/education/groups/${id}/group`,
     queryKey: "groups",
     onSuccess: (response) => {
       if (response) {
-        setGroup(response);
+        const group = response.map((value) => ({
+          _id: value._id,
+          name: value.name,
+          type: value.type,
+          humanIds: value.humanIds.map((value) => value._id),
+        }));
+        setGroup(group);
+        setGroupAndPeople(response);
       }
     },
   });
@@ -180,7 +189,6 @@ const GroupContainer = () => {
         {
           onSuccess: (response) => {
             queryClient.invalidateQueries("groups");
-            queryClient.invalidateQueries(["people", start._id]);
           },
         }
       );
@@ -206,8 +214,6 @@ const GroupContainer = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries("groups");
-          queryClient.invalidateQueries(["people", newStart._id]);
-          queryClient.invalidateQueries(["people", newFinish._id]);
         },
       }
     );
@@ -216,8 +222,6 @@ const GroupContainer = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries("groups");
-          queryClient.invalidateQueries(["people", newStart._id]);
-          queryClient.invalidateQueries(["people", newFinish._id]);
         },
       }
     );

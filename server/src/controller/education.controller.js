@@ -87,7 +87,7 @@ export const getEducationGroup = async (req, res) => {
     if (groups.length === 0) {
       return res.status(200).json({ data: [] });
     }
-    const data = await groupModel.find({ _id: groups });
+    const data = await groupModel.find({ _id: groups }).populate("humanIds");
 
     return res.status(200).json({ data });
   } catch (e) {
