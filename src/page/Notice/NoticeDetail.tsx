@@ -40,7 +40,7 @@ interface INoticeDetailProps {
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const setNoticeData = useSetRecoilState(notice);
   const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
 
@@ -121,6 +121,8 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
       />
       {isConfirmModal && (
         <ConfirmDeleteModal
+          title="공지를 삭제하시겠습니까?"
+          subtitle="삭제하면 데이터를 복구할 수 없습니다."
           setIsConfirmModal={setIsConfirmModal}
           setIsDelete={setIsDelete}
         />
@@ -128,7 +130,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
       <PageDetailModal setDetailItem={setDetailItem}>
         <>
           <PageDetailModalHeader {...data}>
-            {login && (
+            {isLogin && (
               <ButtonContainer>
                 <Button buttonType="icon" onClick={handleUpdate}>
                   <AiFillEdit />

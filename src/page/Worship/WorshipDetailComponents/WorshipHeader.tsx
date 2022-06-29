@@ -85,7 +85,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const { title, createdAt, creator, views } = props;
   const { id } = useParams();
   const navigate = useNavigate();
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
 
   const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
     useDelete({
@@ -111,6 +111,8 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
     <>
       {isConfirmModal && (
         <ConfirmDeleteModal
+          title="주보를 삭제하시겠습니까?"
+          subtitle="삭제하면 데이터를 복구할 수 없습니다."
           setIsConfirmModal={setIsConfirmModal}
           setIsDelete={setIsDelete}
         />
@@ -126,7 +128,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
             <span>{creator?.userName}</span>
             <span>{createdAt && calculateDate(createdAt)}</span>
           </InforContainer>
-          {login && (
+          {isLogin && (
             <ButtonContainer>
               <Button buttonType="icon" onClick={handleUpdate}>
                 <AiFillEdit />

@@ -41,7 +41,7 @@ const NoticeComponentInfoContainer = styled.div`
 
 function Notice() {
   const { id } = useParams();
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
@@ -84,7 +84,7 @@ function Notice() {
           <Wrapper>
             <NoticeComponentInfoContainer>
               <h1>공지사항</h1>
-              {login && (
+              {isLogin && (
                 <Link to={"/notice/create"}>
                   <AiFillPlusCircle />
                 </Link>
@@ -93,7 +93,7 @@ function Notice() {
             {notices && (
               <ListContainer
                 data={notices}
-                renderData={(item) => (
+                renderFunc={(item) => (
                   <ListItem data={item} onClick={() => onClick(item._id)} />
                 )}
               />

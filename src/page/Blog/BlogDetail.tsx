@@ -40,7 +40,7 @@ interface IBlogDetailProps {
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { login } = useRecoilValue(loginState);
+  const { isLogin } = useRecoilValue(loginState);
   const setPostData = useSetRecoilState(blog);
   const countViews = useSetView(`/api/blog/${id}/count-views`, setPostData);
 
@@ -77,13 +77,15 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
       />
       {isConfirmModal && (
         <ConfirmDeleteModal
+          title="블로그 포스트를 삭제하시겠습니까?"
+          subtitle="삭제하면 데이터를 복구할 수 없습니다."
           setIsConfirmModal={setIsConfirmModal}
           setIsDelete={setIsDelete}
         />
       )}
       <PageDetailModal setDetailItem={setDetailItem}>
         <PageDetailModalHeader {...data}>
-          {login && (
+          {isLogin && (
             <ButtonContainer>
               <Button buttonType="icon" onClick={handleUpdate}>
                 <AiFillEdit />

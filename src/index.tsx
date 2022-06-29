@@ -15,19 +15,19 @@ const queryClient = new QueryClient();
 function Root() {
   return (
     <React.StrictMode>
-      <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <HelmetProvider>
-              <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <HelmetProvider>
                 <GlobalStyle />
                 <App />
                 <ReactQueryDevtools initialIsOpen={true} />
-              </QueryClientProvider>
-            </HelmetProvider>
-          </BrowserRouter>
-        </ThemeProvider>
-      </RecoilRoot>
+              </HelmetProvider>
+            </BrowserRouter>
+          </ThemeProvider>
+        </RecoilRoot>
+      </QueryClientProvider>
     </React.StrictMode>
   );
 }
