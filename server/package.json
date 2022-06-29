@@ -16,6 +16,7 @@
     "url": "https://github.com/movie42/ychung/issues"
   },
   "dependencies": {
+    "@babel/runtime": "^7.17.8",
     "aws-sdk": "^2.1101.0",
     "bcrypt": "^5.0.1",
     "concurrently": "^7.0.0",
@@ -38,8 +39,7 @@
     "node-fetch": "^3.2.3",
     "permissions-policy": "^0.6.0",
     "request": "^2.88.2",
-    "sharp": "^0.30.3",
-    "@babel/runtime": "^7.17.8"
+    "sharp": "^0.30.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
