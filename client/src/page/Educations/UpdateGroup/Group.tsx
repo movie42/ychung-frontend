@@ -109,13 +109,18 @@ interface IGroupProps {
 }
 
 interface SendPeople {
-  name: string;
-  type: "student" | "worker" | "new" | "etc";
+  name?: string;
+  type?: "student" | "worker" | "new" | "etc";
 }
 
 const Group = ({ item }: IGroupProps) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset } = useForm<People>();
+  const { register, handleSubmit, reset } = useForm<{
+    name?: string;
+    type?: "student" | "worker" | "new" | "etc";
+    groupName?: string;
+  }>();
+  const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
   const { data: people } = useGet<People[]>({
     url: `/api/education/group/${item._id}/people`,
@@ -130,6 +135,16 @@ const Group = ({ item }: IGroupProps) => {
     url: `/api/education/group/${item._id}/people`,
     queryKey: ["people", item._id],
     method: "POST",
+  });
+
+  const { mutate: updateGroupName } = usePostOrPatch<
+    FetchDataProps<GroupProps>,
+    Error,
+    { _id?: string; name?: string }
+  >({
+    url: `/api/education/group/update`,
+    queryKey: "groups",
+    method: "PATCH",
   });
 
   const {
@@ -150,17 +165,24 @@ const Group = ({ item }: IGroupProps) => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
   };
 
-  const updateGroup = () => {};
-
   const deleteGroup = () => {
     setIsConfirmModal(true);
   };
 
-  const onSubmitData = handleSubmit((data) => {
+  const handleSearchBox = () => {};
+
+  const onSubmitNewPeopleName = handleSubmit((data) => {
     addNewPeople({
       name: data.name,
       type: item.type,
     });
+    reset();
+  });
+
+  const onSubmitUpdateGroupName = handleSubmit((data) => {
+    updateGroupName({ _id: item._id, name: data.groupName });
+    reset();
+    setIsUpdate(false);
   });
 
   useEffect(() => {
@@ -183,25 +205,47 @@ const Group = ({ item }: IGroupProps) => {
       )}
       <Container data-id={item._id}>
         <Header>
-          <Title>{item.name}</Title>
-          <ButtonContainer>
-            <button onClick={openAddPeopleInput}>
-              <MdPersonAdd />
-            </button>
-            <button onClick={updateGroup}>
-              <MdEdit />
-            </button>
-            <button onClick={deleteGroup}>
-              <MdDelete />
-            </button>
-          </ButtonContainer>
+          {!isUpdate ? (
+            <>
+              <Title>{item.name}</Title>
+              <ButtonContainer>
+                <button onClick={openAddPeopleInput}>
+                  <MdPersonAdd />
+                </button>
+                <button onClick={() => setIsUpdate(true)}>
+                  <MdEdit />
+                </button>
+                <button onClick={deleteGroup}>
+                  <MdDelete />
+                </button>
+              </ButtonContainer>
+            </>
+          ) : (
+            <>
+              <Form onSubmit={onSubmitUpdateGroupName}>
+                <input
+                  id="groupName"
+                  defaultValue={item.name}
+                  placeholder="이름을 적고 엔터!"
+                  type="text"
+                  {...register("groupName")}
+                />
+              </Form>
+              <ButtonContainer>
+                <button onClick={onSubmitUpdateGroupName}>
+                  <MdEdit />
+                </button>
+              </ButtonContainer>
+            </>
+          )}
         </Header>
         {isOpenPeopleInput && (
-          <Form onSubmit={onSubmitData}>
+          <Form onSubmit={onSubmitNewPeopleName}>
             <input
               id="name"
               placeholder="이름을 적고 엔터!"
               type="text"
+              onClick={handleSearchBox}
               {...register("name")}
             />
           </Form>

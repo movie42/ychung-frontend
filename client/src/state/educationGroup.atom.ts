@@ -2,6 +2,7 @@ import { atom } from "recoil";
 
 export interface People {
   _id: string;
+  isLeader: boolean;
   name: string;
   type: "student" | "worker" | "new" | "etc";
 }

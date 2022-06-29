@@ -57,7 +57,11 @@ function EducationUpdate() {
     formState: { errors },
   } = useForm<GroupInfo>();
 
-  const { data: groupInfo, isRefetching } = useGet<GroupInfo>({
+  const {
+    data: groupInfo,
+    isRefetching,
+    isSuccess,
+  } = useGet<GroupInfo>({
     url: `/api/education/groups/${id}`,
     queryKey: "groupInfo",
   });
@@ -81,7 +85,7 @@ function EducationUpdate() {
     groupInfoMutation({ title });
   });
 
-  return isRefetching ? (
+  return isRefetching && !isSuccess ? (
     <Loading />
   ) : (
     <Wrapper>

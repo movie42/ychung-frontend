@@ -82,6 +82,7 @@ function Login() {
       const { data } = response;
       if (data) {
         setIsLogin(data);
+        localStorage.setItem("ycUser", JSON.stringify(data));
         navigate("/");
       }
     }

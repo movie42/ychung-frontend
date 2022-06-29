@@ -13,7 +13,7 @@ export const getEducationGroups = async (req, res) => {
 
 export const getEducationDetailGroups = async (req, res) => {
   const {
-    params: { id },
+    params: { id }
   } = req;
 
   try {
@@ -30,7 +30,7 @@ export const postEducationGroups = async (req, res) => {
 
   try {
     const data = await groupsModel.create({
-      ...body,
+      ...body
     });
 
     return res.status(200).json({ data });
@@ -43,15 +43,15 @@ export const postEducationGroups = async (req, res) => {
 export const updateEducationGroups = async (req, res) => {
   const {
     params: { id },
-    body: { title, isPublic, groups },
+    body: { title, isPublic, groups }
   } = req;
 
   try {
     const data = await groupsModel.findByIdAndUpdate(
       {
-        _id: id,
+        _id: id
       },
-      { title, isPublic, groups },
+      { title, isPublic, groups }
     );
 
     return res.status(200).json({ data });
@@ -63,7 +63,7 @@ export const updateEducationGroups = async (req, res) => {
 
 export const deleteEducationGroups = async (req, res) => {
   const {
-    params: { id },
+    params: { id }
   } = req;
 
   try {
@@ -78,7 +78,7 @@ export const deleteEducationGroups = async (req, res) => {
 
 export const getEducationGroup = async (req, res) => {
   const {
-    params: { id },
+    params: { id }
   } = req;
 
   try {
@@ -99,7 +99,7 @@ export const getEducationGroup = async (req, res) => {
 export const postEducationGroup = async (req, res) => {
   const {
     body,
-    params: { id },
+    params: { id }
   } = req;
   try {
     const data = await groupModel.create({ ...body });
@@ -115,13 +115,13 @@ export const postEducationGroup = async (req, res) => {
 
 export const updateEducationGroup = async (req, res) => {
   const {
-    body: { _id, name, humanIds, type },
+    body: { _id, name, humanIds, type }
   } = req;
 
   try {
     const data = await groupModel.findByIdAndUpdate(
       { _id },
-      { name, humanIds, type },
+      { name, humanIds, type }
     );
 
     return res.status(200).json({ data });
@@ -132,7 +132,7 @@ export const updateEducationGroup = async (req, res) => {
 };
 export const deleteEducationGroup = async (req, res) => {
   const {
-    params: { id },
+    params: { id }
   } = req;
 
   try {
@@ -147,7 +147,7 @@ export const deleteEducationGroup = async (req, res) => {
 
 export const getEducationPeople = async (req, res) => {
   const {
-    params: { id },
+    params: { id }
   } = req;
 
   try {
@@ -165,7 +165,7 @@ export const getEducationPeople = async (req, res) => {
 export const postEducationPeople = async (req, res) => {
   const {
     body,
-    params: { id },
+    params: { id }
   } = req;
 
   try {
@@ -183,15 +183,15 @@ export const postEducationPeople = async (req, res) => {
 export const updateEducationPeople = async (req, res) => {
   const {
     body,
-    params: { id },
+    params: { id }
   } = req;
 
   try {
     const data = await peopleModel.findByIdAndUpdate(
       { _id: id },
       {
-        ...body,
-      },
+        ...body
+      }
     );
 
     return res.status(200).json({ data });
@@ -203,7 +203,7 @@ export const updateEducationPeople = async (req, res) => {
 
 export const deleteEducationPeople = async (req, res) => {
   const {
-    params: { id },
+    params: { id }
   } = req;
   try {
     const data = await peopleModel.findByIdAndDelete(id);
