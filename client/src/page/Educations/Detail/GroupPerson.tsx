@@ -20,13 +20,16 @@ const PersonInfoContainer = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const ImageContainer = styled.div<{ sex: "male" | "female" }>`
   position: relative;
   overflow: hidden;
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 100%;
-  background-color: ${(props) => props.theme.color.gray400};
+  background-color: ${(props) =>
+    props.sex === "male"
+      ? props.theme.color.primary500
+      : props.theme.color.secondary500};
   margin-right: 1rem;
 `;
 
@@ -48,7 +51,7 @@ const GroupPerson = ({ person }: IGroupPersonProps) => {
   return (
     <Item data-id={person._id}>
       <PersonInfoContainer>
-        <ImageContainer>
+        <ImageContainer sex={person.sex}>
           <HumanIcon />
         </ImageContainer>
         <h5>{person.name}</h5>

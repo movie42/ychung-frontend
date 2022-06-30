@@ -31,8 +31,9 @@ const group = mongoose.Schema({
 
 const people = mongoose.Schema({
   name: { type: String, requreid: true, unique: true },
-  isLeader: { type: Boolean, default: false },
+  sex: { type: String, requreid: true },
   type: { type: String, requreid: true },
+  isLeader: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

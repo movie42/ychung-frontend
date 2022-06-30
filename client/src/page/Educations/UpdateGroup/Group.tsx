@@ -153,9 +153,9 @@ const SearchingBox = styled.ul`
   background-color: ${(props) => props.theme.color.background100};
 `;
 const SearchingItem = styled.li<{ isSelected?: boolean }>`
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 0.5fr 0.5fr;
   align-items: center;
-  justify-content: space-between;
   cursor: pointer;
   font-size: 1.8rem;
   padding: 1rem 1rem;
@@ -308,7 +308,6 @@ const Group = ({ item }: IGroupProps) => {
       return;
     }
     addNewPeople({ _id: person._id });
-
     reset({ name: "" });
   };
 
@@ -453,6 +452,7 @@ const Group = ({ item }: IGroupProps) => {
                       data-id={value._id}
                       onClick={() => selectItem(value)}>
                       <p>{value.name}</p>
+                      <span>{value.sex === "male" ? "남자" : "여자"}</span>
                       <span>{translateEducationTypeNameToKR(value.type)}</span>
                     </SearchingItem>
                   ))}

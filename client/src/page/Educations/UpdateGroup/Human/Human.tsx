@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { People } from "../../../../state/educationGroup.atom";
-import { MdDelete, MdDragHandle, MdEdit } from "react-icons/md";
+import {
+  MdArrowDropDown,
+  MdDelete,
+  MdDragHandle,
+  MdEdit,
+} from "react-icons/md";
 import ToggleButton from "../../../../components/Buttons/Toggle";
 import usePostOrPatch from "../../../../utils/customhooks/usePost";
 import { QueryClient, useQueryClient } from "react-query";
@@ -10,6 +15,7 @@ import { useForm } from "react-hook-form";
 import useDelete from "../../../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../../../components/Modals/ConfirmDeleteModal";
 import { useGet } from "../../../../utils/customhooks/useGet";
+import { HiUser } from "react-icons/hi";
 
 const Container = styled.div<{
   isDragging: boolean;
@@ -93,6 +99,69 @@ const Form = styled.form`
     font-size: 1.8rem;
     border: 1px solid ${(props) => props.theme.color.gray300};
   }
+  .select-container {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid ${(props) => props.theme.color.gray300};
+    padding: 1rem;
+  }
+  .arrow-drop-down {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
+  select {
+    box-sizing: border-box;
+    background-color: unset;
+    cursor: pointer;
+    font-size: 2rem;
+    border: 0;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+`;
+
+const PersonInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  h5 {
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+`;
+
+const ImageContainer = styled.div<{ sex: "male" | "female" }>`
+  position: relative;
+  overflow: hidden;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 100%;
+  background-color: ${(props) =>
+    props.sex === "male"
+      ? props.theme.color.primary500
+      : props.theme.color.secondary500};
+  margin-right: 1rem;
+`;
+
+const HumanIcon = styled(HiUser)`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4rem;
+  height: 4rem;
+  color: ${(props) => props.theme.color.gray100};
 `;
 
 interface ITaskInterface {
@@ -108,6 +177,7 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
 
   const { register, handleSubmit } = useForm<{
     name?: string;
+    sex?: "male" | "female";
   }>();
 
   const { mutate: updatePeople } = usePostOrPatch({
@@ -135,7 +205,7 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
   };
 
   const onSubmitUpdatePeopleName = handleSubmit((data) => {
-    updatePeople({ name: data.name });
+    updatePeople({ name: data.name, sex: data.sex });
     setIsUpdate(false);
   });
 
@@ -171,7 +241,12 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
             <div className="info-container">
               {!isUpdate ? (
                 <>
-                  <h4>{person.name}</h4>
+                  <PersonInfoContainer>
+                    <ImageContainer sex={person.sex}>
+                      <HumanIcon />
+                    </ImageContainer>
+                    <h4>{person.name}</h4>
+                  </PersonInfoContainer>
                   <div className="button-container">
                     <button onClick={() => setIsUpdate((pre) => !pre)}>
                       <MdEdit />
@@ -189,11 +264,21 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
                   <Form onSubmit={onSubmitUpdatePeopleName}>
                     <input
                       id="name"
+                      autoComplete="off"
                       defaultValue={person.name}
                       placeholder="이름을 적고 엔터!"
                       type="text"
                       {...register("name")}
                     />
+                    <span className="select-container">
+                      <select defaultValue={person.sex} {...register("sex")}>
+                        <option value="male">남자</option>
+                        <option value="female">여자</option>
+                      </select>
+                      <span className="arrow-drop-down">
+                        <MdArrowDropDown />
+                      </span>
+                    </span>
                   </Form>
                   <div className="button-container">
                     <button onClick={onSubmitUpdatePeopleName}>

@@ -5,6 +5,7 @@ export interface People {
   isLeader: boolean;
   name: string;
   type: "student" | "worker" | "new" | "etc";
+  sex: "male" | "female";
   createdAt?: Date;
   __v?: number;
 }
