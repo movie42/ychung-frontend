@@ -2,11 +2,20 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { People } from "../../../../state/educationGroup.atom";
-import { MdDelete, MdDragHandle, MdEdit } from "react-icons/md";
+import {
+  MdArrowDropDown,
+  MdDelete,
+  MdDragHandle,
+  MdEdit,
+} from "react-icons/md";
 import ToggleButton from "../../../../components/Buttons/Toggle";
 import usePostOrPatch from "../../../../utils/customhooks/usePost";
 import { QueryClient, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
+import useDelete from "../../../../utils/customhooks/useDelete";
+import ConfirmDeleteModal from "../../../../components/Modals/ConfirmDeleteModal";
+import { useGet } from "../../../../utils/customhooks/useGet";
+import { HiUser } from "react-icons/hi";
 
 const Container = styled.div<{
   isDragging: boolean;
@@ -90,19 +99,85 @@ const Form = styled.form`
     font-size: 1.8rem;
     border: 1px solid ${(props) => props.theme.color.gray300};
   }
+  .select-container {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid ${(props) => props.theme.color.gray300};
+    padding: 1rem;
+  }
+  .arrow-drop-down {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
+  select {
+    box-sizing: border-box;
+    background-color: unset;
+    cursor: pointer;
+    font-size: 2rem;
+    border: 0;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+`;
+
+const PersonInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  h5 {
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+`;
+
+const ImageContainer = styled.div<{ sex: "male" | "female" }>`
+  position: relative;
+  overflow: hidden;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 100%;
+  background-color: ${(props) =>
+    props.sex === "male"
+      ? props.theme.color.primary500
+      : props.theme.color.secondary500};
+  margin-right: 1rem;
+`;
+
+const HumanIcon = styled(HiUser)`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4rem;
+  height: 4rem;
+  color: ${(props) => props.theme.color.gray100};
 `;
 
 interface ITaskInterface {
   index: number;
   person: People;
+  groupId: string;
 }
 
-const Human = ({ index, person }: ITaskInterface) => {
-  const queryClietn = useQueryClient();
+const Human = ({ index, person, groupId }: ITaskInterface) => {
+  const queryClient = useQueryClient();
+
   const [isUpdate, setIsUpdate] = useState(false);
 
   const { register, handleSubmit } = useForm<{
     name?: string;
+    sex?: "male" | "female";
   }>();
 
   const { mutate: updatePeople } = usePostOrPatch({
@@ -111,66 +186,113 @@ const Human = ({ index, person }: ITaskInterface) => {
     method: "PATCH",
   });
 
+  const {
+    mutate: deletePeopleFromGroup,
+    isConfirmModal,
+    setIsConfirmModal,
+    isDelete,
+    setIsDelete,
+  } = useDelete({
+    url: `/api/education/group/${groupId}/people?person=${person._id}`,
+    queryKey: "people",
+    onSuccess: () => {
+      queryClient.invalidateQueries("people");
+    },
+  });
+
   const toggleButton = () => {
     updatePeople({ isLeader: !person?.isLeader });
   };
 
   const onSubmitUpdatePeopleName = handleSubmit((data) => {
-    updatePeople({ name: data.name });
+    updatePeople({ name: data.name, sex: data.sex });
     setIsUpdate(false);
   });
 
-  const deletePeople = () => {};
+  const deletePeople = () => {
+    setIsConfirmModal(true);
+  };
+
+  useEffect(() => {
+    if (isDelete) {
+      deletePeopleFromGroup();
+    }
+  }, [isDelete]);
 
   return (
-    <Draggable draggableId={person._id} index={index}>
-      {(provided, snapshot) => (
-        <Container
-          isLeader={person.isLeader}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          isDragging={snapshot.isDragging}
-          key={person._id}
-          ref={provided.innerRef}>
-          <div className="info-container">
-            {!isUpdate ? (
-              <>
-                <h4>{person.name}</h4>
-                <div className="button-container">
-                  <button onClick={() => setIsUpdate((pre) => !pre)}>
-                    <MdEdit />
-                  </button>
-                  <button onClick={deletePeople}>
-                    <MdDelete />
-                  </button>
-                  <div className="isleader-container" onClick={toggleButton}>
-                    {person.isLeader ? <strong>리더!</strong> : "리더?"}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <Form onSubmit={onSubmitUpdatePeopleName}>
-                  <input
-                    id="name"
-                    defaultValue={person.name}
-                    placeholder="이름을 적고 엔터!"
-                    type="text"
-                    {...register("name")}
-                  />
-                </Form>
-                <div className="button-container">
-                  <button onClick={onSubmitUpdatePeopleName}>
-                    <MdEdit />
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-          {!isUpdate && <MdDragHandle />}
-        </Container>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsDelete={setIsDelete}
+          setIsConfirmModal={setIsConfirmModal}
+          title="참가자를 삭제하시겠습니까?"
+          subtitle="참가자는 그룹에서 삭제되지만 데이터는 그대로 남습니다. 완전히 삭제하려면 관리자에게 문의해주세요."
+        />
       )}
-    </Draggable>
+      <Draggable draggableId={person._id} index={index}>
+        {(provided, snapshot) => (
+          <Container
+            isLeader={person.isLeader}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            isDragging={snapshot.isDragging}
+            key={person._id}
+            ref={provided.innerRef}>
+            <div className="info-container">
+              {!isUpdate ? (
+                <>
+                  <PersonInfoContainer>
+                    <ImageContainer sex={person.sex}>
+                      <HumanIcon />
+                    </ImageContainer>
+                    <h4>{person.name}</h4>
+                  </PersonInfoContainer>
+                  <div className="button-container">
+                    <button onClick={() => setIsUpdate((pre) => !pre)}>
+                      <MdEdit />
+                    </button>
+                    <button onClick={deletePeople}>
+                      <MdDelete />
+                    </button>
+                    <div className="isleader-container" onClick={toggleButton}>
+                      {person.isLeader ? <strong>리더!</strong> : "리더?"}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Form onSubmit={onSubmitUpdatePeopleName}>
+                    <input
+                      id="name"
+                      autoComplete="off"
+                      defaultValue={person.name}
+                      placeholder="이름을 적고 엔터!"
+                      type="text"
+                      {...register("name")}
+                    />
+                    <span className="select-container">
+                      <select defaultValue={person.sex} {...register("sex")}>
+                        <option value="male">남자</option>
+                        <option value="female">여자</option>
+                      </select>
+                      <span className="arrow-drop-down">
+                        <MdArrowDropDown />
+                      </span>
+                    </span>
+                  </Form>
+                  <div className="button-container">
+                    <button onClick={onSubmitUpdatePeopleName}>
+                      <MdEdit />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+            {!isUpdate && <MdDragHandle />}
+          </Container>
+        )}
+      </Draggable>
+    </>
   );
 };
 

@@ -17,11 +17,16 @@ const usePostOrPatch = <TData, TError, TVariables>({
   const { csrf, csrfToken } = useGetCSRFToken();
   const queryClient = useQueryClient();
 
-  const postHelper = async (postData: TVariables): Promise<TData> => {
+  const postHelper = async (postData: TVariables) => {
     const response = await fetch(
       url,
       postOrPatchRequest(postData, csrfToken, method)
     );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message);
+    }
     return response.json();
   };
 

@@ -104,6 +104,7 @@ const Form = styled.form`
 interface SendGroupProps {
   _id?: string;
   name?: string;
+  place?: string;
   type?: "student" | "worker" | "new" | "etc";
   humanIds?: string[];
 }
@@ -238,9 +239,16 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
           <Input
             type="text"
             placeholder="소그룹 이름"
+            autoComplete="off"
             {...register("name", {
               required: "소그룹 이름은 반드시 입력해야합니다.",
             })}
+          />
+          <Input
+            type="text"
+            placeholder="소그룹 장소를 적으세요"
+            autoComplete="off"
+            {...register("place")}
           />
           <span className="select-container">
             <select {...register("type")}>

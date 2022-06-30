@@ -5,11 +5,15 @@ export interface People {
   isLeader: boolean;
   name: string;
   type: "student" | "worker" | "new" | "etc";
+  sex: "male" | "female";
+  createdAt?: Date;
+  __v?: number;
 }
 
 export interface Group {
   _id: string;
   name: string;
+  place?: string;
   type: "student" | "worker" | "new" | "etc";
   humanIds: string[];
 }

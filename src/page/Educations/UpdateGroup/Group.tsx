@@ -1,28 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+
 import {
   People,
   Group as GroupProps,
 } from "../../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
-import { compare } from "../../../utils/utilities/compare";
+
 import usePostOrPatch from "../../../utils/customhooks/usePost";
 import { useGet } from "../../../utils/customhooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-import Loading from "../../../components/Loading";
-import {
-  MdAddCircle,
-  MdDelete,
-  MdEdit,
-  MdPersonAdd,
-  MdRemoveCircle,
-} from "react-icons/md";
+
+import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import useDelete from "../../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 import { useQueryClient } from "react-query";
+
+import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
+import { useDebouncedEffect } from "../../../utils/customhooks/useDebouncedEffect";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -37,6 +34,12 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .group-info {
+    display: flex;
+    span {
+      margin-left: 0.5rem;
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -92,15 +95,77 @@ const AddPersonButton = styled.button`
 `;
 
 const Form = styled.form`
+  position: relative;
   box-sizing: border-box;
   width: 100%;
-  overflow: hidden;
   input {
     box-sizing: border-box;
     width: 100%;
     padding: 1rem;
     font-size: 1.8rem;
     border: 1px solid ${(props) => props.theme.color.gray300};
+  }
+  .select-container {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid ${(props) => props.theme.color.gray300};
+    padding: 1rem;
+  }
+  .arrow-drop-down {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
+  select {
+    box-sizing: border-box;
+    background-color: unset;
+    cursor: pointer;
+    font-size: 2rem;
+    border: 0;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+`;
+
+const SearchingBox = styled.ul`
+  position: absolute;
+  top: 4.5rem;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  width: 100%;
+  max-height: 20rem;
+  overflow-y: auto;
+  border: 1px solid ${(props) => props.theme.color.gray300};
+  border-top: 0;
+  background-color: ${(props) => props.theme.color.background100};
+`;
+const SearchingItem = styled.li<{ isSelected?: boolean }>`
+  display: grid;
+  grid-template-columns: 3fr 0.5fr 0.5fr;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.8rem;
+  padding: 1rem 1rem;
+  span {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  &:hover {
+    background-color: ${(props) => props.theme.color.primary700};
+    color: ${(props) => props.theme.color.fontColorWhite};
   }
 `;
 
@@ -109,19 +174,43 @@ interface IGroupProps {
 }
 
 interface SendPeople {
+  _id?: string;
   name?: string;
   type?: "student" | "worker" | "new" | "etc";
 }
 
 const Group = ({ item }: IGroupProps) => {
+  const searchingListNodes = useRef<HTMLUListElement>(null);
+  const [isSearchingBoxError, setSearchingBoxError] = useState(false);
+  // const [count, setCount] = useState(0);
+  // const [selectedNodeId, setSelectedNodeId] = useState("");
+
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset } = useForm<{
+  const [searchPersonName, setSearchPersonName] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setError,
+  } = useForm<{
     name?: string;
     type?: "student" | "worker" | "new" | "etc";
+    place?: string;
     groupName?: string;
   }>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
+  const [searchPerson, setSearchPerson] = useState<People[] | null>();
+  const { data, refetch } = useGet<People[] | null>({
+    url: `/api/education/search?person=${searchPersonName}`,
+    queryKey: "search",
+    enabled: false,
+    onSuccess: (response) => {
+      setSearchPerson(response);
+    },
+  });
+
   const { data: people } = useGet<People[]>({
     url: `/api/education/group/${item._id}/people`,
     queryKey: ["people", item._id],
@@ -137,10 +226,15 @@ const Group = ({ item }: IGroupProps) => {
     method: "POST",
   });
 
-  const { mutate: updateGroupName } = usePostOrPatch<
+  const { mutate: updateGroup } = usePostOrPatch<
     FetchDataProps<GroupProps>,
     Error,
-    { _id?: string; name?: string }
+    {
+      _id?: string;
+      name?: string;
+      place?: string;
+      type?: "student" | "worker" | "new" | "etc";
+    }
   >({
     url: `/api/education/group/update`,
     queryKey: "groups",
@@ -172,18 +266,75 @@ const Group = ({ item }: IGroupProps) => {
   const handleSearchBox = () => {};
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
-    addNewPeople({
-      name: data.name,
-      type: item.type,
-    });
+    addNewPeople(
+      {
+        name: data.name,
+        type: item.type,
+      },
+      {
+        onSuccess: () => {
+          setSearchPerson([]);
+          reset({ name: "" });
+        },
+        onError: (err) => {
+          setSearchPerson([]);
+          reset({ name: "" });
+          setError("name", { message: err.message });
+        },
+      }
+    );
     reset();
   });
 
   const onSubmitUpdateGroupName = handleSubmit((data) => {
-    updateGroupName({ _id: item._id, name: data.groupName });
+    updateGroup({
+      _id: item._id,
+      name: data.groupName,
+      type: data.type,
+      place: data.place,
+    });
     reset();
     setIsUpdate(false);
   });
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchPersonName(() => e.target.value);
+  };
+
+  const selectItem = (person: People) => {
+    const hasHuman = item.humanIds.some((value) => value === person._id);
+    if (hasHuman) {
+      setSearchingBoxError(true);
+      return;
+    }
+    addNewPeople({ _id: person._id });
+    reset({ name: "" });
+  };
+
+  // const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  //   const list = searchingListNodes.current?.childNodes;
+  //   const select = list ? Array.from(list) : [];
+
+  //   const [id] = select.filter((value, index) => index === count);
+
+  //   if (e.key === "ArrowUp") {
+  //     setCount((pre) => {
+  //       if (pre <= 0) {
+  //         return select.length - 1;
+  //       }
+  //       return pre - 1;
+  //     });
+  //   }
+
+  //   if (e.key === "ArrowDown") {
+  //     setCount((pre) => {
+  //       if (pre >= select.length - 1) {
+  //         return 0;
+  //       }
+  //       return pre + 1;
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     if (isDelete) {
@@ -192,6 +343,13 @@ const Group = ({ item }: IGroupProps) => {
       setIsDelete(false);
     }
   }, [isDelete]);
+
+  useDebouncedEffect(() => refetch(), 300, [searchPersonName]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setSearchingBoxError(false), 3000);
+    return () => clearTimeout(timeout);
+  }, [isSearchingBoxError, setSearchingBoxError]);
 
   return (
     <>
@@ -207,7 +365,10 @@ const Group = ({ item }: IGroupProps) => {
         <Header>
           {!isUpdate ? (
             <>
-              <Title>{item.name}</Title>
+              <div className="group-info">
+                <Title>{item.name}</Title>
+                <span>{item.place}</span>
+              </div>
               <ButtonContainer>
                 <button onClick={openAddPeopleInput}>
                   <MdPersonAdd />
@@ -224,12 +385,33 @@ const Group = ({ item }: IGroupProps) => {
             <>
               <Form onSubmit={onSubmitUpdateGroupName}>
                 <input
+                  autoComplete="off"
                   id="groupName"
                   defaultValue={item.name}
                   placeholder="이름을 적고 엔터!"
                   type="text"
                   {...register("groupName")}
                 />
+                <input
+                  autoComplete="off"
+                  id="place"
+                  defaultValue={item.place}
+                  placeholder="교환할 장소?"
+                  type="text"
+                  {...register("place")}
+                />
+                <span className="select-container">
+                  <select defaultValue={item.type} {...register("type")}>
+                    <option value="student">학생</option>
+                    <option value="worker">직장</option>
+                    <option value="new">새신자</option>
+                    <option value="etc">기타</option>
+                  </select>
+                  <span className="arrow-drop-down">
+                    <MdArrowDropDown />
+                  </span>
+                </span>
+                <input type="submit" hidden={true} />
               </Form>
               <ButtonContainer>
                 <button onClick={onSubmitUpdateGroupName}>
@@ -240,15 +422,46 @@ const Group = ({ item }: IGroupProps) => {
           )}
         </Header>
         {isOpenPeopleInput && (
-          <Form onSubmit={onSubmitNewPeopleName}>
-            <input
-              id="name"
-              placeholder="이름을 적고 엔터!"
-              type="text"
-              onClick={handleSearchBox}
-              {...register("name")}
-            />
-          </Form>
+          <>
+            <Form onSubmit={onSubmitNewPeopleName}>
+              <input
+                id="name"
+                placeholder="이름을 적고 엔터!"
+                type="text"
+                value={searchPersonName}
+                autoComplete="off"
+                onClick={handleSearchBox}
+                {...register("name", {
+                  required: "이름을 꼭 입력해야합니다.",
+                  onChange: handleSearch,
+                })}
+              />
+
+              {searchPerson?.length === 0 ? (
+                <SearchingBox>
+                  <SearchingItem>
+                    <p>검색어 또는 추가할 이름을 입력하세요.</p>
+                  </SearchingItem>
+                </SearchingBox>
+              ) : (
+                <SearchingBox ref={searchingListNodes}>
+                  {isSearchingBoxError && <span>이미 참가하고 있습니다.</span>}
+                  {searchPerson?.map((value) => (
+                    <SearchingItem
+                      key={value._id}
+                      data-id={value._id}
+                      onClick={() => selectItem(value)}>
+                      <p>{value.name}</p>
+                      <span>{value.sex === "male" ? "남자" : "여자"}</span>
+                      <span>{translateEducationTypeNameToKR(value.type)}</span>
+                    </SearchingItem>
+                  ))}
+                </SearchingBox>
+              )}
+
+              <label>{errors.name?.message}</label>
+            </Form>
+          </>
         )}
         <Droppable droppableId={item._id}>
           {(provided, snapshot) => (
@@ -257,7 +470,12 @@ const Group = ({ item }: IGroupProps) => {
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}>
               {people?.map((person, index) => (
-                <Human key={person._id} index={index} person={person} />
+                <Human
+                  key={person._id}
+                  index={index}
+                  person={person}
+                  groupId={item._id}
+                />
               ))}
               {provided.placeholder}
             </PersonList>
