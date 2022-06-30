@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
@@ -114,11 +120,13 @@ const SearchingBox = styled.ul`
   padding: 0;
   z-index: 2;
   width: 100%;
+  max-height: 20rem;
+  overflow-y: auto;
   border: 1px solid ${(props) => props.theme.color.gray300};
   border-top: 0;
   background-color: ${(props) => props.theme.color.background100};
 `;
-const SearchingItem = styled.li`
+const SearchingItem = styled.li<{ isSelected?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -146,6 +154,10 @@ interface SendPeople {
 }
 
 const Group = ({ item }: IGroupProps) => {
+  const searchingListNodes = useRef<HTMLUListElement>(null);
+  const [count, setCount] = useState(0);
+  const [selectedNodeId, setSelectedNodeId] = useState("");
+
   const queryClient = useQueryClient();
   const [searchPersonName, setSearchPersonName] = useState("");
   const {
@@ -162,11 +174,7 @@ const Group = ({ item }: IGroupProps) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
 
-  const {
-    data: searchPerson,
-    refetch,
-    isSuccess,
-  } = useGet<People[] | null>({
+  const { data: searchPerson, refetch } = useGet<People[] | null>({
     url: `/api/education/search?person=${searchPersonName}`,
     queryKey: "search",
     enabled: false,
@@ -228,6 +236,10 @@ const Group = ({ item }: IGroupProps) => {
         type: item.type,
       },
       {
+        onSuccess: () => {
+          setSearchPersonName("");
+          reset({ name: "" });
+        },
         onError: (err) => {
           setError("name", { message: err.message });
         },
@@ -249,7 +261,32 @@ const Group = ({ item }: IGroupProps) => {
   const selectItem = (person: People) => {
     addNewPeople({ _id: person._id });
     setSearchPersonName("");
-    reset();
+    reset({ name: "" });
+  };
+
+  const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    const list = searchingListNodes.current?.childNodes;
+    const select = list ? Array.from(list) : [];
+
+    const [id] = select.filter((value, index) => index === count);
+
+    if (e.key === "ArrowUp") {
+      setCount((pre) => {
+        if (pre <= 0) {
+          return select.length - 1;
+        }
+        return pre - 1;
+      });
+    }
+
+    if (e.key === "ArrowDown") {
+      setCount((pre) => {
+        if (pre >= select.length - 1) {
+          return 0;
+        }
+        return pre + 1;
+      });
+    }
   };
 
   useEffect(() => {
@@ -261,9 +298,10 @@ const Group = ({ item }: IGroupProps) => {
   }, [isDelete]);
 
   useEffect(() => {
-    if (searchPersonName) {
-      refetch();
+    if (!searchPersonName) {
+      return;
     }
+    refetch();
   }, [searchPersonName]);
 
   return (
@@ -297,6 +335,7 @@ const Group = ({ item }: IGroupProps) => {
             <>
               <Form onSubmit={onSubmitUpdateGroupName}>
                 <input
+                  autoComplete="off"
                   id="groupName"
                   defaultValue={item.name}
                   placeholder="이름을 적고 엔터!"
@@ -314,21 +353,35 @@ const Group = ({ item }: IGroupProps) => {
         </Header>
         {isOpenPeopleInput && (
           <>
-            <Form onSubmit={onSubmitNewPeopleName}>
+            <Form
+              onSubmit={onSubmitNewPeopleName}
+              onKeyDown={handleSearchBoxWithKey}>
               <input
                 id="name"
                 placeholder="이름을 적고 엔터!"
                 type="text"
                 value={searchPersonName}
+                autoComplete="off"
                 onClick={handleSearchBox}
-                {...register("name")}
-                onChange={handleSearch}
+                {...register("name", {
+                  required: "이름을 꼭 입력해야합니다.",
+                  onChange: handleSearch,
+                })}
               />
 
-              {searchPerson && (
+              {!searchPerson ? (
                 <SearchingBox>
+                  <SearchingItem>
+                    <p>검색어 또는 추가할 이름을 입력하세요.</p>
+                  </SearchingItem>
+                </SearchingBox>
+              ) : (
+                <SearchingBox ref={searchingListNodes}>
                   {searchPerson?.map((value) => (
-                    <SearchingItem onClick={() => selectItem(value)}>
+                    <SearchingItem
+                      key={value._id}
+                      data-id={value._id}
+                      onClick={() => selectItem(value)}>
                       <p>{value.name}</p>
                       <span>{translateEducationTypeNameToKR(value.type)}</span>
                     </SearchingItem>
