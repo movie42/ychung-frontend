@@ -12,6 +12,7 @@ export interface People {
 export interface Group {
   _id: string;
   name: string;
+  place?: string;
   type: "student" | "worker" | "new" | "etc";
   humanIds: string[];
 }

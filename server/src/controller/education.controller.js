@@ -115,13 +115,13 @@ export const postEducationGroup = async (req, res) => {
 
 export const updateEducationGroup = async (req, res) => {
   const {
-    body: { _id, name, humanIds, type },
+    body: { _id, name, humanIds, place, type },
   } = req;
 
   try {
     const data = await groupModel.findByIdAndUpdate(
       { _id },
-      { name, humanIds, type },
+      { name, humanIds, type, place },
     );
 
     return res.status(200).json({ data });

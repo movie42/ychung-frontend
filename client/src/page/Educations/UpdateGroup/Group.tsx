@@ -1,35 +1,23 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+
 import {
   People,
   Group as GroupProps,
 } from "../../../state/educationGroup.atom";
 import { useForm } from "react-hook-form";
-import { compare } from "../../../utils/utilities/compare";
+
 import usePostOrPatch from "../../../utils/customhooks/usePost";
 import { useGet } from "../../../utils/customhooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-import Loading from "../../../components/Loading";
-import {
-  MdAddCircle,
-  MdDelete,
-  MdEdit,
-  MdPersonAdd,
-  MdRemoveCircle,
-} from "react-icons/md";
+
+import { MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import useDelete from "../../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 import { useQueryClient } from "react-query";
-import toast from "react-hot-toast";
+
 import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
 
 const Container = styled.div`
@@ -45,6 +33,12 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .group-info {
+    display: flex;
+    span {
+      margin-left: 0.5rem;
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -155,8 +149,8 @@ interface SendPeople {
 
 const Group = ({ item }: IGroupProps) => {
   const searchingListNodes = useRef<HTMLUListElement>(null);
-  const [count, setCount] = useState(0);
-  const [selectedNodeId, setSelectedNodeId] = useState("");
+  // const [count, setCount] = useState(0);
+  // const [selectedNodeId, setSelectedNodeId] = useState("");
 
   const queryClient = useQueryClient();
   const [searchPersonName, setSearchPersonName] = useState("");
@@ -169,6 +163,7 @@ const Group = ({ item }: IGroupProps) => {
   } = useForm<{
     name?: string;
     type?: "student" | "worker" | "new" | "etc";
+    place?: string;
     groupName?: string;
   }>();
   const [isUpdate, setIsUpdate] = useState(false);
@@ -195,10 +190,10 @@ const Group = ({ item }: IGroupProps) => {
     method: "POST",
   });
 
-  const { mutate: updateGroupName } = usePostOrPatch<
+  const { mutate: updateGroup } = usePostOrPatch<
     FetchDataProps<GroupProps>,
     Error,
-    { _id?: string; name?: string }
+    { _id?: string; name?: string; place?: string }
   >({
     url: `/api/education/group/update`,
     queryKey: "groups",
@@ -249,7 +244,7 @@ const Group = ({ item }: IGroupProps) => {
   });
 
   const onSubmitUpdateGroupName = handleSubmit((data) => {
-    updateGroupName({ _id: item._id, name: data.groupName });
+    updateGroup({ _id: item._id, name: data.groupName, place: data.place });
     reset();
     setIsUpdate(false);
   });
@@ -264,30 +259,30 @@ const Group = ({ item }: IGroupProps) => {
     reset({ name: "" });
   };
 
-  const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
-    const list = searchingListNodes.current?.childNodes;
-    const select = list ? Array.from(list) : [];
+  // const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  //   const list = searchingListNodes.current?.childNodes;
+  //   const select = list ? Array.from(list) : [];
 
-    const [id] = select.filter((value, index) => index === count);
+  //   const [id] = select.filter((value, index) => index === count);
 
-    if (e.key === "ArrowUp") {
-      setCount((pre) => {
-        if (pre <= 0) {
-          return select.length - 1;
-        }
-        return pre - 1;
-      });
-    }
+  //   if (e.key === "ArrowUp") {
+  //     setCount((pre) => {
+  //       if (pre <= 0) {
+  //         return select.length - 1;
+  //       }
+  //       return pre - 1;
+  //     });
+  //   }
 
-    if (e.key === "ArrowDown") {
-      setCount((pre) => {
-        if (pre >= select.length - 1) {
-          return 0;
-        }
-        return pre + 1;
-      });
-    }
-  };
+  //   if (e.key === "ArrowDown") {
+  //     setCount((pre) => {
+  //       if (pre >= select.length - 1) {
+  //         return 0;
+  //       }
+  //       return pre + 1;
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     if (isDelete) {
@@ -318,7 +313,10 @@ const Group = ({ item }: IGroupProps) => {
         <Header>
           {!isUpdate ? (
             <>
-              <Title>{item.name}</Title>
+              <div className="group-info">
+                <Title>{item.name}</Title>
+                <span>{item.place}</span>
+              </div>
               <ButtonContainer>
                 <button onClick={openAddPeopleInput}>
                   <MdPersonAdd />
@@ -342,6 +340,14 @@ const Group = ({ item }: IGroupProps) => {
                   type="text"
                   {...register("groupName")}
                 />
+                <input
+                  autoComplete="off"
+                  id="place"
+                  defaultValue={item.place}
+                  placeholder="교환할 장소?"
+                  type="text"
+                  {...register("place")}
+                />
               </Form>
               <ButtonContainer>
                 <button onClick={onSubmitUpdateGroupName}>
@@ -353,9 +359,7 @@ const Group = ({ item }: IGroupProps) => {
         </Header>
         {isOpenPeopleInput && (
           <>
-            <Form
-              onSubmit={onSubmitNewPeopleName}
-              onKeyDown={handleSearchBoxWithKey}>
+            <Form onSubmit={onSubmitNewPeopleName}>
               <input
                 id="name"
                 placeholder="이름을 적고 엔터!"

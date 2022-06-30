@@ -65,6 +65,10 @@ const DetailGroup = ({ group }: IDetailGroupProps) => {
           <h4>{group?.name}</h4>
         </InfoContainer>
         <InfoContainer>
+          <h3>장소</h3>
+          <h4>{group?.place ? group?.place : "딱히 정해지지지 않았습니다."}</h4>
+        </InfoContainer>
+        <InfoContainer>
           <h3>참가자</h3>
           {humans && humans.length !== 0 ? (
             <ul>

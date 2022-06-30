@@ -77,7 +77,7 @@ const DetailGroupContainer = () => {
       {etcGroup?.length !== 0 && (
         <Container>
           <TextContainer>
-            <h2>학생</h2>
+            <h2>기타</h2>
           </TextContainer>
           <GroupContainer>
             {etcGroup?.map((value) => (
