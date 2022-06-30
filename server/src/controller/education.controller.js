@@ -247,12 +247,11 @@ export const searchEducation = async (req, res) => {
       query: { group, person },
     } = req;
 
-    console.log(group, person);
-    if (person) {
+    if (person && !group) {
       const data = await peopleModel.find({ name: new RegExp(person, "ig") });
       return res.status(200).json({ data });
     }
-    if (group) {
+    if (group && !person) {
       const data = await peopleModel.find({ name: new RegExp(group, "ig") });
       return res.status(200).json({ data });
     }

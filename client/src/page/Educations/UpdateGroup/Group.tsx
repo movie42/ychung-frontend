@@ -438,7 +438,7 @@ const Group = ({ item }: IGroupProps) => {
                 })}
               />
 
-              {searchPerson?.length !== 0 ? (
+              {searchPerson?.length === 0 ? (
                 <SearchingBox>
                   <SearchingItem>
                     <p>검색어 또는 추가할 이름을 입력하세요.</p>
