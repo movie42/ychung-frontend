@@ -134,7 +134,7 @@ function Router() {
       <Route path="/search" element={<Search />} />
 
       <Route path="/login" element={<Login />} />
-      {/* <Route path="/join" element={<Join />} /> */}
+      <Route path="/join" element={<Join />} />
 
       <Route
         path="*"
