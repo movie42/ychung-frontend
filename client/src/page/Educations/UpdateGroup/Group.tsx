@@ -23,6 +23,8 @@ import {
 import useDelete from "../../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 import { useQueryClient } from "react-query";
+import toast from "react-hot-toast";
+import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -92,9 +94,9 @@ const AddPersonButton = styled.button`
 `;
 
 const Form = styled.form`
+  position: relative;
   box-sizing: border-box;
   width: 100%;
-  overflow: hidden;
   input {
     box-sizing: border-box;
     width: 100%;
@@ -104,24 +106,72 @@ const Form = styled.form`
   }
 `;
 
+const SearchingBox = styled.ul`
+  position: absolute;
+  top: 4.5rem;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  width: 100%;
+  border: 1px solid ${(props) => props.theme.color.gray300};
+  border-top: 0;
+  background-color: ${(props) => props.theme.color.background100};
+`;
+const SearchingItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 1.8rem;
+  padding: 1rem 1rem;
+  span {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  &:hover {
+    background-color: ${(props) => props.theme.color.primary700};
+    color: ${(props) => props.theme.color.fontColorWhite};
+  }
+`;
+
 interface IGroupProps {
   item: GroupProps;
 }
 
 interface SendPeople {
+  _id?: string;
   name?: string;
   type?: "student" | "worker" | "new" | "etc";
 }
 
 const Group = ({ item }: IGroupProps) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset } = useForm<{
+  const [searchPersonName, setSearchPersonName] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setError,
+  } = useForm<{
     name?: string;
     type?: "student" | "worker" | "new" | "etc";
     groupName?: string;
   }>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
+
+  const {
+    data: searchPerson,
+    refetch,
+    isSuccess,
+  } = useGet<People[] | null>({
+    url: `/api/education/search?person=${searchPersonName}`,
+    queryKey: "search",
+    enabled: false,
+  });
+
   const { data: people } = useGet<People[]>({
     url: `/api/education/group/${item._id}/people`,
     queryKey: ["people", item._id],
@@ -172,10 +222,17 @@ const Group = ({ item }: IGroupProps) => {
   const handleSearchBox = () => {};
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
-    addNewPeople({
-      name: data.name,
-      type: item.type,
-    });
+    addNewPeople(
+      {
+        name: data.name,
+        type: item.type,
+      },
+      {
+        onError: (err) => {
+          setError("name", { message: err.message });
+        },
+      }
+    );
     reset();
   });
 
@@ -185,6 +242,16 @@ const Group = ({ item }: IGroupProps) => {
     setIsUpdate(false);
   });
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchPersonName(e.target.value);
+  };
+
+  const selectItem = (person: People) => {
+    addNewPeople({ _id: person._id });
+    setSearchPersonName("");
+    reset();
+  };
+
   useEffect(() => {
     if (isDelete) {
       deleteGroupMutate();
@@ -192,6 +259,12 @@ const Group = ({ item }: IGroupProps) => {
       setIsDelete(false);
     }
   }, [isDelete]);
+
+  useEffect(() => {
+    if (searchPersonName) {
+      refetch();
+    }
+  }, [searchPersonName]);
 
   return (
     <>
@@ -240,15 +313,31 @@ const Group = ({ item }: IGroupProps) => {
           )}
         </Header>
         {isOpenPeopleInput && (
-          <Form onSubmit={onSubmitNewPeopleName}>
-            <input
-              id="name"
-              placeholder="이름을 적고 엔터!"
-              type="text"
-              onClick={handleSearchBox}
-              {...register("name")}
-            />
-          </Form>
+          <>
+            <Form onSubmit={onSubmitNewPeopleName}>
+              <input
+                id="name"
+                placeholder="이름을 적고 엔터!"
+                type="text"
+                value={searchPersonName}
+                onClick={handleSearchBox}
+                {...register("name")}
+                onChange={handleSearch}
+              />
+
+              {searchPerson && (
+                <SearchingBox>
+                  {searchPerson?.map((value) => (
+                    <SearchingItem onClick={() => selectItem(value)}>
+                      <p>{value.name}</p>
+                      <span>{translateEducationTypeNameToKR(value.type)}</span>
+                    </SearchingItem>
+                  ))}
+                </SearchingBox>
+              )}
+              <label>{errors.name?.message}</label>
+            </Form>
+          </>
         )}
         <Droppable droppableId={item._id}>
           {(provided, snapshot) => (
@@ -257,7 +346,12 @@ const Group = ({ item }: IGroupProps) => {
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}>
               {people?.map((person, index) => (
-                <Human key={person._id} index={index} person={person} />
+                <Human
+                  key={person._id}
+                  index={index}
+                  person={person}
+                  groupId={item._id}
+                />
               ))}
               {provided.placeholder}
             </PersonList>

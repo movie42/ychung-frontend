@@ -1,4 +1,4 @@
-import jwt, { decode } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import multer from "multer";
 import Notice from "./model/Notice.model";
 import Worship from "./model/Worship.model";

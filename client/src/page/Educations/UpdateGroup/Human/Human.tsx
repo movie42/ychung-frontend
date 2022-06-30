@@ -7,6 +7,9 @@ import ToggleButton from "../../../../components/Buttons/Toggle";
 import usePostOrPatch from "../../../../utils/customhooks/usePost";
 import { QueryClient, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
+import useDelete from "../../../../utils/customhooks/useDelete";
+import ConfirmDeleteModal from "../../../../components/Modals/ConfirmDeleteModal";
+import { useGet } from "../../../../utils/customhooks/useGet";
 
 const Container = styled.div<{
   isDragging: boolean;
@@ -95,10 +98,12 @@ const Form = styled.form`
 interface ITaskInterface {
   index: number;
   person: People;
+  groupId: string;
 }
 
-const Human = ({ index, person }: ITaskInterface) => {
-  const queryClietn = useQueryClient();
+const Human = ({ index, person, groupId }: ITaskInterface) => {
+  const queryClient = useQueryClient();
+
   const [isUpdate, setIsUpdate] = useState(false);
 
   const { register, handleSubmit } = useForm<{
@@ -111,6 +116,20 @@ const Human = ({ index, person }: ITaskInterface) => {
     method: "PATCH",
   });
 
+  const {
+    mutate: deletePeopleFromGroup,
+    isConfirmModal,
+    setIsConfirmModal,
+    isDelete,
+    setIsDelete,
+  } = useDelete({
+    url: `/api/education/group/${groupId}/people?person=${person._id}`,
+    queryKey: "people",
+    onSuccess: () => {
+      queryClient.invalidateQueries("people");
+    },
+  });
+
   const toggleButton = () => {
     updatePeople({ isLeader: !person?.isLeader });
   };
@@ -120,57 +139,75 @@ const Human = ({ index, person }: ITaskInterface) => {
     setIsUpdate(false);
   });
 
-  const deletePeople = () => {};
+  const deletePeople = () => {
+    setIsConfirmModal(true);
+  };
+
+  useEffect(() => {
+    if (isDelete) {
+      deletePeopleFromGroup();
+    }
+  }, [isDelete]);
 
   return (
-    <Draggable draggableId={person._id} index={index}>
-      {(provided, snapshot) => (
-        <Container
-          isLeader={person.isLeader}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          isDragging={snapshot.isDragging}
-          key={person._id}
-          ref={provided.innerRef}>
-          <div className="info-container">
-            {!isUpdate ? (
-              <>
-                <h4>{person.name}</h4>
-                <div className="button-container">
-                  <button onClick={() => setIsUpdate((pre) => !pre)}>
-                    <MdEdit />
-                  </button>
-                  <button onClick={deletePeople}>
-                    <MdDelete />
-                  </button>
-                  <div className="isleader-container" onClick={toggleButton}>
-                    {person.isLeader ? <strong>리더!</strong> : "리더?"}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <Form onSubmit={onSubmitUpdatePeopleName}>
-                  <input
-                    id="name"
-                    defaultValue={person.name}
-                    placeholder="이름을 적고 엔터!"
-                    type="text"
-                    {...register("name")}
-                  />
-                </Form>
-                <div className="button-container">
-                  <button onClick={onSubmitUpdatePeopleName}>
-                    <MdEdit />
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-          {!isUpdate && <MdDragHandle />}
-        </Container>
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsDelete={setIsDelete}
+          setIsConfirmModal={setIsConfirmModal}
+          title="참가자를 삭제하시겠습니까?"
+          subtitle="참가자는 그룹에서 삭제되지만 데이터는 그대로 남습니다. 완전히 삭제하려면 관리자에게 문의해주세요."
+        />
       )}
-    </Draggable>
+      <Draggable draggableId={person._id} index={index}>
+        {(provided, snapshot) => (
+          <Container
+            isLeader={person.isLeader}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            isDragging={snapshot.isDragging}
+            key={person._id}
+            ref={provided.innerRef}>
+            <div className="info-container">
+              {!isUpdate ? (
+                <>
+                  <h4>{person.name}</h4>
+                  <div className="button-container">
+                    <button onClick={() => setIsUpdate((pre) => !pre)}>
+                      <MdEdit />
+                    </button>
+                    <button onClick={deletePeople}>
+                      <MdDelete />
+                    </button>
+                    <div className="isleader-container" onClick={toggleButton}>
+                      {person.isLeader ? <strong>리더!</strong> : "리더?"}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Form onSubmit={onSubmitUpdatePeopleName}>
+                    <input
+                      id="name"
+                      defaultValue={person.name}
+                      placeholder="이름을 적고 엔터!"
+                      type="text"
+                      {...register("name")}
+                    />
+                  </Form>
+                  <div className="button-container">
+                    <button onClick={onSubmitUpdatePeopleName}>
+                      <MdEdit />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+            {!isUpdate && <MdDragHandle />}
+          </Container>
+        )}
+      </Draggable>
+    </>
   );
 };
 

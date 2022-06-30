@@ -13,7 +13,7 @@ export const getEducationGroups = async (req, res) => {
 
 export const getEducationDetailGroups = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
   } = req;
 
   try {
@@ -30,7 +30,7 @@ export const postEducationGroups = async (req, res) => {
 
   try {
     const data = await groupsModel.create({
-      ...body
+      ...body,
     });
 
     return res.status(200).json({ data });
@@ -43,15 +43,15 @@ export const postEducationGroups = async (req, res) => {
 export const updateEducationGroups = async (req, res) => {
   const {
     params: { id },
-    body: { title, isPublic, groups }
+    body: { title, isPublic, groups },
   } = req;
 
   try {
     const data = await groupsModel.findByIdAndUpdate(
       {
-        _id: id
+        _id: id,
       },
-      { title, isPublic, groups }
+      { title, isPublic, groups },
     );
 
     return res.status(200).json({ data });
@@ -63,7 +63,7 @@ export const updateEducationGroups = async (req, res) => {
 
 export const deleteEducationGroups = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
   } = req;
 
   try {
@@ -78,7 +78,7 @@ export const deleteEducationGroups = async (req, res) => {
 
 export const getEducationGroup = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
   } = req;
 
   try {
@@ -99,7 +99,7 @@ export const getEducationGroup = async (req, res) => {
 export const postEducationGroup = async (req, res) => {
   const {
     body,
-    params: { id }
+    params: { id },
   } = req;
   try {
     const data = await groupModel.create({ ...body });
@@ -115,13 +115,13 @@ export const postEducationGroup = async (req, res) => {
 
 export const updateEducationGroup = async (req, res) => {
   const {
-    body: { _id, name, humanIds, type }
+    body: { _id, name, humanIds, type },
   } = req;
 
   try {
     const data = await groupModel.findByIdAndUpdate(
       { _id },
-      { name, humanIds, type }
+      { name, humanIds, type },
     );
 
     return res.status(200).json({ data });
@@ -132,7 +132,7 @@ export const updateEducationGroup = async (req, res) => {
 };
 export const deleteEducationGroup = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
   } = req;
 
   try {
@@ -147,7 +147,7 @@ export const deleteEducationGroup = async (req, res) => {
 
 export const getEducationPeople = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
   } = req;
 
   try {
@@ -162,36 +162,50 @@ export const getEducationPeople = async (req, res) => {
   }
 };
 
-export const postEducationPeople = async (req, res) => {
+export const postEducationPeople = async (req, res, next) => {
   const {
     body,
-    params: { id }
+    params: { id },
   } = req;
 
   try {
     const group = await groupModel.findById(id);
+
+    if (body._id) {
+      const data = await peopleModel.findById(body._id);
+      await group.humanIds.push(data._id);
+      await group.save();
+      return res.status(200).json({ data });
+    }
+
+    const person = await peopleModel.findOne({ name: body.name });
+
+    if (person) {
+      const message = "이미 존재하는 참가자입니다.";
+      return res.status(403).send({ message });
+    }
+
     const data = await peopleModel.create({ ...body });
     await group.humanIds.push(data._id);
     await group.save();
     return res.status(200).json({ data });
-  } catch (e) {
-    console.log(e);
-    return res.status(400).json({ message: "오류가 발생했습니다." });
+  } catch (err) {
+    return res.status(400).json(err.message);
   }
 };
 
 export const updateEducationPeople = async (req, res) => {
   const {
     body,
-    params: { id }
+    params: { id },
   } = req;
 
   try {
     const data = await peopleModel.findByIdAndUpdate(
       { _id: id },
       {
-        ...body
-      }
+        ...body,
+      },
     );
 
     return res.status(200).json({ data });
@@ -203,13 +217,37 @@ export const updateEducationPeople = async (req, res) => {
 
 export const deleteEducationPeople = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
+    query: { person },
   } = req;
+
   try {
-    const data = await peopleModel.findByIdAndDelete(id);
+    const data = await groupModel.findById(id);
+
+    const newHumanIds = data.humanIds.filter(
+      (value) => String(value) !== person,
+    );
+    data.humanIds = newHumanIds;
+    await data.save();
     return res.status(200).json({ data: { success: "ok" } });
   } catch (e) {
     console.log(e);
+    return res.status(400).json({ message: "오류가 발생했습니다." });
+  }
+};
+
+export const searchEducation = async (req, res) => {
+  try {
+    const {
+      query: { group, person },
+    } = req;
+
+    if (person) {
+      const data = await peopleModel.find({ name: new RegExp(person, "ig") });
+
+      return res.status(200).json({ data });
+    }
+  } catch (err) {
     return res.status(400).json({ message: "오류가 발생했습니다." });
   }
 };

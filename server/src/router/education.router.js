@@ -12,7 +12,8 @@ import {
   postEducationPeople,
   updateEducationPeople,
   deleteEducationPeople,
-  getEducationDetailGroups
+  getEducationDetailGroups,
+  searchEducation,
 } from "../controller/education.controller";
 
 const educationRouter = express.Router();
@@ -37,17 +38,15 @@ educationRouter
   .post(postEducationGroup);
 
 educationRouter.route("/group/:id([0-9a-f]{24})").delete(deleteEducationGroup);
-
 educationRouter.route("/group/update").patch(updateEducationGroup);
 
 educationRouter
   .route("/group/:id([0-9a-f]{24})/people")
   .get(getEducationPeople)
-  .post(postEducationPeople);
-
-educationRouter
-  .route("/people/:id([0-9a-f]{24})")
-  .patch(updateEducationPeople)
+  .post(postEducationPeople)
   .delete(deleteEducationPeople);
 
+educationRouter.route("/people/:id([0-9a-f]{24})").patch(updateEducationPeople);
+
+educationRouter.route("/search").get(searchEducation);
 export default educationRouter;

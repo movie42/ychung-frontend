@@ -5,6 +5,8 @@ export interface People {
   isLeader: boolean;
   name: string;
   type: "student" | "worker" | "new" | "etc";
+  createdAt?: Date;
+  __v?: number;
 }
 
 export interface Group {

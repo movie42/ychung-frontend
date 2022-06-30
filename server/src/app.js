@@ -6,6 +6,7 @@ import helmet from "helmet";
 import { csrfProtection } from "./middleWare";
 import permissionsPolicy from "permissions-policy";
 import cors from "cors";
+import { MongooseError } from "mongoose";
 
 const app = express();
 
