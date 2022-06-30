@@ -8,23 +8,16 @@ const ItemContainer = styled.li`
   padding: 1rem;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0.2rem 0.2rem 0.8rem
-    ${(props) => props.theme.color.backgroundBlack20};
   border: 1px solid ${(props) => props.theme.color.gray300};
   border-radius: 0.5rem;
   border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   margin-top: 2rem;
-  @media (min-width: ${(props) => props.theme.screen.labtop}) {
-    box-shadow: 0rem 0 1.2rem ${(props) => props.theme.color.backgroundBlack20};
-  }
-
-  /* &:hover {
-    background-color: ${(props) => props.theme.color.primary900};
-    color: ${(props) => props.theme.color.fontColorWhite};
-  } */
 `;
 
 const Item = styled.div`
+  h2 {
+    padding: 1rem 0;
+  }
   h3 {
     font-size: 1.4rem;
   }
@@ -61,16 +54,23 @@ const DetailGroup = ({ group }: IDetailGroupProps) => {
     <ItemContainer>
       <Item>
         <InfoContainer>
+          <h2>{group?.name} 조</h2>
           <h3>조장</h3>
-          <h4>{group?.name}</h4>
+          <h4>{humans?.map((value) => value.isLeader && <>{value.name}</>)}</h4>
+        </InfoContainer>
+        <InfoContainer>
+          <h3>장소</h3>
+          <h4>{group?.place ? group?.place : "딱히 정해지지지 않았습니다."}</h4>
         </InfoContainer>
         <InfoContainer>
           <h3>참가자</h3>
           {humans && humans.length !== 0 ? (
             <ul>
-              {humans?.map((value) => (
-                <GroupPerson key={value._id} person={value} />
-              ))}
+              {humans
+                ?.filter((value) => !value.isLeader)
+                .map((value) => (
+                  <GroupPerson key={value._id} person={value} />
+                ))}
             </ul>
           ) : (
             <p>참가자가 없습니다.</p>
