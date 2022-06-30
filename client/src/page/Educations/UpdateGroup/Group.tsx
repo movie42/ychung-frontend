@@ -13,12 +13,13 @@ import usePostOrPatch from "../../../utils/customhooks/usePost";
 import { useGet } from "../../../utils/customhooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
 
-import { MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
+import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import useDelete from "../../../utils/customhooks/useDelete";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 import { useQueryClient } from "react-query";
 
 import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
+import { useDebouncedEffect } from "../../../utils/customhooks/useDebouncedEffect";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -104,6 +105,37 @@ const Form = styled.form`
     font-size: 1.8rem;
     border: 1px solid ${(props) => props.theme.color.gray300};
   }
+  .select-container {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid ${(props) => props.theme.color.gray300};
+    padding: 1rem;
+  }
+  .arrow-drop-down {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
+  select {
+    box-sizing: border-box;
+    background-color: unset;
+    cursor: pointer;
+    font-size: 2rem;
+    border: 0;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
 `;
 
 const SearchingBox = styled.ul`
@@ -149,6 +181,7 @@ interface SendPeople {
 
 const Group = ({ item }: IGroupProps) => {
   const searchingListNodes = useRef<HTMLUListElement>(null);
+  const [isSearchingBoxError, setSearchingBoxError] = useState(false);
   // const [count, setCount] = useState(0);
   // const [selectedNodeId, setSelectedNodeId] = useState("");
 
@@ -168,11 +201,14 @@ const Group = ({ item }: IGroupProps) => {
   }>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
-
-  const { data: searchPerson, refetch } = useGet<People[] | null>({
+  const [searchPerson, setSearchPerson] = useState<People[] | null>();
+  const { data, refetch } = useGet<People[] | null>({
     url: `/api/education/search?person=${searchPersonName}`,
     queryKey: "search",
     enabled: false,
+    onSuccess: (response) => {
+      setSearchPerson(response);
+    },
   });
 
   const { data: people } = useGet<People[]>({
@@ -193,7 +229,12 @@ const Group = ({ item }: IGroupProps) => {
   const { mutate: updateGroup } = usePostOrPatch<
     FetchDataProps<GroupProps>,
     Error,
-    { _id?: string; name?: string; place?: string }
+    {
+      _id?: string;
+      name?: string;
+      place?: string;
+      type?: "student" | "worker" | "new" | "etc";
+    }
   >({
     url: `/api/education/group/update`,
     queryKey: "groups",
@@ -232,10 +273,12 @@ const Group = ({ item }: IGroupProps) => {
       },
       {
         onSuccess: () => {
-          setSearchPersonName("");
+          setSearchPerson([]);
           reset({ name: "" });
         },
         onError: (err) => {
+          setSearchPerson([]);
+          reset({ name: "" });
           setError("name", { message: err.message });
         },
       }
@@ -244,18 +287,28 @@ const Group = ({ item }: IGroupProps) => {
   });
 
   const onSubmitUpdateGroupName = handleSubmit((data) => {
-    updateGroup({ _id: item._id, name: data.groupName, place: data.place });
+    updateGroup({
+      _id: item._id,
+      name: data.groupName,
+      type: data.type,
+      place: data.place,
+    });
     reset();
     setIsUpdate(false);
   });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchPersonName(e.target.value);
+    setSearchPersonName(() => e.target.value);
   };
 
   const selectItem = (person: People) => {
+    const hasHuman = item.humanIds.some((value) => value === person._id);
+    if (hasHuman) {
+      setSearchingBoxError(true);
+      return;
+    }
     addNewPeople({ _id: person._id });
-    setSearchPersonName("");
+
     reset({ name: "" });
   };
 
@@ -292,12 +345,12 @@ const Group = ({ item }: IGroupProps) => {
     }
   }, [isDelete]);
 
+  useDebouncedEffect(() => refetch(), 300, [searchPersonName]);
+
   useEffect(() => {
-    if (!searchPersonName) {
-      return;
-    }
-    refetch();
-  }, [searchPersonName]);
+    const timeout = setTimeout(() => setSearchingBoxError(false), 3000);
+    return () => clearTimeout(timeout);
+  }, [isSearchingBoxError, setSearchingBoxError]);
 
   return (
     <>
@@ -348,6 +401,18 @@ const Group = ({ item }: IGroupProps) => {
                   type="text"
                   {...register("place")}
                 />
+                <span className="select-container">
+                  <select defaultValue={item.type} {...register("type")}>
+                    <option value="student">학생</option>
+                    <option value="worker">직장</option>
+                    <option value="new">새신자</option>
+                    <option value="etc">기타</option>
+                  </select>
+                  <span className="arrow-drop-down">
+                    <MdArrowDropDown />
+                  </span>
+                </span>
+                <input type="submit" hidden={true} />
               </Form>
               <ButtonContainer>
                 <button onClick={onSubmitUpdateGroupName}>
@@ -373,7 +438,7 @@ const Group = ({ item }: IGroupProps) => {
                 })}
               />
 
-              {!searchPerson ? (
+              {searchPerson?.length !== 0 ? (
                 <SearchingBox>
                   <SearchingItem>
                     <p>검색어 또는 추가할 이름을 입력하세요.</p>
@@ -381,6 +446,7 @@ const Group = ({ item }: IGroupProps) => {
                 </SearchingBox>
               ) : (
                 <SearchingBox ref={searchingListNodes}>
+                  {isSearchingBoxError && <span>이미 참가하고 있습니다.</span>}
                   {searchPerson?.map((value) => (
                     <SearchingItem
                       key={value._id}
@@ -392,6 +458,7 @@ const Group = ({ item }: IGroupProps) => {
                   ))}
                 </SearchingBox>
               )}
+
               <label>{errors.name?.message}</label>
             </Form>
           </>

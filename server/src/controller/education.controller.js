@@ -124,6 +124,11 @@ export const updateEducationGroup = async (req, res) => {
       { name, humanIds, type, place },
     );
 
+    await peopleModel.updateMany(
+      { _id: { $in: humanIds } },
+      { $set: { type } },
+    );
+
     return res.status(200).json({ data });
   } catch (e) {
     console.log(e);
@@ -242,11 +247,17 @@ export const searchEducation = async (req, res) => {
       query: { group, person },
     } = req;
 
+    console.log(group, person);
     if (person) {
       const data = await peopleModel.find({ name: new RegExp(person, "ig") });
-
       return res.status(200).json({ data });
     }
+    if (group) {
+      const data = await peopleModel.find({ name: new RegExp(group, "ig") });
+      return res.status(200).json({ data });
+    }
+
+    return res.status(200).json({ data: [] });
   } catch (err) {
     return res.status(400).json({ message: "오류가 발생했습니다." });
   }
