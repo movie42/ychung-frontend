@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-
-import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
+import { Input, Loading, Toggle } from "@/components";
+
 import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
-import usePostOrPatch from "../../../utils/customhooks/usePost";
-import { useGet } from "../../../utils/customhooks/useGet";
-import ToggleButton from "../../../components/Buttons/Toggle";
+import usePostOrPatch from "../../../utils/hooks/usePost";
+import { useGet } from "../../../utils/hooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-import Loading from "../../../components/Loading";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -115,7 +113,7 @@ function EducationUpdate() {
               : "아직 작성 중인 소그룹입니다."}
           </span>
 
-          <ToggleButton
+          <Toggle
             isActive={groupInfo?.isPublic ? groupInfo?.isPublic : false}
             size={4}
             onClick={toggleButton}

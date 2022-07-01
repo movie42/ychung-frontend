@@ -1,11 +1,11 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginState } from "../state/Authrization";
 import Login from "../page/Root/Login";
 
 interface IPrivatRouteProps {
-  children?: JSX.Element;
+  children?: ReactNode;
 }
 
 const PrivateRoute = ({ children }: IPrivatRouteProps) => {
@@ -14,7 +14,8 @@ const PrivateRoute = ({ children }: IPrivatRouteProps) => {
   if (!isLogin) {
     return <Login />;
   }
-  return children ? children : <Outlet />;
+
+  return children ? <>{children}</> : <Outlet />;
 };
 
 export default PrivateRoute;

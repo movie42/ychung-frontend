@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
+import { HiUser } from "react-icons/hi";
+
 import { People } from "../../../../state/educationGroup.atom";
 import {
   MdArrowDropDown,
@@ -8,14 +10,13 @@ import {
   MdDragHandle,
   MdEdit,
 } from "react-icons/md";
-import ToggleButton from "../../../../components/Buttons/Toggle";
-import usePostOrPatch from "../../../../utils/customhooks/usePost";
+import usePostOrPatch from "../../../../utils/hooks/usePost";
 import { QueryClient, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import useDelete from "../../../../utils/customhooks/useDelete";
-import ConfirmDeleteModal from "../../../../components/Modals/ConfirmDeleteModal";
-import { useGet } from "../../../../utils/customhooks/useGet";
-import { HiUser } from "react-icons/hi";
+import useDelete from "../../../../utils/hooks/useDelete";
+import { useGet } from "../../../../utils/hooks/useGet";
+
+import { ConfirmDeleteModal } from "@/components";
 
 const Container = styled.div<{
   isDragging: boolean;

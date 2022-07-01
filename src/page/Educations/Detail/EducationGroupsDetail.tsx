@@ -3,13 +3,13 @@ import { AiFillEdit } from "react-icons/ai";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import IconButton from "../../../components/Buttons/IconButton";
-import Loading from "../../../components/Loading";
 import { FetchDataProps } from "../../../lib/interface";
 import { loginState } from "../../../state/Authrization";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
-import { useGet } from "../../../utils/customhooks/useGet";
+import { useGet } from "../../../utils/hooks/useGet";
 import DetailGroupContainer from "./DetailGroupContainer";
+
+import { IconButton, Loading } from "@/components";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

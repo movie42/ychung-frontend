@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import EditorContainer from "../../components/Editor";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import usePostOrPatch from "../../utils/customhooks/usePost";
-import SEO from "../../components/SEO/SEO";
+import { useNavigate, useParams } from "react-router-dom";
+
+import usePostOrPatch from "../../utils/hooks/usePost";
 import { FetchDataProps } from "../../lib/interface";
+
+import { Editor, SEO } from "@/components";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -83,7 +84,7 @@ interface IBlogDetailProps {
 const BlogUpdate = ({ data }: IBlogDetailProps) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<BlogDetail>();
 
   const {
@@ -134,7 +135,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
             type="text"
           />
         </Form>
-        <EditorContainer initialValue={data.paragraph} reference={editorRef} />
+        <Editor initialValue={data.paragraph} reference={editorRef} />
       </Wrapper>
     </>
   );

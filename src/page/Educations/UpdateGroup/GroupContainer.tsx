@@ -12,16 +12,16 @@ import {
   GroupInfo,
 } from "../../../state/educationGroup.atom";
 import { compare } from "../../../utils/utilities/compare";
-import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import usePostOrPatch from "../../../utils/customhooks/usePost";
+import usePostOrPatch from "../../../utils/hooks/usePost";
 import { FetchDataProps } from "../../../lib/interface";
-import { useGet } from "../../../utils/customhooks/useGet";
+import { useGet } from "../../../utils/hooks/useGet";
 import { useParams } from "react-router";
 import { useQueryClient } from "react-query";
-import Loading from "../../../components/Loading";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";
 import Group from "./Group";
+
+import { Input } from "@/components";
 
 const Wrapper = styled.div``;
 

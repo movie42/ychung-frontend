@@ -2,24 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
+import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
+import { ConfirmDeleteModal } from "@/components";
 
 import {
   People,
   Group as GroupProps,
 } from "../../../state/educationGroup.atom";
-import { useForm } from "react-hook-form";
 
-import usePostOrPatch from "../../../utils/customhooks/usePost";
-import { useGet } from "../../../utils/customhooks/useGet";
+import usePostOrPatch from "../../../utils/hooks/usePost";
+import { useGet } from "../../../utils/hooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-
-import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
-import useDelete from "../../../utils/customhooks/useDelete";
-import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
-import { useQueryClient } from "react-query";
-
+import useDelete from "../../../utils/hooks/useDelete";
 import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
-import { useDebouncedEffect } from "../../../utils/customhooks/useDebouncedEffect";
+import { useDebouncedEffect } from "../../../utils/hooks/useDebouncedEffect";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
