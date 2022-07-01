@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Group, People } from "../../../state/educationGroup.atom";
-import { useGet } from "../../../utils/customhooks/useGet";
+import { useGet } from "../../../utils/hooks/useGet";
 import GroupPerson from "./GroupPerson";
 
 const ItemContainer = styled.li`

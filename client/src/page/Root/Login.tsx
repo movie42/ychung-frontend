@@ -4,18 +4,13 @@ import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { useFetch } from "../../utils/customhooks/useFetch";
+import { useFetch } from "../../utils/hooks/useFetch";
 import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
 import { LoginProps, loginState } from "../../state/Authrization";
-
-import Button from "../../components/Buttons/Button";
-import Label from "../../components/Form/Label";
-import Input from "../../components/Form/Input";
-import FormItem from "../../components/Form/FormItem";
-import SEO from "../../components/SEO/SEO";
-import usePostOrPatch from "../../utils/customhooks/usePost";
+import usePostOrPatch from "../../utils/hooks/usePost";
 import { FetchDataProps } from "../../lib/interface";
-import Loading from "../../components/Loading";
+
+import { Button, Label, Input, FormItem, SEO } from "@/components";
 
 const Wrapper = styled.div`
   display: flex;

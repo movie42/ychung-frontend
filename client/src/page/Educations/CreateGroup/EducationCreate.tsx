@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
 import { useNavigate } from "react-router";
-import Loading from "../../../components/Loading";
-import usePostOrPatch from "../../../utils/customhooks/usePost";
+import usePostOrPatch from "../../../utils/hooks/usePost";
 import { FetchDataProps } from "../../../lib/interface";
 import { useQueryClient } from "react-query";
+
+import { Loading } from "@/components";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -21,9 +22,9 @@ interface CreateGroup {
 
 function EducationCreate() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const setGroupInfo = useSetRecoilState(groupInfoState);
 
+  const queryClient = useQueryClient();
   const { mutate, isLoading } = usePostOrPatch<
     FetchDataProps<GroupInfo>,
     Error,

@@ -1,35 +1,37 @@
 import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Blog from "../page/Blog/Bolg";
-import Documents from "../page/Document/Documents";
-import Join from "../page/Root/Join";
-import Login from "../page/Root/Login";
-import Logout from "../page/Root/Logout";
-import Main from "../page/Root/Main";
-import User from "../page/User/User";
-import Worship from "../page/Worship/Worship";
-import Notice from "../page/Notice/Notice";
-import Search from "../page/Search/Search";
-import WorshipDetail from "../page/Worship/WorshipDetail";
-import WorshipCreate from "../page/Worship/WorshipCreate";
-import BlogDetail from "../page/Blog/BlogDetail";
-import UserWorks from "../page/User/UserWorks";
-import UserApplications from "../page/User/UserApplications";
-import UserLike from "../page/User/UserLike";
-import NoticeDetail from "../page/Notice/NoticeDetail";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { loginState } from "../state/Authrization";
+
+import { Blog, BlogCreate, BlogUpdate, BlogDetail } from "@/page/Blog";
+import {
+  Educations,
+  EducationsUpdate,
+  CreateEducation as EducationCreate,
+  EducationGroupsDetail,
+} from "@/page/Educations";
+import { Join, Login, Logout, Main } from "@/page/Root";
+import { User, UserWorks, UserApplications, UserLike } from "@/page/User";
+import {
+  Worship,
+  WorshipDetail,
+  WorshipCreate,
+  WorshipUpdate,
+} from "@/page/Worship";
+import {
+  Notice,
+  NoticeDetail,
+  NoticeCreate,
+  NoticeUpdate,
+} from "@/page/Notice";
+
+import Search from "../page/Search/Search";
 import PrivateRoute from "./PrivateRoute";
 
-import NoticeCreate from "../page/Notice/NoticeCreate";
 import { notice, noticeModalControler } from "../state/notice.atom";
 import { blog, blogModalControler } from "../state/blog.atom";
 import { worshipDetail, worshipModalControler } from "../state/worship.atom";
-import BlogCreate from "../page/Blog/BlogCreate";
-import NoticeUpdate from "../page/Notice/NoticeUpdate";
-import BlogUpdate from "../page/Blog/BlogUpdate";
-import WorshipUpdate from "../page/Worship/WorshipUpdate";
 
+import Documents from "../page/Document/Documents";
 import Rules from "../page/Document/Rules/Rules";
 import RulesDetail from "../page/Document/Rules/RulesDetail";
 import Menuel from "../page/Document/Menuel/Menuel";
@@ -38,15 +40,9 @@ import Account from "../page/Document/Account/Account";
 import AccountDetail from "../page/Document/Account/AccountDetail";
 import Application from "../page/Document/Application/Application";
 import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
-import Educations from "../page/Educations/Educations";
-import EducationsUpdate from "../page/Educations/UpdateGroup/EducationsUpdate";
-import EducationCreate from "../page/Educations/CreateGroup/EducationCreate";
-import EducationGroupsDetail from "../page/Educations/Detail/EducationGroupsDetail";
-import { AnimatePresence } from "framer-motion";
 
 function Router() {
   const location = useLocation();
-  const { isLogin } = useRecoilValue(loginState);
   const noticeItem = useRecoilValue(notice);
   const setNoticeModalState = useSetRecoilState(noticeModalControler);
 
@@ -132,10 +128,8 @@ function Router() {
         <Route path="/logout" element={<Logout />} />
       </Route>
       <Route path="/search" element={<Search />} />
-
       <Route path="/login" element={<Login />} />
       <Route path="/join" element={<Join />} />
-
       <Route
         path="*"
         element={<p>보여줄게 아무것도 없네요. URL을 다시 입력해보세요.</p>}

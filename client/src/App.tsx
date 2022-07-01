@@ -3,8 +3,8 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { loginState } from "./state/Authrization";
 import Router from "./routes/Routes";
-import Header from "./components/Header/Header";
-import SEO from "./components/SEO/SEO";
+
+import { Header, SEO } from "@/components";
 
 const Wrapper = styled.main`
   overflow-x: hidden;
