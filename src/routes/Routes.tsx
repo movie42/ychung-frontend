@@ -25,7 +25,6 @@ import {
 } from "@/page/Notice";
 
 import Search from "../page/Search/Search";
-
 import PrivateRoute from "./PrivateRoute";
 
 import { notice, noticeModalControler } from "../state/notice.atom";

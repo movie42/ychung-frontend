@@ -88,11 +88,6 @@ function EducationUpdate() {
   ) : (
     <Wrapper>
       <Header>
-        {/* TODO: 
-        1. 이벤트 쓰로틀 걸고 사용자 
-        2.쓰기가 끝나면 자동으로 저장되기 
-        3. 저장되는 동안 상태 메시지 보여주기  
-        4. 저장이 끝난 후에 상태 메시지 보여주기 */}
         <div>
           <form onSubmit={changeTitle}>
             <TitleInput
