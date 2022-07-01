@@ -72,16 +72,14 @@ export const login = async (req, res) => {
       maxAge: 60 * 60 * 1000,
     });
 
-    return res
-      .status(200)
-      .json({
-        data: {
-          isLogin: true,
-          _id: user._id,
-          email: user.email,
-          authority: user.authority,
-        },
-      });
+    return res.status(200).json({
+      data: {
+        isLogin: true,
+        _id: user._id,
+        email: user.email,
+        authority: user.authority,
+      },
+    });
   } catch (e) {
     console.log(e);
     return res.status(400).json({ error: "로그인을 할 수 없습니다." });
@@ -89,7 +87,6 @@ export const login = async (req, res) => {
 };
 
 export const postJoin = async (req, res) => {
-  console.log(req.body);
   const {
     body: { email, name, userName, password, password2 },
   } = req;
@@ -101,13 +98,13 @@ export const postJoin = async (req, res) => {
 
     if (exists) {
       return res.status(400).json({
-        type: "isExistsError",
+        message: "이미 존재하는 회원입니다.",
       });
     }
 
     if (password !== password2) {
       return res.status(400).json({
-        type: "isNotpasswordError",
+        message: "패스워드가 올바르지 않습니다.",
       });
     }
 
@@ -118,10 +115,10 @@ export const postJoin = async (req, res) => {
       password,
     });
 
-    return res.sendStatus(200);
+    return res.status(200).json({ data: { success: "ok" } });
   } catch (error) {
     console.error(error);
-    return res.sendStatus(400).render("root/404");
+    return res.status(400).join({ message: "알 수 없는 에러가 발생했습니다." });
   }
 };
 
