@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { movingCard, opacity } from "../../animation variants/modalAnimation";
 import { SetterOrUpdater } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { movingCard, opacity } from "@/animationVariants";
 
 const Wrapper = styled(motion.div)`
   position: fixed;

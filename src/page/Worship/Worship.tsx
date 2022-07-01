@@ -6,12 +6,11 @@ import WorshipItem from "./WorshipDetailComponents/WorshipItem";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { worshipDetail, worshipModalControler } from "../../state/worship.atom";
-import Loading from "../../components/Loading";
 import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
-import { useGet } from "../../utils/customhooks/useGet";
-import { movingCard } from "../../animation variants/modalAnimation";
-import SEO from "../../components/SEO/SEO";
+import { useGet } from "../../utils/hooks/useGet";
+
+import { Loading, SEO } from "@/components";
 
 const Wrapper = styled(motion.div)`
   width: 100%;

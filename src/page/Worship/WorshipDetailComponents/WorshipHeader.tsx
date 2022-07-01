@@ -8,7 +8,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
-import useDelete from "../../../utils/customhooks/useDelete";
+import useDelete from "../../../utils/hooks/useDelete";
 import { calculateDate } from "../../../utils/utilities/calculateDate";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 

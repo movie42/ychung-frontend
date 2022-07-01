@@ -17,8 +17,8 @@ import {
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
 import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
-import { useCopyText } from "../../utils/customhooks/useCopyText";
-import { useSetView } from "../../utils/customhooks/useSetView";
+import { useCopyText } from "../../utils/hooks/useCopyText";
+import { useSetView } from "../../utils/hooks/useSetView";
 import SEO from "../../components/SEO/SEO";
 import { previewParagraph } from "../../utils/utilities/previewParagraph";
 

@@ -1,9 +1,11 @@
 import React from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import Loading from "../../../components/Loading";
+
+import { Loading } from "@/components";
+
 import { Group } from "../../../state/educationGroup.atom";
-import { useGet } from "../../../utils/customhooks/useGet";
+import { useGet } from "../../../utils/hooks/useGet";
 import DetailGroup from "./DetailGroup";
 
 const Container = styled.section`

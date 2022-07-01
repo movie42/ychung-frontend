@@ -5,15 +5,15 @@ import { useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import Button from "../../components/Buttons/Button";
-import IconButton from "../../components/Buttons/IconButton";
-import Loading from "../../components/Loading";
-import { loginState } from "../../state/Authrization";
-import { groupInfoState } from "../../state/educationGroup.atom";
-import { useGet } from "../../utils/customhooks/useGet";
-import { calculateDate } from "../../utils/utilities/calculateDate";
+import { loginState } from "../../../state/Authrization";
+import { groupInfoState } from "../../../state/educationGroup.atom";
+import { useGet } from "../../../utils/hooks/useGet";
+import { calculateDate } from "../../../utils/utilities/calculateDate";
+
 import GroupItem from "./GroupItem";
 import GroupItemContainer from "./GroupItemContainer";
+
+import { IconButton, Loading } from "@/components";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -51,9 +51,9 @@ interface IEducationFetchData {
 
 const Educations = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { isLogin } = useRecoilValue(loginState);
 
+  const queryClient = useQueryClient();
   const { isLoading, data } = useGet<IEducationFetchData[]>({
     url: "/api/education/groups",
     queryKey: "educations",

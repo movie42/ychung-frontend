@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useResetRecoilState } from "recoil";
 import styled from "styled-components";
-import Loading from "../../components/Loading";
-import { FetchDataProps } from "../../lib/interface";
 import { loginState } from "../../state/Authrization";
-import { useGet } from "../../utils/customhooks/useGet";
+import { useGet } from "../../utils/hooks/useGet";
+
+import { Loading } from "@/components";
 
 const Wrapper = styled.div`
   display: flex;

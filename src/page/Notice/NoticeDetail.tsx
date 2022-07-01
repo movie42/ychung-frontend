@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
-import PageDetailModal from "../../components/Modals/PageDetailModal";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
-import PageDetailModalHeader from "../../components/Modals/PageDetailModalHeader";
 import styled from "styled-components";
-import Button from "../../components/Buttons/Button";
-import Viewer from "../../components/Viewer";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loginState } from "../../state/Authrization";
 import { INoticeInterface, notice } from "../../state/notice.atom";
-import { useSetView } from "../../utils/customhooks/useSetView";
-import useDelete from "../../utils/customhooks/useDelete";
-import ConfirmDeleteModal from "../../components/Modals/ConfirmDeleteModal";
-import SEO from "../../components/SEO/SEO";
+import { useSetView } from "../../utils/hooks/useSetView";
+import useDelete from "../../utils/hooks/useDelete";
 import { previewParagraph } from "../../utils/utilities/previewParagraph";
+
+import {
+  PageDetailModal,
+  PageDetailModalHeader,
+  Button,
+  Viewer,
+  ConfirmDeleteModal,
+  SEO,
+} from "@/components";
 
 const ButtonContainer = styled.div`
   button {

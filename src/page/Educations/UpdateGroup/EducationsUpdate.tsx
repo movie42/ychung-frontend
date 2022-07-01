@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-
-import Input from "../../../components/Form/Input";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/components";
 
 import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
-import usePostOrPatch from "../../../utils/customhooks/usePost";
-import { useGet } from "../../../utils/customhooks/useGet";
-import ToggleButton from "../../../components/Buttons/Toggle";
+import usePostOrPatch from "../../../utils/hooks/usePost";
+import { useGet } from "../../../utils/hooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-import Loading from "../../../components/Loading";
+import { MdDelete } from "react-icons/md";
+import useDelete from "@/utils/hooks/useDelete";
+import { useQueryClient } from "react-query";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -40,6 +41,16 @@ const ButtonContainer = styled.div`
   span {
     margin-right: 1rem;
   }
+  button {
+    cursor: pointer;
+    background-color: unset;
+    border: 0;
+    font-size: 2.5rem;
+    color: ${(props) => props.theme.color.gray300};
+    &:hover {
+      color: ${(props) => props.theme.color.primary300};
+    }
+  }
 `;
 
 interface GroupInfoSend {
@@ -50,6 +61,8 @@ interface GroupInfoSend {
 }
 
 function EducationUpdate() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { id } = useParams();
   const {
     register,
@@ -76,6 +89,21 @@ function EducationUpdate() {
     method: "PATCH",
   });
 
+  const {
+    mutate: deleteGroupInfoMutation,
+    isConfirmModal,
+    setIsConfirmModal,
+    isDelete,
+    setIsDelete,
+  } = useDelete({
+    url: `/api/education/groups/${id}`,
+    queryKey: "groupInfo",
+  });
+
+  const deleteGroupInfo = () => {
+    setIsConfirmModal(true);
+  };
+
   const toggleButton = () => {
     groupInfoMutation({ isPublic: !groupInfo?.isPublic });
   };
@@ -85,45 +113,57 @@ function EducationUpdate() {
     groupInfoMutation({ title });
   });
 
+  useEffect(() => {
+    deleteGroupInfoMutation(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("groupInfo");
+        navigate("/education");
+      },
+    });
+  }, [isDelete]);
+
   return isRefetching && !isSuccess ? (
     <Loading />
   ) : (
-    <Wrapper>
-      <Header>
-        {/* TODO: 
-        1. 이벤트 쓰로틀 걸고 사용자 
-        2.쓰기가 끝나면 자동으로 저장되기 
-        3. 저장되는 동안 상태 메시지 보여주기  
-        4. 저장이 끝난 후에 상태 메시지 보여주기 */}
-        <div>
-          <form onSubmit={changeTitle}>
-            <TitleInput
-              type="text"
-              defaultValue={groupInfo?.title}
-              placeholder="소그룹 제목을 입력하세요."
-              {...register("title", {
-                required: "제목은 반드시 입력해야합니다.",
-              })}
+    <>
+      {isConfirmModal && (
+        <ConfirmDeleteModal
+          setIsDelete={setIsDelete}
+          setIsConfirmModal={setIsConfirmModal}
+          title="교육 정보를 삭제하시겠습니까?"
+          subtitle="교육 정보를 삭제하면 복구할 수 없습니다."
+        />
+      )}
+      <Wrapper>
+        <Header>
+          <div>
+            <form onSubmit={changeTitle}>
+              <TitleInput
+                type="text"
+                defaultValue={groupInfo?.title}
+                placeholder="소그룹 제목을 입력하세요."
+                {...register("title", {
+                  required: "제목은 반드시 입력해야합니다.",
+                })}
+              />
+              <button style={{ visibility: "hidden" }}>제출</button>
+            </form>
+          </div>
+          <ButtonContainer>
+            <button onClick={deleteGroupInfo}>
+              <MdDelete />
+            </button>
+            <span>{groupInfo?.isPublic ? "공개" : "비공개"}</span>
+            <Toggle
+              isActive={groupInfo?.isPublic ? groupInfo?.isPublic : false}
+              size={4}
+              onClick={toggleButton}
             />
-            <button style={{ visibility: "hidden" }}>제출</button>
-          </form>
-        </div>
-        <ButtonContainer>
-          <span>
-            {groupInfo?.isPublic
-              ? "소그룹이 공개 중 입니다."
-              : "아직 작성 중인 소그룹입니다."}
-          </span>
-
-          <ToggleButton
-            isActive={groupInfo?.isPublic ? groupInfo?.isPublic : false}
-            size={4}
-            onClick={toggleButton}
-          />
-        </ButtonContainer>
-      </Header>
-      <GroupContainer groupInfo={groupInfo} />
-    </Wrapper>
+          </ButtonContainer>
+        </Header>
+        <GroupContainer groupInfo={groupInfo} />
+      </Wrapper>
+    </>
   );
 }
 

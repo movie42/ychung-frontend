@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import usePostOrPatch from "../../utils/customhooks/usePost";
-import SEO from "../../components/SEO/SEO";
+
+import { Editor, SEO } from "@/components";
+
+import usePostOrPatch from "../../utils/hooks/usePost";
 import { FetchDataProps } from "../../lib/interface";
 import { IBlogItems } from "../../state/blog.atom";
 
@@ -67,7 +68,7 @@ const Form = styled.form`
 
 const BlogCreate = () => {
   const navigate = useNavigate();
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<IBlogItems>();
   const { mutate } = usePostOrPatch<
     FetchDataProps<IBlogItems>,
@@ -114,7 +115,7 @@ const BlogCreate = () => {
             type="text"
           />
         </Form>
-        <EditorContainer reference={editorRef} />
+        <Editor reference={editorRef} />
       </Wrapper>
     </>
   );

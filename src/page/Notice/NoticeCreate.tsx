@@ -1,20 +1,18 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import EditorContainer from "../../components/Editor";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../utils/customhooks/useFetch";
+import { useFetch } from "../../utils/hooks/useFetch";
 import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
 import { useLocation, useNavigate } from "react-router-dom";
-import Label from "../../components/Form/Label";
-import Input from "../../components/Form/Input";
 import { currentDate } from "../../utils/utilities/calenderHelper";
-import usePostOrPatch from "../../utils/customhooks/usePost";
-import SEO from "../../components/SEO/SEO";
+import usePostOrPatch from "../../utils/hooks/usePost";
 import { INoticeInterface } from "../../state/notice.atom";
 import { FetchDataProps } from "../../lib/interface";
+
+import { Editor, Label, Input, SEO } from "@/components";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -75,7 +73,7 @@ const Form = styled.form`
 
 const NoticeCreate = () => {
   const navigate = useNavigate();
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<IEditor>(null);
   const {
     register,
     handleSubmit,
@@ -168,7 +166,7 @@ const NoticeCreate = () => {
             <Label htmlFor="isWeekly">주보에 넣기</Label>
           </div>
         </Form>
-        <EditorContainer reference={editorRef} />
+        <Editor reference={editorRef} />
       </Wrapper>
     </>
   );

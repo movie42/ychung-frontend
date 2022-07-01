@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import styled from "styled-components";
 import Nav from "./Nav";
-import { navAnimationVariants } from "../../animation variants/navigationAnimationVariants";
+import { navAnimationVariants } from "@/animationVariants";
 
 const HeaderContainer = styled.header`
   position: fixed;

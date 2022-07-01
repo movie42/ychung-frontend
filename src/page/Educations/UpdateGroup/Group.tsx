@@ -1,25 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
+import { useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
+import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
+import { ConfirmDeleteModal } from "@/components";
 
 import {
   People,
   Group as GroupProps,
+  countState,
 } from "../../../state/educationGroup.atom";
-import { useForm } from "react-hook-form";
 
-import usePostOrPatch from "../../../utils/customhooks/usePost";
-import { useGet } from "../../../utils/customhooks/useGet";
+import usePostOrPatch from "../../../utils/hooks/usePost";
+import { useGet } from "../../../utils/hooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-
-import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
-import useDelete from "../../../utils/customhooks/useDelete";
-import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
-import { useQueryClient } from "react-query";
-
+import useDelete from "../../../utils/hooks/useDelete";
 import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
-import { useDebouncedEffect } from "../../../utils/customhooks/useDebouncedEffect";
+import { useDebouncedEffect } from "../../../utils/hooks/useDebouncedEffect";
+import { useRecoilState } from "recoil";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -152,7 +152,7 @@ const SearchingBox = styled.ul`
   border-top: 0;
   background-color: ${(props) => props.theme.color.background100};
 `;
-const SearchingItem = styled.li<{ isSelected?: boolean }>`
+const SearchingItem = styled.li<{ isSelect?: boolean }>`
   display: grid;
   grid-template-columns: 3fr 0.5fr 0.5fr;
   align-items: center;
@@ -163,6 +163,8 @@ const SearchingItem = styled.li<{ isSelected?: boolean }>`
     font-size: 1.2rem;
     font-weight: bold;
   }
+  background-color: ${(props) =>
+    props.isSelect && props.theme.color.primary300};
   &:hover {
     background-color: ${(props) => props.theme.color.primary700};
     color: ${(props) => props.theme.color.fontColorWhite};
@@ -182,8 +184,8 @@ interface SendPeople {
 const Group = ({ item }: IGroupProps) => {
   const searchingListNodes = useRef<HTMLUListElement>(null);
   const [isSearchingBoxError, setSearchingBoxError] = useState(false);
-  // const [count, setCount] = useState(0);
-  // const [selectedNodeId, setSelectedNodeId] = useState("");
+  const [count, setCount] = useState(0);
+  const [selectedNodeId, setSelectedNodeId] = useState("");
 
   const queryClient = useQueryClient();
   const [searchPersonName, setSearchPersonName] = useState("");
@@ -266,6 +268,13 @@ const Group = ({ item }: IGroupProps) => {
   const handleSearchBox = () => {};
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
+    if (selectedNodeId && searchPerson) {
+      const [item] = searchPerson?.filter(
+        (value) => value._id === selectedNodeId
+      );
+      selectItem(item);
+      return;
+    }
     addNewPeople(
       {
         name: data.name,
@@ -311,30 +320,47 @@ const Group = ({ item }: IGroupProps) => {
     reset({ name: "" });
   };
 
-  // const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
-  //   const list = searchingListNodes.current?.childNodes;
-  //   const select = list ? Array.from(list) : [];
+  const handleSearchBoxWithKey = useCallback(
+    (e: React.KeyboardEvent<HTMLFormElement>) => {
+      const length = searchingListNodes.current?.childNodes.length;
+      if (e.key === "ArrowUp") {
+        setCount((pre) => pre - 1);
+        if (count < 0 && length) {
+          setCount(length - 1);
+        }
+      }
+      if (e.key === "ArrowDown") {
+        setCount((pre) => pre + 1);
+        if (length && count >= length - 1) {
+          setCount(0);
+        }
+      }
+    },
+    [count]
+  );
 
-  //   const [id] = select.filter((value, index) => index === count);
+  const selectNode = (count: number) => {
+    let num = 0 - count;
+    const list = searchingListNodes.current?.childNodes;
+    const select = list ? Array.from(list) : [];
+    const [li] = select.filter(
+      (value, index) => index === count
+    ) as HTMLLIElement[];
+    const selectId = li && li.dataset.id;
+    setSelectedNodeId(() => String(selectId));
 
-  //   if (e.key === "ArrowUp") {
-  //     setCount((pre) => {
-  //       if (pre <= 0) {
-  //         return select.length - 1;
-  //       }
-  //       return pre - 1;
-  //     });
-  //   }
+    if (searchingListNodes && li && num <= 0) {
+      searchingListNodes.current?.scrollTo(0, li.offsetTop);
+    }
 
-  //   if (e.key === "ArrowDown") {
-  //     setCount((pre) => {
-  //       if (pre >= select.length - 1) {
-  //         return 0;
-  //       }
-  //       return pre + 1;
-  //     });
-  //   }
-  // };
+    if (searchingListNodes && li && num >= 0) {
+      searchingListNodes.current?.scrollTo(li.offsetTop, 0);
+    }
+  };
+
+  useEffect(() => {
+    selectNode(count);
+  }, [count]);
 
   useEffect(() => {
     if (isDelete) {
@@ -423,7 +449,9 @@ const Group = ({ item }: IGroupProps) => {
         </Header>
         {isOpenPeopleInput && (
           <>
-            <Form onSubmit={onSubmitNewPeopleName}>
+            <Form
+              onSubmit={onSubmitNewPeopleName}
+              onKeyDown={(e) => handleSearchBoxWithKey(e)}>
               <input
                 id="name"
                 placeholder="이름을 적고 엔터!"
@@ -450,6 +478,9 @@ const Group = ({ item }: IGroupProps) => {
                     <SearchingItem
                       key={value._id}
                       data-id={value._id}
+                      isSelect={
+                        selectedNodeId ? value._id === selectedNodeId : false
+                      }
                       onClick={() => selectItem(value)}>
                       <p>{value.name}</p>
                       <span>{value.sex === "male" ? "남자" : "여자"}</span>

@@ -1,23 +1,15 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  Link,
-  Outlet,
-  useParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { notice, noticeModalControler } from "../../state/notice.atom";
-import Loading from "../../components/Loading";
-import { loginState } from "../../state/Authrization";
-import ListContainer from "../../components/List/ListContainer";
-import ListItem from "../../components/List/ListItem";
-import { INoticeInterface } from "../../state/notice.atom";
-import { useGet } from "../../utils/customhooks/useGet";
-import SEO from "../../components/SEO/SEO";
+import { notice, noticeModalControler } from "@/state/notice.atom";
+import { loginState } from "@/state/Authrization";
+import { INoticeInterface } from "@/state/notice.atom";
+import { useGet } from "@/utils/hooks/useGet";
+
+import { Loading, ListContainer, ListItem, SEO } from "@/components";
 
 const NoticeListContainer = styled(motion.div)``;
 

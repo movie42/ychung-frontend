@@ -4,14 +4,13 @@ import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
 import { blog, blogModalControler } from "../../state/blog.atom";
-import Loading from "../../components/Loading";
-import ListItem from "../../components/List/ListItem";
-import ListContainer from "../../components/List/ListContainer";
 import { loginState } from "../../state/Authrization";
 import { IBlogItems } from "../../state/blog.atom";
-import { useGet } from "../../utils/customhooks/useGet";
-import SEO from "../../components/SEO/SEO";
+import { useGet } from "../../utils/hooks/useGet";
+
+import { Loading, ListItem, ListContainer, SEO } from "@/components";
 
 const Wrapper = styled.div`
   width: 100%;

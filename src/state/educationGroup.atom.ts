@@ -25,6 +25,11 @@ export interface GroupInfo {
   groups: string[];
 }
 
+export const countState = atom({
+  key: "count",
+  default: 0,
+});
+
 export const poepleState = atom<People[]>({
   key: "people",
   default: [],
