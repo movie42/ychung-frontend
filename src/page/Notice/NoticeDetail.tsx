@@ -144,7 +144,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
               </ButtonContainer>
             )}
           </PageDetailModalHeader>
-          {data?.startDate && (
+          {/* {data?.startDate && (
             <a
               download="event.ics"
               href={`${saveICS(
@@ -154,7 +154,7 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
               )}`}>
               일정을 달력에 저장하기
             </a>
-          )}
+          )} */}
           <Viewer paragraph={data?.paragraph} />
         </>
       </PageDetailModal>
