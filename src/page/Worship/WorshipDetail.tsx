@@ -21,6 +21,8 @@ import { useCopyText } from "../../utils/hooks/useCopyText";
 import { useSetView } from "../../utils/hooks/useSetView";
 import SEO from "../../components/SEO/SEO";
 import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import { useGet } from "@/utils/hooks/useGet";
+import WorshipEducation from "./WorshipDetailComponents/WorshipEducation";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -107,6 +109,8 @@ const WorshipItem = styled.li`
   }
 `;
 
+const EducationContainer = styled.div``;
+
 const NoticeContainer = styled.div``;
 
 const BlogContainer = styled.div``;
@@ -116,9 +120,18 @@ interface IWorshipDetailProps {
   data?: IWorshipItems;
 }
 
+interface IEducationFetchData {
+  _id: string;
+  title: string;
+  isPublic: boolean;
+  groups: [];
+  createdAt: Date;
+}
+
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const { id } = useParams();
   const [worshipData, setWorshipData] = useRecoilState(worshipDetail);
+
   const countViews = useSetView(
     `/api/worship/${id}/count-views`,
     setWorshipData
@@ -215,6 +228,10 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
             <p>복사하려면 클릭하세요</p>
           </button>
         </WorshipGuide>
+        <EducationContainer>
+          <h1>교육</h1>
+          <WorshipEducation />
+        </EducationContainer>
         <NoticeContainer>
           <h1>광고</h1>
           <WorshipNotice />
