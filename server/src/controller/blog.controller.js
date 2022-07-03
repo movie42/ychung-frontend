@@ -20,12 +20,12 @@ export const blogList = async (req, res) => {
 export const postBlogWrite = async (req, res) => {
   const {
     body: { title, paragraph },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     const data = await Blog.create({
       title,
@@ -54,12 +54,12 @@ export const postBlogUpdate = async (req, res) => {
   const {
     body: { title, paragraph },
     params: { id },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     const data = await Blog.findByIdAndUpdate(
       { _id: id },
@@ -80,13 +80,13 @@ export const postBlogUpdate = async (req, res) => {
 
 export const blogDelete = async (req, res) => {
   const {
-    cookies: { token },
+    cookies: { accessToken },
     params: { id },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (!user) {
       return res.status(400).json({ data: "error" });

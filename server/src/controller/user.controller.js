@@ -5,12 +5,12 @@ import User from "../model/User.model";
 // detail
 export const userDetail = async (req, res) => {
   const {
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (!user) {
       return res.status(403).json({
@@ -36,11 +36,11 @@ export const userDetail = async (req, res) => {
 export const getEditUser = async (req, res) => {
   const {
     params: { id: userId },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   const secret = req.app.get("JWT_SECRET");
-  const user = jwt.verify(token, secret);
+  const user = jwt.verify(accessToken, secret);
 
   if (String(userId) !== String(_id)) {
     return res.status(401).json({
@@ -75,12 +75,12 @@ export const postEditUser = async (req, res) => {
     body: { name, email, userName },
     file,
     params: { id: userId },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (String(user._id) !== String(_id)) {
       return res.status(401).json({
@@ -140,12 +140,12 @@ export const postEditUser = async (req, res) => {
 // edit password
 export const getEditPassword = (req, res) => {
   const {
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (String(user._id) !== String(_id)) {
       return res.status(404).render("root/404", {
@@ -171,12 +171,12 @@ export const postEditPassword = async (req, res) => {
   const {
     body: { oldPassword, newPassword, newPassword2 },
     params: { id: userId },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (String(user._id) !== String(_id)) {
       return res.status(401).json({

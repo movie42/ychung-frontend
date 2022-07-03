@@ -104,12 +104,12 @@ export const createWorshipWeekly = async (req, res) => {
       reader,
       benediction,
     },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     const data = await Worship.create({
       title,
@@ -149,12 +149,12 @@ export const updateWorshipWeekly = async (req, res) => {
       reader,
       benediction,
     },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (!user) {
       return res.status(403).json({ message: "인증되지 않은 사용자입니다." });
@@ -185,13 +185,13 @@ export const updateWorshipWeekly = async (req, res) => {
 
 export const deleteWorshipWeekly = async (req, res) => {
   const {
-    cookies: { token },
+    cookies: { accessToken },
     params: { id },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (!user) {
       return res.status(403).json({ message: "인증되지 않은 사용자입니다." });

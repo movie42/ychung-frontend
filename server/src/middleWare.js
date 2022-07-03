@@ -72,7 +72,7 @@ export const authorization = async (req, res, next) => {
   }
 
   try {
-    const data = await jwt.verify(token, process.env.JWT_SECRET);
+    const data = await jwt.verify(accessToken, process.env.JWT_SECRET);
     next();
   } catch (e) {
     return res.sendStatus(403);

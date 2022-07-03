@@ -17,12 +17,12 @@ export const getNoticeData = async (req, res) => {
 export const postNewNoticeData = async (req, res) => {
   const {
     body: { title, startDate, endDate, summary, isWeekly, paragraph },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (!user) {
       return res.status(400).json({ message: "유효하지 않은 토큰입니다." });
@@ -48,12 +48,12 @@ export const patchNoticeData = async (req, res) => {
   const {
     body: { title, isWeekly, paragraph, startDate, endDate, summary },
     params: { id },
-    cookies: { token },
+    cookies: { accessToken },
   } = req;
 
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
 
     if (!user) {
       return res.status(400).json({ data: "error" });
@@ -84,12 +84,12 @@ export const patchNoticeData = async (req, res) => {
 
 export const deleteNotice = async (req, res) => {
   const {
-    cookies: { token },
+    cookies: { accessToken },
     params: { id },
   } = req;
   try {
     const secret = req.app.get("JWT_SECRET");
-    const user = jwt.verify(token, secret);
+    const user = jwt.verify(accessToken, secret);
     if (!user) {
       return res.status(400).json({ data: "error" });
     }
