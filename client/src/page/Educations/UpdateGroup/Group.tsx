@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "react-query";
+import { QueryClient, useQueryClient } from "react-query";
 import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import { ConfirmDeleteModal } from "@/components";
 
@@ -259,6 +259,8 @@ const Group = ({ item }: IGroupProps) => {
 
   const openAddPeopleInput = () => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
+    reset({ name: "" });
+    setSearchPersonName("");
   };
 
   const deleteGroup = () => {
@@ -268,13 +270,14 @@ const Group = ({ item }: IGroupProps) => {
   const handleSearchBox = () => {};
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
-    if (selectedNodeId && searchPerson) {
+    if (selectedNodeId && searchPerson && searchPerson.length !== 0) {
       const [item] = searchPerson?.filter(
         (value) => value._id === selectedNodeId
       );
       selectItem(item);
       return;
     }
+
     addNewPeople(
       {
         name: data.name,
@@ -320,27 +323,16 @@ const Group = ({ item }: IGroupProps) => {
     reset({ name: "" });
   };
 
-  const handleSearchBoxWithKey = useCallback(
-    (e: React.KeyboardEvent<HTMLFormElement>) => {
-      const length = searchingListNodes.current?.childNodes.length;
-      if (e.key === "ArrowUp") {
-        setCount((pre) => pre - 1);
-        if (count < 0 && length) {
-          setCount(length - 1);
-        }
-      }
-      if (e.key === "ArrowDown") {
-        setCount((pre) => pre + 1);
-        if (length && count >= length - 1) {
-          setCount(0);
-        }
-      }
-    },
-    [count]
-  );
+  const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "ArrowUp") {
+      setCount((pre) => pre - 1);
+    }
+    if (e.key === "ArrowDown") {
+      setCount((pre) => pre + 1);
+    }
+  };
 
-  const selectNode = (count: number) => {
-    let num = 0 - count;
+  const findNodes = (count: number) => {
     const list = searchingListNodes.current?.childNodes;
     const select = list ? Array.from(list) : [];
     const [li] = select.filter(
@@ -348,7 +340,12 @@ const Group = ({ item }: IGroupProps) => {
     ) as HTMLLIElement[];
     const selectId = li && li.dataset.id;
     setSelectedNodeId(() => String(selectId));
+    return li;
+  };
 
+  const selectNode = (count: number) => {
+    const li = findNodes(count);
+    let num = 0 - count;
     if (searchingListNodes && li && num <= 0) {
       searchingListNodes.current?.scrollTo(0, li.offsetTop);
     }
@@ -359,8 +356,26 @@ const Group = ({ item }: IGroupProps) => {
   };
 
   useEffect(() => {
+    const length = searchPerson?.length;
+
+    if (length && count < 0) {
+      setCount(length - 1);
+      return;
+    }
+
+    if (length && count >= length) {
+      setCount(0);
+      return;
+    }
+
     selectNode(count);
-  }, [count]);
+  }, [searchPerson, count]);
+
+  useEffect(() => {
+    if (searchPerson) {
+      setCount(0);
+    }
+  }, [searchPerson]);
 
   useEffect(() => {
     if (isDelete) {
