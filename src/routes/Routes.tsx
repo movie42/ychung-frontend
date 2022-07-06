@@ -8,6 +8,7 @@ import {
   EducationsUpdate,
   CreateEducation as EducationCreate,
   EducationGroupsDetail,
+  ReportsContainer,
 } from "@/page/Educations";
 import { Join, Login, Logout, Main } from "@/page/Root";
 import { User, UserWorks, UserApplications, UserLike } from "@/page/User";
@@ -100,12 +101,13 @@ function Router() {
         </Route>
       </Route>
       <Route path="/education/groups/:id" element={<EducationGroupsDetail />} />
+
       <Route element={<PrivateRoute />}>
-        <Route path="/education/groups/create" element={<EducationCreate />} />
-        <Route
-          path="/education/groups/:id/update"
-          element={<EducationsUpdate />}
-        />
+        <Route path="/education">
+          <Route path="groups/create" element={<EducationCreate />} />
+          <Route path="groups/:id/update" element={<EducationsUpdate />} />
+          <Route path="groups/report" element={<ReportsContainer />} />
+        </Route>
         <Route path="/notice/create" element={<NoticeCreate />} />
         <Route
           path="/notice/:id/update"
