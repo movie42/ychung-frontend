@@ -38,7 +38,7 @@ export const login = async (req, res) => {
       },
       secret,
       {
-        expiresIn: 60 * 60 * 1000,
+        expiresIn: 24 * 60 * 60 * 1000,
         issuer: process.env.ORIGIN || "http://localhost:4000",
         subject: "access token",
       },
@@ -50,7 +50,7 @@ export const login = async (req, res) => {
       },
       secret,
       {
-        expiresIn: 7 * 60 * 60 * 1000,
+        expiresIn: 7 * 24 * 60 * 60 * 1000,
         issuer: process.env.ORIGIN || "http://localhost:4000",
         subject: "refresh token",
       },
