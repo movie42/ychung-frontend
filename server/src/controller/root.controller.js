@@ -123,7 +123,8 @@ export const postJoin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
   res.clearCookie("_csrf");
   return res.status(200).json({ data: { logout: true } });
 };

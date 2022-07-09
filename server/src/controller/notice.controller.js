@@ -52,6 +52,7 @@ export const patchNoticeData = async (req, res) => {
   } = req;
 
   try {
+    console.log(accessToken);
     const secret = req.app.get("JWT_SECRET");
     const user = jwt.verify(accessToken, secret);
 
