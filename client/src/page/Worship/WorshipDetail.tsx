@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { motion } from "framer-motion";
+import { motion, useElementScroll, useTransform } from "framer-motion";
 import { useParams } from "react-router-dom";
 
 import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
@@ -28,7 +28,7 @@ const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-  background-color: ${(props) => props.theme.color.fontColorWhite};
+  mix-blend-mode: multiply;
 `;
 
 const WorshipGuide = styled.div`
@@ -129,6 +129,15 @@ interface IEducationFetchData {
 }
 
 function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
+  const detailContainerRef = useRef<HTMLDivElement>(null);
+  const infoContainerRef = useRef<HTMLDivElement>(null);
+  const otherInfoContainerRef = useRef<HTMLDivElement>(null);
+  const [topOffset, setTopOffset] = useState(0);
+  const [otherInfoTopOffset, setOtherInfoTopOffset] = useState(0);
+  const { scrollY } = useElementScroll(detailContainerRef);
+  const opacity = useTransform(scrollY, [0, topOffset], [1, 0]);
+  const transform = useTransform(scrollY, [0, topOffset], [0, topOffset - 500]);
+
   const { id } = useParams();
   const [worshipData, setWorshipData] = useRecoilState(worshipDetail);
 
@@ -150,6 +159,20 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   }, []);
 
   useEffect(() => {
+    if (infoContainerRef.current) {
+      setTopOffset(infoContainerRef.current?.offsetTop);
+      console.log(infoContainerRef.current?.offsetTop);
+    }
+  }, [infoContainerRef]);
+
+  useEffect(() => {
+    if (otherInfoContainerRef.current) {
+      console.log(otherInfoContainerRef.current.offsetTop);
+      setOtherInfoTopOffset(otherInfoContainerRef.current.offsetTop);
+    }
+  }, [otherInfoContainerRef]);
+
+  useEffect(() => {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
       window.location.href = `kakaobank://link/`;
     }
@@ -165,8 +188,13 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
         keywords={`양청 주보, 주보, 양정교회 청년부 주보, ${data?.title}`}
       />
       <CopyTextModal text={copyMessage} />
-      <PageDetailModal setDetailItem={setDetailItem}>
-        <WorshipHeader {...data} views={worshipData?.views} />
+
+      <PageDetailModal
+        setDetailItem={setDetailItem}
+        containerRef={detailContainerRef}>
+        <motion.div style={{ opacity, y: transform }}>
+          <WorshipHeader {...data} views={worshipData?.views} />
+        </motion.div>
         <WorshipInfoContainer>
           <WorshipItems>
             <WorshipItem>
@@ -203,32 +231,36 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
             </WorshipItem>
           </WorshipItems>
         </WorshipInfoContainer>
-        <WorshipGuide>
-          <h2>예배 안내</h2>
-          <ul>
-            <li>
-              먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터 앉아주세요.
-            </li>
-            <li>
-              <strong>코로나 방역지침이 완화되었습니다.</strong> 온라인 예배자는
-              출석예배로 전환해 주시고 소그룹 등 교회 활동이 회복되도록
-              노력해주세요.
-            </li>
-            <li>5월22일부터 교회 식당 운영을 재개합니다.</li>
-          </ul>
-          <h2>헌금</h2>
-          <ul>
-            <li>청년부 계좌로 헌금을 할 수 있습니다.</li>
-          </ul>
-          <button
-            onClick={() =>
-              copyText("3511093649103", "계좌번호가 복사되었습니다.")
-            }>
-            <p>계좌번호 농협 351-1093-6491-03</p>
-            <p>복사하려면 클릭하세요</p>
-          </button>
+
+        <WorshipGuide ref={infoContainerRef}>
+          <div>
+            <h2>예배 안내</h2>
+            <ul>
+              <li>
+                먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터 앉아주세요.
+              </li>
+              <li>
+                <strong>코로나 방역지침이 완화되었습니다.</strong> 온라인
+                예배자는 출석예배로 전환해 주시고 소그룹 등 교회 활동이
+                회복되도록 노력해주세요.
+              </li>
+              <li>5월22일부터 교회 식당 운영을 재개합니다.</li>
+            </ul>
+            <h2>헌금</h2>
+            <ul>
+              <li>청년부 계좌로 헌금을 할 수 있습니다.</li>
+            </ul>
+            <button
+              onClick={() =>
+                copyText("3511093649103", "계좌번호가 복사되었습니다.")
+              }>
+              <p>계좌번호 농협 351-1093-6491-03</p>
+              <p>복사하려면 클릭하세요</p>
+            </button>
+          </div>
         </WorshipGuide>
-        <EducationContainer>
+
+        <EducationContainer ref={otherInfoContainerRef}>
           <h1>교육</h1>
           <WorshipEducation />
         </EducationContainer>
