@@ -6,7 +6,6 @@ import helmet from "helmet";
 import { csrfProtection } from "./middleWare";
 import permissionsPolicy from "permissions-policy";
 import cors from "cors";
-import { MongooseError } from "mongoose";
 
 const app = express();
 
@@ -24,7 +23,7 @@ app.use((req, res, next) => {
 const allowList = [
   process.env.CORS_SERVER,
   "https://yangchung.s3.amazonaws.com",
-  "https://www.youtube.com",
+  "https://www.youtube.com"
 ];
 
 const corsOptionDelegate = (req, callback) => {
@@ -50,23 +49,23 @@ app.use(
         "'self'",
         "data:",
         "https:",
-        "https://yangchung.s3.amazonaws.com",
+        "https://yangchung.s3.amazonaws.com"
       ],
       "frame-src": "https://www.youtube.com",
-      "font-src": ["data:", "https:"],
-    },
-  }),
+      "font-src": ["data:", "https:"]
+    }
+  })
 );
 app.use(
   helmet.hsts({
     maxAge: 31536000,
-    preload: true,
-  }),
+    preload: true
+  })
 );
 app.use(
   helmet.frameguard({
-    action: "deny",
-  }),
+    action: "deny"
+  })
 );
 app.use(helmet.xssFilter());
 app.use(
@@ -75,9 +74,9 @@ app.use(
       fullscreen: ["self", '"https://www.youtube.com"'],
       displayCapture: ["self"],
       autoplay: [],
-      camera: [],
-    },
-  }),
+      camera: []
+    }
+  })
 );
 
 app.use((req, res, next) => {

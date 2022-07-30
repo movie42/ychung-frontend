@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 import { SetterOrUpdater, useRecoilState } from "recoil";
@@ -14,15 +14,16 @@ import CopyTextModal from "../../components/Modals/CopyTextModal";
 import {
   checkGodpeopleBibleInstall,
   godpeopleDeepLink,
+  openWebBible,
 } from "../../utils/utilities/bibleDeepLink";
 import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
 import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
 import { useCopyText } from "../../utils/hooks/useCopyText";
 import { useSetView } from "../../utils/hooks/useSetView";
 import SEO from "../../components/SEO/SEO";
-import { previewParagraph } from "../../utils/utilities/previewParagraph";
-import { useGet } from "@/utils/hooks/useGet";
 import WorshipEducation from "./WorshipDetailComponents/WorshipEducation";
+import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import { Button } from "@/components";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -76,6 +77,7 @@ const WorshipItems = styled.ul`
 `;
 
 const WorshipItem = styled.li`
+  position: relative;
   padding: 0.7rem 0;
   display: flex;
   justify-content: space-between;
@@ -110,6 +112,18 @@ const WorshipItem = styled.li`
 `;
 
 const EducationContainer = styled.div``;
+const BibleSelectButtonBox = styled.div`
+  background-color: ${(props) => props.theme.color.background100};
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  z-index: 10;
+  button {
+    margin: 0.5rem 0;
+  }
+`;
 
 const NoticeContainer = styled.div``;
 
@@ -139,6 +153,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const transform = useTransform(scrollY, [0, topOffset], [0, topOffset - 500]);
 
   const { id } = useParams();
+  const [isBibleSelectorOpen, setIsBibleSelectorOpen] = useState(false);
   const [worshipData, setWorshipData] = useRecoilState(worshipDetail);
 
   const countViews = useSetView(
@@ -148,10 +163,20 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const { copyMessage, copyText } = useCopyText();
 
   const handleBibleOpen = () => {
+    setIsBibleSelectorOpen(true);
+  };
+  const handleOpenBibleToMobile = () => {
     if (data) {
       godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
       checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
     }
+    setIsBibleSelectorOpen(false);
+  };
+  const handleOpenBibleToWeb = () => {
+    if (data) {
+      openWebBible(data.word, data.chapter, data.verse);
+    }
+    setIsBibleSelectorOpen(false);
   };
 
   useEffect(() => {
@@ -199,11 +224,25 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
           <WorshipItems>
             <WorshipItem>
               <span>본문</span>
-              <button onClick={handleBibleOpen}>
+              <button
+                onClick={handleBibleOpen}
+                style={{
+                  visibility: isBibleSelectorOpen ? "hidden" : "visible",
+                }}>
                 {`${data?.word && chapterNameTransferFromEngToKr(data?.word)} `}
                 {data?.chapter}장 {data?.verse}
                 {data?.verse_end && `~ ${data?.verse_end}`}절
               </button>
+              {isBibleSelectorOpen && (
+                <>
+                  <BibleSelectButtonBox>
+                    <button onClick={handleOpenBibleToMobile}>
+                      갓피플 성경
+                    </button>
+                    <button onClick={handleOpenBibleToWeb}>웹</button>
+                  </BibleSelectButtonBox>
+                </>
+              )}
             </WorshipItem>
             <WorshipItem>
               <span>강론</span>
