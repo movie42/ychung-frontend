@@ -44,7 +44,7 @@ function Notice() {
     isLoading,
     data: notices,
   } = useGet<INoticeInterface[]>({
-    url: `/api/notice`,
+    url: `/api/notice?offset=0&limit=9`,
     queryKey: "notice",
   });
 
@@ -76,6 +76,9 @@ function Notice() {
           <Wrapper>
             <NoticeComponentInfoContainer>
               <h1>공지사항</h1>
+              <form>
+                <input type="text" placeholder="검색 할 내용을 입력해주세요." />
+              </form>
               {isLogin && (
                 <Link to={"/notice/create"}>
                   <AiFillPlusCircle />
