@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { Blog, BlogCreate, BlogUpdate, BlogDetail } from "@/page/Blog";
@@ -25,31 +25,42 @@ import {
   NoticeUpdate,
 } from "@/page/Notice";
 
-import Search from "../page/Search/Search";
-import PrivateRoute from "./PrivateRoute";
+import {
+  Documents,
+  Rules,
+  RulesDetail,
+  Menuel,
+  MenuelDetail,
+  Account,
+  AccountDetail,
+  Application,
+  ApplicationDetail,
+} from "@/page/Document";
 
-import { notice, noticeModalControler } from "../state/notice.atom";
-import { blog, blogModalControler } from "../state/blog.atom";
-import { worshipDetail, worshipModalControler } from "../state/worship.atom";
+import { Search } from "@/page/Search";
 
-import Documents from "../page/Document/Documents";
-import Rules from "../page/Document/Rules/Rules";
-import RulesDetail from "../page/Document/Rules/RulesDetail";
-import Menuel from "../page/Document/Menuel/Menuel";
-import MenuelDetail from "../page/Document/Menuel/MenuelDetail";
-import Account from "../page/Document/Account/Account";
-import AccountDetail from "../page/Document/Account/AccountDetail";
-import Application from "../page/Document/Application/Application";
-import ApplicationDetail from "../page/Document/Application/ApplicationDetail";
+import {
+  loginState,
+  notice,
+  noticeModalControler,
+  blog,
+  blogModalControler,
+  worshipDetail,
+  worshipModalControler,
+} from "@/state";
+
+import ProtectRouter from "./ProtectRouter";
+import { PageNotFound } from "@/page/Errors";
 
 function Router() {
   const location = useLocation();
+  const { userId } = useParams();
+
+  const { isLogin, authority, _id } = useRecoilValue(loginState);
   const noticeItem = useRecoilValue(notice);
   const setNoticeModalState = useSetRecoilState(noticeModalControler);
-
   const blogItem = useRecoilValue(blog);
   const setBlogModalState = useSetRecoilState(blogModalControler);
-
   const weeklyItem = useRecoilValue(worshipDetail);
   const setWeeklyModalState = useSetRecoilState(worshipModalControler);
   return (
@@ -101,8 +112,11 @@ function Router() {
         </Route>
       </Route>
       <Route path="/education/groups/:id" element={<EducationGroupsDetail />} />
-
-      <Route element={<PrivateRoute />}>
+      <Route path="/search" element={<Search />} />
+      <Route
+        element={
+          <ProtectRouter isAllow={isLogin && authority < 3} redirectPath="/" />
+        }>
         <Route path="/education">
           <Route path="groups/create" element={<EducationCreate />} />
           <Route path="groups/:id/update" element={<EducationsUpdate />} />
@@ -123,19 +137,31 @@ function Router() {
           path="/blog/:id/update"
           element={<BlogUpdate data={blogItem} />}
         />
-        <Route path="/user/:id" element={<User />} />
-        <Route path="/user/:id/works" element={<UserWorks />} />
-        <Route path="/user/:id/applications" element={<UserApplications />} />
-        <Route path="/user/:id/like" element={<UserLike />} />
+      </Route>
+      <Route
+        element={
+          <ProtectRouter isAllow={isLogin && _id === userId} redirectPath="/" />
+        }>
+        <Route path="/user/:userId" element={<User />} />
+        <Route path="/user/:userId/works" element={<UserWorks />} />
+        <Route
+          path="/user/:userId/applications"
+          element={<UserApplications />}
+        />
+        <Route path="/user/:userId/like" element={<UserLike />} />
+      </Route>
+
+      <Route
+        element={<ProtectRouter isAllow={isLogin} redirectPath="/login" />}>
         <Route path="/logout" element={<Logout />} />
       </Route>
-      <Route path="/search" element={<Search />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/join" element={<Join />} />
-      <Route
-        path="*"
-        element={<p>보여줄게 아무것도 없네요. URL을 다시 입력해보세요.</p>}
-      />
+
+      <Route element={<ProtectRouter isAllow={!isLogin} redirectPath="/" />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/join" element={<Join />} />
+      </Route>
+
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }
