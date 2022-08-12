@@ -11,7 +11,7 @@ export const authCSRFToken = (req, res) => {
 
 export const login = async (req, res) => {
   const {
-    body: { email, password },
+    body: { email, password }
   } = req;
 
   try {
@@ -34,26 +34,26 @@ export const login = async (req, res) => {
       {
         _id: user._id,
         email: user.email,
-        authority: user.authority,
+        authority: user.authority
       },
       secret,
       {
         expiresIn: 24 * 60 * 60 * 1000,
         issuer: process.env.ORIGIN || "http://localhost:4000",
-        subject: "access token",
-      },
+        subject: "access token"
+      }
     );
 
     const refreshToken = await jwt.sign(
       {
-        _id: user.id,
+        _id: user.id
       },
       secret,
       {
         expiresIn: 7 * 24 * 60 * 60 * 1000,
         issuer: process.env.ORIGIN || "http://localhost:4000",
-        subject: "refresh token",
-      },
+        subject: "refresh token"
+      }
     );
 
     if (!accessToken && !refreshToken) {
@@ -63,13 +63,13 @@ export const login = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       path: "/",
       httpOnly: true,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000
     });
 
     res.cookie("refreshToken", refreshToken, {
       path: "/",
       httpOnly: true,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     return res.status(200).json({
@@ -77,8 +77,8 @@ export const login = async (req, res) => {
         isLogin: true,
         _id: user._id,
         email: user.email,
-        authority: user.authority,
-      },
+        authority: user.authority
+      }
     });
   } catch (e) {
     console.log(e);
@@ -88,23 +88,23 @@ export const login = async (req, res) => {
 
 export const postJoin = async (req, res) => {
   const {
-    body: { email, name, userName, password, password2 },
+    body: { email, name, userName, password, password2 }
   } = req;
 
   try {
     const exists = await User.exists({
-      $or: [{ userName }, { email }],
+      $or: [{ userName }, { email }]
     });
 
     if (exists) {
       return res.status(400).json({
-        message: "이미 존재하는 회원입니다.",
+        message: "이미 존재하는 회원입니다."
       });
     }
 
     if (password !== password2) {
       return res.status(400).json({
-        message: "패스워드가 올바르지 않습니다.",
+        message: "패스워드가 올바르지 않습니다."
       });
     }
 
@@ -112,7 +112,7 @@ export const postJoin = async (req, res) => {
       email,
       userName,
       name,
-      password,
+      password
     });
 
     return res.status(200).json({ data: { success: "ok" } });
@@ -135,13 +135,13 @@ export const search = async (req, res) => {
   try {
     if (keyword) {
       const qtData = await QT.find({
-        title: new RegExp(keyword, "ig"),
+        title: new RegExp(keyword, "ig")
       });
       const weeklyData = await Weekly.find({
-        title: new RegExp(keyword, "ig"),
+        title: new RegExp(keyword, "ig")
       });
       const noticeData = await Notice.find({
-        title: new RegExp(keyword, "ig"),
+        title: new RegExp(keyword, "ig")
       });
       data.push(qtData);
       data.push(weeklyData);
@@ -150,13 +150,13 @@ export const search = async (req, res) => {
     return res.render("root/search", {
       pageTitle: keyword,
       keyword,
-      data,
+      data
     });
   } catch (e) {
     console.log(e);
     return res.status(400).render("root/join", {
       pageTitle: "회원가입",
-      errorMessage: "회원가입을 완료할 수 없습니다",
+      errorMessage: "회원가입을 완료할 수 없습니다"
     });
   }
 };
