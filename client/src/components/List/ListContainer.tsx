@@ -1,5 +1,7 @@
-import React from "react";
+import { AnimatePresence } from "framer-motion";
+import React, { ReactElement, useEffect, useState } from "react";
 import styled from "styled-components";
+import SkeletonForListContainer from "../Loading/Skeletons/SkeletonForListContainer";
 
 const List = styled.ul`
   display: grid;
@@ -14,15 +16,36 @@ const List = styled.ul`
 
 interface IListComponentProps<T>
   extends React.HTMLAttributes<HTMLUListElement> {
+  isLoading: boolean;
   data: T[];
   renderFunc: (item: T) => React.ReactNode;
+  skeletonRenderFunc: () => ReactElement;
 }
 
 const ListContainer = <T extends unknown>({
+  isLoading,
   data,
   renderFunc,
+  skeletonRenderFunc,
 }: IListComponentProps<T>) => {
-  return <List>{data.map(renderFunc)}</List>;
+  const [isSkeleton, setIsSkeleton] = useState(true);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (!isLoading) {
+      timer = setTimeout(() => setIsSkeleton(false), 1500);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+  return isSkeleton ? (
+    <AnimatePresence>
+      <SkeletonForListContainer amount={6} renderFunc={skeletonRenderFunc} />
+    </AnimatePresence>
+  ) : (
+    <List>{data.map(renderFunc)}</List>
+  );
 };
 
 export default ListContainer;

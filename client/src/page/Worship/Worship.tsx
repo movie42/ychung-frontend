@@ -10,7 +10,9 @@ import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
 import { useGet } from "../../utils/hooks/useGet";
 
-import { Loading, SEO } from "@/components";
+import { ListContainer, Loading, SEO } from "@/components";
+import SkeletonForListContainer from "@/components/Loading/Skeletons/SkeletonForListContainer";
+import SkeletonForWorshipItem from "@/components/Loading/Skeletons/SkeletonForWorshipItem";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -30,16 +32,16 @@ const WeeklyComponentInfoContainer = styled.div`
   }
 `;
 
-const ListContainer = styled.ul`
-  display: grid;
-  grid-auto-rows: minmax(30rem, auto);
-  margin: 0;
-  @media (min-width: ${(props) => props.theme.screen.labtop}) {
-    grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
-    gap: 1.5rem;
-  }
-  padding: 0;
-`;
+// const ListContainer = styled.ul`
+//   display: grid;
+//   grid-auto-rows: minmax(30rem, auto);
+//   margin: 0;
+//   @media (min-width: ${(props) => props.theme.screen.labtop}) {
+//     grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
+//     gap: 1.5rem;
+//   }
+//   padding: 0;
+// `;
 
 function Worship() {
   const { isLogin } = useRecoilValue(loginState);
@@ -80,25 +82,28 @@ function Worship() {
   return (
     <>
       <SEO title="주보" keywords="양청 주보, 주보, 양정교회 청년부 주보" />
-      {<AnimatePresence>{isLoading && <Loading />}</AnimatePresence>}
-      {!isLoading && (
-        <Wrapper>
-          <WeeklyComponentInfoContainer>
-            <h1>주보</h1>
-            {isLogin && (
-              <Link to="/worship/create">
-                <AiFillPlusCircle />
-              </Link>
-            )}
-          </WeeklyComponentInfoContainer>
-          <ListContainer>
-            {weeklies?.map((item: IWorshipItems) => (
+
+      <Wrapper>
+        <WeeklyComponentInfoContainer>
+          <h1>주보</h1>
+          {isLogin && (
+            <Link to="/worship/create">
+              <AiFillPlusCircle />
+            </Link>
+          )}
+        </WeeklyComponentInfoContainer>
+        {weeklies && (
+          <ListContainer
+            isLoading={isLoading && isRefetching}
+            data={weeklies}
+            renderFunc={(item: IWorshipItems) => (
               <WorshipItem key={item?._id} worship={item} onClick={onClick} />
-            ))}
-          </ListContainer>
-          <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>
-        </Wrapper>
-      )}
+            )}
+            skeletonRenderFunc={() => <SkeletonForWorshipItem />}
+          />
+        )}
+        <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>
+      </Wrapper>
     </>
   );
 }
