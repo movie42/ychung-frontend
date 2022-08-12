@@ -11,6 +11,7 @@ import { IBlogItems } from "../../state/blog.atom";
 import { useGet } from "../../utils/hooks/useGet";
 
 import { Loading, ListItem, ListContainer, SEO } from "@/components";
+import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -69,30 +70,27 @@ function Blog() {
         title="블로그"
         keywords="블로그, 양정교회 청년부 블로그, 양청 블로그"
       />
-      {<AnimatePresence>{isLoading && <Loading />}</AnimatePresence>}
-      {!isLoading && (
-        <Wrapper>
-          <BlogComponentInfoContainer>
-            <h1>블로그</h1>
-            {isLogin && (
-              <Link to={"/blog/create"}>
-                <AiFillPlusCircle />
-              </Link>
-            )}
-          </BlogComponentInfoContainer>
-
-          {posts && (
-            <ListContainer
-              data={posts}
-              renderFunc={(item) => (
-                <ListItem data={item} onClick={() => onClick(item._id)} />
-              )}
-            />
+      <Wrapper>
+        <BlogComponentInfoContainer>
+          <h1>블로그</h1>
+          {isLogin && (
+            <Link to={"/blog/create"}>
+              <AiFillPlusCircle />
+            </Link>
           )}
-
-          <AnimatePresence>{blogModalState && <Outlet />}</AnimatePresence>
-        </Wrapper>
-      )}
+        </BlogComponentInfoContainer>
+        {posts && (
+          <ListContainer
+            isLoading={isLoading && isRefetching}
+            data={posts}
+            renderFunc={(item) => (
+              <ListItem data={item} onClick={() => onClick(item._id)} />
+            )}
+            skeletonRenderFunc={() => <SkeletonForListItem />}
+          />
+        )}
+        <AnimatePresence>{blogModalState && <Outlet />}</AnimatePresence>
+      </Wrapper>
     </>
   );
 }

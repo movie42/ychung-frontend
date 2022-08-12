@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,6 +10,8 @@ import { INoticeInterface } from "@/state/notice.atom";
 import { useGet } from "@/utils/hooks/useGet";
 
 import { Loading, ListContainer, ListItem, SEO } from "@/components";
+import SkeletonForListContainer from "@/components/Loading/Skeletons/SkeletonForListContainer";
+import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -33,6 +35,7 @@ const NoticeComponentInfoContainer = styled.div`
 
 function Notice() {
   const { id } = useParams();
+
   const { isLogin } = useRecoilValue(loginState);
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
@@ -70,33 +73,31 @@ function Notice() {
         title="공지사항"
         keywords="공지, 공지사항, 양청 공지사항, 양정교회 청년부 공지사항"
       />
-      <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
-      {!isLoading && (
-        <NoticeListContainer>
-          <Wrapper>
-            <NoticeComponentInfoContainer>
-              <h1>공지사항</h1>
-              <form>
-                <input type="text" placeholder="검색 할 내용을 입력해주세요." />
-              </form>
-              {isLogin && (
-                <Link to={"/notice/create"}>
-                  <AiFillPlusCircle />
-                </Link>
-              )}
-            </NoticeComponentInfoContainer>
+      <NoticeListContainer>
+        <Wrapper>
+          <NoticeComponentInfoContainer>
+            <h1>공지사항</h1>
+            {isLogin && (
+              <Link to={"/notice/create"}>
+                <AiFillPlusCircle />
+              </Link>
+            )}
+          </NoticeComponentInfoContainer>
+          <>
             {notices && (
               <ListContainer
+                isLoading={isLoading && isRefetching}
                 data={notices}
                 renderFunc={(item) => (
                   <ListItem data={item} onClick={() => onClick(item._id)} />
                 )}
+                skeletonRenderFunc={() => <SkeletonForListItem />}
               />
             )}
-          </Wrapper>
-          <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
-        </NoticeListContainer>
-      )}
+          </>
+        </Wrapper>
+        <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
+      </NoticeListContainer>
     </>
   );
 }

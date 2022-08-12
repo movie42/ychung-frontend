@@ -87,6 +87,8 @@ const ItemDetailContainer = styled.div`
     border-radius: 0.5rem 0.5rem 0 0;
     img {
       width: 100%;
+      height: 30rem;
+      object-fit: cover;
     }
   }
   .title-paragraph-container {
