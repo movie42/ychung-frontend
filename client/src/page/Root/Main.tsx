@@ -227,6 +227,11 @@ function Main() {
           <div>
             <a
               target="_blank"
+              href="https://y-chung.com/education/groups/62bea674277e55cadb03fce6">
+              소그룹 함께 하기
+            </a>
+            <a
+              target="_blank"
               href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
               동아리 신청하기
             </a>
