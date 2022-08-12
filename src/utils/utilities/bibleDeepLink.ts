@@ -155,10 +155,10 @@ export const checkGodpeopleBibleInstall = (
       return;
     }
 
-    if (window.confirm("웹으로 성경을 보여드려요?")) {
-      window.location.href = createBibleLink(word, chapter, verse);
-    }
-
     clearTimers();
   };
+};
+
+export const openWebBible = (word: string, chapter: number, verse: number) => {
+  window.location.href = createBibleLink(word, chapter, verse);
 };

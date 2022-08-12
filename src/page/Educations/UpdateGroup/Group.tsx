@@ -20,6 +20,7 @@ import useDelete from "../../../utils/hooks/useDelete";
 import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
 import { useDebouncedEffect } from "../../../utils/hooks/useDebouncedEffect";
 import { useRecoilState } from "recoil";
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -180,6 +181,12 @@ interface SendPeople {
   name?: string;
   type?: "student" | "worker" | "new" | "etc";
 }
+interface Form {
+  name?: string;
+  type?: "student" | "worker" | "new" | "etc";
+  place?: string;
+  groupName?: string;
+}
 
 const Group = ({ item }: IGroupProps) => {
   const searchingListNodes = useRef<HTMLUListElement>(null);
@@ -195,12 +202,8 @@ const Group = ({ item }: IGroupProps) => {
     reset,
     formState: { errors },
     setError,
-  } = useForm<{
-    name?: string;
-    type?: "student" | "worker" | "new" | "etc";
-    place?: string;
-    groupName?: string;
-  }>();
+  } = useForm<Form>();
+
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
   const [searchPerson, setSearchPerson] = useState<People[] | null>();
@@ -261,13 +264,12 @@ const Group = ({ item }: IGroupProps) => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
     reset({ name: "" });
     setSearchPersonName("");
+    setSearchPerson([]);
   };
 
   const deleteGroup = () => {
     setIsConfirmModal(true);
   };
-
-  const handleSearchBox = () => {};
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
     if (selectedNodeId && searchPerson && searchPerson.length !== 0) {
@@ -275,6 +277,10 @@ const Group = ({ item }: IGroupProps) => {
         (value) => value._id === selectedNodeId
       );
       selectItem(item);
+      setIsOpenPeopleInput(!isOpenPeopleInput);
+      reset({ name: "" });
+      setSearchPersonName("");
+      setSearchPerson([]);
       return;
     }
 
@@ -295,7 +301,10 @@ const Group = ({ item }: IGroupProps) => {
         },
       }
     );
-    reset();
+    setIsOpenPeopleInput(!isOpenPeopleInput);
+    reset({ name: "" });
+    setSearchPersonName("");
+    setSearchPerson([]);
   });
 
   const onSubmitUpdateGroupName = handleSubmit((data) => {
@@ -323,12 +332,18 @@ const Group = ({ item }: IGroupProps) => {
     reset({ name: "" });
   };
 
-  const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const handleSearchBoxWithKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowUp") {
-      setCount((pre) => pre - 1);
+      setCount(count - 1);
     }
+
     if (e.key === "ArrowDown") {
-      setCount((pre) => pre + 1);
+      setCount(count + 1);
+    }
+
+    if (e.key === "Escape") {
+      setSearchPerson([]);
+      setIsOpenPeopleInput(false);
     }
   };
 
@@ -356,26 +371,20 @@ const Group = ({ item }: IGroupProps) => {
   };
 
   useEffect(() => {
-    const length = searchPerson?.length;
+    const length = searchPerson?.length as number;
 
-    if (length && count < 0) {
+    if (count < 0) {
       setCount(length - 1);
       return;
     }
 
-    if (length && count >= length) {
+    if (count >= length) {
       setCount(0);
       return;
     }
 
     selectNode(count);
-  }, [searchPerson, count]);
-
-  useEffect(() => {
-    if (searchPerson) {
-      setCount(0);
-    }
-  }, [searchPerson]);
+  }, [searchPerson, count, setCount]);
 
   useEffect(() => {
     if (isDelete) {
@@ -391,7 +400,7 @@ const Group = ({ item }: IGroupProps) => {
     const timeout = setTimeout(() => setSearchingBoxError(false), 3000);
     return () => clearTimeout(timeout);
   }, [isSearchingBoxError, setSearchingBoxError]);
-
+  const personName = useRef<HTMLInputElement>(null);
   return (
     <>
       {isConfirmModal && (
@@ -464,20 +473,18 @@ const Group = ({ item }: IGroupProps) => {
         </Header>
         {isOpenPeopleInput && (
           <>
-            <Form
-              onSubmit={onSubmitNewPeopleName}
-              onKeyDown={(e) => handleSearchBoxWithKey(e)}>
+            <Form onSubmit={onSubmitNewPeopleName}>
               <input
                 id="name"
                 placeholder="이름을 적고 엔터!"
                 type="text"
                 value={searchPersonName}
                 autoComplete="off"
-                onClick={handleSearchBox}
                 {...register("name", {
                   required: "이름을 꼭 입력해야합니다.",
                   onChange: handleSearch,
                 })}
+                onKeyDown={(e) => handleSearchBoxWithKey(e)}
               />
 
               {searchPerson?.length === 0 ? (

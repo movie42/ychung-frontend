@@ -1,6 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import {
+  HTMLMotionProps,
+  motion,
+  useElementScroll,
+  useViewportScroll,
+} from "framer-motion";
 import { SetterOrUpdater } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -58,11 +63,19 @@ const DetailContainer = styled(motion.div)`
   }
 `;
 
+type HtmlElementsTypes = HTMLMotionProps<"div"> &
+  React.HTMLAttributes<HTMLDivElement>;
+
 interface IPageDetailModal extends React.HTMLAttributes<HTMLDivElement> {
   setDetailItem: SetterOrUpdater<boolean>;
+  containerRef?: React.Ref<HTMLDivElement>;
 }
 
-function PageDetailModal({ setDetailItem, children }: IPageDetailModal) {
+function PageDetailModal({
+  setDetailItem,
+  containerRef,
+  ...props
+}: IPageDetailModal) {
   const navigate = useNavigate();
   const location = useLocation();
   const modalHandler = () => {
@@ -82,7 +95,9 @@ function PageDetailModal({ setDetailItem, children }: IPageDetailModal) {
 
   return (
     <Wrapper variants={opacity} initial="initial" animate="enter" exit="exit">
-      <DetailContainer variants={movingCard}>{children}</DetailContainer>
+      <DetailContainer ref={containerRef} variants={movingCard}>
+        {props.children}
+      </DetailContainer>
       <ModalBackground onClick={modalHandler} />
     </Wrapper>
   );

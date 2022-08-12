@@ -115,7 +115,6 @@ interface WorshipItems {
 
 function WorshipItem({ worship, onClick }: WorshipItems) {
   const { _id, title, creator, views, createdAt } = worship;
-  console.log(createdAt);
 
   return (
     <ListItem onClick={() => onClick(_id)}>
