@@ -1,6 +1,6 @@
 import React from "react";
 import { QueryKey, useQuery, UseQueryOptions } from "react-query";
-import { SetterOrUpdater } from "recoil";
+
 import { getRequest } from "../utilities/httpMethod";
 
 interface IFetchProps<T>

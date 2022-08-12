@@ -1,16 +1,16 @@
 import { atom } from "recoil";
 
 export interface LoginProps {
-  isLogin?: boolean;
+  isLogin: boolean;
   _id: string;
-  authority: string;
+  authority: number;
   email: string;
 }
 
 const defaultValue = {
   isLogin: false,
   _id: "",
-  authority: "",
+  authority: 20,
   email: "",
 };
 
