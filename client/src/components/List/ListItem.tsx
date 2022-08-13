@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { calculateDate } from "../../utils/utilities/calculateDate";
@@ -6,6 +6,7 @@ import { calculateDate } from "../../utils/utilities/calculateDate";
 import { HiUser } from "react-icons/hi";
 import { previewParagraph } from "../../utils/utilities/previewParagraph";
 import { imageParser } from "../../utils/utilities/imageParser";
+import SkeletonForListItem from "../Loading/Skeletons/SkeletonForListItem";
 
 const Item = styled.li`
   width: 100%;
@@ -146,14 +147,31 @@ const ListItem = <T extends UnkownType>({ data, ...rest }: IItemProps<T>) => {
     views,
     createdAt,
   } = data;
+  const [imageSrc, setImageSrc] = useState<string | null>("");
+  const [isLoading, setIsLaoding] = useState(true);
 
-  return (
+  useEffect(() => {
+    setImageSrc(() => imageParser(paragraph));
+  }, []);
+
+  useEffect(() => {
+    if (!imageSrc) {
+      setIsLaoding(false);
+    }
+  }, [imageSrc, setIsLaoding]);
+
+  return !isLoading ? (
     <Item {...rest}>
       <Link to={`${_id}`}>
         <ItemDetailContainer>
-          {imageParser(paragraph) !== null && (
+          {imageSrc !== null && (
             <div className="thumnail-container">
-              <img src={`${imageParser(paragraph)}`} />
+              <img
+                src={imageSrc}
+                onLoad={() => {
+                  setIsLaoding(false);
+                }}
+              />
             </div>
           )}
           <div className="title-paragraph-container">
@@ -180,6 +198,8 @@ const ListItem = <T extends UnkownType>({ data, ...rest }: IItemProps<T>) => {
         </PostInfoContainer>
       </Link>
     </Item>
+  ) : (
+    <SkeletonForListItem />
   );
 };
 
