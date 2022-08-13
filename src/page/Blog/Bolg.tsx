@@ -84,9 +84,15 @@ function Blog() {
             isLoading={isLoading && isRefetching}
             data={posts}
             renderFunc={(item) => (
-              <ListItem data={item} onClick={() => onClick(item._id)} />
+              <ListItem
+                key={item._id}
+                data={item}
+                onClick={() => onClick(item._id)}
+              />
             )}
-            skeletonRenderFunc={() => <SkeletonForListItem />}
+            skeletonRenderFunc={(item: number[], index: number) => (
+              <SkeletonForListItem key={index} />
+            )}
           />
         )}
         <AnimatePresence>{blogModalState && <Outlet />}</AnimatePresence>

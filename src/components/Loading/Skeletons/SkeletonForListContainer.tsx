@@ -14,14 +14,15 @@ const Wrapper = styled.ul`
 
 interface ISkeletonForListContainerProps<T> {
   amount: number;
-  renderFunc: (item: T) => React.ReactNode;
+  renderFunc: (value: T, index: number, array: T[]) => React.ReactNode;
 }
 
 const SkeletonForListContainer = <T extends unknown>({
   amount,
   renderFunc,
 }: ISkeletonForListContainerProps<T>) => {
-  const [state, setState] = useState<any>([]);
+  const [state, setState] = useState<T[]>([]);
+
   useEffect(() => {
     const array = new Array(amount).fill(1);
     setState(array);

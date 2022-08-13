@@ -14,20 +14,20 @@ const List = styled.ul`
   padding: 0;
 `;
 
-interface IListComponentProps<T>
+interface IListComponentProps<T, V>
   extends React.HTMLAttributes<HTMLUListElement> {
   isLoading: boolean;
   data: T[];
   renderFunc: (item: T) => React.ReactNode;
-  skeletonRenderFunc: () => ReactElement;
+  skeletonRenderFunc: (value: V, index: number, array: V[]) => React.ReactNode;
 }
 
-const ListContainer = <T extends unknown>({
+const ListContainer = <T, V extends unknown>({
   isLoading,
   data,
   renderFunc,
   skeletonRenderFunc,
-}: IListComponentProps<T>) => {
+}: IListComponentProps<T, V>) => {
   const [isSkeleton, setIsSkeleton] = useState(true);
 
   useEffect(() => {
@@ -40,9 +40,7 @@ const ListContainer = <T extends unknown>({
   }, [isLoading]);
 
   return isSkeleton ? (
-    <AnimatePresence>
-      <SkeletonForListContainer amount={6} renderFunc={skeletonRenderFunc} />
-    </AnimatePresence>
+    <SkeletonForListContainer amount={6} renderFunc={skeletonRenderFunc} />
   ) : (
     <List>{data.map(renderFunc)}</List>
   );
