@@ -1,9 +1,0 @@
-{
-  "ignore": [
-    "webpack.config.js",
-    "./src/assets/*",
-    ".git",
-    "node_modules/**/node_moduels"
-  ],
-  "exec": "babel-node ./src/server.js"
-}
