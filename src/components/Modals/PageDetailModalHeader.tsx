@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { calculateDate } from "../../utils/utilities/calculateDate";
+import { calculateDate } from "../../lib/utils/utilities/calculateDate";
 
 const HeadInfoContainer = styled.div`
   box-sizing: border-box;

@@ -15,14 +15,14 @@ import {
   checkGodpeopleBibleInstall,
   godpeopleDeepLink,
   openWebBible,
-} from "../../utils/utilities/bibleDeepLink";
-import { chapterNameTransferFromEngToKr } from "../../utils/utilities/chapterNameTransferFromEngToKr";
+} from "../../lib/utils/utilities/bibleDeepLink";
+import { chapterNameTransferFromEngToKr } from "../../lib/utils/utilities/chapterNameTransferFromEngToKr";
 import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
-import { useCopyText } from "../../utils/hooks/useCopyText";
-import { useSetView } from "../../utils/hooks/useSetView";
+import { useCopyText } from "../../lib/utils/hooks/useCopyText";
+import { useSetView } from "../../lib/utils/hooks/useSetView";
 import SEO from "../../components/SEO/SEO";
 import WorshipEducation from "./WorshipDetailComponents/WorshipEducation";
-import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
 import { Button } from "@/components";
 
 const WorshipInfoContainer = styled(motion.div)`

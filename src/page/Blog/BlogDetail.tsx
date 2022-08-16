@@ -6,10 +6,10 @@ import { MdDelete } from "react-icons/md";
 
 import { useLocation, useNavigate, useParams } from "react-router";
 import { loginState } from "../../state/Authrization";
-import { useSetView } from "../../utils/hooks/useSetView";
+import { useSetView } from "../../lib/utils/hooks/useSetView";
 import { blog, IBlogItems } from "../../state/blog.atom";
-import useDelete from "../../utils/hooks/useDelete";
-import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import useDelete from "../../lib/utils/hooks/useDelete";
+import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
 
 import {
   Button,

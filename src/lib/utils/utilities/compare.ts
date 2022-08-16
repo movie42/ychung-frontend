@@ -1,4 +1,4 @@
-import { Group } from "../../state/educationGroup.atom";
+import { Group } from "../../../state/educationGroup.atom";
 
 export const compare = (a: Group, b: Group): number => {
   // if (a.id > b.id) {

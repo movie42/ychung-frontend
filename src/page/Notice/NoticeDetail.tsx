@@ -6,9 +6,9 @@ import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loginState } from "../../state/Authrization";
 import { INoticeInterface, notice } from "../../state/notice.atom";
-import { useSetView } from "../../utils/hooks/useSetView";
-import useDelete from "../../utils/hooks/useDelete";
-import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import { useSetView } from "../../lib/utils/hooks/useSetView";
+import useDelete from "../../lib/utils/hooks/useDelete";
+import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
 
 import {
   PageDetailModal,

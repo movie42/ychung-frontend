@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { worshipDetail, worshipModalControler } from "../../state/worship.atom";
 import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
-import { useGet } from "../../utils/hooks/useGet";
+import { useGet } from "../../lib/utils/hooks/useGet";
 
 import { ListContainer, Loading, SEO } from "@/components";
 import SkeletonForListContainer from "@/components/Loading/Skeletons/SkeletonForListContainer";

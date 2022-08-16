@@ -7,11 +7,11 @@ import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/components";
 
 import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
-import usePostOrPatch from "../../../utils/hooks/usePost";
-import { useGet } from "../../../utils/hooks/useGet";
+import usePostOrPatch from "../../../lib/utils/hooks/usePost";
+import { useGet } from "../../../lib/utils/hooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
 import { MdDelete } from "react-icons/md";
-import useDelete from "@/utils/hooks/useDelete";
+import useDelete from "@/lib/utils/hooks/useDelete";
 import { useQueryClient } from "react-query";
 
 const Wrapper = styled.div`

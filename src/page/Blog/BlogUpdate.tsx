@@ -5,7 +5,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
-import usePostOrPatch from "../../utils/hooks/usePost";
+import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "../../lib/interface";
 
 import { Editor, SEO } from "@/components";

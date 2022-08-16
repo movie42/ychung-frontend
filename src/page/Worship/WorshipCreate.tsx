@@ -5,7 +5,7 @@ import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 import { BIBLE_DATA_SET } from "../../bible";
-import usePostOrPatch from "../../utils/hooks/usePost";
+import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import FormItem from "../../components/Form/FormItem";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";

@@ -13,12 +13,12 @@ import {
   countState,
 } from "../../../state/educationGroup.atom";
 
-import usePostOrPatch from "../../../utils/hooks/usePost";
-import { useGet } from "../../../utils/hooks/useGet";
+import usePostOrPatch from "../../../lib/utils/hooks/usePost";
+import { useGet } from "../../../lib/utils/hooks/useGet";
 import { FetchDataProps } from "../../../lib/interface";
-import useDelete from "../../../utils/hooks/useDelete";
-import { translateEducationTypeNameToKR } from "../../../utils/utilities/translateEducationTypeNameToKR";
-import { useDebouncedEffect } from "../../../utils/hooks/useDebouncedEffect";
+import useDelete from "../../../lib/utils/hooks/useDelete";
+import { translateEducationTypeNameToKR } from "../../../lib/utils/utilities/translateEducationTypeNameToKR";
+import { useDebouncedEffect } from "../../../lib/utils/hooks/useDebouncedEffect";
 import { useRecoilState } from "recoil";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 

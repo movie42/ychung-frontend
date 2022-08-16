@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Editor, SEO } from "@/components";
 
-import usePostOrPatch from "../../utils/hooks/usePost";
+import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "../../lib/interface";
 import { IBlogItems } from "../../state/blog.atom";
 

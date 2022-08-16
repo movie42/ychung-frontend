@@ -10,11 +10,11 @@ import {
   MdDragHandle,
   MdEdit,
 } from "react-icons/md";
-import usePostOrPatch from "../../../../utils/hooks/usePost";
+import usePostOrPatch from "../../../../lib/utils/hooks/usePost";
 import { QueryClient, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import useDelete from "../../../../utils/hooks/useDelete";
-import { useGet } from "../../../../utils/hooks/useGet";
+import useDelete from "../../../../lib/utils/hooks/useDelete";
+import { useGet } from "../../../../lib/utils/hooks/useGet";
 
 import { ConfirmDeleteModal } from "@/components";
 

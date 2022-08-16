@@ -11,11 +11,11 @@ import {
   Group as GroupProps,
   GroupInfo,
 } from "../../../state/educationGroup.atom";
-import { compare } from "../../../utils/utilities/compare";
+import { compare } from "../../../lib/utils/utilities/compare";
 import { useForm } from "react-hook-form";
-import usePostOrPatch from "../../../utils/hooks/usePost";
+import usePostOrPatch from "../../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "../../../lib/interface";
-import { useGet } from "../../../utils/hooks/useGet";
+import { useGet } from "../../../lib/utils/hooks/useGet";
 import { useParams } from "react-router";
 import { useQueryClient } from "react-query";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";

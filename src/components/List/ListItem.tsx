@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { calculateDate } from "../../utils/utilities/calculateDate";
+import { calculateDate } from "../../lib/utils/utilities/calculateDate";
 
 import { HiUser } from "react-icons/hi";
-import { previewParagraph } from "../../utils/utilities/previewParagraph";
-import { imageParser } from "../../utils/utilities/imageParser";
+import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
+import { imageParser } from "../../lib/utils/utilities/imageParser";
 import SkeletonForListItem from "../Loading/Skeletons/SkeletonForListItem";
 
 const Item = styled.li`

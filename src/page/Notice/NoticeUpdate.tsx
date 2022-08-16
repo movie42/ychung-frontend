@@ -5,9 +5,9 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 
 import { useNavigate } from "react-router-dom";
-import { currentDate } from "../../utils/utilities/calenderHelper";
-import usePostOrPatch from "../../utils/hooks/usePost";
-import { previewParagraph } from "../../utils/utilities/previewParagraph";
+import { currentDate } from "../../lib/utils/utilities/calenderHelper";
+import usePostOrPatch from "../../lib/utils/hooks/usePost";
+import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
 import { FetchDataProps } from "../../lib/interface";
 
 import { Editor, Label, Input, FormItem, SEO } from "@/components";

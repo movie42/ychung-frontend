@@ -4,10 +4,10 @@ import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { useFetch } from "../../utils/hooks/useFetch";
-import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
+import { useFetch } from "../../lib/utils/hooks/useFetch";
+import { postOrPatchRequest } from "../../lib/utils/utilities/httpMethod";
 import { LoginProps, loginState } from "../../state/Authrization";
-import usePostOrPatch from "../../utils/hooks/usePost";
+import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "../../lib/interface";
 
 import { Button, Label, Input, FormItem, SEO } from "@/components";

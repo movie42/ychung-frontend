@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { notice, noticeModalControler } from "@/state/notice.atom";
 import { loginState } from "@/state/Authrization";
 import { INoticeInterface } from "@/state/notice.atom";
-import { useGet } from "@/utils/hooks/useGet";
+import { useGet } from "@/lib/utils/hooks/useGet";
 
 import { Loading, ListContainer, ListItem, SEO } from "@/components";
 import SkeletonForListContainer from "@/components/Loading/Skeletons/SkeletonForListContainer";

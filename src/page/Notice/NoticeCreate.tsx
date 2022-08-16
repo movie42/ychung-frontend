@@ -4,11 +4,11 @@ import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../utils/hooks/useFetch";
-import { postOrPatchRequest } from "../../utils/utilities/httpMethod";
+import { useFetch } from "../../lib/utils/hooks/useFetch";
+import { postOrPatchRequest } from "../../lib/utils/utilities/httpMethod";
 import { useLocation, useNavigate } from "react-router-dom";
-import { currentDate } from "../../utils/utilities/calenderHelper";
-import usePostOrPatch from "../../utils/hooks/usePost";
+import { currentDate } from "../../lib/utils/utilities/calenderHelper";
+import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { INoticeInterface } from "../../state/notice.atom";
 import { FetchDataProps } from "../../lib/interface";
 

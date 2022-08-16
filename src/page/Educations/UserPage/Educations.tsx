@@ -7,8 +7,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { loginState } from "../../../state/Authrization";
 import { groupInfoState } from "../../../state/educationGroup.atom";
-import { useGet } from "../../../utils/hooks/useGet";
-import { calculateDate } from "../../../utils/utilities/calculateDate";
+import { useGet } from "../../../lib/utils/hooks/useGet";
+import { calculateDate } from "../../../lib/utils/utilities/calculateDate";
 
 import GroupItem from "./GroupItem";
 import GroupItemContainer from "./GroupItemContainer";

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
 import { useNavigate } from "react-router";
-import usePostOrPatch from "../../../utils/hooks/usePost";
+import usePostOrPatch from "../../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "../../../lib/interface";
 import { useQueryClient } from "react-query";
 

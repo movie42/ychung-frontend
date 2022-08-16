@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useResetRecoilState } from "recoil";
 import styled from "styled-components";
 import { loginState } from "../../state/Authrization";
-import { useGet } from "../../utils/hooks/useGet";
+import { useGet } from "../../lib/utils/hooks/useGet";
 
 import { Loading } from "@/components";
 
