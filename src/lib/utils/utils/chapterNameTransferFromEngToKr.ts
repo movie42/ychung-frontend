@@ -1,4 +1,4 @@
-export const chapterNameTransferFromEngToKr = (data: string) => {
+export default (data: string) => {
   const BIBLE_DATA_SET: { [key: string]: string } = {
     gen: "창세기",
     exo: "출애굽기",

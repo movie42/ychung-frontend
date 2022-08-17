@@ -15,15 +15,13 @@ import {
   checkGodpeopleBibleInstall,
   godpeopleDeepLink,
   openWebBible,
-} from "../../lib/utils/utilities/bibleDeepLink";
-import { chapterNameTransferFromEngToKr } from "../../lib/utils/utilities/chapterNameTransferFromEngToKr";
+} from "../../lib/utils/utils/bibleDeepLink";
+import { chapterNameTransferFromEngToKr } from "@/lib/utils/utils";
 import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
 import { useCopyText } from "../../lib/utils/hooks/useCopyText";
 import { useSetView } from "../../lib/utils/hooks/useSetView";
 import SEO from "../../components/SEO/SEO";
 import WorshipEducation from "./WorshipDetailComponents/WorshipEducation";
-import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
-import { Button } from "@/components";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;

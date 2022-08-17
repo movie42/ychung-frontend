@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 import { useFetch } from "../../lib/utils/hooks/useFetch";
-import { postOrPatchRequest } from "../../lib/utils/utilities/httpMethod";
+import { postOrPatchRequest } from "@/lib/utils/utils";
 import { LoginProps, loginState } from "../../state/Authrization";
 import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "@/lib/interfaces";

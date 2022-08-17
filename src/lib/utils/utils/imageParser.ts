@@ -1,4 +1,4 @@
-export const imageParser = (data: string) => {
+export default (data: string) => {
   const image = data?.match(/\!\[(.*)\)/g);
 
   if (image) {

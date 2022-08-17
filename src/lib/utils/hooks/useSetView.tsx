@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { SetterOrUpdater } from "recoil";
-import { postOrPatchRequest } from "../utilities/httpMethod";
+import { postOrPatchRequest } from "@/lib/utils/utils";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
 export const useSetView = <T,>(

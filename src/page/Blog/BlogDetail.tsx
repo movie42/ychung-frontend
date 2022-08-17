@@ -9,7 +9,7 @@ import { loginState } from "../../state/Authrization";
 import { useSetView } from "../../lib/utils/hooks/useSetView";
 import { blog, IBlogItems } from "../../state/blog.atom";
 import useDelete from "../../lib/utils/hooks/useDelete";
-import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
+import { previewParagraph } from "@/lib/utils/utils";
 
 import {
   Button,

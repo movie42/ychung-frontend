@@ -6,7 +6,7 @@ import {
   useQueryClient,
   UseQueryOptions,
 } from "react-query";
-import { deleteRequest } from "../utilities/httpMethod";
+import { deleteRequest } from "@/lib/utils/utils";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
 interface IuseDeleteProps<T>

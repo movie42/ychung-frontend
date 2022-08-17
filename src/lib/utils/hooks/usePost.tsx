@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { postOrPatchRequest } from "../utilities/httpMethod";
+import { postOrPatchRequest } from "@/lib/utils/utils";
 import { useGetCSRFToken } from "./useGetCSRFToken";
 
 interface IusePostProps {

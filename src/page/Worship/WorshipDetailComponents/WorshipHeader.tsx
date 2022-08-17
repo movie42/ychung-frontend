@@ -9,7 +9,7 @@ import styled from "styled-components";
 import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
 import useDelete from "../../../lib/utils/hooks/useDelete";
-import { calculateDate } from "../../../lib/utils/utilities/calculateDate";
+import { calculateDate } from "@/lib/utils/utils";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 
 const Wrapper = styled(motion.div)`

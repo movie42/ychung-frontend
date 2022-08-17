@@ -1,4 +1,4 @@
-export const previewParagraph = (item: string) => {
+export default (item: string) => {
   const newPreview = item
     .replace(/\!\[(.*)\]|[#*\\[\]``]|<(.*)>|\((.*)\)/g, " ")
     .replace(/\s+/g, " ");

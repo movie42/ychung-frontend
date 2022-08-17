@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
 import {
   DragDropContext,
   DropResult,
   ResponderProvided,
 } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
 import styled from "styled-components";
 
 import {
   Group as GroupProps,
   GroupInfo,
 } from "../../../state/educationGroup.atom";
-import { compare } from "../../../lib/utils/utilities/compare";
+
 import { useForm } from "react-hook-form";
 import usePostOrPatch from "../../../lib/utils/hooks/usePost";
 import { FetchDataProps } from "@/lib/interfaces";

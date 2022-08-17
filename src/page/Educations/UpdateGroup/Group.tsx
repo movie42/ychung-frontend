@@ -1,23 +1,22 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { QueryClient, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import { ConfirmDeleteModal } from "@/components";
 
 import {
   People,
   Group as GroupProps,
-  countState,
 } from "../../../state/educationGroup.atom";
 
 import usePostOrPatch from "../../../lib/utils/hooks/usePost";
 import { useGet } from "../../../lib/utils/hooks/useGet";
 import { FetchDataProps } from "@/lib/interfaces";
 import useDelete from "../../../lib/utils/hooks/useDelete";
-import { translateEducationTypeNameToKR } from "../../../lib/utils/utilities/translateEducationTypeNameToKR";
+import { translateEducationTypeNameToKR } from "@/lib/utils/utils";
 import { useDebouncedEffect } from "../../../lib/utils/hooks/useDebouncedEffect";
 import { useRecoilState } from "recoil";
 import { AiOutlineConsoleSql } from "react-icons/ai";

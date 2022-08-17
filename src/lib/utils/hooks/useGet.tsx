@@ -1,7 +1,7 @@
 import React from "react";
 import { QueryKey, useQuery, UseQueryOptions } from "react-query";
 
-import { getRequest } from "../utilities/httpMethod";
+import { getRequest } from "@/lib/utils/utils";
 
 interface IFetchProps<T>
   extends Omit<

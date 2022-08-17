@@ -1,4 +1,4 @@
-export const translateEducationTypeNameToKR = (type: string) => {
+export default (type: string) => {
   if (type === "student") {
     return "학생";
   }

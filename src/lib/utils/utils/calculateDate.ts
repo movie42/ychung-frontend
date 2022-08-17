@@ -1,4 +1,4 @@
-export const calculateDate = (date: string) => {
+export default (date: string) => {
   const createDate = new Date(date);
 
   const createDateToTime = new Date(date).getTime();
