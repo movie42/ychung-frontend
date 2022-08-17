@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { blog, blogModalControler } from "../../state/blog.atom";
 import { loginState } from "../../state/Authrization";
 import { IBlogItems } from "../../state/blog.atom";
-import { useGet } from "../../lib/utils/hooks/useGet";
+import { useGet } from "@/lib/hooks";
 
 import { Loading, ListItem, ListContainer, SEO } from "@/components";
 import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";

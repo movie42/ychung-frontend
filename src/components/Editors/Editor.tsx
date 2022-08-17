@@ -5,7 +5,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
-import { postRequestMultipartFormData } from "@/lib/utils/utils";
+import { postRequestMultipartFormData } from "@/lib/utils";
 
 const Wrapper = styled.div`
   height: 100%;

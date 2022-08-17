@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { FetchDataProps } from "@/lib/interfaces";
 import { loginState } from "../../../state/Authrization";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
-import { useGet } from "../../../lib/utils/hooks/useGet";
+import { useGet } from "@/lib/hooks";
 import DetailGroupContainer from "./DetailGroupContainer";
 
 import { IconButton, Loading } from "@/components";

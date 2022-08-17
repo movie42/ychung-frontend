@@ -6,8 +6,8 @@ import {
   useQueryClient,
   UseQueryOptions,
 } from "react-query";
-import { deleteRequest } from "@/lib/utils/utils";
-import { useGetCSRFToken } from "./useGetCSRFToken";
+import { deleteRequest } from "@/lib/utils";
+import useGetCSRFToken from "./useGetCSRFToken";
 
 interface IuseDeleteProps<T>
   extends Omit<UseMutationOptions<T, unknown, void, unknown>, "mutationFn"> {

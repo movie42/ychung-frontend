@@ -7,11 +7,11 @@ import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/components";
 
 import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
-import usePostOrPatch from "../../../lib/utils/hooks/usePost";
-import { useGet } from "../../../lib/utils/hooks/useGet";
+import { usePost } from "@/lib/hooks";
+import { useGet } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
 import { MdDelete } from "react-icons/md";
-import useDelete from "@/lib/utils/hooks/useDelete";
+import useDelete from "@/lib/hooks/useDelete";
 import { useQueryClient } from "react-query";
 
 const Wrapper = styled.div`
@@ -79,7 +79,7 @@ function EducationUpdate() {
     queryKey: "groupInfo",
   });
 
-  const { mutate: groupInfoMutation } = usePostOrPatch<
+  const { mutate: groupInfoMutation } = usePost<
     FetchDataProps<GroupInfoSend>,
     Error,
     GroupInfoSend
@@ -128,8 +128,8 @@ function EducationUpdate() {
     <>
       {isConfirmModal && (
         <ConfirmDeleteModal
-          setIsDelete={setIsDelete}
-          setIsConfirmModal={setIsConfirmModal}
+          setIsModal={setIsDelete}
+          setIsConfirm={setIsConfirmModal}
           title="교육 정보를 삭제하시겠습니까?"
           subtitle="교육 정보를 삭제하면 복구할 수 없습니다."
         />

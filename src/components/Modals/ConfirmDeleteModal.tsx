@@ -53,15 +53,15 @@ const ModalItemContainer = styled.div`
 interface IConfirmDeleteModalProps {
   title: string;
   subtitle: string;
-  setIsDelete: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsConfirm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ConfirmDeleteModal = ({
   title,
   subtitle,
-  setIsDelete,
-  setIsConfirmModal,
+  setIsModal,
+  setIsConfirm,
 }: IConfirmDeleteModalProps) => {
   return (
     <ConfirmModal>
@@ -71,12 +71,10 @@ const ConfirmDeleteModal = ({
           <p>{subtitle}</p>
         </div>
         <div className="button-container">
-          <button className="confirm-button" onClick={() => setIsDelete(true)}>
+          <button className="confirm-button" onClick={() => setIsConfirm(true)}>
             삭제하기
           </button>
-          <button
-            className="cancel-button"
-            onClick={() => setIsConfirmModal(false)}>
+          <button className="cancel-button" onClick={() => setIsModal(false)}>
             돌아가기
           </button>
         </div>

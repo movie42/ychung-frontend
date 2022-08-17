@@ -4,10 +4,10 @@ import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { useFetch } from "../../lib/utils/hooks/useFetch";
-import { postOrPatchRequest } from "@/lib/utils/utils";
+import { useFetch } from "../../lib/hooks/useFetch";
+import { postOrPatchRequest } from "@/lib/utils";
 import { LoginProps, loginState } from "../../state/Authrization";
-import usePostOrPatch from "../../lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
 
 import { Button, Label, Input, FormItem, SEO } from "@/components";
@@ -62,7 +62,7 @@ function Login() {
     isLoading,
     isSuccess,
     data: response,
-  } = usePostOrPatch<FetchDataProps<LoginProps>, Error, LoginType>({
+  } = usePost<FetchDataProps<LoginProps>, Error, LoginType>({
     url: `/api/login`,
     queryKey: "login",
     method: "POST",

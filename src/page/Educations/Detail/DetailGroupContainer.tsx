@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Loading } from "@/components";
 
 import { Group } from "../../../state/educationGroup.atom";
-import { useGet } from "../../../lib/utils/hooks/useGet";
+import { useGet } from "@/lib/hooks";
 import DetailGroup from "./DetailGroup";
 
 const Container = styled.section`

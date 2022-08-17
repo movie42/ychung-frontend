@@ -1,4 +1,4 @@
-import { useGet } from "@/lib/utils/hooks/useGet";
+import { useGet } from "@/lib/hooks";
 import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";

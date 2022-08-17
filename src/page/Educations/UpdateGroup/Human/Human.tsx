@@ -10,13 +10,14 @@ import {
   MdDragHandle,
   MdEdit,
 } from "react-icons/md";
-import usePostOrPatch from "../../../../lib/utils/hooks/usePost";
+
 import { QueryClient, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import useDelete from "../../../../lib/utils/hooks/useDelete";
-import { useGet } from "../../../../lib/utils/hooks/useGet";
+import useDelete from "../../../../lib/hooks/useDelete";
+import { useGet, usePost } from "@/lib/hooks";
 
 import { ConfirmDeleteModal } from "@/components";
+import { useModalContorl } from "@/lib/hooks";
 
 const Container = styled.div<{
   isDragging: boolean;
@@ -180,8 +181,8 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
     name?: string;
     sex?: "male" | "female";
   }>();
-
-  const { mutate: updatePeople } = usePostOrPatch({
+  const { setIsConfirm, setIsModal, isConfirm, isModal } = useModalContorl();
+  const { mutate: updatePeople } = usePost({
     url: `/api/education/people/${person._id}`,
     queryKey: "people",
     method: "PATCH",
@@ -211,21 +212,21 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
   });
 
   const deletePeople = () => {
-    setIsConfirmModal(true);
+    setIsConfirm(true);
   };
 
   useEffect(() => {
-    if (isDelete) {
+    if (isConfirm) {
       deletePeopleFromGroup();
     }
-  }, [isDelete]);
+  }, [isConfirm]);
 
   return (
     <>
-      {isConfirmModal && (
+      {isModal && (
         <ConfirmDeleteModal
-          setIsDelete={setIsDelete}
-          setIsConfirmModal={setIsConfirmModal}
+          setIsConfirm={setIsConfirm}
+          setIsModal={setIsModal}
           title="참가자를 삭제하시겠습니까?"
           subtitle="참가자는 그룹에서 삭제되지만 데이터는 그대로 남습니다. 완전히 삭제하려면 관리자에게 문의해주세요."
         />

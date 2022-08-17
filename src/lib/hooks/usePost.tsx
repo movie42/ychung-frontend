@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { postOrPatchRequest } from "@/lib/utils/utils";
-import { useGetCSRFToken } from "./useGetCSRFToken";
+import { postOrPatchRequest } from "@/lib/utils";
+import useGetCSRFToken from "./useGetCSRFToken";
 
 interface IusePostProps {
   url: RequestInfo;
@@ -9,7 +9,7 @@ interface IusePostProps {
   method: "POST" | "PATCH";
 }
 
-const usePostOrPatch = <TData, TError, TVariables>({
+const usePost = <TData, TError, TVariables>({
   url,
   queryKey,
   method,
@@ -41,4 +41,4 @@ const usePostOrPatch = <TData, TError, TVariables>({
   });
 };
 
-export default usePostOrPatch;
+export default usePost;

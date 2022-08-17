@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
 import { useNavigate } from "react-router";
-import usePostOrPatch from "../../../lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
 import { useQueryClient } from "react-query";
 
@@ -25,7 +25,7 @@ function EducationCreate() {
   const setGroupInfo = useSetRecoilState(groupInfoState);
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = usePostOrPatch<
+  const { mutate, isLoading } = usePost<
     FetchDataProps<GroupInfo>,
     Error,
     CreateGroup

@@ -15,11 +15,10 @@ import {
   checkGodpeopleBibleInstall,
   godpeopleDeepLink,
   openWebBible,
-} from "../../lib/utils/utils/bibleDeepLink";
-import { chapterNameTransferFromEngToKr } from "@/lib/utils/utils";
+} from "../../lib/utils/bibleDeepLink";
+import { chapterNameTransferFromEngToKr } from "@/lib/utils";
 import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
-import { useCopyText } from "../../lib/utils/hooks/useCopyText";
-import { useSetView } from "../../lib/utils/hooks/useSetView";
+import { useSetView, useCopyText } from "@/lib/hooks";
 import SEO from "../../components/SEO/SEO";
 import WorshipEducation from "./WorshipDetailComponents/WorshipEducation";
 

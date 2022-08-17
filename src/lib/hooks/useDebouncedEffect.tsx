@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react";
-
-export const useDebouncedEffect = (func: any, delay: number, deps: any) => {
+const useDebouncedEffect = (func: any, delay: number, deps: any) => {
   const callback = useCallback(func, deps);
 
   useEffect(() => {
@@ -13,3 +12,4 @@ export const useDebouncedEffect = (func: any, delay: number, deps: any) => {
     };
   }, [callback, delay]);
 };
+export default useDebouncedEffect;

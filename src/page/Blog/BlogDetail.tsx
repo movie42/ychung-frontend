@@ -6,10 +6,10 @@ import { MdDelete } from "react-icons/md";
 
 import { useLocation, useNavigate, useParams } from "react-router";
 import { loginState } from "../../state/Authrization";
-import { useSetView } from "../../lib/utils/hooks/useSetView";
+import { useSetView } from "@/lib/hooks";
 import { blog, IBlogItems } from "../../state/blog.atom";
-import useDelete from "../../lib/utils/hooks/useDelete";
-import { previewParagraph } from "@/lib/utils/utils";
+import useDelete from "../../lib/hooks/useDelete";
+import { previewParagraph } from "@/lib/utils";
 
 import {
   Button,
@@ -83,8 +83,8 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
         <ConfirmDeleteModal
           title="블로그 포스트를 삭제하시겠습니까?"
           subtitle="삭제하면 데이터를 복구할 수 없습니다."
-          setIsConfirmModal={setIsConfirmModal}
-          setIsDelete={setIsDelete}
+          setIsConfirm={setIsConfirmModal}
+          setIsModal={setIsDelete}
         />
       )}
       <PageDetailModal setDetailItem={setDetailItem}>

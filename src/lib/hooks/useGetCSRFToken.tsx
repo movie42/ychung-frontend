@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useGetCSRFToken = () => {
+const useGetCSRFToken = () => {
   const [csrfToken, setCsrfToken] = useState<string>("");
 
   const csrf = async () => {
@@ -19,3 +19,4 @@ export const useGetCSRFToken = () => {
 
   return { csrfToken, csrf };
 };
+export default useGetCSRFToken;

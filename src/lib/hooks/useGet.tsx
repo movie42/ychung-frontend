@@ -1,7 +1,7 @@
 import React from "react";
 import { QueryKey, useQuery, UseQueryOptions } from "react-query";
 
-import { getRequest } from "@/lib/utils/utils";
+import { getRequest } from "@/lib/utils";
 
 interface IFetchProps<T>
   extends Omit<
@@ -12,7 +12,7 @@ interface IFetchProps<T>
   queryKey: string | string[];
 }
 
-export const useGet = <T,>({ url, queryKey, ...rest }: IFetchProps<T>) => {
+const useGet = <T,>({ url, queryKey, ...rest }: IFetchProps<T>) => {
   return useQuery<T>(
     queryKey,
     async () => {
@@ -25,3 +25,4 @@ export const useGet = <T,>({ url, queryKey, ...rest }: IFetchProps<T>) => {
     }
   );
 };
+export default useGet;

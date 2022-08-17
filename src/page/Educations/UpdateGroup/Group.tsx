@@ -12,12 +12,12 @@ import {
   Group as GroupProps,
 } from "../../../state/educationGroup.atom";
 
-import usePostOrPatch from "../../../lib/utils/hooks/usePost";
-import { useGet } from "../../../lib/utils/hooks/useGet";
+import { usePost } from "@/lib/hooks";
+import { useGet } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
-import useDelete from "../../../lib/utils/hooks/useDelete";
-import { translateEducationTypeNameToKR } from "@/lib/utils/utils";
-import { useDebouncedEffect } from "../../../lib/utils/hooks/useDebouncedEffect";
+
+import { translateEducationTypeNameToKR } from "@/lib/utils";
+import { useDebouncedEffect, useDelete } from "@/lib/hooks";
 import { useRecoilState } from "recoil";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 
@@ -220,7 +220,7 @@ const Group = ({ item }: IGroupProps) => {
     queryKey: ["people", item._id],
   });
 
-  const { mutate: addNewPeople } = usePostOrPatch<
+  const { mutate: addNewPeople } = usePost<
     FetchDataProps<People[]>,
     Error,
     SendPeople
@@ -230,7 +230,7 @@ const Group = ({ item }: IGroupProps) => {
     method: "POST",
   });
 
-  const { mutate: updateGroup } = usePostOrPatch<
+  const { mutate: updateGroup } = usePost<
     FetchDataProps<GroupProps>,
     Error,
     {
@@ -404,8 +404,8 @@ const Group = ({ item }: IGroupProps) => {
     <>
       {isConfirmModal && (
         <ConfirmDeleteModal
-          setIsDelete={setIsDelete}
-          setIsConfirmModal={setIsConfirmModal}
+          setIsModal={setIsDelete}
+          setIsConfirm={setIsConfirmModal}
           title="그룹을 삭제하시겠습니까?"
           subtitle="그룹을 삭제하면 복구할 수 없습니다. 참가자는 그대로 남습니다."
         />

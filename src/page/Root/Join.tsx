@@ -1,4 +1,4 @@
-import usePostOrPatch from "@/lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -37,7 +37,7 @@ function Join() {
     setError,
   } = useForm<SubmitProps>();
 
-  const { mutate: joinMutate, isSuccess } = usePostOrPatch({
+  const { mutate: joinMutate, isSuccess } = usePost({
     url: "/api/join",
     queryKey: "join",
     method: "POST",

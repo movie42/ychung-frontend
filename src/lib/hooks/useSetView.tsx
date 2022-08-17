@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { SetterOrUpdater } from "recoil";
-import { postOrPatchRequest } from "@/lib/utils/utils";
-import { useGetCSRFToken } from "./useGetCSRFToken";
+import { postOrPatchRequest } from "@/lib/utils";
+import useGetCSRFToken from "./useGetCSRFToken";
 
-export const useSetView = <T,>(
-  url: RequestInfo,
-  recoilSetter: SetterOrUpdater<T>
-) => {
+const useSetView = <T,>(url: RequestInfo, recoilSetter: SetterOrUpdater<T>) => {
   const { csrfToken, csrf } = useGetCSRFToken();
   const {
     isSuccess,
@@ -34,3 +31,4 @@ export const useSetView = <T,>(
 
   return countViews;
 };
+export default useSetView;

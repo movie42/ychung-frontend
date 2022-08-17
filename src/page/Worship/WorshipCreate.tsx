@@ -5,7 +5,7 @@ import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 import { BIBLE_DATA_SET } from "../../bible";
-import usePostOrPatch from "../../lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import FormItem from "../../components/Form/FormItem";
 import Label from "../../components/Form/Label";
 import Input from "../../components/Form/Input";
@@ -108,7 +108,7 @@ const WorshipCreate = () => {
     mutate,
     isSuccess,
     data: response,
-  } = usePostOrPatch<FetchDataProps<IWorshipItems>, Error, IWorshipItems>({
+  } = usePost<FetchDataProps<IWorshipItems>, Error, IWorshipItems>({
     url: "/api/worship/create",
     queryKey: "weeklies",
     method: "POST",

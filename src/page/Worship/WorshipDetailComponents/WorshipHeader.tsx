@@ -8,9 +8,10 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
-import useDelete from "../../../lib/utils/hooks/useDelete";
-import { calculateDate } from "@/lib/utils/utils";
+import useDelete from "../../../lib/hooks/useDelete";
+import { calculateDate } from "@/lib/utils";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
+import { useModalContorl } from "@/lib/hooks";
 
 const Wrapper = styled(motion.div)`
   overflow-x: hidden;
@@ -87,6 +88,7 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const navigate = useNavigate();
   const { isLogin } = useRecoilValue(loginState);
 
+  const { isConfirm, setIsConfirm, isModal, setIsModal } = useModalContorl();
   const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
     useDelete({
       url: `/api/worship/${id}`,
@@ -98,23 +100,23 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   };
 
   const handleDelete = () => {
-    setIsConfirmModal(true);
+    setIsConfirm(true);
   };
 
   useEffect(() => {
-    if (isDelete) {
+    if (isConfirm) {
       mutate(undefined, { onSuccess: () => navigate("/worship") });
     }
-  }, [isDelete]);
+  }, [isConfirm]);
 
   return (
     <>
-      {isConfirmModal && (
+      {isModal && (
         <ConfirmDeleteModal
           title="주보를 삭제하시겠습니까?"
           subtitle="삭제하면 데이터를 복구할 수 없습니다."
-          setIsConfirmModal={setIsConfirmModal}
-          setIsDelete={setIsDelete}
+          setIsModal={setIsModal}
+          setIsConfirm={setIsConfirm}
         />
       )}
       <Wrapper>

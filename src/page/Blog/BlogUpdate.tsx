@@ -5,7 +5,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
-import usePostOrPatch from "../../lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
 
 import { Editor, SEO } from "@/components";
@@ -91,7 +91,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
     mutate,
     isSuccess,
     data: response,
-  } = usePostOrPatch<FetchDataProps<BlogDetail>, Error, BlogDetail>({
+  } = usePost<FetchDataProps<BlogDetail>, Error, BlogDetail>({
     url: `/api/blog/${id}`,
     queryKey: "posts",
     method: "POST",

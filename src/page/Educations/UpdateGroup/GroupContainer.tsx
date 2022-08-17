@@ -12,9 +12,9 @@ import {
 } from "../../../state/educationGroup.atom";
 
 import { useForm } from "react-hook-form";
-import usePostOrPatch from "../../../lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
-import { useGet } from "../../../lib/utils/hooks/useGet";
+import { useGet } from "@/lib/hooks";
 import { useParams } from "react-router";
 import { useQueryClient } from "react-query";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";
@@ -127,7 +127,7 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
     keepPreviousData: true,
   });
 
-  const { mutate: updateGroupInfo } = usePostOrPatch<
+  const { mutate: updateGroupInfo } = usePost<
     FetchDataProps<GroupProps>,
     Error,
     GroupProps
@@ -137,7 +137,7 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
     method: "POST",
   });
 
-  const { mutate: updateGroup } = usePostOrPatch<
+  const { mutate: updateGroup } = usePost<
     FetchDataProps<GroupProps>,
     Error,
     SendGroupProps

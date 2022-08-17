@@ -7,7 +7,7 @@ interface IMatchMedia {
   removeListener: (params: any) => any;
 }
 
-export function useMediaQuery(query: string) {
+function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
@@ -25,3 +25,5 @@ export function useMediaQuery(query: string) {
   }, [matches, query]);
   return matches;
 }
+
+export default useMediaQuery;

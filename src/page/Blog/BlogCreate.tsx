@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Editor, SEO } from "@/components";
 
-import usePostOrPatch from "../../lib/utils/hooks/usePost";
+import { usePost } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
 import { IBlogItems } from "../../state/blog.atom";
 
@@ -70,11 +70,7 @@ const BlogCreate = () => {
   const navigate = useNavigate();
   const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<IBlogItems>();
-  const { mutate } = usePostOrPatch<
-    FetchDataProps<IBlogItems>,
-    Error,
-    IBlogItems
-  >({
+  const { mutate } = usePost<FetchDataProps<IBlogItems>, Error, IBlogItems>({
     url: `/api/blog/create`,
     queryKey: "posts",
     method: "POST",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useCopyText = () => {
+const useCopyText = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [copyMessage, setCopyMessage] = useState("");
 
@@ -15,3 +15,5 @@ export const useCopyText = () => {
 
   return { copyMessage, copyText };
 };
+
+export default useCopyText;
