@@ -1,18 +1,15 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useFetch } from "../../lib/utils/hooks/useFetch";
-import { postOrPatchRequest } from "../../lib/utils/utilities/httpMethod";
-import { useLocation, useNavigate } from "react-router-dom";
-import { currentDate } from "../../lib/utils/utilities/calenderHelper";
-import usePostOrPatch from "../../lib/utils/hooks/usePost";
+import { useNavigate } from "react-router-dom";
+import { calenderHelper } from "@/lib/utils";
 import { INoticeInterface } from "../../state/notice.atom";
-import { FetchDataProps } from "@/lib/interfaces";
 
 import { Editor, Label, Input, SEO } from "@/components";
+import useCreateNotice from "./hooks/useCreateNotice";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -80,29 +77,16 @@ const NoticeCreate = () => {
     formState: { errors },
   } = useForm<INoticeInterface>();
 
-  const { mutate } = usePostOrPatch<
-    FetchDataProps<INoticeInterface>,
-    Error,
-    INoticeInterface
-  >({
-    url: `/api/notice/create`,
-    queryKey: "notice",
-    method: "POST",
-  });
+  const { mutate: createNoticeMutate } = useCreateNotice();
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
     if (editorParser) {
-      const formData = {
+      const body = {
         ...data,
         paragraph: editorParser,
       };
-      mutate(formData, {
-        onSuccess: (response) => {
-          const { data } = response;
-          navigate(`/notice/${data?._id}`);
-        },
-      });
+      createNoticeMutate(body);
     }
   });
 
@@ -132,7 +116,7 @@ const NoticeCreate = () => {
             <Input
               type="date"
               {...register("startDate", { required: "제목을 입력하세요." })}
-              defaultValue={`${currentDate()}`}
+              defaultValue={`${calenderHelper()}`}
             />
           </div>
           <div>
@@ -141,10 +125,10 @@ const NoticeCreate = () => {
               type="date"
               {...register("endDate", {
                 validate: (value) =>
-                  (value && value >= currentDate()) ||
+                  (value && value >= calenderHelper()) ||
                   "오늘 이전 날짜를 선택할 수 없어요.",
               })}
-              defaultValue={`${currentDate()}`}
+              defaultValue={`${calenderHelper()}`}
             />
             {<p>{errors?.endDate?.message}</p>}
           </div>

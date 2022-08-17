@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,12 +6,11 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { notice, noticeModalControler } from "@/state/notice.atom";
 import { loginState } from "@/state/Authrization";
-import { INoticeInterface } from "@/state/notice.atom";
-import { useGet } from "@/lib/utils/hooks/useGet";
 
-import { Loading, ListContainer, ListItem, SEO } from "@/components";
-import SkeletonForListContainer from "@/components/Loading/Skeletons/SkeletonForListContainer";
+import { ListContainer, ListItem, SEO } from "@/components";
+
 import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
+import useGetNotice from "./hooks/useGetNotices";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -41,15 +40,7 @@ function Notice() {
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const {
-    isSuccess,
-    isRefetching,
-    isLoading,
-    data: notices,
-  } = useGet<INoticeInterface[]>({
-    url: `/api/notice?offset=0&limit=9`,
-    queryKey: "notice",
-  });
+  const { isSuccess, isRefetching, isLoading, data: notices } = useGetNotice();
 
   const onClick = (id: string) => {
     if (notices) {

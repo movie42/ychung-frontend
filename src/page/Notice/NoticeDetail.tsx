@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import styled from "styled-components";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { loginState } from "../../state/Authrization";
 import { INoticeInterface, notice } from "../../state/notice.atom";
-import { useSetView } from "../../lib/utils/hooks/useSetView";
-import useDelete from "../../lib/utils/hooks/useDelete";
-import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
+
+import { previewParagraph } from "@/lib/utils";
+import { useModalContorl, useSetView } from "@/lib/hooks";
 
 import {
   PageDetailModal,
@@ -18,6 +18,7 @@ import {
   ConfirmDeleteModal,
   SEO,
 } from "@/components";
+import useDeleteNotice from "./hooks/useDeleteNotice";
 
 const ButtonContainer = styled.div`
   button {
@@ -46,19 +47,15 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const { isLogin } = useRecoilValue(loginState);
   const setNoticeData = useSetRecoilState(notice);
   const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
-
-  const { mutate, isConfirmModal, setIsConfirmModal, isDelete, setIsDelete } =
-    useDelete({
-      url: `/api/notice/${data?._id}`,
-      queryKey: "notice",
-    });
+  const { setIsConfirm, setIsModal, isConfirm, isModal } = useModalContorl();
+  const { mutate: deleteNoticeMutate } = useDeleteNotice();
 
   const handleUpdate = () => {
     navigate(`/notice/${data?._id}/update`);
   };
 
   const handleDelete = () => {
-    setIsConfirmModal(true);
+    setIsModal(true);
   };
 
   const convertDate = (date: string) => {
@@ -105,15 +102,18 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   }, []);
 
   useEffect(() => {
-    if (isDelete) {
-      mutate(undefined, {
-        onSuccess: () => {
-          setIsConfirmModal(false);
-          navigate("/notice");
-        },
-      });
+    if (isConfirm && id) {
+      deleteNoticeMutate(
+        { id },
+        {
+          onSuccess: () => {
+            setIsConfirm(false);
+            navigate("/notice");
+          },
+        }
+      );
     }
-  }, [isDelete]);
+  }, [isConfirm]);
 
   return (
     <>
@@ -122,12 +122,12 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
         description={data?.paragraph && previewParagraph(data?.paragraph)}
         keywords={`공지, 공지사항, 양청 공지사항, 양정교회 청년부 공지사항, ${data?.title}`}
       />
-      {isConfirmModal && (
+      {isModal && (
         <ConfirmDeleteModal
           title="공지를 삭제하시겠습니까?"
           subtitle="삭제하면 데이터를 복구할 수 없습니다."
-          setIsConfirmModal={setIsConfirmModal}
-          setIsDelete={setIsDelete}
+          setIsConfirm={setIsConfirm}
+          setIsModal={setIsModal}
         />
       )}
       <PageDetailModal setDetailItem={setDetailItem}>

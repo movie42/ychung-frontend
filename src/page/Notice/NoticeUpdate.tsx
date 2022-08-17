@@ -1,16 +1,14 @@
 import { Editor as IEditor } from "@toast-ui/react-editor";
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-
-import { useNavigate } from "react-router-dom";
-import { currentDate } from "../../lib/utils/utilities/calenderHelper";
-import usePostOrPatch from "../../lib/utils/hooks/usePost";
-import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
-import { FetchDataProps } from "@/lib/interfaces";
+import { useParams } from "react-router-dom";
+import { calenderHelper } from "@/lib/utils";
+import { previewParagraph } from "@/lib/utils";
 
 import { Editor, Label, Input, FormItem, SEO } from "@/components";
+import useUpdateNotice from "./hooks/useUpdateNotice";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -87,7 +85,7 @@ interface INoticeDetailProps {
   data: NoticeDetail;
 }
 const NoticeUpdate = ({ data }: INoticeDetailProps) => {
-  const navigate = useNavigate();
+  const { id } = useParams();
   const editorRef = useRef<IEditor>(null);
   const {
     register,
@@ -95,33 +93,18 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
     formState: { errors },
   } = useForm<NoticeDetail>();
 
-  const {
-    mutate,
-    isSuccess,
-    data: response,
-  } = usePostOrPatch<FetchDataProps<NoticeDetail>, Error, NoticeDetail>({
-    url: `/api/notice/${data?._id}`,
-    queryKey: "notice",
-    method: "POST",
-  });
+  const { mutate: noticeUpdateMutate } = useUpdateNotice();
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    if (editorParser) {
-      const formData = {
+    if (editorParser && id) {
+      const body = {
         ...data,
         paragraph: editorParser,
       };
-      mutate(formData);
+      noticeUpdateMutate({ id, body });
     }
   });
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { data } = response;
-      navigate(`/notice/${data?._id}`);
-    }
-  }, [isSuccess]);
 
   return (
     <>
@@ -149,7 +132,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
             <Label htmlFor="startDate">행사 시작</Label>
             <Input
               type="date"
-              defaultValue={`${currentDate()}`}
+              defaultValue={`${calenderHelper()}`}
               {...register("startDate", { required: "제목을 입력하세요." })}
             />
           </FormItem>
@@ -157,7 +140,7 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
             <Label htmlFor="endDate">행사 끝</Label>
             <Input
               type="date"
-              defaultValue={`${currentDate()}`}
+              defaultValue={`${calenderHelper()}`}
               {...register("endDate", { required: "제목을 입력하세요." })}
             />
             {<p>{errors?.endDate?.message}</p>}
