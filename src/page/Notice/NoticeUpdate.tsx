@@ -8,7 +8,7 @@ import { calenderHelper } from "@/lib/utils";
 import { previewParagraph } from "@/lib/utils";
 
 import { Editor, Label, Input, FormItem, SEO } from "@/components";
-import useUpdateNotice from "./hooks/useUpdateNotice";
+import { useUpdateNotice } from "./hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

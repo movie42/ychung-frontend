@@ -8,10 +8,10 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import Button from "../../../components/Buttons/Button";
 import { loginState } from "../../../state/Authrization";
-import useDelete from "../../../lib/hooks/useDelete";
 import { calculateDate } from "@/lib/utils";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 import { useModalContorl } from "@/lib/hooks";
+import { useDeleteWeekly } from "../hooks";
 
 const Wrapper = styled(motion.div)`
   overflow-x: hidden;
@@ -89,23 +89,19 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const { isLogin } = useRecoilValue(loginState);
 
   const { isConfirm, setIsConfirm, isModal, setIsModal } = useModalContorl();
-  const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
-    useDelete({
-      url: `/api/worship/${id}`,
-      queryKey: "weeklies",
-    });
+  const { mutate: deleteWeeklyMutate } = useDeleteWeekly();
 
   const handleUpdate = () => {
     navigate(`/worship/${id}/update`);
   };
 
   const handleDelete = () => {
-    setIsConfirm(true);
+    setIsModal(true);
   };
 
   useEffect(() => {
-    if (isConfirm) {
-      mutate(undefined, { onSuccess: () => navigate("/worship") });
+    if (isConfirm && id) {
+      deleteWeeklyMutate({ id });
     }
   }, [isConfirm]);
 

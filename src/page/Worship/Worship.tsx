@@ -9,10 +9,9 @@ import { worshipDetail, worshipModalControler } from "../../state/worship.atom";
 import { loginState } from "../../state/Authrization";
 import { IWorshipItems } from "../../state/worship.atom";
 import { useGet } from "@/lib/hooks";
-
-import { ListContainer, Loading, SEO } from "@/components";
-import SkeletonForListContainer from "@/components/Loading/Skeletons/SkeletonForListContainer";
+import { ListContainer, SEO } from "@/components";
 import SkeletonForWorshipItem from "@/components/Loading/Skeletons/SkeletonForWorshipItem";
+import { useGetWeekies } from "./hooks";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -56,16 +55,11 @@ function Worship() {
     isLoading,
     isRefetching,
     data: weeklies,
-  } = useGet<IWorshipItems[]>({
-    url: `/api/worship`,
-    queryKey: "weeklies",
-  });
+  } = useGetWeekies();
 
   const onClick = (id: string): void => {
     if (weeklies) {
-      const [detailItem] = weeklies.filter(
-        (item: IWorshipItems) => item._id === id
-      );
+      const [detailItem] = weeklies.filter((item) => item._id === id);
       setWorshipModalState(true);
       setDetailItem({ ...detailItem });
     }

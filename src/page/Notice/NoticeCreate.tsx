@@ -9,7 +9,7 @@ import { calenderHelper } from "@/lib/utils";
 import { INoticeInterface } from "../../state/notice.atom";
 
 import { Editor, Label, Input, SEO } from "@/components";
-import useCreateNotice from "./hooks/useCreateNotice";
+import { useCreateNotice } from "./hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

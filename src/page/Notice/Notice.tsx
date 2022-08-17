@@ -10,7 +10,7 @@ import { loginState } from "@/state/Authrization";
 import { ListContainer, ListItem, SEO } from "@/components";
 
 import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
-import useGetNotice from "./hooks/useGetNotices";
+import { useGetNotices } from "./hooks";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -40,7 +40,7 @@ function Notice() {
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const { isSuccess, isRefetching, isLoading, data: notices } = useGetNotice();
+  const { isSuccess, isRefetching, isLoading, data: notices } = useGetNotices();
 
   const onClick = (id: string) => {
     if (notices) {

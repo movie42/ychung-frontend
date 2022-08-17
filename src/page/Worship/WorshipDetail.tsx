@@ -1,26 +1,27 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 import { SetterOrUpdater, useRecoilState } from "recoil";
 import { motion, useElementScroll, useTransform } from "framer-motion";
 import { useParams } from "react-router-dom";
 
-import WorshipNotice from "./WorshipDetailComponents/WorshipNotice";
-import WorshipBlog from "./WorshipDetailComponents/WorshipBlog";
-import WorshipHeader from "./WorshipDetailComponents/WorshipHeader";
+import {
+  WorshipNotice,
+  WorshipBlog,
+  WorshipHeader,
+  WorshipEducation,
+} from "./WorshipDetailComponents";
 
-import PageDetailModal from "../../components/Modals/PageDetailModal";
-import CopyTextModal from "../../components/Modals/CopyTextModal";
+import { PageDetailModal, CopyTextModal, SEO } from "@/components";
+
 import {
   checkGodpeopleBibleInstall,
   godpeopleDeepLink,
   openWebBible,
-} from "../../lib/utils/bibleDeepLink";
-import { chapterNameTransferFromEngToKr } from "@/lib/utils";
-import { IWorshipItems, worshipDetail } from "../../state/worship.atom";
+  chapterNameTransferFromEngToKr,
+} from "@/lib/utils";
+import { IWorshipItems, worshipDetail } from "@/state";
 import { useSetView, useCopyText } from "@/lib/hooks";
-import SEO from "../../components/SEO/SEO";
-import WorshipEducation from "./WorshipDetailComponents/WorshipEducation";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;

@@ -18,7 +18,7 @@ import {
   ConfirmDeleteModal,
   SEO,
 } from "@/components";
-import useDeleteNotice from "./hooks/useDeleteNotice";
+import { useDeleteNotice } from "./hooks";
 
 const ButtonContainer = styled.div`
   button {
