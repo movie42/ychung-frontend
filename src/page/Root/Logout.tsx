@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useResetRecoilState } from "recoil";
+
 import styled from "styled-components";
-import { loginState } from "../../state/Authrization";
-import { useGet } from "@/lib/hooks";
 
 import { Loading } from "@/components";
+import { useLogout } from "./hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,24 +23,17 @@ interface Logout {
 }
 
 const Logout = () => {
-  const removeLoginState = useResetRecoilState(loginState);
   const navigate = useNavigate();
-  const { data, isLoading, isSuccess } = useGet<Logout>({
-    url: `/api/logout`,
-    queryKey: "login",
-  });
+  const { isLoading, isSuccess } = useLogout();
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
 
     if (isSuccess) {
       timeout = setTimeout(() => {
-        removeLoginState();
-        localStorage.removeItem("ycUser");
         navigate("/");
       }, 2000);
     }
-
     return () => clearTimeout(timeout);
   }, [isSuccess]);
 

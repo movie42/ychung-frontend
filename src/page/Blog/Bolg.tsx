@@ -12,6 +12,7 @@ import { useGet } from "@/lib/hooks";
 
 import { Loading, ListItem, ListContainer, SEO } from "@/components";
 import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
+import { useGetBlogPosts } from "./hooks";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -38,15 +39,7 @@ function Blog() {
   const [blogModalState, setBlogModalState] =
     useRecoilState(blogModalControler);
 
-  const {
-    isSuccess,
-    isRefetching,
-    isLoading,
-    data: posts,
-  } = useGet<IBlogItems[]>({
-    url: `/api/blog`,
-    queryKey: "posts",
-  });
+  const { isSuccess, isRefetching, isLoading, data: posts } = useGetBlogPosts();
 
   const onClick = (id: string) => {
     if (posts) {

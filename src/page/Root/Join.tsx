@@ -1,11 +1,11 @@
-import { usePost } from "@/lib/hooks";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Button from "../../components/Buttons/Button";
 import FormItem from "../../components/Form/FormItem";
 import SEO from "../../components/SEO/SEO";
+import { useJoin } from "./hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -37,11 +37,7 @@ function Join() {
     setError,
   } = useForm<SubmitProps>();
 
-  const { mutate: joinMutate, isSuccess } = usePost({
-    url: "/api/join",
-    queryKey: "join",
-    method: "POST",
-  });
+  const { mutate: joinMutate, isSuccess } = useJoin();
 
   const onSubmit = handleSubmit(async (data: SubmitProps) => {
     if (data.password !== data.password2) {

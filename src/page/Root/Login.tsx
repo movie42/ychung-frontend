@@ -1,16 +1,7 @@
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
-import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-
-import { useFetch } from "../../lib/hooks/useFetch";
-import { postOrPatchRequest } from "@/lib/utils";
-import { LoginProps, loginState } from "../../state/Authrization";
-import { usePost } from "@/lib/hooks";
-import { FetchDataProps } from "@/lib/interfaces";
-
 import { Button, Label, Input, FormItem, SEO } from "@/components";
+import { useLogin } from "./hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,45 +34,23 @@ const FormItemContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-interface LoginType {
+interface LoginFormVariable {
   email: string;
   password: string;
 }
 
 function Login() {
-  const setIsLogin = useSetRecoilState(loginState);
-  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<LoginType>();
+  } = useForm<LoginFormVariable>();
 
-  const {
-    mutate,
-    isLoading,
-    isSuccess,
-    data: response,
-  } = usePost<FetchDataProps<LoginProps>, Error, LoginType>({
-    url: `/api/login`,
-    queryKey: "login",
-    method: "POST",
-  });
+  const { mutate: loginMutate } = useLogin();
 
   const onSubmit = handleSubmit((data) => {
-    mutate(data);
+    loginMutate(data);
   });
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { data } = response;
-      if (data) {
-        setIsLogin(data);
-        localStorage.setItem("ycUser", JSON.stringify(data));
-        navigate("/");
-      }
-    }
-  }, [isSuccess]);
 
   return (
     <>

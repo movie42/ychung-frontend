@@ -6,7 +6,7 @@ import { MdDelete } from "react-icons/md";
 
 import { useLocation, useNavigate, useParams } from "react-router";
 import { loginState } from "../../state/Authrization";
-import { useSetView } from "@/lib/hooks";
+import { useModalContorl, useSetView } from "@/lib/hooks";
 import { blog, IBlogItems } from "../../state/blog.atom";
 import useDelete from "../../lib/hooks/useDelete";
 import { previewParagraph } from "@/lib/utils";
@@ -19,6 +19,7 @@ import {
   ConfirmDeleteModal,
   SEO,
 } from "@/components";
+import { useDeleteBlogPost } from "./hooks";
 
 const ButtonContainer = styled.div`
   button {
@@ -48,18 +49,15 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const setPostData = useSetRecoilState(blog);
   const countViews = useSetView(`/api/blog/${id}/count-views`, setPostData);
 
-  const { mutate, isConfirmModal, isDelete, setIsConfirmModal, setIsDelete } =
-    useDelete({
-      url: `/api/blog/${data?._id}`,
-      queryKey: "posts",
-    });
+  const { isConfirm, isModal, setIsConfirm, setIsModal } = useModalContorl();
+  const { mutate: deleteBlogPostMutate } = useDeleteBlogPost();
 
   const handleUpdate = () => {
     navigate(`/blog/${data?._id}/update`);
   };
 
   const handleDelete = () => {
-    setIsConfirmModal(true);
+    setIsModal(true);
   };
 
   useEffect(() => {
@@ -67,10 +65,10 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   }, []);
 
   useEffect(() => {
-    if (isDelete) {
-      mutate(undefined, { onSuccess: () => navigate("/blog") });
+    if (isConfirm && id) {
+      deleteBlogPostMutate({ id });
     }
-  }, [isDelete]);
+  }, [isConfirm, id]);
 
   return (
     <>
@@ -79,12 +77,12 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
         description={data?.paragraph && previewParagraph(data?.paragraph)}
         keywords={`블로그, 양정교회 청년부 블로그, 양청 블로그, ${data?.title}`}
       />
-      {isConfirmModal && (
+      {isModal && (
         <ConfirmDeleteModal
           title="블로그 포스트를 삭제하시겠습니까?"
           subtitle="삭제하면 데이터를 복구할 수 없습니다."
-          setIsConfirm={setIsConfirmModal}
-          setIsModal={setIsDelete}
+          setIsConfirm={setIsConfirm}
+          setIsModal={setIsModal}
         />
       )}
       <PageDetailModal setDetailItem={setDetailItem}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Editor, SEO } from "@/components";
 
-import { usePost } from "@/lib/hooks";
-import { FetchDataProps } from "@/lib/interfaces";
 import { IBlogItems } from "../../state/blog.atom";
+import { useCreateBlogPost } from "./hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -70,11 +69,7 @@ const BlogCreate = () => {
   const navigate = useNavigate();
   const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<IBlogItems>();
-  const { mutate } = usePost<FetchDataProps<IBlogItems>, Error, IBlogItems>({
-    url: `/api/blog/create`,
-    queryKey: "posts",
-    method: "POST",
-  });
+  const { mutate: blogPostMutate } = useCreateBlogPost();
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
@@ -83,12 +78,7 @@ const BlogCreate = () => {
         ...data,
         paragraph: editorParser,
       };
-      mutate(formData, {
-        onSuccess: (response) => {
-          const { data } = response;
-          navigate(`/blog/${data?._id}`);
-        },
-      });
+      blogPostMutate(formData);
     }
   });
 

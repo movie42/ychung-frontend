@@ -9,6 +9,7 @@ import { usePost } from "@/lib/hooks";
 import { FetchDataProps } from "@/lib/interfaces";
 
 import { Editor, SEO } from "@/components";
+import { useUpdateBlogPost } from "./hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -83,33 +84,19 @@ interface IBlogDetailProps {
 }
 const BlogUpdate = ({ data }: IBlogDetailProps) => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<BlogDetail>();
 
-  const {
-    mutate,
-    isSuccess,
-    data: response,
-  } = usePost<FetchDataProps<BlogDetail>, Error, BlogDetail>({
-    url: `/api/blog/${id}`,
-    queryKey: "posts",
-    method: "POST",
-  });
+  const { mutate: updateBlogPostMutate } = useUpdateBlogPost();
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    if (editorParser) {
-      const formData = {
+    if (editorParser && id) {
+      const body = {
         ...data,
         paragraph: editorParser,
       };
-      mutate(formData, {
-        onSuccess: (response) => {
-          const { data } = response;
-          navigate(`/blog/${data?._id}`);
-        },
-      });
+      updateBlogPostMutate({ id, body });
     }
   });
 
