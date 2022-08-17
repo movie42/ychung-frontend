@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { currentDate } from "../../lib/utils/utilities/calenderHelper";
 import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { previewParagraph } from "../../lib/utils/utilities/previewParagraph";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 
 import { Editor, Label, Input, FormItem, SEO } from "@/components";
 

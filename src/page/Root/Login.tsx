@@ -8,7 +8,7 @@ import { useFetch } from "../../lib/utils/hooks/useFetch";
 import { postOrPatchRequest } from "../../lib/utils/utilities/httpMethod";
 import { LoginProps, loginState } from "../../state/Authrization";
 import usePostOrPatch from "../../lib/utils/hooks/usePost";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 
 import { Button, Label, Input, FormItem, SEO } from "@/components";
 

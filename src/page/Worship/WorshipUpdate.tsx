@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
@@ -13,7 +11,7 @@ import Label from "../../components/Form/Label";
 import FormItem from "../../components/Form/FormItem";
 import Select from "../../components/Form/Select";
 import SEO from "../../components/SEO/SEO";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

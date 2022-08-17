@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
 import { useNavigate } from "react-router";
 import usePostOrPatch from "../../../lib/utils/hooks/usePost";
-import { FetchDataProps } from "../../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 import { useQueryClient } from "react-query";
 
 import { Loading } from "@/components";

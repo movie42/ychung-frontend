@@ -15,7 +15,7 @@ import {
 
 import usePostOrPatch from "../../../lib/utils/hooks/usePost";
 import { useGet } from "../../../lib/utils/hooks/useGet";
-import { FetchDataProps } from "../../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 import useDelete from "../../../lib/utils/hooks/useDelete";
 import { translateEducationTypeNameToKR } from "../../../lib/utils/utilities/translateEducationTypeNameToKR";
 import { useDebouncedEffect } from "../../../lib/utils/hooks/useDebouncedEffect";

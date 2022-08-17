@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { currentDate } from "../../lib/utils/utilities/calenderHelper";
 import usePostOrPatch from "../../lib/utils/hooks/usePost";
 import { INoticeInterface } from "../../state/notice.atom";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 
 import { Editor, Label, Input, SEO } from "@/components";
 

@@ -3,7 +3,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { FetchDataProps } from "../../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 import { loginState } from "../../../state/Authrization";
 import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
 import { useGet } from "../../../lib/utils/hooks/useGet";

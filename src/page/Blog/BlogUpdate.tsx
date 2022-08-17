@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
 import usePostOrPatch from "../../lib/utils/hooks/usePost";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 
 import { Editor, SEO } from "@/components";
 

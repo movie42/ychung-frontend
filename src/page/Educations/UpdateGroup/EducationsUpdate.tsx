@@ -9,7 +9,7 @@ import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
 import usePostOrPatch from "../../../lib/utils/hooks/usePost";
 import { useGet } from "../../../lib/utils/hooks/useGet";
-import { FetchDataProps } from "../../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 import { MdDelete } from "react-icons/md";
 import useDelete from "@/lib/utils/hooks/useDelete";
 import { useQueryClient } from "react-query";

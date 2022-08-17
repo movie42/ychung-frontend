@@ -12,7 +12,7 @@ import Input from "../../components/Form/Input";
 import Select from "../../components/Form/Select";
 import SEO from "../../components/SEO/SEO";
 import { IWorshipItems } from "../../state/worship.atom";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

@@ -14,7 +14,7 @@ import {
 import { compare } from "../../../lib/utils/utilities/compare";
 import { useForm } from "react-hook-form";
 import usePostOrPatch from "../../../lib/utils/hooks/usePost";
-import { FetchDataProps } from "../../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 import { useGet } from "../../../lib/utils/hooks/useGet";
 import { useParams } from "react-router";
 import { useQueryClient } from "react-query";

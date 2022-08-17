@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Editor, SEO } from "@/components";
 
 import usePostOrPatch from "../../lib/utils/hooks/usePost";
-import { FetchDataProps } from "../../lib/interface";
+import { FetchDataProps } from "@/lib/interfaces";
 import { IBlogItems } from "../../state/blog.atom";
 
 const Wrapper = styled.div`
