@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
 import { AiFillEdit } from "react-icons/ai";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { FetchDataProps } from "@/lib/interfaces";
+
 import { loginState } from "../../../state/Authrization";
-import { GroupInfo, groupInfoState } from "../../../state/educationGroup.atom";
-import { useGet } from "@/lib/hooks";
+
 import DetailGroupContainer from "./DetailGroupContainer";
 
 import { IconButton, Loading } from "@/components";
+import { useGetGroupInfo } from "../hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -31,10 +30,8 @@ const Header = styled.div`
 const EducationGroupsDetail = () => {
   const { isLogin } = useRecoilValue(loginState);
   const { id } = useParams();
-  const { data, isLoading } = useGet<GroupInfo>({
-    url: `/api/education/groups/${id}`,
-    queryKey: "groupInfo",
-  });
+
+  const { data, isLoading } = useGetGroupInfo(id ? id : "");
 
   return isLoading ? (
     <Loading />

@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/components";
-
 import { GroupInfo } from "../../../state/educationGroup.atom";
 import GroupContainer from "./GroupContainer";
-import { usePost } from "@/lib/hooks";
-import { useGet } from "@/lib/hooks";
-import { FetchDataProps } from "@/lib/interfaces";
+import { useModalContorl } from "@/lib/hooks";
 import { MdDelete } from "react-icons/md";
-import useDelete from "@/lib/hooks/useDelete";
-import { useQueryClient } from "react-query";
+import { useGetGroupInfo, usePatchGroupInfo } from "../hooks";
+import useDeleteGroupInfo from "../hooks/useDeleteGroupInfo";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -61,8 +57,6 @@ interface GroupInfoSend {
 }
 
 function EducationUpdate() {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { id } = useParams();
   const {
     register,
@@ -74,62 +68,42 @@ function EducationUpdate() {
     data: groupInfo,
     isRefetching,
     isSuccess,
-  } = useGet<GroupInfo>({
-    url: `/api/education/groups/${id}`,
-    queryKey: "groupInfo",
-  });
-
-  const { mutate: groupInfoMutation } = usePost<
-    FetchDataProps<GroupInfoSend>,
-    Error,
-    GroupInfoSend
-  >({
-    url: `/api/education/groups/${id}`,
-    queryKey: "groupInfo",
-    method: "PATCH",
-  });
-
-  const {
-    mutate: deleteGroupInfoMutation,
-    isConfirmModal,
-    setIsConfirmModal,
-    isDelete,
-    setIsDelete,
-  } = useDelete({
-    url: `/api/education/groups/${id}`,
-    queryKey: "groupInfo",
-  });
+  } = useGetGroupInfo(id ? id : "");
+  const { mutate: groupInfoMutation } = usePatchGroupInfo();
+  const { isConfirm, isModal, setIsConfirm, setIsModal } = useModalContorl();
+  const { mutate: deleteGroupInfoMutation } = useDeleteGroupInfo();
 
   const deleteGroupInfo = () => {
-    setIsConfirmModal(true);
+    setIsModal(true);
   };
 
   const toggleButton = () => {
-    groupInfoMutation({ isPublic: !groupInfo?.isPublic });
+    if (id) {
+      groupInfoMutation({ id, body: { isPublic: !groupInfo?.isPublic } });
+    }
   };
 
   const changeTitle = handleSubmit((data) => {
     const { title } = data;
-    groupInfoMutation({ title });
+    if (id) {
+      groupInfoMutation({ id, body: { title } });
+    }
   });
 
   useEffect(() => {
-    deleteGroupInfoMutation(undefined, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("groupInfo");
-        navigate("/education");
-      },
-    });
-  }, [isDelete]);
+    if (isConfirm && id) {
+      deleteGroupInfoMutation(id);
+    }
+  }, [isConfirm]);
 
   return isRefetching && !isSuccess ? (
     <Loading />
   ) : (
     <>
-      {isConfirmModal && (
+      {isModal && (
         <ConfirmDeleteModal
-          setIsModal={setIsDelete}
-          setIsConfirm={setIsConfirmModal}
+          setIsModal={setIsModal}
+          setIsConfirm={setIsConfirm}
           title="교육 정보를 삭제하시겠습니까?"
           subtitle="교육 정보를 삭제하면 복구할 수 없습니다."
         />

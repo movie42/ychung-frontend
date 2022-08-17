@@ -3,23 +3,19 @@ import styled from "styled-components";
 import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "react-query";
 import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import { ConfirmDeleteModal } from "@/components";
-
-import {
-  People,
-  Group as GroupProps,
-} from "../../../state/educationGroup.atom";
-
-import { usePost } from "@/lib/hooks";
-import { useGet } from "@/lib/hooks";
-import { FetchDataProps } from "@/lib/interfaces";
+import { People, Group as GroupProps } from "@/state";
 
 import { translateEducationTypeNameToKR } from "@/lib/utils";
-import { useDebouncedEffect, useDelete } from "@/lib/hooks";
-import { useRecoilState } from "recoil";
-import { AiOutlineConsoleSql } from "react-icons/ai";
+import { useDebouncedEffect, useModalContorl } from "@/lib/hooks";
+import {
+  useAddNewPerson,
+  useGetPeople,
+  useDeleteGroup,
+  useEducaionSearchPerson,
+  useUpdateGroup,
+} from "../hooks";
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.color.gray300};
@@ -175,11 +171,6 @@ interface IGroupProps {
   item: GroupProps;
 }
 
-interface SendPeople {
-  _id?: string;
-  name?: string;
-  type?: "student" | "worker" | "new" | "etc";
-}
 interface Form {
   name?: string;
   type?: "student" | "worker" | "new" | "etc";
@@ -192,9 +183,8 @@ const Group = ({ item }: IGroupProps) => {
   const [isSearchingBoxError, setSearchingBoxError] = useState(false);
   const [count, setCount] = useState(0);
   const [selectedNodeId, setSelectedNodeId] = useState("");
-
-  const queryClient = useQueryClient();
   const [searchPersonName, setSearchPersonName] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -206,58 +196,19 @@ const Group = ({ item }: IGroupProps) => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpenPeopleInput, setIsOpenPeopleInput] = useState(false);
   const [searchPerson, setSearchPerson] = useState<People[] | null>();
-  const { data, refetch } = useGet<People[] | null>({
-    url: `/api/education/search?person=${searchPersonName}`,
-    queryKey: "search",
-    enabled: false,
-    onSuccess: (response) => {
-      setSearchPerson(response);
-    },
-  });
 
-  const { data: people } = useGet<People[]>({
-    url: `/api/education/group/${item._id}/people`,
-    queryKey: ["people", item._id],
-  });
+  const { isModal, isConfirm, setIsConfirm, setIsModal } = useModalContorl();
 
-  const { mutate: addNewPeople } = usePost<
-    FetchDataProps<People[]>,
-    Error,
-    SendPeople
-  >({
-    url: `/api/education/group/${item._id}/people`,
-    queryKey: ["people", item._id],
-    method: "POST",
-  });
+  const { mutate: addNewPeople } = useAddNewPerson();
+  const { mutate: deleteGroupMutate } = useDeleteGroup();
+  const { mutate: updateGroup } = useUpdateGroup();
+  const { data: people } = useGetPeople(item._id);
+  const { refetch } = useEducaionSearchPerson(
+    searchPersonName,
+    setSearchPerson
+  );
 
-  const { mutate: updateGroup } = usePost<
-    FetchDataProps<GroupProps>,
-    Error,
-    {
-      _id?: string;
-      name?: string;
-      place?: string;
-      type?: "student" | "worker" | "new" | "etc";
-    }
-  >({
-    url: `/api/education/group/update`,
-    queryKey: "groups",
-    method: "PATCH",
-  });
-
-  const {
-    mutate: deleteGroupMutate,
-    isConfirmModal,
-    setIsConfirmModal,
-    isDelete,
-    setIsDelete,
-  } = useDelete({
-    url: `/api/education/group/${item._id}`,
-    queryKey: "groups",
-    onSuccess: () => {
-      queryClient.invalidateQueries("groups");
-    },
-  });
+  useDebouncedEffect(() => refetch(), 300, [searchPersonName]);
 
   const openAddPeopleInput = () => {
     setIsOpenPeopleInput(!isOpenPeopleInput);
@@ -267,39 +218,38 @@ const Group = ({ item }: IGroupProps) => {
   };
 
   const deleteGroup = () => {
-    setIsConfirmModal(true);
+    setIsModal(true);
   };
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
     if (selectedNodeId && searchPerson && searchPerson.length !== 0) {
-      const [item] = searchPerson?.filter(
-        (value) => value._id === selectedNodeId
+      const [selectedItem] = searchPerson?.filter(
+        (person) => person._id === selectedNodeId
       );
-      selectItem(item);
-      setIsOpenPeopleInput(!isOpenPeopleInput);
-      reset({ name: "" });
-      setSearchPersonName("");
-      setSearchPerson([]);
-      return;
+      selectItem(selectedItem);
+    } else if (data.name) {
+      addNewPeople(
+        {
+          id: item._id,
+          body: {
+            name: data.name,
+            type: item.type,
+          },
+        },
+        {
+          onSuccess: () => {
+            setSearchPerson([]);
+            reset({ name: "" });
+          },
+          onError: (err) => {
+            setSearchPerson([]);
+            reset({ name: "" });
+            setError("name", { message: err.message });
+          },
+        }
+      );
     }
 
-    addNewPeople(
-      {
-        name: data.name,
-        type: item.type,
-      },
-      {
-        onSuccess: () => {
-          setSearchPerson([]);
-          reset({ name: "" });
-        },
-        onError: (err) => {
-          setSearchPerson([]);
-          reset({ name: "" });
-          setError("name", { message: err.message });
-        },
-      }
-    );
     setIsOpenPeopleInput(!isOpenPeopleInput);
     reset({ name: "" });
     setSearchPersonName("");
@@ -307,14 +257,18 @@ const Group = ({ item }: IGroupProps) => {
   });
 
   const onSubmitUpdateGroupName = handleSubmit((data) => {
-    updateGroup({
-      _id: item._id,
+    const id = item._id;
+    const body = {
+      _id: id,
       name: data.groupName,
       type: data.type,
       place: data.place,
-    });
-    reset();
-    setIsUpdate(false);
+    };
+    if (id) {
+      updateGroup({ body });
+      reset();
+      setIsUpdate(false);
+    }
   });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -327,7 +281,7 @@ const Group = ({ item }: IGroupProps) => {
       setSearchingBoxError(true);
       return;
     }
-    addNewPeople({ _id: person._id });
+    addNewPeople({ id: item._id, body: { _id: person._id } });
     reset({ name: "" });
   };
 
@@ -386,26 +340,25 @@ const Group = ({ item }: IGroupProps) => {
   }, [searchPerson, count, setCount]);
 
   useEffect(() => {
-    if (isDelete) {
-      deleteGroupMutate();
-      setIsConfirmModal(false);
-      setIsDelete(false);
+    const id = item._id;
+    if (isConfirm && id) {
+      deleteGroupMutate(id);
+      setIsConfirm(false);
+      setIsModal(false);
     }
-  }, [isDelete]);
-
-  useDebouncedEffect(() => refetch(), 300, [searchPersonName]);
+  }, [isConfirm]);
 
   useEffect(() => {
     const timeout = setTimeout(() => setSearchingBoxError(false), 3000);
     return () => clearTimeout(timeout);
   }, [isSearchingBoxError, setSearchingBoxError]);
-  const personName = useRef<HTMLInputElement>(null);
+
   return (
     <>
-      {isConfirmModal && (
+      {isModal && (
         <ConfirmDeleteModal
-          setIsModal={setIsDelete}
-          setIsConfirm={setIsConfirmModal}
+          setIsModal={setIsModal}
+          setIsConfirm={setIsConfirm}
           title="그룹을 삭제하시겠습니까?"
           subtitle="그룹을 삭제하면 복구할 수 없습니다. 참가자는 그대로 남습니다."
         />

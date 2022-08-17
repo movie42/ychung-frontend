@@ -3,24 +3,14 @@ import {
   DropResult,
   ResponderProvided,
 } from "react-beautiful-dnd";
-
 import styled from "styled-components";
-
-import {
-  Group as GroupProps,
-  GroupInfo,
-} from "../../../state/educationGroup.atom";
-
+import { Group as GroupProps, GroupInfo } from "@/state";
 import { useForm } from "react-hook-form";
-import { usePost } from "@/lib/hooks";
-import { FetchDataProps } from "@/lib/interfaces";
-import { useGet } from "@/lib/hooks";
 import { useParams } from "react-router";
-import { useQueryClient } from "react-query";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";
 import Group from "./Group";
-
 import { Input } from "@/components";
+import { useGetGroups, useUpdateGroup, useCreateGroup } from "../hooks";
 
 const Wrapper = styled.div``;
 
@@ -100,14 +90,6 @@ const Form = styled.form`
   }
 `;
 
-interface SendGroupProps {
-  _id?: string;
-  name?: string;
-  place?: string;
-  type?: "student" | "worker" | "new" | "etc";
-  humanIds?: string[];
-}
-
 interface IGroupContainerProps {
   groupInfo: GroupInfo | undefined;
 }
@@ -115,41 +97,17 @@ interface IGroupContainerProps {
 const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
   const { id } = useParams();
   const { register, handleSubmit, reset } = useForm<GroupProps>();
-  const queryClient = useQueryClient();
-  const {
-    data: group,
-    isLoading,
-    isFetching,
-  } = useGet<GroupProps[]>({
-    url: `/api/education/groups/${id}/group`,
-    queryKey: "groups",
-    cacheTime: 5 * 60 * 1000,
-    keepPreviousData: true,
-  });
 
-  const { mutate: updateGroupInfo } = usePost<
-    FetchDataProps<GroupProps>,
-    Error,
-    GroupProps
-  >({
-    url: `/api/education/groups/${id}/group`,
-    queryKey: "groups",
-    method: "POST",
-  });
+  const { data: group } = useGetGroups(groupInfo?._id ? groupInfo._id : "");
 
-  const { mutate: updateGroup } = usePost<
-    FetchDataProps<GroupProps>,
-    Error,
-    SendGroupProps
-  >({
-    url: `/api/education/group/update`,
-    queryKey: "groupInfo",
-    method: "PATCH",
-  });
+  const { mutate: createGroup } = useCreateGroup();
+  const { mutate: updateGroup } = useUpdateGroup();
 
   const addGroup = handleSubmit((data) => {
-    updateGroupInfo(data);
-    reset();
+    if (id) {
+      createGroup({ id, body: data });
+      reset();
+    }
   });
 
   const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
@@ -181,15 +139,7 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
           ...start,
           humanIds: newHunamIdsGroup,
         };
-        updateGroup(
-          { ...newGroup },
-          {
-            onSuccess: (response) => {
-              queryClient.invalidateQueries("groups");
-              queryClient.invalidateQueries("people");
-            },
-          }
-        );
+        updateGroup({ body: newGroup });
         return;
       }
 
@@ -207,24 +157,8 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
         humanIds: finishHunamIdsGroup,
       };
 
-      updateGroup(
-        { ...newStart },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries("groups");
-            queryClient.invalidateQueries("people");
-          },
-        }
-      );
-      updateGroup(
-        { ...newFinish },
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries("groups");
-            queryClient.invalidateQueries("people");
-          },
-        }
-      );
+      updateGroup({ body: newStart });
+      updateGroup({ body: newFinish });
     }
   };
 

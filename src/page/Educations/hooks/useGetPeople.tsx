@@ -4,8 +4,8 @@ import { EducationPeopleData } from "./interface";
 
 const useGetPeople = (id: string) => {
   const api = new API();
-  return useQuery<EducationPeopleData[], Error>(["people", id], (id) =>
-    api.getData(`/api/education/group/${id}/people`)
+  return useQuery<EducationPeopleData[], Error>(["people", id], () =>
+    api.getData<EducationPeopleData[]>(`/api/education/group/${id}/people`)
   );
 };
 

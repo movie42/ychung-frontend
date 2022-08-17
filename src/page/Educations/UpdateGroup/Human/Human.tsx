@@ -18,6 +18,7 @@ import { useGet, usePost } from "@/lib/hooks";
 
 import { ConfirmDeleteModal } from "@/components";
 import { useModalContorl } from "@/lib/hooks";
+import { useDeletePersonFromGroup, useUpdatePerson } from "../../hooks";
 
 const Container = styled.div<{
   isDragging: boolean;
@@ -173,51 +174,37 @@ interface ITaskInterface {
 }
 
 const Human = ({ index, person, groupId }: ITaskInterface) => {
-  const queryClient = useQueryClient();
-
   const [isUpdate, setIsUpdate] = useState(false);
 
   const { register, handleSubmit } = useForm<{
     name?: string;
     sex?: "male" | "female";
   }>();
-  const { setIsConfirm, setIsModal, isConfirm, isModal } = useModalContorl();
-  const { mutate: updatePeople } = usePost({
-    url: `/api/education/people/${person._id}`,
-    queryKey: "people",
-    method: "PATCH",
-  });
 
-  const {
-    mutate: deletePeopleFromGroup,
-    isConfirmModal,
-    setIsConfirmModal,
-    isDelete,
-    setIsDelete,
-  } = useDelete({
-    url: `/api/education/group/${groupId}/people?person=${person._id}`,
-    queryKey: "people",
-    onSuccess: () => {
-      queryClient.invalidateQueries("people");
-    },
-  });
+  const { setIsConfirm, setIsModal, isConfirm, isModal } = useModalContorl();
+
+  const { mutate: updatePeople } = useUpdatePerson();
+  const { mutate: deletePeopleFromGroup } = useDeletePersonFromGroup();
 
   const toggleButton = () => {
-    updatePeople({ isLeader: !person?.isLeader });
+    const id = person._id;
+    updatePeople({ id, body: { isLeader: !person?.isLeader } });
   };
 
   const onSubmitUpdatePeopleName = handleSubmit((data) => {
-    updatePeople({ name: data.name, sex: data.sex });
+    const id = person._id;
+    updatePeople({ id, body: { name: data.name, sex: data.sex } });
     setIsUpdate(false);
   });
 
   const deletePeople = () => {
-    setIsConfirm(true);
+    setIsModal(true);
   };
 
   useEffect(() => {
-    if (isConfirm) {
-      deletePeopleFromGroup();
+    const personId = person._id;
+    if (isConfirm && personId && groupId) {
+      deletePeopleFromGroup({ personId, groupId });
     }
   }, [isConfirm]);
 
