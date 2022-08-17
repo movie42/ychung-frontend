@@ -6,6 +6,12 @@
 
 [홈페이지 바로가기](https://y-chung.com)
 
+## 위키
+
+개발하면서 겪은 이슈 또는 문제 해결 등이 궁금하다면 위키를 참조하세요.
+
+[위키 바로가기](https://github.com/movie42/ychung-frontend/wiki)
+
 ## 주요 기능
 
 현재 기능은 다음과 같습니다.
