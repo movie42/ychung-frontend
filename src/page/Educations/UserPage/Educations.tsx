@@ -1,19 +1,14 @@
-import { userInfo } from "os";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { loginState } from "../../../state/Authrization";
-import { groupInfoState } from "../../../state/educationGroup.atom";
-import { useGet } from "@/lib/hooks";
 import { calculateDate } from "@/lib/utils";
-
 import GroupItem from "./GroupItem";
 import GroupItemContainer from "./GroupItemContainer";
-
 import { IconButton, Loading } from "@/components";
+import { useGetEducations } from "../hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -41,23 +36,10 @@ const CreateGroupButton = styled(IconButton)`
   margin-left: 2rem;
 `;
 
-interface IEducationFetchData {
-  _id: string;
-  title: string;
-  isPublic: boolean;
-  groups: [];
-  createdAt: Date;
-}
-
 const Educations = () => {
   const navigate = useNavigate();
   const { isLogin } = useRecoilValue(loginState);
-
-  const queryClient = useQueryClient();
-  const { isLoading, data } = useGet<IEducationFetchData[]>({
-    url: "/api/education/groups",
-    queryKey: "educations",
-  });
+  const { isLoading, data: groups } = useGetEducations();
 
   const createGroup = () => {
     navigate("/education/groups/create");
@@ -83,12 +65,12 @@ const Educations = () => {
         </TextContainer>
       </Header>
 
-      {data && (
+      {groups && (
         <GroupSection>
           <Header>
             <TextContainer>
               <h2>소그룹</h2>
-              {data?.filter((value) => value.isPublic).length !== 0 ? (
+              {groups?.filter((value) => value.isPublic).length !== 0 ? (
                 <p>참여하고 있는 소그룹을 선택해주세요.</p>
               ) : (
                 <p>공개중인 소그룹이 없습니다.</p>
@@ -102,38 +84,38 @@ const Educations = () => {
           </Header>
           <GroupItemContainer
             style={{ border: "1px solid #333333" }}
-            data={data.filter((value) => value.isPublic)}
-            renderFunc={(item: IEducationFetchData) => (
+            data={groups.filter((group) => group.isPublic)}
+            renderFunc={(group) => (
               <GroupItem
-                key={item._id}
-                data-id={item._id}
-                onClick={(e) => moveToDetail(e, item._id, item.isPublic)}>
-                <h3>{item.title}</h3>
-                <span>{calculateDate(item.createdAt.toString())}</span>
+                key={group._id}
+                data-id={group._id}
+                onClick={(e) => moveToDetail(e, group._id, group.isPublic)}>
+                <h3>{group.title}</h3>
+                <span>{calculateDate(group.createdAt.toString())}</span>
               </GroupItem>
             )}
           />
         </GroupSection>
       )}
 
-      {data && isLogin && (
+      {groups && isLogin && (
         <GroupSection>
           <Header>
             <TextContainer>
               <h2>작성 중인 소그룹</h2>
             </TextContainer>
           </Header>
-          {data.length !== 0 ? (
+          {groups.length !== 0 ? (
             <GroupItemContainer
               style={{ border: "1px solid #333333" }}
-              data={data.filter((value) => !value.isPublic)}
-              renderFunc={(item: IEducationFetchData) => (
+              data={groups.filter((value) => !value.isPublic)}
+              renderFunc={(group) => (
                 <GroupItem
-                  key={item._id}
-                  data-id={item._id}
-                  onClick={(e) => moveToDetail(e, item._id, item.isPublic)}>
-                  <h3>{item.title}</h3>
-                  <span>{calculateDate(item.createdAt.toString())}</span>
+                  key={group._id}
+                  data-id={group._id}
+                  onClick={(e) => moveToDetail(e, group._id, group.isPublic)}>
+                  <h3>{group.title}</h3>
+                  <span>{calculateDate(group.createdAt.toString())}</span>
                 </GroupItem>
               )}
             />

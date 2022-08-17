@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import { Group, People } from "../../../state/educationGroup.atom";
-import { useGet } from "@/lib/hooks";
+import { Group } from "@/state";
 import GroupPerson from "./GroupPerson";
+import { useGetPeople } from "../hooks";
 
 const ItemContainer = styled.li`
   padding: 1rem;
@@ -34,27 +33,17 @@ const InfoContainer = styled.div`
 `;
 
 interface IDetailGroupProps {
-  group?: Group;
-}
-
-interface FetchGroup {
-  _id: string;
-  name: string;
-  type: "student" | "worker" | "new" | "etc";
-  humanIds: People;
+  group: Group;
 }
 
 const DetailGroup = ({ group }: IDetailGroupProps) => {
-  const { data: humans } = useGet<People[]>({
-    url: `/api/education/group/${group?._id}/people`,
-    queryKey: ["people", group?._id ? group._id : ""],
-  });
+  const { data: humans } = useGetPeople(group._id);
 
   return (
     <ItemContainer>
       <Item>
         <InfoContainer>
-          <h2>{group?.name} 조</h2>
+          <h2>{group.name} 조</h2>
           <h3>조장</h3>
           <h4>{humans?.map((value) => value.isLeader && <>{value.name}</>)}</h4>
         </InfoContainer>
@@ -64,7 +53,7 @@ const DetailGroup = ({ group }: IDetailGroupProps) => {
         </InfoContainer>
         <InfoContainer>
           <h3>참가자</h3>
-          {humans && humans.length !== 0 ? (
+          {humans && humans?.length !== 0 ? (
             <ul>
               {humans
                 ?.filter((value) => !value.isLeader)

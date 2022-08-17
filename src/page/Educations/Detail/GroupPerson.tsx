@@ -1,7 +1,6 @@
-import React from "react";
 import { HiUser } from "react-icons/hi";
 import styled from "styled-components";
-import { People } from "../../../state/educationGroup.atom";
+import { People } from "@/state";
 
 const Item = styled.li`
   box-sizing: border-box;

@@ -1,12 +1,10 @@
-import React from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 
 import { Loading } from "@/components";
 
-import { Group } from "../../../state/educationGroup.atom";
-import { useGet } from "@/lib/hooks";
 import DetailGroup from "./DetailGroup";
+import useGetGroups from "../hooks/useGetGroups";
 
 const Container = styled.section`
   width: 100%;
@@ -28,15 +26,13 @@ const GroupContainer = styled.ul`
 
 const DetailGroupContainer = () => {
   const { id } = useParams();
-  const { data, isSuccess } = useGet<Group[]>({
-    url: `/api/education/groups/${id}/group`,
-    queryKey: "groups",
-  });
 
-  const studentGroup = data?.filter((value) => value.type === "student");
-  const workerGroup = data?.filter((value) => value.type === "worker");
-  const newPeopleGorup = data?.filter((value) => value.type === "new");
-  const etcGroup = data?.filter((value) => value.type === "etc");
+  const { data: groups, isSuccess } = useGetGroups(id ? id : "");
+
+  const studentGroup = groups?.filter((value) => value.type === "student");
+  const workerGroup = groups?.filter((value) => value.type === "worker");
+  const newPeopleGorup = groups?.filter((value) => value.type === "new");
+  const etcGroup = groups?.filter((value) => value.type === "etc");
 
   return isSuccess ? (
     <>
@@ -46,8 +42,8 @@ const DetailGroupContainer = () => {
             <h2>새신자</h2>
           </TextContainer>
           <GroupContainer>
-            {newPeopleGorup?.map((value) => (
-              <DetailGroup key={value._id} group={value} />
+            {newPeopleGorup?.map((group) => (
+              <DetailGroup key={group._id} group={group} />
             ))}
           </GroupContainer>
         </Container>
@@ -58,8 +54,8 @@ const DetailGroupContainer = () => {
             <h2>학생</h2>
           </TextContainer>
           <GroupContainer>
-            {studentGroup?.map((value) => (
-              <DetailGroup key={value._id} group={value} />
+            {studentGroup?.map((group) => (
+              <DetailGroup key={group._id} group={group} />
             ))}
           </GroupContainer>
         </Container>
@@ -70,8 +66,8 @@ const DetailGroupContainer = () => {
             <h2>직장</h2>
           </TextContainer>
           <GroupContainer>
-            {workerGroup?.map((value) => (
-              <DetailGroup key={value._id} group={value} />
+            {workerGroup?.map((group) => (
+              <DetailGroup key={group._id} group={group} />
             ))}
           </GroupContainer>
         </Container>
@@ -82,8 +78,8 @@ const DetailGroupContainer = () => {
             <h2>기타</h2>
           </TextContainer>
           <GroupContainer>
-            {etcGroup?.map((value) => (
-              <DetailGroup key={value._id} group={value} />
+            {etcGroup?.map((group) => (
+              <DetailGroup key={group._id} group={group} />
             ))}
           </GroupContainer>
         </Container>
