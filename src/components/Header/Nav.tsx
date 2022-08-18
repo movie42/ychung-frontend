@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useRecoilValue } from "recoil";
-import { loginState } from "../../state/Authrization";
+import { loginState } from "@/lib/state";
 
 const Items = styled(motion.ul)`
   @media (max-width: ${(props) => props.theme.screen.mobile}) {

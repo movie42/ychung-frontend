@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { BIBLE_DATA_SET } from "@/lib/utils";
-import { IWorshipItems } from "@/state";
+import { IWorshipItems } from "@/lib/state";
 import { Input, Label, FormItem, Select, SEO } from "@/components";
 
 import { useUpdateWeekly } from "./hooks";

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { HiUser } from "react-icons/hi";
 
-import { People } from "../../../../state/educationGroup.atom";
+import { People } from "@/lib/state";
 import {
   MdArrowDropDown,
   MdDelete,

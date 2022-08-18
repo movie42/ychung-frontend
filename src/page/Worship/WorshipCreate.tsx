@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { BIBLE_DATA_SET } from "@/lib/utils";
 import { FormItem, Label, Input, Select, SEO } from "@/components";
-import { IWorshipItems } from "@/state";
+import { IWorshipItems } from "@/lib/state";
 import { useCreateWeekly } from "./hooks";
 
 const Wrapper = styled.div`

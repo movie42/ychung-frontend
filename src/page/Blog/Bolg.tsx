@@ -5,10 +5,7 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import { blog, blogModalControler } from "../../state/blog.atom";
-import { loginState } from "../../state/Authrization";
-import { IBlogItems } from "../../state/blog.atom";
-import { useGet } from "@/lib/hooks";
+import { blog, blogModalControler, loginState } from "@/lib/state";
 
 import { Loading, ListItem, ListContainer, SEO } from "@/components";
 import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";

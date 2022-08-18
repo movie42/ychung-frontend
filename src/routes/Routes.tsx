@@ -47,7 +47,7 @@ import {
   blogModalControler,
   worshipDetail,
   worshipModalControler,
-} from "@/state";
+} from "@/lib/state";
 
 import ProtectRouter from "./ProtectRouter";
 import { PageNotFound } from "@/page/Errors";

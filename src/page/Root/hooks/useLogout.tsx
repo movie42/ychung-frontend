@@ -1,5 +1,5 @@
 import { API } from "@/lib/api";
-import { loginState } from "@/state";
+import { loginState } from "@/lib/state";
 import { useQuery } from "react-query";
 import { useResetRecoilState } from "recoil";
 

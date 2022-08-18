@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 
-import { useLocation, useNavigate, useParams } from "react-router";
-import { loginState } from "../../state/Authrization";
+import { useNavigate, useParams } from "react-router";
 import { useModalContorl, useSetView } from "@/lib/hooks";
-import { blog, IBlogItems } from "../../state/blog.atom";
-import useDelete from "../../lib/hooks/useDelete";
+import { blog, IBlogItems, loginState } from "@/lib/state";
 import { previewParagraph } from "@/lib/utils";
 
 import {

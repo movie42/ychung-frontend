@@ -5,7 +5,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
 import { ConfirmDeleteModal } from "@/components";
-import { People, Group as GroupProps } from "@/state";
+import { People, Group as GroupProps } from "@/lib/state";
 
 import { translateEducationTypeNameToKR } from "@/lib/utils";
 import { useDebouncedEffect, useModalContorl } from "@/lib/hooks";

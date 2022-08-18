@@ -6,10 +6,9 @@ import { MdDelete } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import Button from "../../../components/Buttons/Button";
-import { loginState } from "../../../state/Authrization";
+import { Button, ConfirmDeleteModal } from "@/components";
+import { loginState } from "@/lib/state";
 import { calculateDate } from "@/lib/utils";
-import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal";
 import { useModalContorl } from "@/lib/hooks";
 import { useDeleteWeekly } from "../hooks";
 

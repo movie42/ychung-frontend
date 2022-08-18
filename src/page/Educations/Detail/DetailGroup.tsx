@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Group } from "@/state";
+import { Group } from "@/lib/state";
 import GroupPerson from "./GroupPerson";
 import { useGetPeople } from "../hooks";
 

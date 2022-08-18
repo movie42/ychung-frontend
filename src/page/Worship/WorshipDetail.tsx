@@ -20,7 +20,7 @@ import {
   openWebBible,
   chapterNameTransferFromEngToKr,
 } from "@/lib/utils";
-import { IWorshipItems, worshipDetail } from "@/state";
+import { IWorshipItems, worshipDetail } from "@/lib/state";
 import { useSetView, useCopyText } from "@/lib/hooks";
 
 const WorshipInfoContainer = styled(motion.div)`

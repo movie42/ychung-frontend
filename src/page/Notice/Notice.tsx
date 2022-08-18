@@ -4,8 +4,7 @@ import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { notice, noticeModalControler } from "@/state/notice.atom";
-import { loginState } from "@/state/Authrization";
+import { notice, noticeModalControler, loginState } from "@/lib/state";
 
 import { ListContainer, ListItem, SEO } from "@/components";
 

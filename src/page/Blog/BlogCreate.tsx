@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Editor, SEO } from "@/components";
 
-import { IBlogItems } from "../../state/blog.atom";
+import { IBlogItems } from "@/lib/state";
 import { useCreateBlogPost } from "./hooks";
 
 const Wrapper = styled.div`

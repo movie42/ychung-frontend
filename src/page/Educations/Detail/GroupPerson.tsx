@@ -1,6 +1,6 @@
 import { HiUser } from "react-icons/hi";
 import styled from "styled-components";
-import { People } from "@/state";
+import { People } from "@/lib/state";
 
 const Item = styled.li`
   box-sizing: border-box;

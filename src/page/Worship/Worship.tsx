@@ -5,12 +5,9 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import WorshipItem from "./WorshipDetailComponents/WorshipItem";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { worshipDetail, worshipModalControler } from "../../state/worship.atom";
-import { loginState } from "../../state/Authrization";
-import { IWorshipItems } from "../../state/worship.atom";
-import { useGet } from "@/lib/hooks";
-import { ListContainer, SEO } from "@/components";
-import SkeletonForWorshipItem from "@/components/Loading/Skeletons/SkeletonForWorshipItem";
+import { worshipDetail, worshipModalControler, loginState } from "@/lib/state";
+import { ListContainer, SEO, SkeletonForWorshipItem } from "@/components";
+
 import { useGetWeekies } from "./hooks";
 
 const Wrapper = styled(motion.div)`
@@ -90,7 +87,7 @@ function Worship() {
           <ListContainer
             isLoading={isLoading && isRefetching}
             data={weeklies}
-            renderFunc={(item: IWorshipItems) => (
+            renderFunc={(item) => (
               <WorshipItem key={item?._id} worship={item} onClick={onClick} />
             )}
             skeletonRenderFunc={() => <SkeletonForWorshipItem />}

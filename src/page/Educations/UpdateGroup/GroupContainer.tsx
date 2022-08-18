@@ -4,12 +4,12 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { Group as GroupProps, GroupInfo } from "@/state";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";
-import Group from "./Group";
+import { Group as GroupProps, GroupInfo } from "@/lib/state";
 import { Input } from "@/components";
+import Group from "./Group";
 import { useGetGroups, useUpdateGroup, useCreateGroup } from "../hooks";
 
 const Wrapper = styled.div``;

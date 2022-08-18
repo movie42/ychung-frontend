@@ -4,9 +4,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { loginState } from "../../state/Authrization";
-import { INoticeInterface, notice } from "../../state/notice.atom";
-
+import { loginState, INoticeInterface, notice } from "@/lib/state";
 import { previewParagraph } from "@/lib/utils";
 import { useModalContorl, useSetView } from "@/lib/hooks";
 

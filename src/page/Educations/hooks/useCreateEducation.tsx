@@ -1,5 +1,5 @@
 import { API } from "@/lib/api";
-import { groupInfoState } from "@/state";
+import { groupInfoState } from "@/lib/state";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";

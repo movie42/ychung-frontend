@@ -2,9 +2,9 @@ import { render } from "@testing-library/react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
-import { People } from "../../../../../state/educationGroup.atom";
+import { People } from "@/lib/state";
 import Human from "../Human";
-import { theme } from "../../../../../theme";
+import { theme } from "@/theme";
 
 describe("Human 컴포넌트 테스트", () => {
   const drag = jest.fn();

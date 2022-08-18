@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-import { People } from "../../state/educationGroup.atom";
+import { People } from "@/lib/state";
 
 interface IInjectTestingRecoilStateProps {
   people: People;

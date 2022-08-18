@@ -1,4 +1,4 @@
-import { INoticeInterface } from "@/state";
+import { INoticeInterface } from "@/lib/state";
 import { API } from "@/lib/api";
 import { useQuery } from "react-query";
 

@@ -3,11 +3,11 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { loginState } from "../../../state/Authrization";
+import { loginState } from "@/lib/state";
 import { calculateDate } from "@/lib/utils";
+import { IconButton, Loading } from "@/components";
 import GroupItem from "./GroupItem";
 import GroupItemContainer from "./GroupItemContainer";
-import { IconButton, Loading } from "@/components";
 import { useGetEducations } from "../hooks";
 
 const Wrapper = styled.div`

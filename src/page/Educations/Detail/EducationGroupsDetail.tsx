@@ -3,11 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import { loginState } from "../../../state/Authrization";
+import { IconButton, Loading } from "@/components";
+import { loginState } from "@/lib/state";
 
 import DetailGroupContainer from "./DetailGroupContainer";
-
-import { IconButton, Loading } from "@/components";
 import { useGetGroupInfo } from "../hooks";
 
 const Wrapper = styled.div`

@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/components";
-import { GroupInfo } from "../../../state/educationGroup.atom";
+import { GroupInfo } from "@/lib/state";
 import GroupContainer from "./GroupContainer";
 import { useModalContorl } from "@/lib/hooks";
 import { MdDelete } from "react-icons/md";
-import { useGetGroupInfo, usePatchGroupInfo } from "../hooks";
-import useDeleteGroupInfo from "../hooks/useDeleteGroupInfo";
+import {
+  useGetGroupInfo,
+  usePatchGroupInfo,
+  useDeleteGroupInfo,
+} from "../hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

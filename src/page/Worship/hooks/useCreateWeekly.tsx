@@ -1,5 +1,5 @@
 import { API } from "@/lib/api";
-import { IWorshipItems } from "@/state";
+import { IWorshipItems } from "@/lib/state";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 

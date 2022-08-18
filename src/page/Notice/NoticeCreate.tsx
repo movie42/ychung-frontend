@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { calenderHelper } from "@/lib/utils";
-import { INoticeInterface } from "../../state/notice.atom";
+import { INoticeInterface } from "@/lib/state";
 
 import { Editor, Label, Input, SEO } from "@/components";
 import { useCreateNotice } from "./hooks";

@@ -1,5 +1,5 @@
 import { API } from "@/lib/api";
-import { loginState } from "@/state";
+import { loginState } from "@/lib/state";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
