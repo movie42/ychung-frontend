@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { API, snackbarStatusCode } from "@/lib/api";
+import { useSetSnackBar } from "@/lib/hooks";
 import { groupInfoState } from "@/lib/state";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
@@ -10,6 +11,7 @@ const useEducationCreate = () => {
   const setGroupInfo = useSetRecoilState(groupInfoState);
   const queryClient = useQueryClient();
   const api = new API();
+  const { handleAddSnackBar } = useSetSnackBar();
 
   return useMutation<EducationCreateData, Error, EducationCreateVariable>(
     ["educations"],
@@ -17,13 +19,14 @@ const useEducationCreate = () => {
     {
       onSuccess: (response) => {
         setGroupInfo(response);
-        setTimeout(
-          () => navigate(`/education/groups/${response?._id}/update`),
-          3000
-        );
+        handleAddSnackBar({
+          message: snackbarStatusCode[200],
+          type: "success",
+        });
         queryClient.invalidateQueries("group");
         queryClient.invalidateQueries("groups");
         queryClient.invalidateQueries("people");
+        navigate(`/education/groups/${response?._id}/update`);
       },
     }
   );

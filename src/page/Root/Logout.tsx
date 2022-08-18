@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 import { Loading } from "@/components";
 import { useLogout } from "./hooks";
+import { useResetRecoilState } from "recoil";
+import { loginState } from "@/lib/state";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,17 +26,20 @@ interface Logout {
 
 const Logout = () => {
   const navigate = useNavigate();
+  const removeLoginState = useResetRecoilState(loginState);
   const { isLoading, isSuccess } = useLogout();
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
+    let timer: NodeJS.Timeout;
     if (isSuccess) {
-      timeout = setTimeout(() => {
+      timer = setTimeout(() => {
+        removeLoginState();
+        localStorage.removeItem("ycUser");
         navigate("/");
       }, 2000);
     }
-    return () => clearTimeout(timeout);
+
+    return () => clearTimeout(timer);
   }, [isSuccess]);
 
   if (isLoading) {

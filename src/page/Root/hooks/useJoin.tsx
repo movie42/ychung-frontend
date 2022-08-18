@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { API, snackbarStatusCode } from "@/lib/api";
+import { useSetSnackBar } from "@/lib/hooks";
 import React from "react";
 import { useMutation } from "react-query";
 
@@ -12,10 +13,16 @@ interface JoinVariable {
 
 const useJoin = () => {
   const api = new API();
+  const { handleAddSnackBar } = useSetSnackBar();
   return useMutation<JoinData, Error, JoinVariable>(
     (body) => api.postData("/api/join", body),
     {
-      onSuccess: () => {},
+      onSuccess: () => {
+        handleAddSnackBar({
+          message: snackbarStatusCode[203],
+          type: "success",
+        });
+      },
     }
   );
 };

@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { API, snackbarStatusCode } from "@/lib/api";
+import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
@@ -33,13 +34,17 @@ const useUpdateWeekly = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const api = new API();
+  const { handleAddSnackBar } = useSetSnackBar();
 
   return useMutation<WeeklyUpdateData, Error, WeeklyUpdateVariable>(
     ({ id, body }) => api.postData(`/api/worship/${id}`, body),
     {
       onSuccess: (response) => {
-        console.log(response);
         queryClient.invalidateQueries(["weeklies"]);
+        handleAddSnackBar({
+          message: snackbarStatusCode[202],
+          type: "success",
+        });
         navigate(`/worship/${response._id}`, {
           replace: true,
         });

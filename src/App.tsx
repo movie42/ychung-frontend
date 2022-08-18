@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { loginState } from "./state/Authrization";
+import { loginState, snackbarState } from "@/lib/state";
+import { Header, SEO, Snackbar } from "@/components";
 import Router from "./routes/Routes";
-
-import { Header, SEO } from "@/components";
 
 const Wrapper = styled.main`
   overflow-x: hidden;
@@ -15,7 +14,7 @@ const Wrapper = styled.main`
 function App() {
   const currentLogin = useSetRecoilState(loginState);
   const currentUser = JSON.parse(localStorage.getItem("ycUser") || "{}");
-
+  const [snackbarQueue, setSnackbarQueue] = useRecoilState(snackbarState);
   useEffect(() => {
     if (!currentUser) {
       return;
@@ -26,11 +25,28 @@ function App() {
     return;
   }, []);
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    timer = setTimeout(() => setSnackbarQueue([]), 6000);
+    return () => clearTimeout(timer);
+  }, [snackbarQueue]);
+
   return (
     <>
       <SEO />
+
       <Header />
       <Wrapper>
+        <Snackbar>
+          {snackbarQueue.map(({ id, message, type }) => (
+            <Snackbar.Item
+              key={id}
+              data-set={id}
+              message={message}
+              type={type}
+            />
+          ))}
+        </Snackbar>
         <Router />
       </Wrapper>
     </>

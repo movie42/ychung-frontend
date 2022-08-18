@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { API, snackbarStatusCode } from "@/lib/api";
+import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
@@ -26,13 +27,17 @@ interface NoticeUpdateVariable {
 const useUpdateNotice = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { handleAddSnackBar } = useSetSnackBar();
   const api = new API();
 
   return useMutation<NoticeUpdateData, Error, NoticeUpdateVariable>(
     ({ id, body }) => api.postData(`/api/notice/${id}`, body),
     {
       onSuccess: (response) => {
-        console.log(response);
+        handleAddSnackBar({
+          message: snackbarStatusCode[202],
+          type: "success",
+        });
         queryClient.invalidateQueries(["notices"]);
         navigate(`/notice/${response._id}`, {
           replace: true,

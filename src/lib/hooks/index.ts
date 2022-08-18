@@ -9,3 +9,4 @@ export { default as useMediaQuery } from "./useMediaQuery";
 export { default as useModalContorl } from "./useModalContorl";
 export { default as usePost } from "./usePost";
 export { default as useSetView } from "./useSetView";
+export { default as useSetSnackBar } from "./useSetSnackBar";

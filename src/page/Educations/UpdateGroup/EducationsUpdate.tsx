@@ -118,7 +118,7 @@ function EducationUpdate() {
               <TitleInput
                 type="text"
                 defaultValue={groupInfo?.title}
-                placeholder="소그룹 제목을 입력하세요."
+                placeholder="교육의 이름을 입력하세요."
                 {...register("title", {
                   required: "제목은 반드시 입력해야합니다.",
                 })}
