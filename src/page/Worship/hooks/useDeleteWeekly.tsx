@@ -1,6 +1,5 @@
-import { API, snackbarStatusCode } from "@/lib/api";
+import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar } from "@/lib/hooks";
-import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
@@ -12,7 +11,6 @@ interface WeeklyDeleteVariable {
 }
 
 const useDeleteWeekly = () => {
-  const api = new API();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();

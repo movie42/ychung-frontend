@@ -1,16 +1,15 @@
-import { API, snackbarStatusCode } from "@/lib/api";
+import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { BlogDeleteData, BlogDeleteVariable } from "./interface";
 
 const useDeleteBlogPost = () => {
-  const api = new API();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
 
-  return useMutation<BlogDeleteData, Error, BlogDeleteVariable>(
+  return useMutation<{ data: BlogDeleteData }, Error, BlogDeleteVariable>(
     ({ id }) => api.deleteData(`/api/blog/${id}`),
     {
       onSuccess: () => {

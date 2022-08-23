@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 
 interface LogoutData {
@@ -6,10 +7,8 @@ interface LogoutData {
 }
 
 const useLogout = () => {
-  const api = new API();
-
-  return useQuery<LogoutData>(["logout"], () =>
-    api.getData<LogoutData>("/api/logout")
+  return useQuery<LogoutData, AxiosError>(["logout"], () =>
+    api.getData("/api/logout")
   );
 };
 

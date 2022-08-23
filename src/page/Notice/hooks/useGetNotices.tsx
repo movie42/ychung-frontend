@@ -1,13 +1,18 @@
 import { INoticeInterface } from "@/lib/state";
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useQuery } from "react-query";
+import { AxiosError } from "axios";
+
+interface NoticeQueryData {
+  data: INoticeInterface[];
+}
 
 const useGetNotice = () => {
-  const api = new API();
-  return useQuery<INoticeInterface[]>(
+  return useQuery<NoticeQueryData, AxiosError, INoticeInterface[]>(
     ["notices"],
-    () => api.getData<INoticeInterface[]>("/api/notice"),
+    () => api.getData("/api/notice"),
     {
+      select: ({ data }) => data,
       staleTime: 300000,
     }
   );

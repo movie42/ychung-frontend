@@ -1,4 +1,4 @@
-import { API, snackbarStatusCode } from "@/lib/api";
+import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import {
@@ -7,7 +7,6 @@ import {
 } from "./interface";
 
 const usePatchGroupInfo = () => {
-  const api = new API();
   const { handleAddSnackBar } = useSetSnackBar();
   const queryClient = useQueryClient();
   return useMutation<EducationGroupInfoData, Error, EducationGroupInfoVariable>(

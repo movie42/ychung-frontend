@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 interface DeletePerson {
@@ -8,9 +9,8 @@ interface DeletePerson {
 
 const useDeletePersonFromGroup = () => {
   const queryClient = useQueryClient();
-  const api = new API();
 
-  return useMutation<unknown, Error, DeletePerson>(
+  return useMutation<unknown, AxiosError, DeletePerson>(
     ({ groupId, personId }) =>
       api.deleteData(
         `/api/education/group/${groupId}/people?person=${personId}`

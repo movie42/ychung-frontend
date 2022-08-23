@@ -342,7 +342,7 @@ const Group = ({ item }: IGroupProps) => {
   useEffect(() => {
     const id = item._id;
     if (isConfirm && id) {
-      deleteGroupMutate(id);
+      deleteGroupMutate({ id });
       setIsConfirm(false);
       setIsModal(false);
     }

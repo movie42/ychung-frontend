@@ -1,2 +1,2 @@
-export { default as API } from "./api";
+export { api } from "./api";
 export { snackbarStatusCode } from "./snackbarMessage";

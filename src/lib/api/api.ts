@@ -1,93 +1,81 @@
+import axios from "axios";
+
+const instance = axios.create({
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
 class API {
-  async getData<TData>(url: string) {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      mode: "cors",
-    });
-
-    const { data } = await response.json();
-
-    return data as TData;
+  async getData(url: string) {
+    const response = await instance.get(url);
+    return response.data;
   }
 
-  async postData<TData, TVariable>(url: string, body: TVariable) {
-    const CSRFToken = await this.getData<string>("/api/csrf-token");
+  async postData<TVariable>(url: string, body: TVariable) {
+    const { data: CSRFToken } = await this.getData("/api/csrf-token");
 
-    const response = await fetch(url, {
-      method: "POST",
+    const response = await instance.post(
+      url,
+      { ...body },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": CSRFToken,
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async patchData<TVariable>(url: string, body: TVariable) {
+    const { data: CSRFToken } = await this.getData("/api/csrf-token");
+
+    const response = await instance.patch(
+      url,
+      { ...body },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": CSRFToken,
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async putData<TVariable>(url: string, body: TVariable) {
+    const { data: CSRFToken } = await this.getData("/api/csrf-token");
+
+    const response = await instance.put(
+      url,
+      { ...body },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": CSRFToken,
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async deleteData(url: string) {
+    const { data: CSRFToken } = await this.getData("/api/csrf-token");
+
+    const response = await instance.delete(url, {
       headers: {
         "Content-Type": "application/json",
         "X-CSRF-Token": CSRFToken,
       },
-      body: JSON.stringify(body),
-      credentials: "include",
-      mode: "cors",
     });
 
-    const { data } = await response.json();
-
-    return data as TData;
-  }
-
-  async patchData<TData, TVariable>(url: string, body: TVariable) {
-    const CSRFToken = await this.getData<string>("/api/csrf-token");
-
-    const response = await fetch(url, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": CSRFToken,
-      },
-      body: JSON.stringify(body),
-      credentials: "include",
-      mode: "cors",
-    });
-
-    const { data } = await response.json();
-
-    return data as TData;
-  }
-
-  async putData<TData, TVariable>(url: string, body: TVariable) {
-    const CSRFToken = await this.getData<string>("/api/csrf-token");
-
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": CSRFToken,
-      },
-      body: JSON.stringify(body),
-      credentials: "include",
-      mode: "cors",
-    });
-
-    const { data } = await response.json();
-
-    return data as TData;
-  }
-
-  async deleteData<TData>(url: string) {
-    const CSRFToken = await this.getData<string>("/api/csrf-token");
-
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-        "X-CSRF-Token": CSRFToken,
-      },
-      credentials: "include",
-      mode: "cors",
-    });
-
-    const { data } = await response.json();
-
-    return data as TData;
+    return response.data;
   }
 }
 
-export default API;
+export const api = new API();

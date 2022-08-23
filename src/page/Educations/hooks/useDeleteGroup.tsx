@@ -1,11 +1,11 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 
 const useDeleteGroup = () => {
-  const api = new API();
   const queryclient = useQueryClient();
-  return useMutation(
-    (id: string) => api.deleteData(`/api/education/group/${id}`),
+  return useMutation<unknown, AxiosError, { id: string }>(
+    ({ id }) => api.deleteData(`/api/education/group/${id}`),
     {
       onSuccess: () => {
         queryclient.invalidateQueries(["groups"]);

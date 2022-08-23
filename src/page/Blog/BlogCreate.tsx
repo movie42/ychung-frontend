@@ -66,7 +66,6 @@ const Form = styled.form`
 `;
 
 const BlogCreate = () => {
-  const navigate = useNavigate();
   const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<IBlogItems>();
   const { mutate: blogPostMutate } = useCreateBlogPost();

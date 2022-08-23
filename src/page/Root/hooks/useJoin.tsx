@@ -1,6 +1,6 @@
-import { API, snackbarStatusCode } from "@/lib/api";
+import { api, snackbarStatusCode } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useSetSnackBar } from "@/lib/hooks";
-import React from "react";
 import { useMutation } from "react-query";
 
 interface JoinData {}
@@ -12,9 +12,8 @@ interface JoinVariable {
 }
 
 const useJoin = () => {
-  const api = new API();
   const { handleAddSnackBar } = useSetSnackBar();
-  return useMutation<JoinData, Error, JoinVariable>(
+  return useMutation<JoinData, AxiosError, JoinVariable>(
     (body) => api.postData("/api/join", body),
     {
       onSuccess: () => {

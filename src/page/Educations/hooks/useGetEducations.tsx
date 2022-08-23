@@ -1,13 +1,13 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { EducationGetData } from "./interface";
 
 const useGetEducations = () => {
-  const api = new API();
-  return useQuery<EducationGetData[]>(
+  return useQuery<{ data: EducationGetData[] }, AxiosError, EducationGetData[]>(
     ["educations"],
-    () => api.getData<EducationGetData[]>("/api/education/groups"),
-    { onSuccess: () => {} }
+    () => api.getData("/api/education/groups"),
+    { select: ({ data }) => data }
   );
 };
 

@@ -1,4 +1,5 @@
-import { API, snackbarStatusCode } from "@/lib/api";
+import { api, snackbarStatusCode } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
@@ -6,12 +7,11 @@ import { useNavigate } from "react-router";
 interface IuseDeleteGroupInfoProps {}
 
 const useDeleteGroupInfo = () => {
-  const api = new API();
   const navigate = useNavigate();
   const queryclient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
-  return useMutation(
-    (id: string) => api.deleteData(`/api/education/groups/${id}`),
+  return useMutation<unknown, AxiosError, { id: string }>(
+    ({ id }) => api.deleteData(`/api/education/groups/${id}`),
     {
       onSuccess: () => {
         handleAddSnackBar({

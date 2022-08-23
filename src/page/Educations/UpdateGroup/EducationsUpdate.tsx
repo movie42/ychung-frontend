@@ -95,7 +95,7 @@ function EducationUpdate() {
 
   useEffect(() => {
     if (isConfirm && id) {
-      deleteGroupInfoMutation(id);
+      deleteGroupInfoMutation({ id });
     }
   }, [isConfirm]);
 

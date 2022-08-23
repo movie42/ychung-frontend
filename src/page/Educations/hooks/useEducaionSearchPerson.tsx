@@ -1,4 +1,5 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { EducationPeopleData } from "./interface";
 
@@ -8,14 +9,13 @@ const useEducaionSearchPerson = (
     React.SetStateAction<EducationPeopleData[] | null | undefined>
   >
 ) => {
-  const api = new API();
-  return useQuery<EducationPeopleData[], Error>(
+  return useQuery<{ data: EducationPeopleData[] }, AxiosError>(
     ["search"],
     () => api.getData(`/api/education/search?person=${searchPersonName}`),
     {
       enabled: false,
-      onSuccess: (response) => {
-        setSearchPerson(response);
+      onSuccess: ({ data }) => {
+        setSearchPerson(data);
       },
     }
   );

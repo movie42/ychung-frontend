@@ -1,30 +1,29 @@
-import { INoticeInterface, snackbarState } from "@/lib/state";
-import { API, snackbarStatusCode } from "@/lib/api";
+import { INoticeInterface } from "@/lib/state";
+import { AxiosError } from "axios";
+import { api, snackbarStatusCode } from "@/lib/api";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { useSetRecoilState } from "recoil";
 import { useSetSnackBar } from "@/lib/hooks";
+
+interface NoticeCreate {
+  data: INoticeInterface;
+}
 
 const useCreateNotice = () => {
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
-  const api = new API();
   const navigate = useNavigate();
 
-  return useMutation<INoticeInterface, Error, INoticeInterface>(
-    async (body) =>
-      await api.postData<INoticeInterface, INoticeInterface>(
-        `/api/notice/create`,
-        body
-      ),
+  return useMutation<NoticeCreate, AxiosError, INoticeInterface>(
+    (body) => api.postData(`/api/notice/create`, body),
     {
-      onSuccess: (response) => {
+      onSuccess: ({ data }) => {
         queryClient.invalidateQueries(["notices"]);
         handleAddSnackBar({
           message: snackbarStatusCode[200],
           type: "success",
         });
-        const { _id } = response;
+        const { _id } = data;
         navigate(`/notice/${_id}`, { replace: true });
       },
     }

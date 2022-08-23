@@ -112,7 +112,6 @@ interface IWorshipUpdate {
 }
 
 const WorshipUpdate = ({ data }: IWorshipUpdate) => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const {
     register,

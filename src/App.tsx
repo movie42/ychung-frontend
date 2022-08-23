@@ -19,9 +19,7 @@ function App() {
     if (!currentUser) {
       return;
     }
-
     currentLogin((state) => ({ ...state, ...currentUser }));
-
     return;
   }, []);
 

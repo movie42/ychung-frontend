@@ -1,11 +1,19 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
 import { IWorshipItems } from "@/lib/state";
+import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 
+interface WorshipData {
+  data: IWorshipItems[];
+}
+
 const useGetWeekies = () => {
-  const api = new API();
-  return useQuery<IWorshipItems[]>(["weeklies"], () =>
-    api.getData<IWorshipItems[]>("/api/worship")
+  return useQuery<WorshipData, AxiosError, IWorshipItems[]>(
+    ["weeklies"],
+    () => api.getData("/api/worship"),
+    {
+      select: ({ data }) => data,
+    }
   );
 };
 

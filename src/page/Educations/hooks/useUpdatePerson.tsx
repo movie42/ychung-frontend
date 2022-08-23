@@ -1,9 +1,8 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useMutation, useQueryClient } from "react-query";
 import { EducationPersonData, EducationPersonVariable } from "./interface";
 
 const useUpdatePerson = () => {
-  const api = new API();
   const queryClient = useQueryClient();
   return useMutation<EducationPersonData, Error, EducationPersonVariable>(
     ({ id, body }) => api.patchData(`/api/education/people/${id}`, body),

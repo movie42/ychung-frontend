@@ -1,7 +1,7 @@
-import { API, snackbarStatusCode } from "@/lib/api";
+import { api, snackbarStatusCode } from "@/lib/api";
+import { AxiosError } from "axios";
 import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router";
 
 interface NoticeDeleteVariable {
   id: string;
@@ -12,11 +12,10 @@ interface NoticeDeleteData {
 }
 
 const useDeleteNotice = () => {
-  const api = new API();
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
 
-  return useMutation<NoticeDeleteData, Error, NoticeDeleteVariable>(
+  return useMutation<NoticeDeleteData, AxiosError, NoticeDeleteVariable>(
     ({ id }) => api.deleteData(`/api/notice/${id}`),
     {
       onSuccess: () => {

@@ -1,12 +1,15 @@
-import { API } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useQuery } from "react-query";
 import { EducationGroupInfoData } from "./interface";
 
 const useGetGroupInfo = (id: string) => {
-  const api = new API();
-  return useQuery<EducationGroupInfoData, Error>(["groupInfo", id], () =>
-    api.getData<EducationGroupInfoData>(`/api/education/groups/${id}`)
-  );
+  return useQuery<
+    { data: EducationGroupInfoData },
+    Error,
+    EducationGroupInfoData
+  >(["groupInfo", id], () => api.getData(`/api/education/groups/${id}`), {
+    select: ({ data }) => data,
+  });
 };
 
 export default useGetGroupInfo;
