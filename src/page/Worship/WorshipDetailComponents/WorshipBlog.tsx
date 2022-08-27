@@ -1,14 +1,7 @@
-import React from "react";
-import { useQuery } from "react-query";
 import styled from "styled-components";
-import { INoticeInterface } from "@/lib/state";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-
-const Wrapper = styled.div`
-  overflow-x: hidden;
-  width: 100%;
-`;
+import { useGetWeekies } from "../hooks";
 
 const ListContainer = styled.ul`
   padding: 0;
@@ -35,50 +28,14 @@ const ListItem = styled.li`
   }
 `;
 
-const UserInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ImageContainer = styled.div`
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.color.gray300};
-`;
-
 function WorshipBlog() {
-  const {
-    isLoading,
-    error,
-    data: posts,
-  } = useQuery(
-    "posts",
-    async () => {
-      const response = await fetch(`/api/blog`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      });
-      const { data } = await response.json();
-      return data;
-    },
-    { staleTime: 10000 }
-  );
+  const { isLoading, data: posts } = useGetWeekies();
+
   return isLoading ? (
     <p>블로그 불러오는 중...</p>
   ) : (
     <ListContainer>
-      {posts.slice(0, 3).map((post: INoticeInterface) => (
+      {posts?.slice(0, 3).map((post) => (
         <ListItem key={post._id}>
           <Link to={`/notice/${post._id}`}>
             <p>{post.title}</p>

@@ -1,14 +1,8 @@
-import React from "react";
-import { useQuery } from "react-query";
 import styled from "styled-components";
 import { INoticeInterface } from "@/lib/state";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-
-const Wrapper = styled.div`
-  overflow-x: hidden;
-  width: 100%;
-`;
+import useGetNotice from "@/page/Notice/hooks/useGetNotices";
 
 const ListContainer = styled.ul`
   padding: 0;
@@ -35,51 +29,14 @@ const ListItem = styled.li`
   }
 `;
 
-const UserInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ImageContainer = styled.div`
-  width: 4.5rem;
-  height: 4.5rem;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.color.gray300};
-`;
-
 function WorshipNotice() {
-  const {
-    isLoading,
-    error,
-    data: notices,
-  } = useQuery(
-    "notice",
-    async () => {
-      const response = await fetch(`/api/notice`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        mode: "cors",
-      });
-      const { data } = await response.json();
-      return data;
-    },
-    { staleTime: 10000 }
-  );
+  const { isLoading, data: notices } = useGetNotice();
   return isLoading ? (
     <p>광고 불러오는 중...</p>
   ) : (
     <ListContainer>
       {notices
-        .filter((item: INoticeInterface) => item.isWeekly)
+        ?.filter((item: INoticeInterface) => item.isWeekly)
         .map((notice: INoticeInterface) => (
           <ListItem key={notice._id}>
             <Link to={`/notice/${notice._id}`}>

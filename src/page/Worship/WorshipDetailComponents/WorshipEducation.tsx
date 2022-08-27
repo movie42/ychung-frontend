@@ -1,8 +1,7 @@
-import { useGet } from "@/lib/hooks";
-import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useGetEducations } from "@/page/Educations/hooks";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -46,15 +45,9 @@ const WorshipEducation = () => {
   const {
     data: educations,
     isLoading,
-    isRefetchError,
     isSuccess,
-  } = useGet<IWorshipEducationProps[]>({
-    url: "/api/education/groups",
-    queryKey: "educations",
-    select: (data) => {
-      return data.filter((value) => value.isPublic);
-    },
-  });
+    isRefetching,
+  } = useGetEducations();
 
   if (isLoading) {
     return <p>교육 정보를 가져오고 있습니다.</p>;
@@ -68,7 +61,7 @@ const WorshipEducation = () => {
     );
   }
 
-  return !isRefetchError && isSuccess ? (
+  return !isRefetching && isSuccess ? (
     <Wrapper>
       <ListContainer>
         {educations?.map((info) => (
