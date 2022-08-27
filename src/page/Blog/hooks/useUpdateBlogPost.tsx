@@ -1,5 +1,6 @@
 import { api, snackbarStatusCode } from "@/lib/api";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { BlogPostData, BlogUpdateVariable } from "./interface";
@@ -8,8 +9,9 @@ const useUpdateBlogPost = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { handleAddSnackBar } = useSetSnackBar();
+  const { redirectLogoutPage } = useTokenErrorHandler();
 
-  return useMutation<{ data: BlogPostData }, Error, BlogUpdateVariable>(
+  return useMutation<{ data: BlogPostData }, AxiosError, BlogUpdateVariable>(
     ({ id, body }) => api.postData(`/api/blog/${id}`, body),
     {
       onSuccess: ({ data }) => {
@@ -22,6 +24,9 @@ const useUpdateBlogPost = () => {
         navigate(`/blog/${_id}`, {
           replace: true,
         });
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

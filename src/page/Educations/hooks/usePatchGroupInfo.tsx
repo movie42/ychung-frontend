@@ -1,5 +1,6 @@
 import { api, snackbarStatusCode } from "@/lib/api";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import {
   EducationGroupInfoData,
@@ -9,18 +10,23 @@ import {
 const usePatchGroupInfo = () => {
   const { handleAddSnackBar } = useSetSnackBar();
   const queryClient = useQueryClient();
-  return useMutation<EducationGroupInfoData, Error, EducationGroupInfoVariable>(
-    ({ id, body }) => api.patchData(`/api/education/groups/${id}`, body),
-    {
-      onSuccess: () => {
-        handleAddSnackBar({
-          message: snackbarStatusCode[202],
-          type: "success",
-        });
-        queryClient.invalidateQueries(["groupInfo"]);
-      },
-    }
-  );
+  const { redirectLogoutPage } = useTokenErrorHandler();
+  return useMutation<
+    EducationGroupInfoData,
+    AxiosError,
+    EducationGroupInfoVariable
+  >(({ id, body }) => api.patchData(`/api/education/groups/${id}`, body), {
+    onSuccess: () => {
+      handleAddSnackBar({
+        message: snackbarStatusCode[202],
+        type: "success",
+      });
+      queryClient.invalidateQueries(["groupInfo"]);
+    },
+    onError: (error) => {
+      redirectLogoutPage(error);
+    },
+  });
 };
 
 export default usePatchGroupInfo;

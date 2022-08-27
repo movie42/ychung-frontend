@@ -1,5 +1,6 @@
 import { api, snackbarStatusCode } from "@/lib/api";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
@@ -37,8 +38,8 @@ const useUpdateWeekly = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { handleAddSnackBar } = useSetSnackBar();
-
-  return useMutation<WeeklyUpdateData, Error, WeeklyUpdateVariable>(
+  const { redirectLogoutPage } = useTokenErrorHandler();
+  return useMutation<WeeklyUpdateData, AxiosError, WeeklyUpdateVariable>(
     ({ id, body }) => api.postData(`/api/worship/${id}`, body),
     {
       onSuccess: ({ data }) => {
@@ -50,6 +51,9 @@ const useUpdateWeekly = () => {
         navigate(`/worship/${data._id}`, {
           replace: true,
         });
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { useTokenErrorHandler } from "@/lib/hooks";
 import { AxiosError } from "axios";
 import { useQuery } from "react-query";
 import { EducationPeopleData } from "./interface";
@@ -9,6 +10,7 @@ const useEducaionSearchPerson = (
     React.SetStateAction<EducationPeopleData[] | null | undefined>
   >
 ) => {
+  const { redirectLogoutPage } = useTokenErrorHandler();
   return useQuery<{ data: EducationPeopleData[] }, AxiosError>(
     ["search"],
     () => api.getData(`/api/education/search?person=${searchPersonName}`),
@@ -16,6 +18,9 @@ const useEducaionSearchPerson = (
       enabled: false,
       onSuccess: ({ data }) => {
         setSearchPerson(data);
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

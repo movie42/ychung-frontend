@@ -1,6 +1,6 @@
-import { api, snackbarStatusCode } from "@/lib/api";
 import { AxiosError } from "axios";
-import { useSetSnackBar } from "@/lib/hooks";
+import { api, snackbarStatusCode } from "@/lib/api";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 
 interface NoticeDeleteVariable {
@@ -13,6 +13,7 @@ interface NoticeDeleteData {
 
 const useDeleteNotice = () => {
   const queryClient = useQueryClient();
+  const { redirectLogoutPage } = useTokenErrorHandler();
   const { handleAddSnackBar } = useSetSnackBar();
 
   return useMutation<NoticeDeleteData, AxiosError, NoticeDeleteVariable>(
@@ -24,6 +25,9 @@ const useDeleteNotice = () => {
           type: "success",
         });
         queryClient.invalidateQueries(["notices"]);
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

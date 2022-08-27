@@ -4,3 +4,4 @@ export { default as useMediaQuery } from "./useMediaQuery";
 export { default as useModalContorl } from "./useModalContorl";
 export { default as useSetView } from "./useSetView";
 export { default as useSetSnackBar } from "./useSetSnackBar";
+export { default as useTokenErrorHandler } from "./useTokenErrorHandler";

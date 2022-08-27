@@ -1,16 +1,18 @@
 import { api, snackbarStatusCode } from "@/lib/api";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { IWorshipItems } from "@/lib/state";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
 const useCreateWeekly = () => {
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
+  const { redirectLogoutPage } = useTokenErrorHandler();
 
   const navigate = useNavigate();
 
-  return useMutation<{ data: IWorshipItems }, Error, IWorshipItems>(
+  return useMutation<{ data: IWorshipItems }, AxiosError, IWorshipItems>(
     async (body) => await api.postData(`/api/worship/create`, body),
     {
       onSuccess: ({ data }) => {
@@ -21,6 +23,9 @@ const useCreateWeekly = () => {
         });
         const { _id } = data;
         navigate(`/worship/${_id}`);
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

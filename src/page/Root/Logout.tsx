@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -24,26 +24,52 @@ interface Logout {
   logout: boolean;
 }
 
+interface RouteState {
+  state: {
+    message?: string;
+  };
+}
+
 const Logout = () => {
+  const { state } = useLocation() as RouteState;
   const navigate = useNavigate();
   const removeLoginState = useResetRecoilState(loginState);
   const { isLoading, isSuccess } = useLogout();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (isSuccess) {
+
+    if (isSuccess && !state?.message) {
       timer = setTimeout(() => {
         removeLoginState();
         localStorage.removeItem("ycUser");
         navigate("/");
       }, 2000);
+      return;
+    }
+
+    if (isSuccess && state?.message) {
+      timer = setTimeout(() => {
+        removeLoginState();
+        localStorage.removeItem("ycUser");
+      }, 2000);
+      return;
     }
 
     return () => clearTimeout(timer);
-  }, [isSuccess]);
+  }, [isSuccess, state?.message]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (state?.message) {
+    return (
+      <Wrapper>
+        <h1>{state?.message}</h1>
+        <p>로그인 하고 좀 오래 지난것 같아요</p>
+      </Wrapper>
+    );
   }
 
   return (

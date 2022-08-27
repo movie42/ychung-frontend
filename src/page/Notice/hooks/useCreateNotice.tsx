@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { api, snackbarStatusCode } from "@/lib/api";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 
 interface NoticeCreate {
   data: INoticeInterface;
@@ -12,6 +12,7 @@ interface NoticeCreate {
 const useCreateNotice = () => {
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
+  const { redirectLogoutPage } = useTokenErrorHandler();
   const navigate = useNavigate();
 
   return useMutation<NoticeCreate, AxiosError, INoticeInterface>(
@@ -25,6 +26,9 @@ const useCreateNotice = () => {
         });
         const { _id } = data;
         navigate(`/notice/${_id}`, { replace: true });
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

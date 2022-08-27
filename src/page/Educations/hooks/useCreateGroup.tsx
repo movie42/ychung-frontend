@@ -1,10 +1,12 @@
 import { api } from "@/lib/api";
+import { useTokenErrorHandler } from "@/lib/hooks";
 import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { EducatioCreateGroupVariable, EducationGroupData } from "./interface";
 
 const useCreateGroup = () => {
   const queryClient = useQueryClient();
+  const { redirectLogoutPage } = useTokenErrorHandler();
   return useMutation<
     EducationGroupData,
     AxiosError,
@@ -14,6 +16,9 @@ const useCreateGroup = () => {
       queryClient.invalidateQueries(["groupInfo"]);
       queryClient.invalidateQueries(["groups"]);
       queryClient.invalidateQueries(["people"]);
+    },
+    onError: (error) => {
+      redirectLogoutPage(error);
     },
   });
 };

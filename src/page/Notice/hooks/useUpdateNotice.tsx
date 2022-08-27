@@ -1,6 +1,6 @@
 import { api, snackbarStatusCode } from "@/lib/api";
 import { AxiosError } from "axios";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
@@ -47,6 +47,7 @@ const useUpdateNotice = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { handleAddSnackBar } = useSetSnackBar();
+  const { redirectLogoutPage } = useTokenErrorHandler();
 
   return useMutation<NoticeUpdateData, AxiosError, NoticeUpdateVariable>(
     ({ id, body }) => api.postData(`/api/notice/${id}`, body),
@@ -60,6 +61,9 @@ const useUpdateNotice = () => {
         navigate(`/notice/${data._id}`, {
           replace: true,
         });
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );

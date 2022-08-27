@@ -1,5 +1,5 @@
 import { api, snackbarStatusCode } from "@/lib/api";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { groupInfoState } from "@/lib/state";
 import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
@@ -12,7 +12,7 @@ const useEducationCreate = () => {
   const setGroupInfo = useSetRecoilState(groupInfoState);
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
-
+  const { redirectLogoutPage } = useTokenErrorHandler();
   return useMutation<
     { data: EducationCreateData },
     AxiosError,
@@ -28,6 +28,9 @@ const useEducationCreate = () => {
       queryClient.invalidateQueries("groups");
       queryClient.invalidateQueries("people");
       navigate(`/education/groups/${data?._id}/update`);
+    },
+    onError: (error) => {
+      redirectLogoutPage(error);
     },
   });
 };

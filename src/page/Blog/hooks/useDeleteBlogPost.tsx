@@ -1,5 +1,6 @@
 import { api, snackbarStatusCode } from "@/lib/api";
-import { useSetSnackBar } from "@/lib/hooks";
+import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
+import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { BlogDeleteData, BlogDeleteVariable } from "./interface";
@@ -8,8 +9,9 @@ const useDeleteBlogPost = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { handleAddSnackBar } = useSetSnackBar();
+  const { redirectLogoutPage } = useTokenErrorHandler();
 
-  return useMutation<{ data: BlogDeleteData }, Error, BlogDeleteVariable>(
+  return useMutation<{ data: BlogDeleteData }, AxiosError, BlogDeleteVariable>(
     ({ id }) => api.deleteData(`/api/blog/${id}`),
     {
       onSuccess: () => {
@@ -19,6 +21,9 @@ const useDeleteBlogPost = () => {
         });
         queryClient.invalidateQueries(["posts"]);
         navigate("/blog", { replace: true });
+      },
+      onError: (error) => {
+        redirectLogoutPage(error);
       },
     }
   );
