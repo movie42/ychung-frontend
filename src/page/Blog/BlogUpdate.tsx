@@ -1,12 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { usePost } from "@/lib/hooks";
-import { FetchDataProps } from "@/lib/interfaces";
+import { useParams } from "react-router-dom";
 
 import { Editor, SEO } from "@/components";
 import { useUpdateBlogPost } from "./hooks";

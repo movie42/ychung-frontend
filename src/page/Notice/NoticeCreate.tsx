@@ -69,7 +69,6 @@ const Form = styled.form`
 `;
 
 const NoticeCreate = () => {
-  const navigate = useNavigate();
   const editorRef = useRef<IEditor>(null);
   const {
     register,

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { HiUser } from "react-icons/hi";
-
 import { People } from "@/lib/state";
 import {
   MdArrowDropDown,
@@ -11,10 +10,7 @@ import {
   MdEdit,
 } from "react-icons/md";
 
-import { QueryClient, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import useDelete from "../../../../lib/hooks/useDelete";
-import { useGet, usePost } from "@/lib/hooks";
 
 import { ConfirmDeleteModal } from "@/components";
 import { useModalContorl } from "@/lib/hooks";

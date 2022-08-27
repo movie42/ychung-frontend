@@ -54,7 +54,6 @@ import { PageNotFound } from "@/page/Errors";
 
 function Router() {
   const location = useLocation();
-  console.log(location);
   const { userId } = useParams();
 
   const { isLogin, authority, _id } = useRecoilValue(loginState);
