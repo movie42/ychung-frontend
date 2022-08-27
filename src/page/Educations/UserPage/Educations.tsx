@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { loginState } from "@/lib/state";
 import { calculateDate } from "@/lib/utils";
-import { IconButton, Loading } from "@/components";
+import { Authorization, IconButton, Loading } from "@/components";
 import GroupItem from "./GroupItem";
 import GroupItemContainer from "./GroupItemContainer";
 import { useGetEducations } from "../hooks";
@@ -38,7 +38,6 @@ const CreateGroupButton = styled(IconButton)`
 
 const Educations = () => {
   const navigate = useNavigate();
-  const { isLogin } = useRecoilValue(loginState);
   const { isLoading, data: groups } = useGetEducations();
 
   const createGroup = () => {
@@ -55,9 +54,10 @@ const Educations = () => {
       : navigate(`/education/groups/${_id}/update`);
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  if (isLoading) {
+    return <Loading />;
+  }
+  return (
     <Wrapper>
       <Header>
         <TextContainer>
@@ -76,11 +76,13 @@ const Educations = () => {
                 <p>공개중인 소그룹이 없습니다.</p>
               )}
             </TextContainer>
-            {isLogin && (
-              <CreateGroupButton onClick={createGroup} buttonType="block">
-                <AiOutlineCloudUpload />
-              </CreateGroupButton>
-            )}
+            <Authorization authority={3}>
+              <>
+                <CreateGroupButton onClick={createGroup}>
+                  <AiOutlineCloudUpload />
+                </CreateGroupButton>
+              </>
+            </Authorization>
           </Header>
           <GroupItemContainer
             style={{ border: "1px solid #333333" }}
@@ -95,33 +97,34 @@ const Educations = () => {
               </GroupItem>
             )}
           />
-        </GroupSection>
-      )}
-
-      {groups && isLogin && (
-        <GroupSection>
-          <Header>
-            <TextContainer>
-              <h2>작성 중인 소그룹</h2>
-            </TextContainer>
-          </Header>
-          {groups.length !== 0 ? (
-            <GroupItemContainer
-              style={{ border: "1px solid #333333" }}
-              data={groups.filter((value) => !value.isPublic)}
-              renderFunc={(group) => (
-                <GroupItem
-                  key={group._id}
-                  data-id={group._id}
-                  onClick={(e) => moveToDetail(e, group._id, group.isPublic)}>
-                  <h3>{group.title}</h3>
-                  <span>{calculateDate(group.createdAt.toString())}</span>
-                </GroupItem>
+          <Authorization authority={3}>
+            <>
+              <Header>
+                <TextContainer>
+                  <h2>작성 중인 소그룹</h2>
+                </TextContainer>
+              </Header>
+              {groups.length !== 0 ? (
+                <GroupItemContainer
+                  style={{ border: "1px solid #333333" }}
+                  data={groups.filter((value) => !value.isPublic)}
+                  renderFunc={(group) => (
+                    <GroupItem
+                      key={group._id}
+                      data-id={group._id}
+                      onClick={(e) =>
+                        moveToDetail(e, group._id, group.isPublic)
+                      }>
+                      <h3>{group.title}</h3>
+                      <span>{calculateDate(group.createdAt.toString())}</span>
+                    </GroupItem>
+                  )}
+                />
+              ) : (
+                <p>작성 중인 소그룹이 없습니다.</p>
               )}
-            />
-          ) : (
-            <p>작성 중인 소그룹이 없습니다.</p>
-          )}
+            </>
+          </Authorization>
         </GroupSection>
       )}
     </Wrapper>

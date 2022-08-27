@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AnimatePresence } from "framer-motion";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
-import { blog, blogModalControler, loginState } from "@/lib/state";
+import { blog, blogModalControler } from "@/lib/state";
 
-import { Loading, ListItem, ListContainer, SEO } from "@/components";
+import { ListItem, ListContainer, SEO, Authorization } from "@/components";
 import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
 import { useGetBlogPosts } from "./hooks";
 
@@ -30,7 +30,6 @@ const BlogComponentInfoContainer = styled.div`
 `;
 
 function Blog() {
-  const { isLogin } = useRecoilValue(loginState);
   const { id } = useParams();
   const setDetailItem = useSetRecoilState(blog);
   const [blogModalState, setBlogModalState] =
@@ -63,11 +62,11 @@ function Blog() {
       <Wrapper>
         <BlogComponentInfoContainer>
           <h1>블로그</h1>
-          {isLogin && (
+          <Authorization authority={3}>
             <Link to={"/blog/create"}>
               <AiFillPlusCircle />
             </Link>
-          )}
+          </Authorization>
         </BlogComponentInfoContainer>
         {posts && (
           <ListContainer

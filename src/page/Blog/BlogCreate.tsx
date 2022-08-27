@@ -4,7 +4,6 @@ import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
 
 import { Editor, SEO } from "@/components";
 
