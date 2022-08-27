@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 const instance = axios.create({
   headers: {
@@ -10,6 +10,19 @@ const instance = axios.create({
 class API {
   async getData(url: string) {
     const response = await instance.get(url);
+    return response.data;
+  }
+
+  async postMultiPartData<TVariable>(url: string, body: TVariable) {
+    const { data: CSRFToken } = await this.getData("/api/csrf-token");
+
+    const response = await instance.post(url, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "X-CSRF-Token": CSRFToken,
+      },
+    });
+
     return response.data;
   }
 

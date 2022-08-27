@@ -6,6 +6,7 @@ import { Editor } from "@toast-ui/react-editor";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import styled from "styled-components";
 import { postRequestMultipartFormData } from "@/lib/utils";
+import { api } from "@/lib/api";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -77,26 +78,15 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
             let formData = new FormData();
             formData.append("data", blob);
 
-            const responseToken = await fetch(`/api/csrf-token`, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "include",
-              mode: "cors",
-            });
-
-            const { CSRFToken } = await responseToken.json();
-
-            const postOption = postRequestMultipartFormData(
-              formData,
-              CSRFToken
+            const response = await api.postMultiPartData(
+              `/api/post-image`,
+              formData
             );
 
-            const response = await fetch(`/api/post-image`, postOption);
-
-            const { data } = await response.json();
-            callback(data, "이미지의 이름을 입력하세요.");
+            callback(
+              response.data,
+              "시각 장애인을 위해 어떤 이미지인지 묘사해주세요. 묘사하기 힘들다면 이미지의 이름만 적어주세요."
+            );
           },
         }}
         previewStyle="tab"
