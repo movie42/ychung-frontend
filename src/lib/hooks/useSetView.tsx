@@ -1,33 +1,31 @@
-import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { SetterOrUpdater } from "recoil";
-import { postOrPatchRequest } from "@/lib/utils";
-import useGetCSRFToken from "./useGetCSRFToken";
+import { AxiosError } from "axios";
+import { api } from "../api";
 
-const useSetView = <T,>(url: RequestInfo, recoilSetter: SetterOrUpdater<T>) => {
-  const { csrfToken, csrf } = useGetCSRFToken();
-  const {
-    isSuccess,
-    mutate,
-    data: serverView,
-  } = useMutation(async (body: any) => {
-    const response = await fetch(
-      url,
-      postOrPatchRequest(body, csrfToken, "POST")
-    );
-    return await response.json();
-  });
+const useSetView = <T extends Object>(
+  url: string,
+  recoilSetter: SetterOrUpdater<T>
+) => {
+  const { mutate } = useMutation<any, AxiosError, any>(
+    async (body: any) => {
+      const response = await api.postData(url, { ...body });
+
+      return response.views;
+    },
+    {
+      onSuccess: (views) => {
+        recoilSetter((pre) => ({ ...pre, views }));
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
 
   const countViews = async () => {
-    await csrf();
     mutate({ views: 1 });
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      recoilSetter((pre) => ({ ...pre, views: serverView.views }));
-    }
-  }, [serverView]);
 
   return countViews;
 };
