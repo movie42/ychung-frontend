@@ -51,6 +51,7 @@ import {
 
 import ProtectRouter from "./ProtectRouter";
 import { PageNotFound } from "@/page/Errors";
+import TokenValidationCheckRouter from "./TokenValidationCheckRouter";
 
 function Router() {
   const location = useLocation();
@@ -113,30 +114,33 @@ function Router() {
       </Route>
       <Route path="/education/groups/:id" element={<EducationGroupsDetail />} />
       <Route path="/search" element={<Search />} />
+
       <Route
         element={
           <ProtectRouter isAllow={isLogin && authority < 3} redirectPath="/" />
         }>
-        <Route path="/education">
-          <Route path="groups/create" element={<EducationCreate />} />
-          <Route path="groups/:id/update" element={<EducationsUpdate />} />
-          <Route path="groups/report" element={<ReportsContainer />} />
+        <Route element={<TokenValidationCheckRouter />}>
+          <Route path="/education">
+            <Route path="groups/create" element={<EducationCreate />} />
+            <Route path="groups/:id/update" element={<EducationsUpdate />} />
+            <Route path="groups/report" element={<ReportsContainer />} />
+          </Route>
+          <Route path="/notice/create" element={<NoticeCreate />} />
+          <Route
+            path="/notice/:id/update"
+            element={<NoticeUpdate data={noticeItem} />}
+          />
+          <Route path="/worship/create" element={<WorshipCreate />} />
+          <Route
+            path="/worship/:id/update"
+            element={<WorshipUpdate data={weeklyItem} />}
+          />
+          <Route path="/blog/create" element={<BlogCreate />} />
+          <Route
+            path="/blog/:id/update"
+            element={<BlogUpdate data={blogItem} />}
+          />
         </Route>
-        <Route path="/notice/create" element={<NoticeCreate />} />
-        <Route
-          path="/notice/:id/update"
-          element={<NoticeUpdate data={noticeItem} />}
-        />
-        <Route path="/worship/create" element={<WorshipCreate />} />
-        <Route
-          path="/worship/:id/update"
-          element={<WorshipUpdate data={weeklyItem} />}
-        />
-        <Route path="/blog/create" element={<BlogCreate />} />
-        <Route
-          path="/blog/:id/update"
-          element={<BlogUpdate data={blogItem} />}
-        />
       </Route>
       <Route
         element={

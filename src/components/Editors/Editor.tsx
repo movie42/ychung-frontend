@@ -26,7 +26,7 @@ const opacityKeyframes = keyframes`
 
 const Wrapper = styled.div`
   position: relative;
-  height: 100%;
+  height: 100vh;
   .loading {
     display: flex;
     align-items: center;
