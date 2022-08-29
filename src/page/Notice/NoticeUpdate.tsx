@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { calenderHelper } from "@/lib/utils";
 import { previewParagraph } from "@/lib/utils";
 
-import { Editor, Label, Input, FormItem, SEO } from "@/components";
+import { Editor, Label, Input, FormItem, SEO } from "@/Components";
 import { useUpdateNotice } from "./hooks";
 
 const Wrapper = styled.div`

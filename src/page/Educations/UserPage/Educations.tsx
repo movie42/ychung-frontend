@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { loginState } from "@/lib/state";
 import { calculateDate } from "@/lib/utils";
-import { Authorization, IconButton, Loading } from "@/components";
+import { Authorization, IconButton, Loading } from "@/Components";
 import GroupItem from "./GroupItem";
 import GroupItemContainer from "./GroupItemContainer";
 import { useGetEducations } from "../hooks";

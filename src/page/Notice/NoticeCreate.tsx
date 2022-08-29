@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { calenderHelper } from "@/lib/utils";
 import { INoticeInterface } from "@/lib/state";
 
-import { Editor, Label, Input, SEO } from "@/components";
+import { Editor, Label, Input, SEO } from "@/Components";
 import { useCreateNotice } from "./hooks";
 
 const Wrapper = styled.div`

@@ -16,7 +16,7 @@ import {
   Viewer,
   ConfirmDeleteModal,
   SEO,
-} from "@/components";
+} from "@/Components";
 import { useDeleteBlogPost } from "./hooks";
 
 const ButtonContainer = styled.div`

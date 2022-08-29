@@ -5,7 +5,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
-import { Editor, SEO } from "@/components";
+import { Editor, SEO } from "@/Components";
 import { useUpdateBlogPost } from "./hooks";
 
 const Wrapper = styled.div`

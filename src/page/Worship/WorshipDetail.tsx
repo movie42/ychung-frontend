@@ -12,7 +12,7 @@ import {
   WorshipEducation,
 } from "./WorshipDetailComponents";
 
-import { PageDetailModal, CopyTextModal, SEO } from "@/components";
+import { PageDetailModal, CopyTextModal, SEO } from "@/Components";
 
 import {
   checkGodpeopleBibleInstall,

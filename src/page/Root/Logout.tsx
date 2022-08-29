@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { Loading } from "@/components";
+import { Loading } from "@/Components";
 import { useLogout } from "./hooks";
 import { useResetRecoilState } from "recoil";
 import { loginState } from "@/lib/state";

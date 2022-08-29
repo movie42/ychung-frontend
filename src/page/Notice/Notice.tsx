@@ -6,9 +6,9 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { notice, noticeModalControler } from "@/lib/state";
 
-import { Authorization, ListContainer, ListItem, SEO } from "@/components";
+import { Authorization, ListContainer, ListItem, SEO } from "@/Components";
 
-import SkeletonForListItem from "@/components/Loading/Skeletons/SkeletonForListItem";
+import SkeletonForListItem from "@/Components/Loading/Skeletons/SkeletonForListItem";
 import { useGetNotices } from "./hooks";
 
 const NoticeListContainer = styled(motion.div)``;

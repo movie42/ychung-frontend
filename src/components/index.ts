@@ -24,3 +24,4 @@ export { default as Viewer } from "./Editors/Viewer";
 export { default as Snackbar } from "./Snackbar/Snackbar";
 export { default as SkeletonForWorshipItem } from "./Loading/Skeletons/SkeletonForWorshipItem";
 export { default as Authorization } from "./Authorization/Authorization";
+export { default as MainLayout } from "./Layouts/MainLayout";

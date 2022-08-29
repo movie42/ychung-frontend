@@ -4,7 +4,7 @@ import Human from "./Human/Human";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { MdArrowDropDown, MdDelete, MdEdit, MdPersonAdd } from "react-icons/md";
-import { ConfirmDeleteModal } from "@/components";
+import { ConfirmDeleteModal } from "@/Components";
 import { People, Group as GroupProps } from "@/lib/state";
 
 import { translateEducationTypeNameToKR } from "@/lib/utils";

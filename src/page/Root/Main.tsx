@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 import styled from "styled-components";
 import { BsChevronDoubleDown } from "react-icons/bs";
-import Input from "../../components/Form/Input";
+import Input from "../../Components/Form/Input";
 
 const Wrapper = styled(motion.div)``;
 

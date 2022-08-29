@@ -1,7 +1,7 @@
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useGetEducations } from "@/page/Educations/hooks";
+import { useGetEducations } from "@/Page/Educations/hooks";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
