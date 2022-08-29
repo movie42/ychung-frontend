@@ -63,6 +63,8 @@ declare module "styled-components" {
       backgroundBlack10: string;
       fontColorBlack: string;
       fontColorWhite: string;
+      success100: string;
+      success200: string;
     };
     screen: {
       mobile: string;

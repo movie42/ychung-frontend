@@ -60,6 +60,8 @@ export const theme: DefaultTheme = {
     backgroundBlack10: "rgba(0,0,0,0.1)",
     fontColorBlack: "#000000",
     fontColorWhite: "#ffffff",
+    success100: "#53ed8c",
+    success200: "#023800",
   },
   screen: {
     mobile: "450px",

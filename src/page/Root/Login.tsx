@@ -1,38 +1,15 @@
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
-import { Button, Label, Input, FormItem, SEO } from "@/components";
-import { useLogin } from "./hooks";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 80vh;
-  margin-top: 8rem;
-  form {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    justify-content: center;
-    height: inherit;
-    width: 100%;
-    max-width: 90rem;
-  }
-`;
-
-const LoginButton = styled(Button)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: flex-end;
-  width: 10rem;
-  font-size: 2rem;
-  color: ${(props) => props.theme.color.fontColorWhite};
-  background-color: ${(props) => props.theme.color.primary400};
-`;
-
-const FormItemContainer = styled.div`
-  margin-bottom: 2rem;
-`;
+import {
+  Wrapper,
+  ErrorLabel,
+  SubmitButton,
+  RootFormItem,
+  FormItemContainer,
+} from "@/Page/Root/Root.styles";
+import { VALIDATION_CHECK_VALUE } from "@/Page/Root/lib/validationCheckValue";
+import { Label, Input, SEO } from "@/Components";
+import { useLogin, useValidate } from "@/Page/Root/hooks";
 
 interface LoginFormVariable {
   email: string;
@@ -41,54 +18,113 @@ interface LoginFormVariable {
 
 function Login() {
   const {
+    isEmail,
+    isPassword,
+    setIsEmail,
+    setIsPassword,
+    isDisabled,
+    setIsDisabled,
+  } = useValidate();
+  const {
     register,
     formState: { errors },
+    setError,
     handleSubmit,
   } = useForm<LoginFormVariable>();
 
   const { mutate: loginMutate } = useLogin();
 
   const onSubmit = handleSubmit((data) => {
-    loginMutate(data);
+    loginMutate(data, {
+      onError: (error) => {
+        const status = error?.response?.status as number;
+        if (status >= 400) {
+          setError("password", {
+            message: "존재하지 않는 회원이거나 비밀번호가 다른 것 같아요.",
+          });
+          setIsPassword(false);
+        }
+      },
+    });
   });
+
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.currentTarget.value;
+    const checkValue = VALIDATION_CHECK_VALUE.email.value.test(email);
+    if (checkValue) {
+      setIsEmail(checkValue);
+      setError("email", { message: "" });
+    }
+    if (isEmail !== null && !checkValue) {
+      setIsEmail(false);
+      setError("email", { message: "이메일이 아닙니다." });
+    }
+  };
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const password = e.currentTarget.value;
+    if (password.length >= 8) {
+      setIsPassword(true);
+      setError("password", {
+        message: "",
+      });
+      return;
+    }
+    if (isPassword !== null && password.length < 8) {
+      setIsPassword(false);
+      setError("password", {
+        message: "비밀번호는 8자 이상이어야합니다.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isEmail && isPassword) {
+      setIsDisabled(false);
+      return;
+    }
+    setIsDisabled(true);
+  }, [isEmail, isPassword]);
 
   return (
     <>
       <SEO title="로그인" />
       <Wrapper>
         <h1>로그인</h1>
-        {/* {error?.message && <Label>{error?.message}</Label>} */}
         <form onSubmit={onSubmit}>
           <FormItemContainer>
-            <FormItem>
+            <RootFormItem error={isEmail}>
               <Label htmlFor="email">이메일</Label>
               <Input
                 id="email"
                 type="text"
                 {...register("email", {
                   required: "이메일을 입력하세요",
-                  pattern: {
-                    value:
-                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: "이메일이 아닙니다.",
-                  },
+                  pattern: VALIDATION_CHECK_VALUE.email,
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChangeEmail(e),
                 })}
               />
-            </FormItem>
-            <Label>{errors?.email?.message}</Label>
+            </RootFormItem>
+            <ErrorLabel>{errors?.email?.message}</ErrorLabel>
           </FormItemContainer>
           <FormItemContainer>
-            <FormItem>
+            <RootFormItem error={isPassword}>
               <Label htmlFor="password">비밀번호</Label>
               <Input
                 id="password"
                 type="password"
-                {...register("password", { required: "비밀번호를 입력하세요" })}
+                {...register("password", {
+                  required: "비밀번호를 입력하세요",
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChangePassword(e),
+                })}
               />
-            </FormItem>
-            <Label>{errors?.password?.message}</Label>
+            </RootFormItem>
+            <ErrorLabel>{errors?.password?.message}</ErrorLabel>
           </FormItemContainer>
-          <LoginButton buttonType="block">로그인</LoginButton>
+          <SubmitButton buttonType="block" disabled={isDisabled}>
+            로그인
+          </SubmitButton>
         </form>
       </Wrapper>
     </>
