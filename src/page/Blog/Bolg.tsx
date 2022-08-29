@@ -7,8 +7,14 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { blog, blogModalControler } from "@/lib/state";
 
-import { ListItem, ListContainer, SEO, Authorization } from "@/Components";
-import SkeletonForListItem from "@/Components/Loading/Skeletons/SkeletonForListItem";
+import {
+  ListItem,
+  ListContainer,
+  SEO,
+  Authorization,
+  SkeletonForListItem,
+} from "@/Components";
+
 import { useGetBlogPosts } from "./hooks";
 
 const Wrapper = styled.div`

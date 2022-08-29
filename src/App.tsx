@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginState, snackbarState } from "@/lib/state";
 import { SEO, Snackbar } from "@/Components";
-import Router from "./Routes/Routes";
+import Router from "@/Routes/Routes";
 
 function App() {
   const currentLogin = useSetRecoilState(loginState);

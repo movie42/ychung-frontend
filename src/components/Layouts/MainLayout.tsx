@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import Header from "@/Components/Header/Header";
+import { Header } from "@/Components";
 
 const Main = styled.main`
   overflow-x: hidden;
