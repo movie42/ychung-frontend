@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { BIBLE_DATA_SET } from "@/lib/utils";
-import { FormItem, Label, Input, Select, SEO } from "@/Components";
+import { FormItem, Label, Input, Select, SEO } from "@/components";
 import { IWorshipItems } from "@/lib/state";
 import { useCreateWeekly } from "./hooks";
 

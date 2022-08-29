@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { INoticeInterface } from "@/lib/state";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import useGetNotice from "@/Page/Notice/hooks/useGetNotices";
+import useGetNotice from "@/page/Notice/hooks/useGetNotices";
 
 const ListContainer = styled.ul`
   padding: 0;

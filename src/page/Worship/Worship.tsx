@@ -11,7 +11,7 @@ import {
   ListContainer,
   SEO,
   SkeletonForWorshipItem,
-} from "@/Components";
+} from "@/components";
 
 import { useGetWeekies } from "./hooks";
 

@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import { MdAddCircle, MdArrowDropDown } from "react-icons/md";
 import { Group as GroupProps, GroupInfo } from "@/lib/state";
-import { Input } from "@/Components";
+import { Input } from "@/components";
 import Group from "./Group";
 import { useGetGroups, useUpdateGroup, useCreateGroup } from "../hooks";
 

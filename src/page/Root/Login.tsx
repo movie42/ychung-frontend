@@ -6,10 +6,10 @@ import {
   SubmitButton,
   RootFormItem,
   FormItemContainer,
-} from "@/Page/Root/Root.styles";
-import { VALIDATION_CHECK_VALUE } from "@/Page/Root/lib/validationCheckValue";
-import { Label, Input, SEO } from "@/Components";
-import { useLogin, useValidate } from "@/Page/Root/hooks";
+} from "@/page/Root/Root.styles";
+import { VALIDATION_CHECK_VALUE } from "@/page/Root/lib/validationCheckValue";
+import { Label, Input, SEO } from "@/components";
+import { useLogin, useValidate } from "@/page/Root/hooks";
 
 interface LoginFormVariable {
   email: string;

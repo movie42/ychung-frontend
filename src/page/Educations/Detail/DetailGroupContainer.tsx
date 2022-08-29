@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import styled from "styled-components";
 
-import { Loading } from "@/Components";
+import { Loading } from "@/components";
 
 import DetailGroup from "./DetailGroup";
 import useGetGroups from "../hooks/useGetGroups";

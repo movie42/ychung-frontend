@@ -1,28 +1,28 @@
 import { Route, Routes, useLocation, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { Blog, BlogCreate, BlogUpdate, BlogDetail } from "@/Page/Blog";
+import { Blog, BlogCreate, BlogUpdate, BlogDetail } from "@/page/Blog";
 import {
   Educations,
   EducationsUpdate,
   CreateEducation as EducationCreate,
   EducationGroupsDetail,
   ReportsContainer,
-} from "@/Page/Educations";
-import { Join, Login, Logout, Main } from "@/Page/Root";
-import { User, UserWorks, UserApplications, UserLike } from "@/Page/User";
+} from "@/page/Educations";
+import { Join, Login, Logout, Main } from "@/page/Root";
+import { User, UserWorks, UserApplications, UserLike } from "@/page/User";
 import {
   Worship,
   WorshipDetail,
   WorshipCreate,
   WorshipUpdate,
-} from "@/Page/Worship";
+} from "@/page/Worship";
 import {
   Notice,
   NoticeDetail,
   NoticeCreate,
   NoticeUpdate,
-} from "@/Page/Notice";
+} from "@/page/Notice";
 
 import {
   Documents,
@@ -34,9 +34,9 @@ import {
   AccountDetail,
   Application,
   ApplicationDetail,
-} from "@/Page/Document";
+} from "@/page/Document";
 
-import { Search } from "@/Page/Search";
+import { Search } from "@/page/Search";
 
 import {
   loginState,
@@ -49,9 +49,9 @@ import {
 } from "@/lib/state";
 
 import ProtectRouter from "./ProtectRouter";
-import { PageNotFound } from "@/Page/Errors";
+import { PageNotFound } from "@/page/Errors";
 import TokenValidationCheckRouter from "./TokenValidationCheckRouter";
-import { MainLayout } from "@/Components";
+import { MainLayout } from "@/components";
 
 function Router() {
   const location = useLocation();

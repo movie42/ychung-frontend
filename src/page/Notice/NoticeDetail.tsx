@@ -15,7 +15,7 @@ import {
   Viewer,
   ConfirmDeleteModal,
   SEO,
-} from "@/Components";
+} from "@/components";
 import { useDeleteNotice } from "./hooks";
 
 const ButtonContainer = styled.div`

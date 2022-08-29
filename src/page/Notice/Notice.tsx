@@ -12,7 +12,7 @@ import {
   ListItem,
   SEO,
   SkeletonForListItem,
-} from "@/Components";
+} from "@/components";
 import { useGetNotices } from "./hooks";
 
 const NoticeListContainer = styled(motion.div)``;

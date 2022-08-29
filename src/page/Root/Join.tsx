@@ -2,16 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { Input, Label, SEO } from "@/Components";
-import { useJoin, useValidate } from "@/Page/Root/hooks";
-import { VALIDATION_CHECK_VALUE } from "@/Page/Root/lib/validationCheckValue";
+import { Input, Label, SEO } from "@/components";
+import { useJoin, useValidate } from "@/page/Root/hooks";
+import { VALIDATION_CHECK_VALUE } from "@/page/Root/lib/validationCheckValue";
 import {
   Wrapper,
   ErrorLabel,
   SubmitButton,
   RootFormItem,
   FormItemContainer,
-} from "@/Page/Root/Root.styles";
+} from "@/page/Root/Root.styles";
 import axios from "axios";
 import { useDebouncedEffect } from "@/lib/hooks";
 

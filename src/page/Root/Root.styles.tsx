@@ -1,4 +1,4 @@
-import { Button, FormItem, Label } from "@/Components";
+import { Button, FormItem, Label } from "@/components";
 import styled, { css, keyframes } from "styled-components";
 
 export const Wrapper = styled.div`

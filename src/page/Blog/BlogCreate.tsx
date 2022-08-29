@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
-import { Editor, SEO } from "@/Components";
+import { Editor, SEO } from "@/components";
 
 import { IBlogItems } from "@/lib/state";
 import { useCreateBlogPost } from "./hooks";

@@ -12,7 +12,7 @@ import {
 
 import { useForm } from "react-hook-form";
 
-import { ConfirmDeleteModal } from "@/Components";
+import { ConfirmDeleteModal } from "@/components";
 import { useModalContorl } from "@/lib/hooks";
 import { useDeletePersonFromGroup, useUpdatePerson } from "../../hooks";
 

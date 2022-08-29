@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { Loading } from "@/Components";
+import { Loading } from "@/components";
 import { useCreateEducation } from "../hooks";
 
 const Wrapper = styled.div`

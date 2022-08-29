@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/Components";
+import { ConfirmDeleteModal, Input, Loading, Toggle } from "@/components";
 import { GroupInfo } from "@/lib/state";
 import GroupContainer from "./GroupContainer";
 import { useModalContorl } from "@/lib/hooks";

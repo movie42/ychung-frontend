@@ -13,7 +13,7 @@ import {
   SEO,
   Authorization,
   SkeletonForListItem,
-} from "@/Components";
+} from "@/components";
 
 import { useGetBlogPosts } from "./hooks";
 
