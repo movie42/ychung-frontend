@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { notice, noticeModalControler } from "@/lib/state";
+import { INoticeInterface, notice, noticeModalControler } from "@/lib/state";
 
 import {
   Authorization,
@@ -36,12 +36,23 @@ const NoticeComponentInfoContainer = styled.div`
 `;
 
 function Notice() {
+  const [isFetching, setFetching] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const { id } = useParams();
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const { isSuccess, isRefetching, isLoading, data: notices } = useGetNotices();
+  const [dataState, setDataState] = useState<INoticeInterface[]>([]);
+
+  const {
+    setOffset,
+    refetch,
+    isSuccess,
+    isRefetching,
+    isLoading,
+    data: notices,
+  } = useGetNotices();
 
   const onClick = (id: string) => {
     if (notices) {
@@ -50,6 +61,27 @@ function Notice() {
       setDetailItem({ ...detailItem });
     }
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, offsetHeight } = document.documentElement;
+      if (window.innerHeight + scrollTop >= offsetHeight) {
+        setFetching(true);
+      }
+    };
+    setFetching(true);
+    window.addEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isFetching && isSuccess) {
+      refetch();
+      setOffset((pre) => pre + 1);
+      setFetching(false);
+    } else if (!hasNextPage) {
+      setFetching(false);
+    }
+  }, [isFetching, isSuccess]);
 
   useEffect(() => {
     if (id && isSuccess && !isRefetching) {
@@ -75,9 +107,11 @@ function Notice() {
               </Link>
             </Authorization>
           </NoticeComponentInfoContainer>
+
           <>
             {notices && (
               <ListContainer
+                isRefetching={isRefetching}
                 isLoading={isLoading && isRefetching}
                 data={notices}
                 renderFunc={(item) => (
@@ -86,9 +120,6 @@ function Notice() {
                     data={item}
                     onClick={() => onClick(item._id)}
                   />
-                )}
-                skeletonRenderFunc={(item: number[], index: number) => (
-                  <SkeletonForListItem key={index} />
                 )}
               />
             )}
