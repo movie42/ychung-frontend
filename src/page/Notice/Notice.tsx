@@ -35,6 +35,17 @@ const NoticeComponentInfoContainer = styled.div`
   }
 `;
 
+const List = styled.ul`
+  display: grid;
+  grid-auto-rows: minmax(30rem, auto);
+  margin: 0;
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    gap: 1.5rem;
+  }
+  padding: 0;
+`;
+
 function Notice() {
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -42,8 +53,6 @@ function Notice() {
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
-
-  const [dataState, setDataState] = useState<INoticeInterface[]>([]);
 
   const {
     setOffset,
@@ -84,12 +93,12 @@ function Notice() {
   }, [isFetching, isSuccess]);
 
   useEffect(() => {
-    if (id && isSuccess && !isRefetching) {
+    if (id && notices) {
       const [detailItem] = notices.filter((item) => item._id === id);
       setNoticeModalState(true);
       setDetailItem({ ...detailItem });
     }
-  }, [id, isSuccess, isRefetching]);
+  }, [id]);
 
   return (
     <>
@@ -107,25 +116,34 @@ function Notice() {
               </Link>
             </Authorization>
           </NoticeComponentInfoContainer>
-
-          <>
-            {notices && (
-              <ListContainer
-                isRefetching={isRefetching}
-                isLoading={isLoading && isRefetching}
-                data={notices}
-                renderFunc={(item) => (
-                  <ListItem
-                    key={item._id}
-                    data={item}
-                    onClick={() => onClick(item._id)}
-                  />
-                )}
-              />
-            )}
-          </>
+          {isLoading && (
+            <List>
+              <SkeletonForListItem />
+              <SkeletonForListItem />
+              <SkeletonForListItem />
+              <SkeletonForListItem />
+            </List>
+          )}
+          {notices && (
+            <ListContainer
+              isRefetching={isRefetching}
+              isLoading={isLoading}
+              data={notices}
+              renderFunc={(item) => (
+                <ListItem
+                  key={item._id}
+                  data={item}
+                  onClick={() => onClick(item._id)}
+                />
+              )}
+            />
+          )}
         </Wrapper>
-        <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
+        {noticeModalState && (
+          <AnimatePresence>
+            <Outlet />
+          </AnimatePresence>
+        )}
       </NoticeListContainer>
     </>
   );

@@ -31,11 +31,15 @@ const ListContainer = <T, V extends unknown>({
 }: IListComponentProps<T, V>) => {
   return (
     <List>
-      <>
-        {isLoading && <SkeletonForListItem />}
-        {data.map(renderFunc)}
-        {isRefetching && <SkeletonForListItem />}
-      </>
+      {data.map(renderFunc)}
+      {isRefetching && (
+        <>
+          <SkeletonForListItem />
+          <SkeletonForListItem />
+          <SkeletonForListItem />
+          <SkeletonForListItem />
+        </>
+      )}
     </List>
   );
 };

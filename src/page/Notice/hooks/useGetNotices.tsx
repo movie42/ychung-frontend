@@ -15,7 +15,12 @@ const useGetNotice = () => {
   const query = useQuery<NoticeQueryData, AxiosError, INoticeInterface[]>(
     ["notices"],
     () => api.getData(`/api/notice?limit=${limit}&offset=${offset}`),
-    { select: ({ data }) => data, staleTime: 10, cacheTime: 50000 }
+    {
+      select: ({ data }) => data,
+      cacheTime: 500000,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   return { limit, setlimit, offset, setOffset, ...query };

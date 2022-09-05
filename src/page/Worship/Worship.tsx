@@ -78,12 +78,12 @@ function Worship() {
         </WeeklyComponentInfoContainer>
         {weeklies && (
           <ListContainer
+            isRefetching={isRefetching}
             isLoading={isLoading && isRefetching}
             data={weeklies}
             renderFunc={(item) => (
               <WorshipItem key={item?._id} worship={item} onClick={onClick} />
             )}
-            skeletonRenderFunc={() => <SkeletonForWorshipItem />}
           />
         )}
         <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>

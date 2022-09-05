@@ -76,6 +76,7 @@ function Blog() {
         </BlogComponentInfoContainer>
         {posts && (
           <ListContainer
+            isRefetching={isRefetching}
             isLoading={isLoading && isRefetching}
             data={posts}
             renderFunc={(item) => (
@@ -84,9 +85,6 @@ function Blog() {
                 data={item}
                 onClick={() => onClick(item._id)}
               />
-            )}
-            skeletonRenderFunc={(item: number[], index: number) => (
-              <SkeletonForListItem key={index} />
             )}
           />
         )}
