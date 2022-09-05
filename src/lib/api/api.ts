@@ -8,8 +8,8 @@ const instance = axios.create({
 });
 
 class API {
-  async getData(url: string) {
-    const response = await instance.get(url);
+  async getData(url: string, options?: AxiosRequestConfig<any>) {
+    const response = await instance.get(url, { ...options });
     return response.data;
   }
 

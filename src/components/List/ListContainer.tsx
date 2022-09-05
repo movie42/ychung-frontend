@@ -38,6 +38,8 @@ const ListContainer = <T, V extends unknown>({
           <SkeletonForListItem />
           <SkeletonForListItem />
           <SkeletonForListItem />
+          <SkeletonForListItem />
+          <SkeletonForListItem />
         </>
       )}
     </List>

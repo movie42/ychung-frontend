@@ -17,6 +17,7 @@ const useGetNotice = () => {
     () => api.getData(`/api/notice?limit=${limit}&offset=${offset}`),
     {
       select: ({ data }) => data,
+      staleTime: 500000,
       cacheTime: 500000,
       refetchOnMount: false,
       refetchOnWindowFocus: false,

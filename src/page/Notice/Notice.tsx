@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -14,6 +14,8 @@ import {
   SkeletonForListItem,
 } from "@/components";
 import { useGetNotices } from "./hooks";
+import useGetNoticeItem2 from "./hooks/useGetNoticeItem2";
+import useIntersect from "@/lib/hooks/useIntersect";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -46,6 +48,10 @@ const List = styled.ul`
   padding: 0;
 `;
 
+const Target = styled.div`
+  height: 1px;
+`;
+
 function Notice() {
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -54,14 +60,9 @@ function Notice() {
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const {
-    setOffset,
-    refetch,
-    isSuccess,
-    isRefetching,
-    isLoading,
-    data: notices,
-  } = useGetNotices();
+  const { data, isRefetching, isLoading, fetchNextPage } = useGetNoticeItem2({
+    size: 10,
+  });
 
   const onClick = (id: string) => {
     if (notices) {
@@ -71,26 +72,17 @@ function Notice() {
     }
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, offsetHeight } = document.documentElement;
-      if (window.innerHeight + scrollTop >= offsetHeight) {
-        setFetching(true);
-      }
-    };
-    setFetching(true);
-    window.addEventListener("scroll", handleScroll);
-  }, []);
+  const notices = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data) : []),
+    [data]
+  );
 
-  useEffect(() => {
-    if (isFetching && isSuccess) {
-      refetch();
-      setOffset((pre) => pre + 1);
-      setFetching(false);
-    } else if (!hasNextPage) {
-      setFetching(false);
+  const ref = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
     }
-  }, [isFetching, isSuccess]);
+  });
 
   useEffect(() => {
     if (id && notices) {
@@ -116,14 +108,6 @@ function Notice() {
               </Link>
             </Authorization>
           </NoticeComponentInfoContainer>
-          {isLoading && (
-            <List>
-              <SkeletonForListItem />
-              <SkeletonForListItem />
-              <SkeletonForListItem />
-              <SkeletonForListItem />
-            </List>
-          )}
           {notices && (
             <ListContainer
               isRefetching={isRefetching}
@@ -138,6 +122,12 @@ function Notice() {
               )}
             />
           )}
+          {isLoading && (
+            <List>
+              <SkeletonForListItem />
+            </List>
+          )}
+          <Target ref={ref} />
         </Wrapper>
         {noticeModalState && (
           <AnimatePresence>
