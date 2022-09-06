@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { INoticeInterface, notice, noticeModalControler } from "@/lib/state";
+import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
 
 import {
   Authorization,
@@ -13,9 +14,6 @@ import {
   SEO,
   SkeletonForListItem,
 } from "@/components";
-import { useGetNotices } from "./hooks";
-import useGetNoticeItem2 from "./hooks/useGetNoticeItem2";
-import useIntersect from "@/lib/hooks/useIntersect";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -60,9 +58,13 @@ function Notice() {
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const { data, isRefetching, isLoading, fetchNextPage } = useGetNoticeItem2({
-    size: 10,
-  });
+  const { data, isRefetching, isLoading, fetchNextPage } =
+    useGetInfinityItem<INoticeInterface>({
+      size: 10,
+      pageParam: 0,
+      url: "/api/notice",
+      queryKey: ["notices"],
+    });
 
   const onClick = (id: string) => {
     if (notices) {

@@ -1,19 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import WorshipItem from "./WorshipDetailComponents/WorshipItem";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { worshipDetail, worshipModalControler } from "@/lib/state";
+import {
+  IWorshipItems,
+  worshipDetail,
+  worshipModalControler,
+} from "@/lib/state";
 import {
   Authorization,
   ListContainer,
   SEO,
-  SkeletonForWorshipItem,
+  SkeletonForListItem,
 } from "@/components";
 
-import { useGetWeekies } from "./hooks";
+import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -33,19 +37,42 @@ const WeeklyComponentInfoContainer = styled.div`
   }
 `;
 
+const Target = styled.div`
+  height: 1px;
+`;
+
+const List = styled.ul`
+  display: grid;
+  grid-auto-rows: minmax(30rem, auto);
+  margin: 0;
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    gap: 1.5rem;
+  }
+  padding: 0;
+`;
+
 function Worship() {
+  const [isFetching, setFetching] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const { id } = useParams();
   const setDetailItem = useSetRecoilState(worshipDetail);
   const [worshipModalState, setWorshipModalState] = useRecoilState(
     worshipModalControler
   );
 
-  const {
-    isSuccess,
-    isLoading,
-    isRefetching,
-    data: weeklies,
-  } = useGetWeekies();
+  const { isSuccess, isLoading, isRefetching, data, fetchNextPage } =
+    useGetInfinityItem<IWorshipItems>({
+      size: 10,
+      pageParam: 0,
+      url: "/api/worship",
+      queryKey: ["weeklies"],
+    });
+
+  const weeklies = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data) : []),
+    [data]
+  );
 
   const onClick = (id: string): void => {
     if (weeklies) {
@@ -54,6 +81,13 @@ function Worship() {
       setDetailItem({ ...detailItem });
     }
   };
+
+  const ref = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
+  });
 
   useEffect(() => {
     if (id && isSuccess && !isRefetching) {
@@ -86,6 +120,12 @@ function Worship() {
             )}
           />
         )}
+        {isLoading && (
+          <List>
+            <SkeletonForListItem />
+          </List>
+        )}
+        <Target ref={ref} />
         <AnimatePresence>{worshipModalState && <Outlet />}</AnimatePresence>
       </Wrapper>
     </>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AiFillPlusCircle } from "react-icons/ai";
@@ -15,7 +15,8 @@ import {
   SkeletonForListItem,
 } from "@/components";
 
-import { useGetBlogPosts } from "./hooks";
+import { BlogPostData, useGetBlogPosts } from "./hooks";
+import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -35,13 +36,44 @@ const BlogComponentInfoContainer = styled.div`
   }
 `;
 
+const List = styled.ul`
+  display: grid;
+  grid-auto-rows: minmax(30rem, auto);
+  margin: 0;
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    gap: 1.5rem;
+  }
+  padding: 0;
+`;
+
 function Blog() {
+  const [isFetching, setFetching] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const { id } = useParams();
   const setDetailItem = useSetRecoilState(blog);
   const [blogModalState, setBlogModalState] =
     useRecoilState(blogModalControler);
 
-  const { isSuccess, isRefetching, isLoading, data: posts } = useGetBlogPosts();
+  const { data, isSuccess, isRefetching, isLoading, fetchNextPage } =
+    useGetInfinityItem<BlogPostData>({
+      pageParam: 0,
+      size: 10,
+      url: "/api/blog",
+      queryKey: ["posts"],
+    });
+
+  const posts = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data) : []),
+    [data]
+  );
+
+  const ref = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
+  });
 
   const onClick = (id: string) => {
     if (posts) {
@@ -87,6 +119,11 @@ function Blog() {
               />
             )}
           />
+        )}
+        {isLoading && (
+          <List>
+            <SkeletonForListItem />
+          </List>
         )}
         <AnimatePresence>{blogModalState && <Outlet />}</AnimatePresence>
       </Wrapper>
