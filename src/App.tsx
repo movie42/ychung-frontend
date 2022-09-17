@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginState, snackbarState } from "@/lib/state";
 import { SEO, Snackbar } from "@/components";
-import Router from "@/routes/Routes";
+import { Routers } from "@/routes";
 
 function App() {
   const currentLogin = useSetRecoilState(loginState);
@@ -30,7 +30,7 @@ function App() {
           <Snackbar.Item key={id} data-set={id} message={message} type={type} />
         ))}
       </Snackbar>
-      <Router />
+      <Routers />
     </>
   );
 }
