@@ -29,7 +29,7 @@ const ListItem = styled.li`
   }
 `;
 
-function WorshipNotice() {
+function WeekliesNotice() {
   const { isLoading, data: notices } = useGetNotices();
   return isLoading ? (
     <p>광고 불러오는 중...</p>
@@ -54,4 +54,4 @@ function WorshipNotice() {
   );
 }
 
-export default WorshipNotice;
+export default WeekliesNotice;

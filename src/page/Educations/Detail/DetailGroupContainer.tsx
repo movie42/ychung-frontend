@@ -25,9 +25,11 @@ const GroupContainer = styled.ul`
 `;
 
 const DetailGroupContainer = () => {
-  const { id } = useParams();
+  const { educationId } = useParams();
 
-  const { data: groups, isSuccess } = useGetGroups(id ? id : "");
+  const { data: groups, isSuccess } = useGetGroups(
+    educationId ? educationId : ""
+  );
 
   const studentGroup = groups?.filter((value) => value.type === "student");
   const workerGroup = groups?.filter((value) => value.type === "worker");

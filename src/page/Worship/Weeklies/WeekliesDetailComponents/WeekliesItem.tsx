@@ -113,7 +113,7 @@ interface WorshipItems {
   onClick: (id: string) => any;
 }
 
-function WorshipItem({ worship, onClick }: WorshipItems) {
+function WeekliesItem({ worship, onClick }: WorshipItems) {
   const { _id, title, creator, views, createdAt } = worship;
 
   return (
@@ -144,4 +144,4 @@ function WorshipItem({ worship, onClick }: WorshipItems) {
   );
 }
 
-export default WorshipItem;
+export default WeekliesItem;

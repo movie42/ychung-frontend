@@ -6,7 +6,7 @@ import { BIBLE_DATA_SET } from "@/lib/utils";
 import { IWorshipItems } from "@/lib/state";
 import { Input, Label, FormItem, Select, SEO } from "@/components";
 
-import { useUpdateWeekly } from "./hooks";
+import { useUpdateWeekly } from "../hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -111,7 +111,7 @@ interface IWorshipUpdate {
   data?: IWorshipItems;
 }
 
-const WorshipUpdate = ({ data }: IWorshipUpdate) => {
+const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
   const { id } = useParams();
   const {
     register,
@@ -286,4 +286,4 @@ const WorshipUpdate = ({ data }: IWorshipUpdate) => {
   );
 };
 
-export default WorshipUpdate;
+export default WeekliesUpdate;

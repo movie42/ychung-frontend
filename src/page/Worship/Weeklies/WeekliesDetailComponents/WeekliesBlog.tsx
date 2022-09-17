@@ -28,7 +28,7 @@ const ListItem = styled.li`
   }
 `;
 
-function WorshipBlog() {
+function WeekliesBlog() {
   const { isLoading, data: posts } = useGetBlogPosts();
 
   return isLoading ? (
@@ -52,4 +52,4 @@ function WorshipBlog() {
   );
 }
 
-export default WorshipBlog;
+export default WeekliesBlog;

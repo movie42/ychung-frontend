@@ -12,7 +12,6 @@ const useIntersect = (
   const ref = useRef<HTMLDivElement>(null);
   const callback = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-      console.log(entries, observer);
       entries.forEach((entry) => {
         if (entry.isIntersecting) onIntersect(entry, observer);
       });

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
@@ -12,8 +12,6 @@ const Wrapper = styled.div`
     font-size: 3rem;
   }
 `;
-
-interface IPageNotFoundProps {}
 
 const PageNotFound = () => {
   const navigate = useNavigate();

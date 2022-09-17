@@ -4,7 +4,7 @@ import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { BIBLE_DATA_SET } from "@/lib/utils";
 import { FormItem, Label, Input, Select, SEO } from "@/components";
 import { IWorshipItems } from "@/lib/state";
-import { useCreateWeekly } from "./hooks";
+import { useCreateWeekly } from "../hooks";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -87,7 +87,7 @@ const Form = styled.form`
   }
 `;
 
-const WorshipCreate = () => {
+const WeekliesCreate = () => {
   const {
     register,
     handleSubmit,
@@ -251,4 +251,4 @@ const WorshipCreate = () => {
   );
 };
 
-export default WorshipCreate;
+export default WeekliesCreate;
