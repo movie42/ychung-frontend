@@ -4,7 +4,7 @@ import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 
 interface NoticeDeleteVariable {
-  id: string;
+  noticeId: string;
 }
 
 interface NoticeDeleteData {
@@ -17,7 +17,7 @@ const useDeleteNotice = () => {
   const { handleAddSnackBar } = useSetSnackBar();
 
   return useMutation<NoticeDeleteData, AxiosError, NoticeDeleteVariable>(
-    ({ id }) => api.deleteData(`/api/notice/${id}`),
+    ({ noticeId }) => api.deleteData(`/api/notice/${noticeId}`),
     {
       onSuccess: () => {
         handleAddSnackBar({

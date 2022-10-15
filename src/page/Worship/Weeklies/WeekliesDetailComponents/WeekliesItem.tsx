@@ -118,7 +118,7 @@ function WeekliesItem({ worship, onClick }: WorshipItems) {
 
   return (
     <ListItem onClick={() => onClick(_id)}>
-      <Link to={`/worship/${_id}`}>
+      <Link to={`/worship/weeklies/${_id}`}>
         <ItemDetailContainer>
           <h3>{title}</h3>
           <div>

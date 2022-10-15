@@ -1,4 +1,3 @@
-import { MainLayout } from "@/components";
 import { notice, noticeModalControler } from "@/lib/state";
 import {
   Notice,
@@ -6,7 +5,6 @@ import {
   NoticeDetail,
   NoticeUpdate,
 } from "@/page/Notice";
-import React from "react";
 import { Route, Routes } from "react-router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import ProtectRouter from "./ProtectRouter";

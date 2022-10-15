@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { Authorization } from "@/components";
 import { Link, NavLink } from "react-router-dom";
@@ -9,6 +8,13 @@ const WeeklyComponentInfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  a {
+    color: ${(props) => props.theme.color.gray300};
+    font-size: 4rem;
+    &:hover {
+      color: ${(props) => props.theme.color.primary400};
+    }
+  }
 `;
 
 const WorshipNavContainer = styled.div`
@@ -43,33 +49,41 @@ const WorshipNavLink = styled(NavLink)`
   }
 `;
 
-interface IWorshipHeaderProps {}
-
 const WorshipHeader = () => {
   return (
     <WeeklyComponentInfoContainer>
-      <WorshipNavContainer>
-        <WorshipNavItem>
-          <WorshipNavLink
-            className={({ isActive }) => (isActive ? "active" : "")}
-            to="weeklies"
-            data-nav="weeklies">
-            주보
-          </WorshipNavLink>
-        </WorshipNavItem>
-        <WorshipNavItem>
-          <WorshipNavLink to="prayer" data-nav="prayer">
-            대표 기도
-          </WorshipNavLink>
-        </WorshipNavItem>
-      </WorshipNavContainer>
+      <h1>예배</h1>
       <Authorization authority={3}>
-        <Link to="/worship/create">
+        <Link to="/worship/weeklies/create">
           <AiFillPlusCircle />
         </Link>
       </Authorization>
     </WeeklyComponentInfoContainer>
   );
+  // return (
+  //   <WeeklyComponentInfoContainer>
+  //     <WorshipNavContainer>
+  //       <WorshipNavItem>
+  //         <WorshipNavLink
+  //           className={({ isActive }) => (isActive ? "active" : "")}
+  //           to="weeklies"
+  //           data-nav="weeklies">
+  //           주보
+  //         </WorshipNavLink>
+  //       </WorshipNavItem>
+  //       <WorshipNavItem>
+  //         <WorshipNavLink to="prayer" data-nav="prayer">
+  //           대표 기도
+  //         </WorshipNavLink>
+  //       </WorshipNavItem>
+  //     </WorshipNavContainer>
+  //     <Authorization authority={3}>
+  //       <Link to="/worship/create">
+  //         <AiFillPlusCircle />
+  //       </Link>
+  //     </Authorization>
+  //   </WeeklyComponentInfoContainer>
+  // );
 };
 
 export default WorshipHeader;

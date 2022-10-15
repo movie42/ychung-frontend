@@ -15,7 +15,7 @@ import {
   SkeletonForListItem,
 } from "@/components";
 
-import { BlogPostData, useGetBlogPosts } from "./hooks";
+import { BlogPostData } from "./hooks";
 import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
 
 const Wrapper = styled.div`

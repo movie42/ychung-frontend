@@ -58,9 +58,7 @@ const useUpdateNotice = () => {
           type: "success",
         });
         queryClient.invalidateQueries(["notices"]);
-        navigate(`/notice/${data._id}`, {
-          replace: true,
-        });
+        navigate(`/notice/${data._id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);

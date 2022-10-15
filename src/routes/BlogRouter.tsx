@@ -15,27 +15,25 @@ const BlogRouter = ({ isLogin, authority }: IBlogRouterProps) => {
   const setBlogModalState = useSetRecoilState(blogModalControler);
   return (
     <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="" element={<Blog />}>
-          <Route
-            path=":postId"
-            element={
-              <BlogDetail setDetailItem={setBlogModalState} data={blogItem} />
-            }
-          />
-          <Route
-            element={
-              <ProtectRouter
-                isAllow={isLogin && authority < 3}
-                redirectPath="/worship/weeklies"
-              />
-            }>
-            <Route path="create" element={<BlogCreate />} />
-            <Route
-              path=":postId/update"
-              element={<BlogUpdate data={blogItem} />}
+      <Route path="" element={<Blog />}>
+        <Route
+          path=":postId"
+          element={
+            <BlogDetail setDetailItem={setBlogModalState} data={blogItem} />
+          }
+        />
+        <Route
+          element={
+            <ProtectRouter
+              isAllow={isLogin && authority < 3}
+              redirectPath="/worship/weeklies"
             />
-          </Route>
+          }>
+          <Route path="create" element={<BlogCreate />} />
+          <Route
+            path=":postId/update"
+            element={<BlogUpdate data={blogItem} />}
+          />
         </Route>
       </Route>
     </Routes>

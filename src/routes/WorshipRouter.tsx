@@ -34,20 +34,19 @@ const WorshipRouter = ({ isLogin, authority }: IWorshipRouterProps) => {
               />
             }
           />
-
-          <Route
-            element={
-              <ProtectRouter
-                isAllow={isLogin && authority < 3}
-                redirectPath="/worship/weeklies"
-              />
-            }>
-            <Route path="create" element={<WeekliesCreate />} />
-            <Route
-              path=":weekliesId/update"
-              element={<WeekliesUpdate data={weeklyItem} />}
+        </Route>
+        <Route
+          element={
+            <ProtectRouter
+              isAllow={isLogin && authority < 3}
+              redirectPath="/worship/weeklies"
             />
-          </Route>
+          }>
+          <Route path="weeklies/create" element={<WeekliesCreate />} />
+          <Route
+            path="weeklies/:weekliesId/update"
+            element={<WeekliesUpdate data={weeklyItem} />}
+          />
         </Route>
         <Route path="prayer" element={<PrayerContainer />} />
       </Route>

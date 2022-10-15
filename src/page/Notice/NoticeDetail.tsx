@@ -41,10 +41,13 @@ interface INoticeDetailProps {
 
 function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { noticeId } = useParams();
   const { isLogin } = useRecoilValue(loginState);
   const setNoticeData = useSetRecoilState(notice);
-  const countViews = useSetView(`/api/notice/${id}/count-views`, setNoticeData);
+  const countViews = useSetView(
+    `/api/notice/${noticeId}/count-views`,
+    setNoticeData
+  );
   const { setIsConfirm, setIsModal, isConfirm, isModal } = useModalContorl();
   const { mutate: deleteNoticeMutate } = useDeleteNotice();
 
@@ -100,9 +103,9 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   }, []);
 
   useEffect(() => {
-    if (isConfirm && id) {
+    if (isConfirm && noticeId) {
       deleteNoticeMutate(
-        { id },
+        { noticeId },
         {
           onSuccess: () => {
             setIsConfirm(false);
@@ -142,17 +145,6 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
               </ButtonContainer>
             )}
           </PageDetailModalHeader>
-          {/* {data?.startDate && (
-            <a
-              download="event.ics"
-              href={`${saveICS(
-                data?.startDate,
-                data?.endDate,
-                data?.summary
-              )}`}>
-              일정을 달력에 저장하기
-            </a>
-          )} */}
           <Viewer paragraph={data?.paragraph} />
         </>
       </PageDetailModal>

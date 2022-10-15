@@ -50,10 +50,10 @@ const Target = styled.div`
   height: 1px;
 `;
 
-function Notice() {
+const Notice = () => {
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
-  const { id } = useParams();
+  const { noticeId } = useParams();
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
@@ -87,12 +87,12 @@ function Notice() {
   });
 
   useEffect(() => {
-    if (id && notices) {
-      const [detailItem] = notices.filter((item) => item._id === id);
+    if (noticeId && notices) {
+      const [detailItem] = notices.filter((item) => item._id === noticeId);
       setNoticeModalState(true);
       setDetailItem({ ...detailItem });
     }
-  }, [id]);
+  }, [noticeId]);
 
   return (
     <>
@@ -139,6 +139,6 @@ function Notice() {
       </NoticeListContainer>
     </>
   );
-}
+};
 
 export default Notice;

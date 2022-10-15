@@ -20,7 +20,7 @@ const useDeleteBlogPost = () => {
           type: "success",
         });
         queryClient.invalidateQueries(["posts"]);
-        navigate("/blog", { replace: true });
+        navigate("/blog");
       },
       onError: (error) => {
         redirectLogoutPage(error);

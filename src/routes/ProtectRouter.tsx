@@ -13,7 +13,7 @@ const ProtectRouter = ({
   children,
 }: IPrivatRouteProps) => {
   if (!isAllow) {
-    return <Navigate to={redirectPath} replace />;
+    return <Navigate to={redirectPath} />;
   }
 
   return children ? children : <Outlet />;
