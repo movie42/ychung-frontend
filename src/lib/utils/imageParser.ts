@@ -3,12 +3,13 @@ export default (data: string) => {
 
   if (image) {
     const [imageStrings] = Array.from(image).filter((value) =>
-      value.includes("https")
+      value.includes("http")
     );
     const thumnail = imageStrings
       .replace(/[(,)]/g, "")
       .replace(/\!(.*)\]/g, "");
-    return thumnail.includes("https") ? thumnail : null;
+    return thumnail.includes("http") ? thumnail : null;
   }
+
   return null;
 };

@@ -13,6 +13,14 @@ body{
     overflow-x: hidden;
     overflow-y: auto;
 }
+input{
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active  {
+        -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+    }
+}
 ul,li {
     list-style:none ;
 }

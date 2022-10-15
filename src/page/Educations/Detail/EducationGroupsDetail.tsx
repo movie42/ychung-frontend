@@ -28,9 +28,8 @@ const Header = styled.div`
 
 const EducationGroupsDetail = () => {
   const { isLogin } = useRecoilValue(loginState);
-  const { id } = useParams();
-
-  const { data, isLoading } = useGetGroupInfo(id ? id : "");
+  const { educationId } = useParams();
+  const { data, isLoading } = useGetGroupInfo(educationId ? educationId : "");
 
   return isLoading ? (
     <Loading />
@@ -41,7 +40,7 @@ const EducationGroupsDetail = () => {
         {isLogin ? (
           <>
             <IconButton>
-              <Link to={`/education/groups/${id}/update`}>
+              <Link to={`/education/groups/${educationId}/update`}>
                 <AiFillEdit />
               </Link>
             </IconButton>

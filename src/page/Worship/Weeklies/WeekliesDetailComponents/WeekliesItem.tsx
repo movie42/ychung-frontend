@@ -113,12 +113,12 @@ interface WorshipItems {
   onClick: (id: string) => any;
 }
 
-function WorshipItem({ worship, onClick }: WorshipItems) {
+function WeekliesItem({ worship, onClick }: WorshipItems) {
   const { _id, title, creator, views, createdAt } = worship;
 
   return (
     <ListItem onClick={() => onClick(_id)}>
-      <Link to={`/worship/${_id}`}>
+      <Link to={`/worship/weeklies/${_id}`}>
         <ItemDetailContainer>
           <h3>{title}</h3>
           <div>
@@ -144,4 +144,4 @@ function WorshipItem({ worship, onClick }: WorshipItems) {
   );
 }
 
-export default WorshipItem;
+export default WeekliesItem;

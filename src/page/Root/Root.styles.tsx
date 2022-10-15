@@ -48,6 +48,18 @@ export const SubmitButton = styled(Button)`
   color: ${(props) => props.theme.color.fontColorWhite};
   background-color: ${(props) =>
     props.disabled ? props.theme.color.gray200 : props.theme.color.primary400};
+  &:hover {
+    background-color: ${(props) =>
+      props.disabled
+        ? props.theme.color.gray200
+        : props.theme.color.primary800};
+  }
+  &:active {
+    background-color: ${(props) =>
+      props.disabled
+        ? props.theme.color.gray200
+        : props.theme.color.primary300};
+  }
 `;
 
 export const RootFormItem = styled(FormItem)<{ error?: boolean | null }>`
@@ -93,6 +105,13 @@ export const RootFormItem = styled(FormItem)<{ error?: boolean | null }>`
       input {
         color: ${(props) => props.theme.color.success200};
         background-color: ${(props) => props.theme.color.success100};
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 30px
+            ${(props) => props.theme.color.success100} inset !important;
+        }
       }
     `;
   }};

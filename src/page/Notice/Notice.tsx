@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { notice, noticeModalControler } from "@/lib/state";
+import { INoticeInterface, notice, noticeModalControler } from "@/lib/state";
+import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
 
 import {
   Authorization,
@@ -13,7 +14,6 @@ import {
   SEO,
   SkeletonForListItem,
 } from "@/components";
-import { useGetNotices } from "./hooks";
 
 const NoticeListContainer = styled(motion.div)``;
 
@@ -35,13 +35,36 @@ const NoticeComponentInfoContainer = styled.div`
   }
 `;
 
-function Notice() {
-  const { id } = useParams();
+const List = styled.ul`
+  display: grid;
+  grid-auto-rows: minmax(30rem, auto);
+  margin: 0;
+  @media (min-width: ${(props) => props.theme.screen.labtop}) {
+    grid-template-columns: repeat(auto-fill, minmax(35rem, auto));
+    gap: 1.5rem;
+  }
+  padding: 0;
+`;
+
+const Target = styled.div`
+  height: 1px;
+`;
+
+const Notice = () => {
+  const [isFetching, setFetching] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const { noticeId } = useParams();
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const { isSuccess, isRefetching, isLoading, data: notices } = useGetNotices();
+  const { data, isRefetching, isLoading, fetchNextPage } =
+    useGetInfinityItem<INoticeInterface>({
+      size: 10,
+      pageParam: 0,
+      url: "/api/notice",
+      queryKey: ["notices"],
+    });
 
   const onClick = (id: string) => {
     if (notices) {
@@ -51,13 +74,25 @@ function Notice() {
     }
   };
 
+  const notices = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data) : []),
+    [data]
+  );
+
+  const ref = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
+  });
+
   useEffect(() => {
-    if (id && isSuccess && !isRefetching) {
-      const [detailItem] = notices.filter((item) => item._id === id);
+    if (noticeId && notices) {
+      const [detailItem] = notices.filter((item) => item._id === noticeId);
       setNoticeModalState(true);
       setDetailItem({ ...detailItem });
     }
-  }, [id, isSuccess, isRefetching]);
+  }, [noticeId]);
 
   return (
     <>
@@ -75,29 +110,35 @@ function Notice() {
               </Link>
             </Authorization>
           </NoticeComponentInfoContainer>
-          <>
-            {notices && (
-              <ListContainer
-                isLoading={isLoading && isRefetching}
-                data={notices}
-                renderFunc={(item) => (
-                  <ListItem
-                    key={item._id}
-                    data={item}
-                    onClick={() => onClick(item._id)}
-                  />
-                )}
-                skeletonRenderFunc={(item: number[], index: number) => (
-                  <SkeletonForListItem key={index} />
-                )}
-              />
-            )}
-          </>
+          {notices && (
+            <ListContainer
+              isRefetching={isRefetching}
+              isLoading={isLoading}
+              data={notices}
+              renderFunc={(item) => (
+                <ListItem
+                  key={item._id}
+                  data={item}
+                  onClick={() => onClick(item._id)}
+                />
+              )}
+            />
+          )}
+          {isLoading && (
+            <List>
+              <SkeletonForListItem />
+            </List>
+          )}
+          <Target ref={ref} />
         </Wrapper>
-        <AnimatePresence>{noticeModalState && <Outlet />}</AnimatePresence>
+        {noticeModalState && (
+          <AnimatePresence>
+            <Outlet />
+          </AnimatePresence>
+        )}
       </NoticeListContainer>
     </>
   );
-}
+};
 
 export default Notice;

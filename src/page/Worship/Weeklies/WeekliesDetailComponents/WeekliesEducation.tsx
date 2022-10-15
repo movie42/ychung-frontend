@@ -41,7 +41,7 @@ interface IWorshipEducationProps {
   createdAt: Date;
 }
 
-const WorshipEducation = () => {
+const WeekliesEducation = () => {
   const {
     data: educations,
     isLoading,
@@ -86,4 +86,4 @@ const WorshipEducation = () => {
   );
 };
 
-export default WorshipEducation;
+export default WeekliesEducation;

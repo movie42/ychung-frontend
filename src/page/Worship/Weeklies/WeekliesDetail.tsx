@@ -6,11 +6,11 @@ import { motion, useElementScroll, useTransform } from "framer-motion";
 import { useParams } from "react-router-dom";
 
 import {
-  WorshipNotice,
-  WorshipBlog,
-  WorshipHeader,
-  WorshipEducation,
-} from "./WorshipDetailComponents";
+  WeekliesNotice,
+  WeekliesBlog,
+  WeekliesHeader,
+  WeekliesEducation,
+} from "./WeekliesDetailComponents";
 
 import { PageDetailModal, CopyTextModal, SEO } from "@/components";
 
@@ -140,7 +140,7 @@ interface IEducationFetchData {
   createdAt: Date;
 }
 
-function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
+function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
   const detailContainerRef = useRef<HTMLDivElement>(null);
   const infoContainerRef = useRef<HTMLDivElement>(null);
   const otherInfoContainerRef = useRef<HTMLDivElement>(null);
@@ -184,13 +184,11 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
   useEffect(() => {
     if (infoContainerRef.current) {
       setTopOffset(infoContainerRef.current?.offsetTop);
-      console.log(infoContainerRef.current?.offsetTop);
     }
   }, [infoContainerRef]);
 
   useEffect(() => {
     if (otherInfoContainerRef.current) {
-      console.log(otherInfoContainerRef.current.offsetTop);
       setOtherInfoTopOffset(otherInfoContainerRef.current.offsetTop);
     }
   }, [otherInfoContainerRef]);
@@ -216,7 +214,7 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
         setDetailItem={setDetailItem}
         containerRef={detailContainerRef}>
         <motion.div style={{ opacity, y: transform }}>
-          <WorshipHeader {...data} views={worshipData?.views} />
+          <WeekliesHeader {...data} views={worshipData?.views} />
         </motion.div>
         <WorshipInfoContainer>
           <WorshipItems>
@@ -299,19 +297,19 @@ function WorshipDetail({ setDetailItem, data }: IWorshipDetailProps) {
 
         <EducationContainer ref={otherInfoContainerRef}>
           <h1>교육</h1>
-          <WorshipEducation />
+          <WeekliesEducation />
         </EducationContainer>
         <NoticeContainer>
           <h1>광고</h1>
-          <WorshipNotice />
+          <WeekliesNotice />
         </NoticeContainer>
         <BlogContainer>
           <h1>블로그</h1>
-          <WorshipBlog />
+          <WeekliesBlog />
         </BlogContainer>
       </PageDetailModal>
     </>
   );
 }
 
-export default WorshipDetail;
+export default WeekliesDetail;

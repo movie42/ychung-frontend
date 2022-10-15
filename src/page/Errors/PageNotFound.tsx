@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 
@@ -13,15 +13,13 @@ const Wrapper = styled.div`
   }
 `;
 
-interface IPageNotFoundProps {}
-
 const PageNotFound = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    timer = setTimeout(() => navigate("/", { replace: true }), 2500);
+    timer = setTimeout(() => navigate("/"), 2500);
 
     return () => clearTimeout(timer);
   }, []);

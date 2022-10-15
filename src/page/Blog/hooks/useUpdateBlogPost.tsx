@@ -21,9 +21,7 @@ const useUpdateBlogPost = () => {
         });
         queryClient.invalidateQueries(["posts"]);
         const { _id } = data;
-        navigate(`/blog/${_id}`, {
-          replace: true,
-        });
+        navigate(`/blog/${_id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);

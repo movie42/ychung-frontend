@@ -10,10 +10,13 @@ interface NoticeQueryData {
 const useGetNotice = () => {
   return useQuery<NoticeQueryData, AxiosError, INoticeInterface[]>(
     ["notices"],
-    () => api.getData("/api/notice"),
+    () => api.getData(`/api/notice`),
     {
       select: ({ data }) => data,
-      staleTime: 300000,
+      staleTime: 500000,
+      cacheTime: 500000,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
     }
   );
 };

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { INoticeInterface } from "@/lib/state";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import useGetNotice from "@/page/Notice/hooks/useGetNotices";
+import { useGetNotices } from "@/page/Notice/hooks";
 
 const ListContainer = styled.ul`
   padding: 0;
@@ -29,8 +29,8 @@ const ListItem = styled.li`
   }
 `;
 
-function WorshipNotice() {
-  const { isLoading, data: notices } = useGetNotice();
+function WeekliesNotice() {
+  const { isLoading, data: notices } = useGetNotices();
   return isLoading ? (
     <p>광고 불러오는 중...</p>
   ) : (
@@ -42,7 +42,7 @@ function WorshipNotice() {
             <Link to={`/notice/${notice._id}`}>
               <p>{notice.title}</p>
               <div>
-                자세히 보기{" "}
+                자세히 보기
                 <span>
                   <BsArrowRight />
                 </span>
@@ -54,4 +54,4 @@ function WorshipNotice() {
   );
 }
 
-export default WorshipNotice;
+export default WeekliesNotice;

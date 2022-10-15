@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useGetWeekies } from "../hooks";
+import { useGetBlogPosts } from "@/page/Blog/hooks";
 
 const ListContainer = styled.ul`
   padding: 0;
@@ -28,8 +28,8 @@ const ListItem = styled.li`
   }
 `;
 
-function WorshipBlog() {
-  const { isLoading, data: posts } = useGetWeekies();
+function WeekliesBlog() {
+  const { isLoading, data: posts } = useGetBlogPosts();
 
   return isLoading ? (
     <p>블로그 불러오는 중...</p>
@@ -37,7 +37,7 @@ function WorshipBlog() {
     <ListContainer>
       {posts?.slice(0, 3).map((post) => (
         <ListItem key={post._id}>
-          <Link to={`/notice/${post._id}`}>
+          <Link to={`/blog/${post._id}`}>
             <p>{post.title}</p>
             <div>
               자세히 보기
@@ -52,4 +52,4 @@ function WorshipBlog() {
   );
 }
 
-export default WorshipBlog;
+export default WeekliesBlog;

@@ -25,7 +25,7 @@ const useCreateNotice = () => {
           type: "success",
         });
         const { _id } = data;
-        navigate(`/notice/${_id}`, { replace: true });
+        navigate(`/notice/${_id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);

@@ -10,7 +10,7 @@ import { Button, ConfirmDeleteModal } from "@/components";
 import { loginState } from "@/lib/state";
 import { calculateDate } from "@/lib/utils";
 import { useModalContorl } from "@/lib/hooks";
-import { useDeleteWeekly } from "../hooks";
+import { useDeleteWeekly } from "../../hooks";
 
 const Wrapper = styled(motion.div)`
   overflow-x: hidden;
@@ -81,7 +81,7 @@ interface IWorshipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   createdAt?: string;
 }
 
-const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
+const WeekliesHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const { title, createdAt, creator, views } = props;
   const { id } = useParams();
   const navigate = useNavigate();
@@ -141,4 +141,4 @@ const WorshipHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   );
 };
 
-export default WorshipHeader;
+export default WeekliesHeader;
