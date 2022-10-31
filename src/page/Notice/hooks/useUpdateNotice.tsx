@@ -57,7 +57,7 @@ const useUpdateNotice = () => {
           message: snackbarStatusCode[202],
           type: "success",
         });
-        queryClient.invalidateQueries(["notices"]);
+        queryClient.invalidateQueries(["notice", data._id]);
         navigate(`/notice/${data._id}`);
       },
       onError: (error) => {
