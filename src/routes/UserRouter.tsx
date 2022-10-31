@@ -15,7 +15,8 @@ const UserRouter = ({ isLogin, id, authority }: IUserRouterProps) => {
       <Route
         element={
           <ProtectRouter isAllow={isLogin && id === userId} redirectPath="/" />
-        }>
+        }
+      >
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/works" element={<UserWorks />} />
         <Route

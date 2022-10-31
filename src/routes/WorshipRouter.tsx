@@ -28,7 +28,8 @@ const WorshipRouter = ({ isLogin, authority }: IWorshipRouterProps) => {
             isAllow={isLogin && authority < 3}
             redirectPath="/worship/weeklies"
           />
-        }>
+        }
+      >
         <Route path="weeklies/create" element={<WeekliesCreate />} />
         <Route
           path=":weekliesId/update"

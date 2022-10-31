@@ -91,7 +91,8 @@ const Educations = () => {
               <GroupItem
                 key={group._id}
                 data-id={group._id}
-                onClick={(e) => moveToDetail(e, group._id, group.isPublic)}>
+                onClick={(e) => moveToDetail(e, group._id, group.isPublic)}
+              >
                 <h3>{group.title}</h3>
                 <span>{calculateDate(group.createdAt.toString())}</span>
               </GroupItem>
@@ -114,7 +115,8 @@ const Educations = () => {
                       data-id={group._id}
                       onClick={(e) =>
                         moveToDetail(e, group._id, group.isPublic)
-                      }>
+                      }
+                    >
                       <h3>{group.title}</h3>
                       <span>{calculateDate(group.createdAt.toString())}</span>
                     </GroupItem>

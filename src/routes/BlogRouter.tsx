@@ -27,7 +27,8 @@ const BlogRouter = ({ isLogin, authority }: IBlogRouterProps) => {
             isAllow={isLogin && authority < 3}
             redirectPath="/worship/weeklies"
           />
-        }>
+        }
+      >
         <Route path="create" element={<BlogCreate />} />
         <Route path=":postId/update" element={<BlogUpdate data={blogItem} />} />
       </Route>
