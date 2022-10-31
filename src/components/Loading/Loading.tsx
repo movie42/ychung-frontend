@@ -10,16 +10,10 @@ const LogoSvg = styled(motion.svg)`
 
 const Container = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${(props) => props.theme.color.backgroundBlack70};
+  top: 10px;
+  left: 10px;
   z-index: 20;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   h1 {
     color: white;
     z-index: 10;
