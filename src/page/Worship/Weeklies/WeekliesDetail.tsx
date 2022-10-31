@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { SetterOrUpdater, useRecoilState } from "recoil";
-import { motion, useElementScroll, useTransform } from "framer-motion";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
+import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 
 import {
@@ -12,7 +12,7 @@ import {
   WeekliesEducation,
 } from "./WeekliesDetailComponents";
 
-import { PageDetailModal, CopyTextModal, SEO } from "@/components";
+import { PageDetailModal, CopyTextModal, SEO, Loading } from "@/components";
 
 import {
   checkGodpeopleBibleInstall,
@@ -22,6 +22,7 @@ import {
 } from "@/lib/utils";
 import { IWorshipItems, worshipDetail } from "@/lib/state";
 import { useSetView, useCopyText } from "@/lib/hooks";
+import { useGetWeekly } from "../hooks";
 
 const WorshipInfoContainer = styled(motion.div)`
   box-sizing: border-box;
@@ -140,58 +141,52 @@ interface IEducationFetchData {
   createdAt: Date;
 }
 
-function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
-  const detailContainerRef = useRef<HTMLDivElement>(null);
-  const infoContainerRef = useRef<HTMLDivElement>(null);
-  const otherInfoContainerRef = useRef<HTMLDivElement>(null);
-  const [topOffset, setTopOffset] = useState(0);
-  const [otherInfoTopOffset, setOtherInfoTopOffset] = useState(0);
-  const { scrollY } = useElementScroll(detailContainerRef);
-  const opacity = useTransform(scrollY, [0, topOffset], [1, 0]);
-  const transform = useTransform(scrollY, [0, topOffset], [0, topOffset - 500]);
+interface BibleToMobileProps {
+  word?: string;
+  chapter?: number;
+  verse?: number;
+}
 
-  const { id } = useParams();
+function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
+  const { weekliesId } = useParams();
+  const setWeekly = useSetRecoilState(worshipDetail);
+  const { data, isLoading, isSuccess } = useGetWeekly({
+    id: weekliesId ? weekliesId : "",
+  });
+
   const [isBibleSelectorOpen, setIsBibleSelectorOpen] = useState(false);
-  const [worshipData, setWorshipData] = useRecoilState(worshipDetail);
 
   const countViews = useSetView(
-    `/api/worship/${id}/count-views`,
-    setWorshipData
+    `/api/worship/${weekliesId}/count-views`,
+    setWeekly
   );
+
   const { copyMessage, copyText } = useCopyText();
 
   const handleBibleOpen = () => {
     setIsBibleSelectorOpen(true);
   };
-  const handleOpenBibleToMobile = () => {
-    if (data) {
-      godpeopleDeepLink(data?.word, data?.chapter, data?.verse);
-      checkGodpeopleBibleInstall(data?.word, data?.chapter, data?.verse);
-    }
-    setIsBibleSelectorOpen(false);
-  };
-  const handleOpenBibleToWeb = () => {
-    if (data) {
-      openWebBible(data.word, data.chapter, data.verse);
-    }
-    setIsBibleSelectorOpen(false);
-  };
+  const handleOpenBibleToMobile =
+    ({ word, chapter, verse }: BibleToMobileProps) =>
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (word && chapter && verse) {
+        godpeopleDeepLink(word, chapter, verse);
+        checkGodpeopleBibleInstall(word, chapter, verse);
+      }
+      setIsBibleSelectorOpen(false);
+    };
+  const handleOpenBibleToWeb =
+    ({ word, chapter, verse }: BibleToMobileProps) =>
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (word && chapter && verse) {
+        openWebBible(word, chapter, verse);
+      }
+      setIsBibleSelectorOpen(false);
+    };
 
   useEffect(() => {
     countViews();
   }, []);
-
-  useEffect(() => {
-    if (infoContainerRef.current) {
-      setTopOffset(infoContainerRef.current?.offsetTop);
-    }
-  }, [infoContainerRef]);
-
-  useEffect(() => {
-    if (otherInfoContainerRef.current) {
-      setOtherInfoTopOffset(otherInfoContainerRef.current.offsetTop);
-    }
-  }, [otherInfoContainerRef]);
 
   useEffect(() => {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
@@ -201,7 +196,9 @@ function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
     return () => clearTimeout(setMessage);
   }, [copyMessage]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <SEO
         title={data?.title}
@@ -209,13 +206,9 @@ function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
         keywords={`양청 주보, 주보, 양정교회 청년부 주보, ${data?.title}`}
       />
       <CopyTextModal text={copyMessage} />
+      <PageDetailModal setDetailItem={setDetailItem}>
+        <WeekliesHeader {...data} views={data?.views} />
 
-      <PageDetailModal
-        setDetailItem={setDetailItem}
-        containerRef={detailContainerRef}>
-        <motion.div style={{ opacity, y: transform }}>
-          <WeekliesHeader {...data} views={worshipData?.views} />
-        </motion.div>
         <WorshipInfoContainer>
           <WorshipItems>
             <WorshipItem>
@@ -232,10 +225,22 @@ function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
               {isBibleSelectorOpen && (
                 <>
                   <BibleSelectButtonBox>
-                    <button onClick={handleOpenBibleToMobile}>
+                    <button
+                      onClick={handleOpenBibleToMobile({
+                        word: data?.word,
+                        chapter: data?.chapter,
+                        verse: data?.verse,
+                      })}>
                       갓피플 성경
                     </button>
-                    <button onClick={handleOpenBibleToWeb}>웹</button>
+                    <button
+                      onClick={handleOpenBibleToWeb({
+                        word: data?.word,
+                        chapter: data?.chapter,
+                        verse: data?.verse,
+                      })}>
+                      웹
+                    </button>
                   </BibleSelectButtonBox>
                 </>
               )}
@@ -267,7 +272,7 @@ function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
           </WorshipItems>
         </WorshipInfoContainer>
 
-        <WorshipGuide ref={infoContainerRef}>
+        <WorshipGuide>
           <div>
             <h2>예배 안내</h2>
             <ul>
@@ -295,7 +300,7 @@ function WeekliesDetail({ setDetailItem, data }: IWorshipDetailProps) {
           </div>
         </WorshipGuide>
 
-        <EducationContainer ref={otherInfoContainerRef}>
+        <EducationContainer>
           <h1>교육</h1>
           <WeekliesEducation />
         </EducationContainer>
