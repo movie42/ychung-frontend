@@ -51,20 +51,24 @@ const Target = styled.div`
 `;
 
 const Notice = () => {
-  const [isFetching, setFetching] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(true);
   const { noticeId } = useParams();
   const setDetailItem = useSetRecoilState(notice);
   const [noticeModalState, setNoticeModalState] =
     useRecoilState(noticeModalControler);
 
-  const { data, isRefetching, isLoading, fetchNextPage } =
-    useGetInfinityItem<INoticeInterface>({
-      size: 10,
-      pageParam: 0,
-      url: "/api/notice",
-      queryKey: ["notices"],
-    });
+  const {
+    data,
+    isRefetching,
+    isLoading,
+    fetchNextPage,
+    isFetching,
+    hasNextPage,
+  } = useGetInfinityItem<INoticeInterface>({
+    size: 10,
+    pageParam: 0,
+    url: "/api/notice",
+    queryKey: ["notices"],
+  });
 
   const notices = useMemo(
     () => (data ? data.pages.flatMap(({ data }) => data) : []),
@@ -88,8 +92,6 @@ const Notice = () => {
 
   useEffect(() => {
     if (noticeId && notices) {
-      const [detailItem] = notices.filter((item) => item._id === noticeId);
-      setDetailItem({ ...detailItem });
       setNoticeModalState(true);
     }
   }, [noticeId, notices]);
