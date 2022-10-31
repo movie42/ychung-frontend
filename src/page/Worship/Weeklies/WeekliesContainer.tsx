@@ -35,22 +35,26 @@ const List = styled.ul`
 interface IWeekliesContainerProps {}
 
 const WeekliesContainer = () => {
-  const navigate = useNavigate();
-  const [isFetching, setFetching] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(true);
-  const { id } = useParams();
+  const { weekliesId } = useParams();
   const setDetailItem = useSetRecoilState(worshipDetail);
   const [worshipModalState, setWorshipModalState] = useRecoilState(
     worshipModalControler
   );
 
-  const { isSuccess, isLoading, isRefetching, data, fetchNextPage } =
-    useGetInfinityItem<IWorshipItems>({
-      size: 10,
-      pageParam: 0,
-      url: "/api/worship",
-      queryKey: ["weeklies"],
-    });
+  const {
+    isSuccess,
+    isLoading,
+    isRefetching,
+    data,
+    fetchNextPage,
+    isFetching,
+    hasNextPage,
+  } = useGetInfinityItem<IWorshipItems>({
+    size: 10,
+    pageParam: 0,
+    url: "/api/worship",
+    queryKey: ["weeklies"],
+  });
 
   const weeklies = useMemo(
     () => (data ? data.pages.flatMap(({ data }) => data) : []),
@@ -73,12 +77,12 @@ const WeekliesContainer = () => {
   });
 
   useEffect(() => {
-    if (id && isSuccess && !isRefetching) {
-      const [detailItem] = weeklies.filter((item) => item._id === id);
-      setWorshipModalState(true);
+    if (weekliesId && isSuccess && !isRefetching) {
+      const [detailItem] = weeklies.filter((item) => item._id === weekliesId);
       setDetailItem({ ...detailItem });
+      setWorshipModalState(true);
     }
-  }, [id, isSuccess, isRefetching]);
+  }, [weekliesId, isSuccess, isRefetching]);
 
   return (
     <Wrapper>
