@@ -82,8 +82,7 @@ interface IWorshipHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const WeekliesHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
-  const { title, createdAt, creator, views } = props;
-  const { id } = useParams();
+  const { weekliesId } = useParams();
   const navigate = useNavigate();
   const { isLogin } = useRecoilValue(loginState);
 
@@ -91,7 +90,7 @@ const WeekliesHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   const { mutate: deleteWeeklyMutate } = useDeleteWeekly();
 
   const handleUpdate = () => {
-    navigate(`/worship/${id}/update`);
+    navigate(`/worship/${weekliesId}/update`);
   };
 
   const handleDelete = () => {
@@ -99,10 +98,10 @@ const WeekliesHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
   };
 
   useEffect(() => {
-    if (isConfirm && id) {
-      deleteWeeklyMutate({ id });
+    if (isConfirm && weekliesId) {
+      deleteWeeklyMutate({ id: weekliesId });
     }
-  }, [isConfirm]);
+  }, [isConfirm, weekliesId, deleteWeeklyMutate]);
 
   return (
     <>
@@ -115,15 +114,15 @@ const WeekliesHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
         />
       )}
       <Wrapper>
-        <h1 className="head-title">{title}</h1>
+        <h1 className="head-title">{props?.title}</h1>
         <UserInfoContainer>
           <ImageContainer>
             <HumanIcon />
           </ImageContainer>
           <InforContainer>
-            <span>{views}</span>
-            <span>{creator?.userName}</span>
-            <span>{createdAt && calculateDate(createdAt)}</span>
+            <span>{props?.views}</span>
+            <span>{props?.creator?.userName}</span>
+            <span>{props?.createdAt && calculateDate(props?.createdAt)}</span>
           </InforContainer>
           {isLogin && (
             <ButtonContainer>
