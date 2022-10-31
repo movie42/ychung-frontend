@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router";
-import { MainLayout } from "@/components";
 import { Blog, BlogCreate, BlogDetail, BlogUpdate } from "@/page/Blog";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { blog, blogModalControler } from "@/lib/state";

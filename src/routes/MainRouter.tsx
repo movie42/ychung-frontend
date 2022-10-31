@@ -1,4 +1,3 @@
-import { MainLayout } from "@/components";
 import { Join, Login, Logout, Main } from "@/page/Root";
 import { Route, Routes } from "react-router-dom";
 import { ProtectRouter } from "@/routes";
