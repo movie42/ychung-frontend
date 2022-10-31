@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BIBLE_DATA_SET } from "@/lib/utils";
 import { IWorshipItems } from "@/lib/state";
 import { Input, Label, FormItem, Select, SEO } from "@/components";
@@ -89,30 +89,12 @@ const Form = styled.form`
   }
 `;
 
-const FormItemContainer = styled.div`
-  border-bottom: 1px solid ${(props) => props.theme.color.gray300};
-  label {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-right: 0.5rem;
-  }
-  input {
-    width: 80%;
-    box-sizing: border-box;
-    padding: 0.8rem;
-    border: 0;
-    text-align: left;
-    font-size: 3rem;
-    outline: 0;
-  }
-`;
-
 interface IWorshipUpdate {
   data?: IWorshipItems;
 }
 
 const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
-  const { id } = useParams();
+  const { weekliesId } = useParams();
   const {
     register,
     handleSubmit,
@@ -122,8 +104,8 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
   const { mutate: worshipUpdateMutate } = useUpdateWeekly();
 
   const onSubmit = handleSubmit((data) => {
-    if (id) {
-      worshipUpdateMutate({ id, body: data });
+    if (weekliesId) {
+      worshipUpdateMutate({ id: weekliesId, body: data });
     }
   });
 
