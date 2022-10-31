@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { INoticeInterface } from "@/lib/state";
 import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useGetNotices } from "@/page/Notice/hooks";
+
+import useGetNoticeForWeekly from "../../hooks/useGetNoticeForWeekly";
 
 const ListContainer = styled.ul`
   padding: 0;
@@ -30,26 +31,29 @@ const ListItem = styled.li`
 `;
 
 function WeekliesNotice() {
-  const { isLoading, data: notices } = useGetNotices();
+  const { isLoading, data: notices, isSuccess } = useGetNoticeForWeekly();
+
+  if (!isSuccess) {
+    return <div>주보 데이터가 없습니다.</div>;
+  }
+
   return isLoading ? (
     <p>광고 불러오는 중...</p>
   ) : (
     <ListContainer>
-      {notices
-        ?.filter((item: INoticeInterface) => item.isWeekly)
-        .map((notice: INoticeInterface) => (
-          <ListItem key={notice._id}>
-            <Link to={`/notice/${notice._id}`}>
-              <p>{notice.title}</p>
-              <div>
-                자세히 보기
-                <span>
-                  <BsArrowRight />
-                </span>
-              </div>
-            </Link>
-          </ListItem>
-        ))}
+      {notices?.map((notice: INoticeInterface) => (
+        <ListItem key={notice._id}>
+          <Link to={`/notice/${notice._id}`}>
+            <p>{notice.title}</p>
+            <div>
+              자세히 보기
+              <span>
+                <BsArrowRight />
+              </span>
+            </div>
+          </Link>
+        </ListItem>
+      ))}
     </ListContainer>
   );
 }
