@@ -66,6 +66,11 @@ const Notice = () => {
       queryKey: ["notices"],
     });
 
+  const notices = useMemo(
+    () => (data ? data.pages.flatMap(({ data }) => data) : []),
+    [data]
+  );
+
   const onClick = (id: string) => {
     if (notices) {
       const [detailItem] = notices.filter((item) => item._id === id);
@@ -73,11 +78,6 @@ const Notice = () => {
       setDetailItem({ ...detailItem });
     }
   };
-
-  const notices = useMemo(
-    () => (data ? data.pages.flatMap(({ data }) => data) : []),
-    [data]
-  );
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -89,10 +89,10 @@ const Notice = () => {
   useEffect(() => {
     if (noticeId && notices) {
       const [detailItem] = notices.filter((item) => item._id === noticeId);
-      setNoticeModalState(true);
       setDetailItem({ ...detailItem });
+      setNoticeModalState(true);
     }
-  }, [noticeId]);
+  }, [noticeId, notices]);
 
   return (
     <>

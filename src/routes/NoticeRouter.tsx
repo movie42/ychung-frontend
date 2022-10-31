@@ -1,4 +1,4 @@
-import { notice, noticeModalControler } from "@/lib/state";
+import { noticeModalControler } from "@/lib/state";
 import {
   Notice,
   NoticeCreate,
@@ -6,7 +6,7 @@ import {
   NoticeUpdate,
 } from "@/page/Notice";
 import { Route, Routes } from "react-router";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import ProtectRouter from "./ProtectRouter";
 
 interface INoticeRouterProps {
@@ -15,7 +15,6 @@ interface INoticeRouterProps {
 }
 
 const NoticeRouter = ({ isLogin, authority }: INoticeRouterProps) => {
-  const noticeItem = useRecoilValue(notice);
   const setNoticeModalState = useSetRecoilState(noticeModalControler);
 
   return (
@@ -23,12 +22,7 @@ const NoticeRouter = ({ isLogin, authority }: INoticeRouterProps) => {
       <Route path="" element={<Notice />}>
         <Route
           path=":noticeId"
-          element={
-            <NoticeDetail
-              setDetailItem={setNoticeModalState}
-              data={noticeItem}
-            />
-          }
+          element={<NoticeDetail setDetailItem={setNoticeModalState} />}
         />
       </Route>
       <Route
@@ -39,10 +33,7 @@ const NoticeRouter = ({ isLogin, authority }: INoticeRouterProps) => {
           />
         }>
         <Route path="create" element={<NoticeCreate />} />
-        <Route
-          path=":noticeId/update"
-          element={<NoticeUpdate data={noticeItem} />}
-        />
+        <Route path=":noticeId/update" element={<NoticeUpdate />} />
       </Route>
     </Routes>
   );

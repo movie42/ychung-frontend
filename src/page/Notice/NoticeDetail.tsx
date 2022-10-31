@@ -15,8 +15,9 @@ import {
   Viewer,
   ConfirmDeleteModal,
   SEO,
+  Loading,
 } from "@/components";
-import { useDeleteNotice } from "./hooks";
+import { useDeleteNotice, useGetNotice } from "./hooks";
 
 const ButtonContainer = styled.div`
   button {
@@ -36,10 +37,9 @@ const ButtonContainer = styled.div`
 
 interface INoticeDetailProps {
   setDetailItem: SetterOrUpdater<boolean>;
-  data?: INoticeInterface;
 }
 
-function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
+const NoticeDetail = ({ setDetailItem }: INoticeDetailProps) => {
   const navigate = useNavigate();
   const { noticeId } = useParams();
   const { isLogin } = useRecoilValue(loginState);
@@ -50,6 +50,10 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
   );
   const { setIsConfirm, setIsModal, isConfirm, isModal } = useModalContorl();
   const { mutate: deleteNoticeMutate } = useDeleteNotice();
+
+  const { data, isLoading } = useGetNotice({
+    id: noticeId ? noticeId : "",
+  });
 
   const handleUpdate = () => {
     navigate(`/notice/${data?._id}/update`);
@@ -116,7 +120,9 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
     }
   }, [isConfirm]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <SEO
         title={data?.title}
@@ -150,6 +156,6 @@ function NoticeDetail({ setDetailItem, data }: INoticeDetailProps) {
       </PageDetailModal>
     </>
   );
-}
+};
 
 export default NoticeDetail;

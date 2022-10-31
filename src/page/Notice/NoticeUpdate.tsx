@@ -9,6 +9,8 @@ import { previewParagraph } from "@/lib/utils";
 
 import { Editor, Label, Input, FormItem, SEO } from "@/components";
 import { useUpdateNotice } from "./hooks";
+import { useRecoilValue } from "recoil";
+import { notice } from "@/lib/state";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -81,11 +83,9 @@ interface NoticeDetail {
   createdAt: string;
 }
 
-interface INoticeDetailProps {
-  data: NoticeDetail;
-}
-const NoticeUpdate = ({ data }: INoticeDetailProps) => {
-  const { id } = useParams();
+const NoticeUpdate = () => {
+  const data = useRecoilValue(notice);
+  const { noticeId } = useParams();
   const editorRef = useRef<IEditor>(null);
   const {
     register,
@@ -97,12 +97,12 @@ const NoticeUpdate = ({ data }: INoticeDetailProps) => {
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    if (editorParser && id) {
+    if (editorParser && noticeId) {
       const body = {
         ...data,
         paragraph: editorParser,
       };
-      noticeUpdateMutate({ id, body });
+      noticeUpdateMutate({ id: noticeId, body });
     }
   });
 
