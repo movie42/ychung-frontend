@@ -3,17 +3,23 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginState, snackbarState } from "@/lib/state";
 import { SEO, Snackbar } from "@/components";
 import { Routers } from "@/routes";
+import { USER_LOGIN_INFO_KEY } from "./lib/constants/constants";
 
 function App() {
   const currentLogin = useSetRecoilState(loginState);
-  const currentUser = JSON.parse(localStorage.getItem("ycUser") || "{}");
   const [snackbarQueue, setSnackbarQueue] = useRecoilState(snackbarState);
+
   useEffect(() => {
-    if (!currentUser) {
+    const currentUser = JSON.parse(
+      localStorage.getItem(USER_LOGIN_INFO_KEY) || "{}"
+    );
+
+    if (!("email" in currentUser)) {
+      currentLogin((state) => ({ ...state, isLogin: false }));
       return;
     }
+
     currentLogin((state) => ({ ...state, ...currentUser }));
-    return;
   }, []);
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import { Loading } from "@/components";
 import { useLogout } from "./hooks";
 import { useResetRecoilState } from "recoil";
 import { loginState } from "@/lib/state";
+import { USER_LOGIN_INFO_KEY } from "@/lib/constants/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,6 +33,7 @@ interface RouteState {
 
 const Logout = () => {
   const { state } = useLocation() as RouteState;
+
   const navigate = useNavigate();
   const removeLoginState = useResetRecoilState(loginState);
   const { isLoading, isSuccess } = useLogout();
@@ -42,7 +44,7 @@ const Logout = () => {
     if (isSuccess && !state?.message) {
       timer = setTimeout(() => {
         removeLoginState();
-        localStorage.removeItem("ycUser");
+        localStorage.removeItem(USER_LOGIN_INFO_KEY);
         navigate("/");
       }, 2000);
       return;
@@ -51,7 +53,7 @@ const Logout = () => {
     if (isSuccess && state?.message) {
       timer = setTimeout(() => {
         removeLoginState();
-        localStorage.removeItem("ycUser");
+        localStorage.removeItem(USER_LOGIN_INFO_KEY);
       }, 2000);
       return;
     }
