@@ -98,7 +98,7 @@ const NoticeDetail = ({ setDetailItem }: INoticeDetailProps) => {
           setIsModal={setIsModal}
         />
       )}
-      <PageDetailModal pageRoot="notiecs" setDetailItem={setDetailItem}>
+      <PageDetailModal pageRoot="notice" setDetailItem={setDetailItem}>
         <>
           <PageDetailModalHeader {...data}>
             {isLogin && (

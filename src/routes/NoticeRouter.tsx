@@ -19,7 +19,7 @@ const NoticeRouter = ({ isLogin, authority }: INoticeRouterProps) => {
 
   return (
     <Routes>
-      <Route path="" element={<Notice />}>
+      <Route path="/" element={<Notice />}>
         <Route
           path=":noticeId"
           element={<NoticeDetail setDetailItem={setNoticeModalState} />}

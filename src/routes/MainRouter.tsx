@@ -10,7 +10,7 @@ interface IMainRouterProps {
 const MainRouter = ({ isLogin }: IMainRouterProps) => {
   return (
     <Routes>
-      <Route path="" element={<Main />} />
+      <Route path="/" element={<Main />} />
       <Route element={<ProtectRouter isAllow={isLogin} redirectPath="login" />}>
         <Route path="logout" element={<Logout />} />
       </Route>

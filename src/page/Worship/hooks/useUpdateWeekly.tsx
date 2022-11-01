@@ -48,7 +48,7 @@ const useUpdateWeekly = () => {
           message: snackbarStatusCode[202],
           type: "success"
         });
-        navigate(`/worship/${data._id}`);
+        navigate(`/worship/weeklies/${data._id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);

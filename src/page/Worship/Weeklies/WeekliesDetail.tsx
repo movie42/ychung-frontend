@@ -198,7 +198,10 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
         keywords={`양청 주보, 주보, 양정교회 청년부 주보, ${data?.title}`}
       />
       <CopyTextModal text={copyMessage} />
-      <PageDetailModal pageRoot="" setDetailItem={setDetailItem}>
+      <PageDetailModal
+        pageRoot="worship/weeklies"
+        setDetailItem={setDetailItem}
+      >
         <WeekliesHeader {...data} views={data?.views} />
 
         <WorshipInfoContainer>

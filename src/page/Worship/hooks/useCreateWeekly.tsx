@@ -22,7 +22,7 @@ const useCreateWeekly = () => {
           type: "success"
         });
         const { _id } = data;
-        navigate(`/worship/${_id}`);
+        navigate(`/worship/weeklies/${_id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);
