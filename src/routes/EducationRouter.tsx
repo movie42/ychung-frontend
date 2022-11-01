@@ -28,7 +28,8 @@ const EducationRouter = ({ isLogin, authority }: IEducationRouterProps) => {
               isAllow={isLogin && authority < 3}
               redirectPath="/worship/weeklies"
             />
-          }>
+          }
+        >
           <Route path="create" element={<EducationCreate />} />
           <Route path=":educationId/update" element={<EducationsUpdate />} />
         </Route>

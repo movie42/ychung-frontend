@@ -455,7 +455,8 @@ const Group = ({ item }: IGroupProps) => {
                       isSelect={
                         selectedNodeId ? value._id === selectedNodeId : false
                       }
-                      onClick={() => selectItem(value)}>
+                      onClick={() => selectItem(value)}
+                    >
                       <p>{value.name}</p>
                       <span>{value.sex === "male" ? "남자" : "여자"}</span>
                       <span>{translateEducationTypeNameToKR(value.type)}</span>
@@ -473,7 +474,8 @@ const Group = ({ item }: IGroupProps) => {
             <PersonList
               ref={provided.innerRef}
               {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}>
+              isDraggingOver={snapshot.isDraggingOver}
+            >
               {people?.map((person, index) => (
                 <Human
                   key={person._id}

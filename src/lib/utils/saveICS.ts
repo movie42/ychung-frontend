@@ -4,7 +4,7 @@ const convertDate = (date: string) => {
 
 export const saveICS = (start: string, end?: string, summary?: string) => {
   let icsFile = null;
-  var event =
+  const event =
     "BEGIN:VCALENDAR\n" +
     "CALSCALE:GREGORIAN\n" +
     "METHOD:PUBLISH\n" +
@@ -26,7 +26,7 @@ export const saveICS = (start: string, end?: string, summary?: string) => {
     "END:VEVENT\n" +
     "END:VCALENDAR";
 
-  var data = new File([event], "event", { type: "text/plain" });
+  const data = new File([event], "event", { type: "text/plain" });
 
   if (icsFile !== null) {
     window.URL.revokeObjectURL(icsFile);

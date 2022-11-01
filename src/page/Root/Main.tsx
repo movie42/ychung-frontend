@@ -187,7 +187,8 @@ function Main() {
             style={{ opacity }}
             initial="init"
             variants={arrowVariants}
-            animate="animate">
+            animate="animate"
+          >
             <BsChevronDoubleDown
               className="arrowIcon"
               onClick={() => scrollYProgress.set(0.25)}
@@ -206,7 +207,8 @@ function Main() {
               <a
                 href="https://forms.gle/f6bVV6uCryXK3n1U7"
                 rel="noopener noreferrer"
-                target="_blank">
+                target="_blank"
+              >
                 양청과 함께하기
               </a>
             </div>
@@ -224,19 +226,22 @@ function Main() {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://y-chung.com/education/groups/62bea674277e55cadb03fce6">
+              href="https://y-chung.com/education/groups/62bea674277e55cadb03fce6"
+            >
               소그룹 함께 하기
             </a>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
+              href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform"
+            >
               동아리 신청하기
             </a>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://forms.gle/4TUo5gTMGWp6zb8J6">
+              href="https://forms.gle/4TUo5gTMGWp6zb8J6"
+            >
               봉사 신청하기
             </a>
           </div>
@@ -250,7 +255,8 @@ function Main() {
             <a
               href="https://docs.google.com/forms/d/1Zszlov0YSkdVXnz75JVki85wPIqxAc0nfhNWbQvtWSA/viewform?edit_requested=true"
               rel="noopener noreferrer"
-              target="_blank">
+              target="_blank"
+            >
               교육 지원비 신청하기
             </a>
           </div>

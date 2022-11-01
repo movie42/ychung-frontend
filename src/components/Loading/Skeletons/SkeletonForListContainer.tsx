@@ -17,7 +17,7 @@ interface ISkeletonForListContainerProps<T> {
   renderFunc: (value: T, index: number, array: T[]) => React.ReactNode;
 }
 
-const SkeletonForListContainer = <T extends unknown>({
+const SkeletonForListContainer = <T,>({
   amount,
   renderFunc
 }: ISkeletonForListContainerProps<T>) => {

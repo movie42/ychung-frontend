@@ -209,7 +209,8 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                 onClick={handleBibleOpen}
                 style={{
                   visibility: isBibleSelectorOpen ? "hidden" : "visible"
-                }}>
+                }}
+              >
                 {`${data?.word && chapterNameTransferFromEngToKr(data?.word)} `}
                 {data?.chapter}장 {data?.verse}
                 {data?.verse_end && `~ ${data?.verse_end}`}절
@@ -222,7 +223,8 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                         word: data?.word,
                         chapter: data?.chapter,
                         verse: data?.verse
-                      })}>
+                      })}
+                    >
                       갓피플 성경
                     </button>
                     <button
@@ -230,7 +232,8 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                         word: data?.word,
                         chapter: data?.chapter,
                         verse: data?.verse
-                      })}>
+                      })}
+                    >
                       웹
                     </button>
                   </BibleSelectButtonBox>
@@ -285,7 +288,8 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
             <button
               onClick={() =>
                 copyText("3511093649103", "계좌번호가 복사되었습니다.")
-              }>
+              }
+            >
               <p>계좌번호 농협 351-1093-6491-03</p>
               <p>복사하려면 클릭하세요</p>
             </button>
