@@ -14,18 +14,19 @@ const BlogRouter = ({ isLogin, authority }: IBlogRouterProps) => {
   const setBlogModalState = useSetRecoilState(blogModalControler);
   return (
     <Routes>
-      <Route path="" element={<Blog />} />
-      <Route
-        path=":postId"
-        element={
-          <BlogDetail setDetailItem={setBlogModalState} data={blogItem} />
-        }
-      />
+      <Route path="/" element={<Blog />}>
+        <Route
+          path=":postId"
+          element={
+            <BlogDetail setDetailItem={setBlogModalState} data={blogItem} />
+          }
+        />
+      </Route>
       <Route
         element={
           <ProtectRouter
             isAllow={isLogin && authority < 3}
-            redirectPath="/worship/weeklies"
+            redirectPath="/blog"
           />
         }
       >

@@ -74,10 +74,10 @@ function Blog() {
   );
 
   const ref = useIntersect(async (entry, observer) => {
-    observer.unobserve(entry.target);
     if (hasNextPage && !isFetching) {
       fetchNextPage();
     }
+    observer.unobserve(entry.target);
   });
 
   const onClick = (id: string) => {

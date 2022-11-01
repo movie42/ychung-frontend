@@ -42,10 +42,10 @@ interface IBlogDetailProps {
 
 function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { postId } = useParams();
   const { isLogin } = useRecoilValue(loginState);
   const setPostData = useSetRecoilState(blog);
-  const countViews = useSetView(`/api/blog/${id}/count-views`, setPostData);
+  const countViews = useSetView(`/api/blog/${postId}/count-views`, setPostData);
 
   const { isConfirm, isModal, setIsConfirm, setIsModal } = useModalContorl();
   const { mutate: deleteBlogPostMutate } = useDeleteBlogPost();
@@ -63,10 +63,10 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
   }, []);
 
   useEffect(() => {
-    if (isConfirm && id) {
-      deleteBlogPostMutate({ id });
+    if (isConfirm && postId) {
+      deleteBlogPostMutate({ id: postId });
     }
-  }, [isConfirm, id]);
+  }, [isConfirm, postId]);
 
   return (
     <>

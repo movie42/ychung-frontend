@@ -71,6 +71,7 @@ const BlogCreate = () => {
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
+
     if (editorParser) {
       const formData = {
         ...data,
