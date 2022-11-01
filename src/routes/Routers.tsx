@@ -18,8 +18,8 @@ function Routers() {
 
   return (
     <Routes>
+      <Route path="/*" element={<MainRouter isLogin={isLogin} />} />
       <Route element={<MainLayout />}>
-        <Route path="/*" element={<MainRouter isLogin={isLogin} />} />
         <Route
           path="/notice/*"
           element={<NoticeRouter isLogin={isLogin} authority={authority} />}
