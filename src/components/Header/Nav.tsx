@@ -29,11 +29,19 @@ const LinkButton = styled(Link)<IProps>`
   text-decoration: none;
 `;
 
-const Nav = () => {
+interface NavProps {
+  setMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Nav = ({ setMenu }: NavProps) => {
   const { isLogin } = useRecoilValue(loginState);
 
+  const closeMenu = () => {
+    setMenu(false);
+  };
+
   return (
-    <Items>
+    <Items onClick={closeMenu}>
       <Item>
         <LinkButton to="/notice">공지</LinkButton>
       </Item>

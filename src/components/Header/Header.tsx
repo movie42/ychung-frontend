@@ -129,7 +129,7 @@ const Header = () => {
             exit="exit"
           >
             <AiOutlineClose onClick={handleCloseBtn} className="closeBtn" />
-            <Nav />
+            <Nav setMenu={setMenu} />
           </NavWrapper>
         )}
       </AnimatePresence>
