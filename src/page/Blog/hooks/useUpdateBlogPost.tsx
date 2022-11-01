@@ -12,7 +12,7 @@ const useUpdateBlogPost = () => {
   const { redirectLogoutPage } = useTokenErrorHandler();
 
   return useMutation<{ data: BlogPostData }, AxiosError, BlogUpdateVariable>(
-    ({ id, body }) => api.postData(`/api/blog/${id}`, body),
+    ({ id, body }) => api.patchData(`/api/blog/${id}`, body),
     {
       onSuccess: ({ data }) => {
         handleAddSnackBar({

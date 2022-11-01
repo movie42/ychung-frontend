@@ -80,7 +80,7 @@ interface IBlogDetailProps {
   data: any;
 }
 const BlogUpdate = ({ data }: IBlogDetailProps) => {
-  const { id } = useParams();
+  const { postId } = useParams();
   const editorRef = useRef<IEditor>(null);
   const { register, handleSubmit } = useForm<BlogDetail>();
 
@@ -88,12 +88,12 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
 
   const onClick = handleSubmit((data) => {
     const editorParser = editorRef.current?.getInstance().getMarkdown();
-    if (editorParser && id) {
+    if (editorParser && postId) {
       const body = {
         ...data,
         paragraph: editorParser
       };
-      updateBlogPostMutate({ id, body });
+      updateBlogPostMutate({ id: postId, body });
     }
   });
 
