@@ -133,5 +133,5 @@ export const BIBLE_DATA_SET: bibleDataSet = {
   "2jn": "요한2서",
   "3jn": "요한3서",
   jud: "유다서",
-  rev: "요한계시록",
+  rev: "요한계시록"
 };

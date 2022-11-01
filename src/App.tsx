@@ -17,8 +17,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    timer = setTimeout(() => setSnackbarQueue([]), 6000);
+    const timer: NodeJS.Timeout = setTimeout(() => setSnackbarQueue([]), 6000);
     return () => clearTimeout(timer);
   }, [snackbarQueue]);
 

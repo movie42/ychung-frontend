@@ -17,7 +17,7 @@ const useUpdateBlogPost = () => {
       onSuccess: ({ data }) => {
         handleAddSnackBar({
           message: snackbarStatusCode[202],
-          type: "success",
+          type: "success"
         });
         queryClient.invalidateQueries(["posts"]);
         const { _id } = data;
@@ -25,7 +25,7 @@ const useUpdateBlogPost = () => {
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

@@ -15,7 +15,7 @@ import {
   PageDetailModalHeader,
   Viewer,
   ConfirmDeleteModal,
-  SEO,
+  SEO
 } from "@/components";
 import { useDeleteBlogPost } from "./hooks";
 
@@ -83,7 +83,7 @@ function BlogDetail({ setDetailItem, data }: IBlogDetailProps) {
           setIsModal={setIsModal}
         />
       )}
-      <PageDetailModal setDetailItem={setDetailItem}>
+      <PageDetailModal pageRoot="blog" setDetailItem={setDetailItem}>
         <PageDetailModalHeader {...data}>
           {isLogin && (
             <ButtonContainer>

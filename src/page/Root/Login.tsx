@@ -5,7 +5,7 @@ import {
   ErrorLabel,
   SubmitButton,
   RootFormItem,
-  FormItemContainer,
+  FormItemContainer
 } from "@/page/Root/Root.styles";
 import { VALIDATION_CHECK_VALUE } from "@/page/Root/lib/validationCheckValue";
 import { Label, Input, SEO } from "@/components";
@@ -23,13 +23,13 @@ function Login() {
     setIsEmail,
     setIsPassword,
     isDisabled,
-    setIsDisabled,
+    setIsDisabled
   } = useValidate();
   const {
     register,
     formState: { errors },
     setError,
-    handleSubmit,
+    handleSubmit
   } = useForm<LoginFormVariable>();
 
   const { mutate: loginMutate } = useLogin();
@@ -40,11 +40,11 @@ function Login() {
         const status = error?.response?.status as number;
         if (status >= 400) {
           setError("password", {
-            message: "존재하지 않는 회원이거나 비밀번호가 다른 것 같아요.",
+            message: "존재하지 않는 회원이거나 비밀번호가 다른 것 같아요."
           });
           setIsPassword(false);
         }
-      },
+      }
     });
   });
 
@@ -65,14 +65,14 @@ function Login() {
     if (password.length >= 8) {
       setIsPassword(true);
       setError("password", {
-        message: "",
+        message: ""
       });
       return;
     }
     if (isPassword !== null && password.length < 8) {
       setIsPassword(false);
       setError("password", {
-        message: "비밀번호는 8자 이상이어야합니다.",
+        message: "비밀번호는 8자 이상이어야합니다."
       });
     }
   };
@@ -101,7 +101,7 @@ function Login() {
                   required: "이메일을 입력하세요",
                   pattern: VALIDATION_CHECK_VALUE.email,
                   onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChangeEmail(e),
+                    handleChangeEmail(e)
                 })}
               />
             </RootFormItem>
@@ -116,7 +116,7 @@ function Login() {
                 {...register("password", {
                   required: "비밀번호를 입력하세요",
                   onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChangePassword(e),
+                    handleChangePassword(e)
                 })}
               />
             </RootFormItem>

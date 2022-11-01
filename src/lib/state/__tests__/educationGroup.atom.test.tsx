@@ -11,8 +11,8 @@ describe("Education Group Test", () => {
           _id: "628b1c51d0b22a8aaf604a6b",
           name: "한정식",
           groupIds: ["628b1c4ed0b22a8aaf604a69"],
-          type: "student",
-        },
+          type: "student"
+        }
       ];
 
       const { result } = renderHook<People[], unknown>(
@@ -25,7 +25,7 @@ describe("Education Group Test", () => {
           return useRecoilValue(peopleState);
         },
         {
-          wrapper: RecoilRoot,
+          wrapper: RecoilRoot
         }
       );
 
@@ -34,8 +34,8 @@ describe("Education Group Test", () => {
           _id: "628b1c51d0b22a8aaf604a6b",
           name: "한정식",
           groupIds: ["628b1c4ed0b22a8aaf604a69"],
-          type: "student",
-        },
+          type: "student"
+        }
       ]);
       expect(result.current.length).toEqual(1);
     });

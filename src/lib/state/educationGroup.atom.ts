@@ -27,20 +27,20 @@ export interface GroupInfo {
 
 export const countState = atom({
   key: "count",
-  default: 0,
+  default: 0
 });
 
 export const poepleState = atom<People[]>({
   key: "people",
-  default: [],
+  default: []
 });
 
 export const groupsState = atom<Group[]>({
   key: "educationGroup",
-  default: [],
+  default: []
 });
 
 export const groupInfoState = atom<GroupInfo>({
   key: "educationGroups",
-  default: { _id: "", title: "", isPublic: false, groups: [] },
+  default: { _id: "", title: "", isPublic: false, groups: [] }
 });

@@ -9,7 +9,7 @@ import {
   WeekliesNotice,
   WeekliesBlog,
   WeekliesHeader,
-  WeekliesEducation,
+  WeekliesEducation
 } from "./WeekliesDetailComponents";
 
 import { PageDetailModal, CopyTextModal, SEO, Loading } from "@/components";
@@ -18,7 +18,7 @@ import {
   checkGodpeopleBibleInstall,
   godpeopleDeepLink,
   openWebBible,
-  chapterNameTransferFromEngToKr,
+  chapterNameTransferFromEngToKr
 } from "@/lib/utils";
 import { IWorshipItems, worshipDetail } from "@/lib/state";
 import { useSetView, useCopyText } from "@/lib/hooks";
@@ -133,14 +133,6 @@ interface IWorshipDetailProps {
   data?: IWorshipItems;
 }
 
-interface IEducationFetchData {
-  _id: string;
-  title: string;
-  isPublic: boolean;
-  groups: [];
-  createdAt: Date;
-}
-
 interface BibleToMobileProps {
   word?: string;
   chapter?: number;
@@ -150,8 +142,8 @@ interface BibleToMobileProps {
 function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
   const { weekliesId } = useParams();
   const setWeekly = useSetRecoilState(worshipDetail);
-  const { data, isLoading, isSuccess } = useGetWeekly({
-    id: weekliesId ? weekliesId : "",
+  const { data, isLoading } = useGetWeekly({
+    id: weekliesId ? weekliesId : ""
   });
 
   const [isBibleSelectorOpen, setIsBibleSelectorOpen] = useState(false);
@@ -168,16 +160,16 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
   };
   const handleOpenBibleToMobile =
     ({ word, chapter, verse }: BibleToMobileProps) =>
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    () => {
       if (word && chapter && verse) {
         godpeopleDeepLink(word, chapter, verse);
-        checkGodpeopleBibleInstall(word, chapter, verse);
+        checkGodpeopleBibleInstall();
       }
       setIsBibleSelectorOpen(false);
     };
   const handleOpenBibleToWeb =
     ({ word, chapter, verse }: BibleToMobileProps) =>
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    () => {
       if (word && chapter && verse) {
         openWebBible(word, chapter, verse);
       }
@@ -190,7 +182,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
 
   useEffect(() => {
     if (copyMessage === "계좌번호가 복사되었습니다.") {
-      window.location.href = `kakaobank://link/`;
+      window.location.href = "kakaobank://link/";
     }
     const setMessage = setTimeout(() => copyText("", ""), 5000);
     return () => clearTimeout(setMessage);
@@ -206,7 +198,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
         keywords={`양청 주보, 주보, 양정교회 청년부 주보, ${data?.title}`}
       />
       <CopyTextModal text={copyMessage} />
-      <PageDetailModal setDetailItem={setDetailItem}>
+      <PageDetailModal pageRoot="" setDetailItem={setDetailItem}>
         <WeekliesHeader {...data} views={data?.views} />
 
         <WorshipInfoContainer>
@@ -216,9 +208,8 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
               <button
                 onClick={handleBibleOpen}
                 style={{
-                  visibility: isBibleSelectorOpen ? "hidden" : "visible",
-                }}
-              >
+                  visibility: isBibleSelectorOpen ? "hidden" : "visible"
+                }}>
                 {`${data?.word && chapterNameTransferFromEngToKr(data?.word)} `}
                 {data?.chapter}장 {data?.verse}
                 {data?.verse_end && `~ ${data?.verse_end}`}절
@@ -230,18 +221,16 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                       onClick={handleOpenBibleToMobile({
                         word: data?.word,
                         chapter: data?.chapter,
-                        verse: data?.verse,
-                      })}
-                    >
+                        verse: data?.verse
+                      })}>
                       갓피플 성경
                     </button>
                     <button
                       onClick={handleOpenBibleToWeb({
                         word: data?.word,
                         chapter: data?.chapter,
-                        verse: data?.verse,
-                      })}
-                    >
+                        verse: data?.verse
+                      })}>
                       웹
                     </button>
                   </BibleSelectButtonBox>
@@ -296,8 +285,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
             <button
               onClick={() =>
                 copyText("3511093649103", "계좌번호가 복사되었습니다.")
-              }
-            >
+              }>
               <p>계좌번호 농협 351-1093-6491-03</p>
               <p>복사하려면 클릭하세요</p>
             </button>

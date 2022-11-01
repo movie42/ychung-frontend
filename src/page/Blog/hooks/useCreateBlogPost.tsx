@@ -11,12 +11,12 @@ const useCreateBlogPost = () => {
   const { handleAddSnackBar } = useSetSnackBar();
   const { redirectLogoutPage } = useTokenErrorHandler();
   return useMutation<{ data: BlogPostData }, AxiosError, BlogPostVariable>(
-    async (body) => await api.postData(`/api/blog/create`, body),
+    async (body) => await api.postData("/api/blog/create", body),
     {
       onSuccess: ({ data }) => {
         handleAddSnackBar({
           message: snackbarStatusCode[200],
-          type: "success",
+          type: "success"
         });
         queryClient.invalidateQueries(["posts"]);
         const { _id } = data;
@@ -24,7 +24,7 @@ const useCreateBlogPost = () => {
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

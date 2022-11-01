@@ -5,7 +5,7 @@ interface IInjectTestingRecoilStateProps {
 }
 
 const InjectTestingRecoilState = ({
-  people,
+  people
 }: IInjectTestingRecoilStateProps) => {
   // const setPeople = useSetRecoilState(groupAndpeopleState);
 
@@ -13,7 +13,7 @@ const InjectTestingRecoilState = ({
   //   setPeople(people);
   // }, []);
 
-  return null;
+  return people;
 };
 
 export default InjectTestingRecoilState;

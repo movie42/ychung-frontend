@@ -8,15 +8,14 @@ interface IUserRouterProps {
   authority: number;
 }
 
-const UserRouter = ({ isLogin, id, authority }: IUserRouterProps) => {
+const UserRouter = ({ isLogin, id }: IUserRouterProps) => {
   const { userId } = useParams();
   return (
     <Routes>
       <Route
         element={
           <ProtectRouter isAllow={isLogin && id === userId} redirectPath="/" />
-        }
-      >
+        }>
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/works" element={<UserWorks />} />
         <Route

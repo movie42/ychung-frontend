@@ -19,7 +19,7 @@ const useCreateGroup = () => {
     },
     onError: (error) => {
       redirectLogoutPage(error);
-    },
+    }
   });
 };
 

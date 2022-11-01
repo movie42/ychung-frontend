@@ -1,9 +1,9 @@
 import React from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+
 import styled from "styled-components";
-import { loginState } from "@/lib/state";
+
 import { calculateDate } from "@/lib/utils";
 import { Authorization, IconButton, Loading } from "@/components";
 import GroupItem from "./GroupItem";
@@ -91,8 +91,7 @@ const Educations = () => {
               <GroupItem
                 key={group._id}
                 data-id={group._id}
-                onClick={(e) => moveToDetail(e, group._id, group.isPublic)}
-              >
+                onClick={(e) => moveToDetail(e, group._id, group.isPublic)}>
                 <h3>{group.title}</h3>
                 <span>{calculateDate(group.createdAt.toString())}</span>
               </GroupItem>
@@ -115,8 +114,7 @@ const Educations = () => {
                       data-id={group._id}
                       onClick={(e) =>
                         moveToDetail(e, group._id, group.isPublic)
-                      }
-                    >
+                      }>
                       <h3>{group.title}</h3>
                       <span>{calculateDate(group.createdAt.toString())}</span>
                     </GroupItem>

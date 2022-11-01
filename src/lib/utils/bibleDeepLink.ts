@@ -71,7 +71,7 @@ export const godpeopleDeepLink = (
     "2jn": "63",
     "3jn": "64",
     jud: "65",
-    rev: "66",
+    rev: "66"
   };
 
   const chapterParser = (chapter: number): string => {
@@ -111,11 +111,7 @@ export const createBibleLink = (
   return `https://www.bskorea.or.kr/bible/korbibReadpage.php?version=SAENEW&book=${word}&chap=${chapter}&sec=${verse}`;
 };
 
-export const checkGodpeopleBibleInstall = (
-  word: string,
-  chapter: number,
-  verse: number
-) => {
+export const checkGodpeopleBibleInstall = () => {
   const clearTimers = () => {
     clearInterval(check);
     clearTimeout(timer);

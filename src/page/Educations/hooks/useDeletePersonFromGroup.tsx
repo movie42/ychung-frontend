@@ -24,7 +24,7 @@ const useDeletePersonFromGroup = () => {
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

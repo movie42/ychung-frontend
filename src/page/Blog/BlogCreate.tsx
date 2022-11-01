@@ -74,7 +74,7 @@ const BlogCreate = () => {
     if (editorParser) {
       const formData = {
         ...data,
-        paragraph: editorParser,
+        paragraph: editorParser
       };
       blogPostMutate(formData);
     }

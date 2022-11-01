@@ -7,7 +7,7 @@ interface ITokenValidationCheckRouterProps {
 }
 
 const TokenValidationCheckRouter = ({
-  children,
+  children
 }: ITokenValidationCheckRouterProps) => {
   useTokenValidate();
   return children ? children : <Outlet />;

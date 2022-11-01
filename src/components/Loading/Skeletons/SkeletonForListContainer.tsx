@@ -19,7 +19,7 @@ interface ISkeletonForListContainerProps<T> {
 
 const SkeletonForListContainer = <T extends unknown>({
   amount,
-  renderFunc,
+  renderFunc
 }: ISkeletonForListContainerProps<T>) => {
   const [state, setState] = useState<T[]>([]);
 

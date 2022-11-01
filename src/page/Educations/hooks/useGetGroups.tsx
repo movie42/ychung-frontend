@@ -9,7 +9,7 @@ const useGetGroups = (id: string) => {
     AxiosError,
     EducationGroupData[]
   >(["groups", id], () => api.getData(`/api/education/groups/${id}/group`), {
-    select: ({ data }) => data,
+    select: ({ data }) => data
   });
 };
 

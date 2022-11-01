@@ -17,10 +17,7 @@ const PageNotFound = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    timer = setTimeout(() => navigate("/"), 2500);
-
+    const timer: NodeJS.Timeout = setTimeout(() => navigate("/"), 2500);
     return () => clearTimeout(timer);
   }, []);
 

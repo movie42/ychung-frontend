@@ -14,7 +14,7 @@ import {
   useGetPeople,
   useDeleteGroup,
   useEducaionSearchPerson,
-  useUpdateGroup,
+  useUpdateGroup
 } from "../hooks";
 
 const Container = styled.div`
@@ -71,24 +71,24 @@ const PersonList = styled.div<{ isDraggingOver: boolean }>`
   min-height: 100px;
 `;
 
-const AddPersonButton = styled.button`
-  cursor: pointer;
-  border: 0;
-  padding: 1rem;
-  border: 1px solid ${(props) => props.theme.color.gray300};
-  border-radius: 0.5rem;
-  background-color: unset;
-  font-size: 1.7rem;
-  text-align: left;
-  display: flex;
-  justify-content: space-between;
-  color: ${(props) => props.theme.color.gray500};
-  &:hover {
-    border: 1px solid ${(props) => props.theme.color.primary300};
-    background-color: ${(props) => props.theme.color.primary300};
-    color: ${(props) => props.theme.color.fontColorWhite};
-  }
-`;
+// const AddPersonButton = styled.button`
+//   cursor: pointer;
+//   border: 0;
+//   padding: 1rem;
+//   border: 1px solid ${(props) => props.theme.color.gray300};
+//   border-radius: 0.5rem;
+//   background-color: unset;
+//   font-size: 1.7rem;
+//   text-align: left;
+//   display: flex;
+//   justify-content: space-between;
+//   color: ${(props) => props.theme.color.gray500};
+//   &:hover {
+//     border: 1px solid ${(props) => props.theme.color.primary300};
+//     background-color: ${(props) => props.theme.color.primary300};
+//     color: ${(props) => props.theme.color.fontColorWhite};
+//   }
+// `;
 
 const Form = styled.form`
   position: relative;
@@ -190,7 +190,7 @@ const Group = ({ item }: IGroupProps) => {
     handleSubmit,
     reset,
     formState: { errors },
-    setError,
+    setError
   } = useForm<Form>();
 
   const [isUpdate, setIsUpdate] = useState(false);
@@ -223,7 +223,7 @@ const Group = ({ item }: IGroupProps) => {
 
   const onSubmitNewPeopleName = handleSubmit((data) => {
     if (selectedNodeId && searchPerson && searchPerson.length !== 0) {
-      const [selectedItem] = searchPerson?.filter(
+      const [selectedItem] = searchPerson.filter(
         (person) => person._id === selectedNodeId
       );
       selectItem(selectedItem);
@@ -233,8 +233,8 @@ const Group = ({ item }: IGroupProps) => {
           id: item._id,
           body: {
             name: data.name,
-            type: item.type,
-          },
+            type: item.type
+          }
         },
         {
           onSuccess: () => {
@@ -245,7 +245,7 @@ const Group = ({ item }: IGroupProps) => {
             setSearchPerson([]);
             reset({ name: "" });
             setError("name", { message: err.message });
-          },
+          }
         }
       );
     }
@@ -262,7 +262,7 @@ const Group = ({ item }: IGroupProps) => {
       _id: id,
       name: data.groupName,
       type: data.type,
-      place: data.place,
+      place: data.place
     };
     if (id) {
       updateGroup({ body });
@@ -313,7 +313,7 @@ const Group = ({ item }: IGroupProps) => {
 
   const selectNode = (count: number) => {
     const li = findNodes(count);
-    let num = 0 - count;
+    const num = 0 - count;
     if (searchingListNodes && li && num <= 0) {
       searchingListNodes.current?.scrollTo(0, li.offsetTop);
     }
@@ -434,7 +434,7 @@ const Group = ({ item }: IGroupProps) => {
                 autoComplete="off"
                 {...register("name", {
                   required: "이름을 꼭 입력해야합니다.",
-                  onChange: handleSearch,
+                  onChange: handleSearch
                 })}
                 onKeyDown={(e) => handleSearchBoxWithKey(e)}
               />
@@ -455,8 +455,7 @@ const Group = ({ item }: IGroupProps) => {
                       isSelect={
                         selectedNodeId ? value._id === selectedNodeId : false
                       }
-                      onClick={() => selectItem(value)}
-                    >
+                      onClick={() => selectItem(value)}>
                       <p>{value.name}</p>
                       <span>{value.sex === "male" ? "남자" : "여자"}</span>
                       <span>{translateEducationTypeNameToKR(value.type)}</span>
@@ -474,8 +473,7 @@ const Group = ({ item }: IGroupProps) => {
             <PersonList
               ref={provided.innerRef}
               {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
-            >
+              isDraggingOver={snapshot.isDraggingOver}>
               {people?.map((person, index) => (
                 <Human
                   key={person._id}

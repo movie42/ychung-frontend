@@ -7,7 +7,7 @@ import {
   MdArrowDropDown,
   MdDelete,
   MdDragHandle,
-  MdEdit,
+  MdEdit
 } from "react-icons/md";
 
 import { useForm } from "react-hook-form";

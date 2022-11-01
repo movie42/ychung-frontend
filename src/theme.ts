@@ -61,13 +61,13 @@ export const theme: DefaultTheme = {
     fontColorBlack: "#000000",
     fontColorWhite: "#ffffff",
     success100: "#53ed8c",
-    success200: "#023800",
+    success200: "#023800"
   },
   screen: {
     mobile: "450px",
     tablet: "720px",
     labtop: "1020px",
     labtopLarge: "1440px",
-    desktop: "1920px",
-  },
+    desktop: "1920px"
+  }
 };

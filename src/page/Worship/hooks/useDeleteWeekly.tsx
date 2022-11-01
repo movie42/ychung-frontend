@@ -24,13 +24,13 @@ const useDeleteWeekly = () => {
         queryClient.invalidateQueries(["weeklies"]);
         handleAddSnackBar({
           message: snackbarStatusCode[201],
-          type: "success",
+          type: "success"
         });
         navigate("/worship");
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

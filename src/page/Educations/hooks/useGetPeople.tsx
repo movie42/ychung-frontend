@@ -8,7 +8,7 @@ const useGetPeople = (id: string) => {
     Error,
     EducationPeopleData[]
   >(["people", id], () => api.getData(`/api/education/group/${id}/people`), {
-    select: ({ data }) => data,
+    select: ({ data }) => data
   });
 };
 

@@ -133,18 +133,7 @@ interface IItemProps<T> extends React.LiHTMLAttributes<HTMLLIElement> {
 }
 
 const ListItem = <T extends UnkownType>({ data, ...rest }: IItemProps<T>) => {
-  const {
-    _id,
-    title,
-    startDate,
-    endDate,
-    summary,
-    paragraph,
-    creator,
-    comments,
-    views,
-    createdAt,
-  } = data;
+  const { _id, title, paragraph, creator, comments, views, createdAt } = data;
   const [imageSrc, setImageSrc] = useState<string | null>("");
   const [isLoading, setIsLaoding] = useState(true);
 

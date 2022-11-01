@@ -98,7 +98,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<IWorshipItems>();
 
   const { mutate: worshipUpdateMutate } = useUpdateWeekly();
@@ -112,7 +112,11 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
   const paintObject = () => {
     const list = Object.entries(BIBLE_DATA_SET).map((item) => {
       const [key, value] = item;
-      return <option value={key}>{value}</option>;
+      return (
+        <option key={key} value={key}>
+          {value}
+        </option>
+      );
     });
     return list;
   };
@@ -134,7 +138,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               defaultValue={data?.title}
               placeholder="강론 제목이 무엇인가요?"
               {...register("title", {
-                required: "강론 제목을 알려주세요.",
+                required: "강론 제목을 알려주세요."
               })}
             />
           </FormItem>
@@ -163,7 +167,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
                 placeholder="0"
                 defaultValue={data?.chapter}
                 {...register("chapter", {
-                  required: "장을 입력하세요.",
+                  required: "장을 입력하세요."
                 })}
               />
             </div>
@@ -175,7 +179,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
                 placeholder="0"
                 defaultValue={data?.verse}
                 {...register("verse", {
-                  required: "절을 입력하세요.",
+                  required: "절을 입력하세요."
                 })}
               />
             </div>
@@ -198,7 +202,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               type="text"
               defaultValue={data?.pastor}
               {...register("pastor", {
-                required: "강론을 누가 하는지 알려주세요.",
+                required: "강론을 누가 하는지 알려주세요."
               })}
             />
           </FormItem>
@@ -210,7 +214,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               placeholder="누가 성경을 읽는지 알려주세요."
               defaultValue={data?.reader || "다같이"}
               {...register("reader", {
-                required: "누가 성경을 읽나요?",
+                required: "누가 성경을 읽나요?"
               })}
             />
           </FormItem>
@@ -222,7 +226,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               placeholder="찬양 팀이 누구인가요?"
               defaultValue={data?.worshipTeam}
               {...register("worshipTeam", {
-                required: "찬양 팀을 알려주세요.",
+                required: "찬양 팀을 알려주세요."
               })}
             />
           </FormItem>
@@ -234,7 +238,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               placeholder="대표를 누구하나요?"
               defaultValue={data?.prayer}
               {...register("prayer", {
-                required: "대표기도를 누가하는지 알려주세요.",
+                required: "대표기도를 누가하는지 알려주세요."
               })}
             />
           </FormItem>
@@ -246,7 +250,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               placeholder="광고를 누가 하나요?"
               defaultValue={data?.advertisement}
               {...register("advertisement", {
-                required: "누가 광고를 하는지 알려주세요.",
+                required: "누가 광고를 하는지 알려주세요."
               })}
             />
           </FormItem>
@@ -258,7 +262,7 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               placeholder="봉헌, 축도 기도를 누가 하나요?"
               defaultValue={data?.benediction || "김상돈"}
               {...register("benediction", {
-                required: "봉헌, 축도 기도자를 알려주세요.",
+                required: "봉헌, 축도 기도자를 알려주세요."
               })}
             />
           </FormItem>

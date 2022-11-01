@@ -23,15 +23,15 @@ export const blog = atom<IBlogItems>({
     creator: {
       _id: "",
       name: "",
-      userName: "",
+      userName: ""
     },
     comments: [],
     views: 0,
-    createdAt: "",
-  },
+    createdAt: ""
+  }
 });
 
 export const blogModalControler = atom({
   key: "blogModal",
-  default: false,
+  default: false
 });

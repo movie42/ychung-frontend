@@ -4,8 +4,6 @@ import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
-interface IuseDeleteGroupInfoProps {}
-
 const useDeleteGroupInfo = () => {
   const navigate = useNavigate();
   const queryclient = useQueryClient();
@@ -17,14 +15,14 @@ const useDeleteGroupInfo = () => {
       onSuccess: () => {
         handleAddSnackBar({
           message: snackbarStatusCode[201],
-          type: "success",
+          type: "success"
         });
         queryclient.invalidateQueries(["groupInfo"]);
         navigate("/education");
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

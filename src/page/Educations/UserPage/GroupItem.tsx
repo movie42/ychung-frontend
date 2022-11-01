@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 const Item = styled.li`
@@ -15,12 +15,11 @@ const Item = styled.li`
   }
 `;
 
-interface IGroupItemProps<T> extends React.LiHTMLAttributes<HTMLLIElement> {}
+interface IGroupItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
+  children: ReactNode;
+}
 
-const GroupItem = <T extends unknown>({
-  children,
-  ...props
-}: IGroupItemProps<T>) => {
+const GroupItem = ({ children, ...props }: IGroupItemProps) => {
   return <Item {...props}>{children}</Item>;
 };
 

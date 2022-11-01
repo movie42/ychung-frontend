@@ -17,7 +17,7 @@ const useTokenValidate = () => {
       retry: 0,
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

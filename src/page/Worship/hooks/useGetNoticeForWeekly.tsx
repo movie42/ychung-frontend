@@ -11,13 +11,13 @@ interface NoticeQueryData {
 const useGetNoticeForWeekly = () => {
   return useQuery<NoticeQueryData, AxiosError, INoticeInterface[]>(
     ["weekly", "notices"],
-    () => api.getData(`/api/worship/weekly/notices`),
+    () => api.getData("/api/worship/weekly/notices"),
     {
       select: ({ data }) => data,
       staleTime: 500000,
       cacheTime: 500000,
       refetchOnMount: true,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: false
     }
   );
 };

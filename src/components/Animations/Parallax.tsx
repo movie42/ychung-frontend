@@ -3,9 +3,8 @@ import {
   motion,
   useViewportScroll,
   useTransform,
-  useSpring,
   useReducedMotion,
-  MotionValue,
+  MotionValue
 } from "framer-motion";
 
 interface IParallaxProps {
@@ -17,7 +16,7 @@ interface IParallaxProps {
 const Parallax = ({
   elementScrollY,
   children,
-  offset = 100,
+  offset = 100
 }: IParallaxProps): JSX.Element => {
   const prefersReducedMotion = useReducedMotion();
   const [elementTop, setElementTop] = useState(0);
@@ -35,11 +34,6 @@ const Parallax = ({
     [0, initial, final],
     [0, initial, final]
   );
-
-  const y = useSpring(yRange, {
-    stiffness: 400,
-    damping: 90,
-  });
 
   useLayoutEffect(() => {
     const element = ref.current;

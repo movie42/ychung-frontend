@@ -1,13 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import {
-  HTMLMotionProps,
-  motion,
-  useElementScroll,
-  useViewportScroll,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import { SetterOrUpdater } from "recoil";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { movingCard, opacity } from "@/animationVariants";
 
@@ -63,32 +58,30 @@ const DetailContainer = styled(motion.div)`
   }
 `;
 
-type HtmlElementsTypes = HTMLMotionProps<"div"> &
-  React.HTMLAttributes<HTMLDivElement>;
-
 interface IPageDetailModal extends React.HTMLAttributes<HTMLDivElement> {
   setDetailItem: SetterOrUpdater<boolean>;
   containerRef?: React.Ref<HTMLDivElement>;
+  pageRoot: string;
 }
 
 function PageDetailModal({
   setDetailItem,
   containerRef,
+  pageRoot,
   ...props
 }: IPageDetailModal) {
   const navigate = useNavigate();
-  const location = useLocation();
+
   const modalHandler = () => {
-    const [blank, root] = location.pathname.split("/");
     setDetailItem(false);
-    setTimeout(() => navigate(`/${root}`), 200);
+    setTimeout(() => navigate(`/${pageRoot}`), 200);
   };
 
   useEffect(() => {
     document.body.style.cssText = `position:fixed; top: -${window.scrollY}px; width:100%;`;
     return () => {
       const scrollY = document.body.style.top;
-      document.body.style.cssText = `position : ""; top:"";`;
+      document.body.style.cssText = "position : ''; top:'';";
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
   }, []);

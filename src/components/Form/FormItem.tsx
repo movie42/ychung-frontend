@@ -21,7 +21,7 @@ const Container = styled.div`
   }
 `;
 
-interface IFormItemContainer extends React.HTMLAttributes<HTMLDivElement> {}
+type IFormItemContainer = React.HTMLAttributes<HTMLDivElement>;
 
 const FormItem = ({ ...props }: IFormItemContainer) => {
   return <Container {...props}>{props.children}</Container>;

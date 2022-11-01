@@ -16,7 +16,7 @@ const useGetWeekly = ({ id }: GetWeeklyProps) => {
     ["weekly", id],
     () => api.getData(`/api/worship/${id}`),
     {
-      select: ({ data }) => data,
+      select: ({ data }) => data
     }
   );
 };

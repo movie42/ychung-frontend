@@ -4,7 +4,7 @@ import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+
 import { calenderHelper } from "@/lib/utils";
 import { INoticeInterface } from "@/lib/state";
 
@@ -73,7 +73,7 @@ const NoticeCreate = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<INoticeInterface>();
 
   const { mutate: createNoticeMutate } = useCreateNotice();
@@ -83,7 +83,7 @@ const NoticeCreate = () => {
     if (editorParser) {
       const body = {
         ...data,
-        paragraph: editorParser,
+        paragraph: editorParser
       };
       createNoticeMutate(body);
     }
@@ -125,7 +125,7 @@ const NoticeCreate = () => {
               {...register("endDate", {
                 validate: (value) =>
                   (value && value >= calenderHelper()) ||
-                  "오늘 이전 날짜를 선택할 수 없어요.",
+                  "오늘 이전 날짜를 선택할 수 없어요."
               })}
               defaultValue={`${calenderHelper()}`}
             />

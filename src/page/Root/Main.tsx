@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
 import {
   motion,
   useTransform,
   useViewportScroll,
-  Variants,
+  Variants
 } from "framer-motion";
 import styled from "styled-components";
 import { BsChevronDoubleDown } from "react-icons/bs";
-import Input from "../../components/Form/Input";
 
 const Wrapper = styled(motion.div)``;
 
@@ -151,11 +149,6 @@ const ArrowContainer = styled(motion.div)`
   }
 `;
 
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const TitleContainer = styled.div`
   margin-bottom: 1rem;
   @media (min-width: ${(props) => props.theme.screen.labtop}) {
@@ -165,15 +158,15 @@ const TitleContainer = styled.div`
 
 const arrowVariants: Variants = {
   init: {
-    x: -50,
+    x: -50
   },
   animate: {
     x: -50,
     y: [-30, 0],
     transition: {
-      y: { yoyo: 20, duration: 1, ease: "easeInOut" },
-    },
-  },
+      y: { yoyo: 20, duration: 1, ease: "easeInOut" }
+    }
+  }
 };
 
 function Main() {
@@ -194,8 +187,7 @@ function Main() {
             style={{ opacity }}
             initial="init"
             variants={arrowVariants}
-            animate="animate"
-          >
+            animate="animate">
             <BsChevronDoubleDown
               className="arrowIcon"
               onClick={() => scrollYProgress.set(0.25)}
@@ -211,7 +203,10 @@ function Main() {
               <h3>양정교회 청년부와 함께하면 좋겠어요.</h3>
             </TitleContainer>
             <div>
-              <a href="https://forms.gle/f6bVV6uCryXK3n1U7" target="_blank">
+              <a
+                href="https://forms.gle/f6bVV6uCryXK3n1U7"
+                rel="noopener noreferrer"
+                target="_blank">
                 양청과 함께하기
               </a>
             </div>
@@ -228,17 +223,20 @@ function Main() {
           <div>
             <a
               target="_blank"
-              href="https://y-chung.com/education/groups/62bea674277e55cadb03fce6"
-            >
+              rel="noopener noreferrer"
+              href="https://y-chung.com/education/groups/62bea674277e55cadb03fce6">
               소그룹 함께 하기
             </a>
             <a
               target="_blank"
-              href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform"
-            >
+              rel="noopener noreferrer"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSc3jTGr-tQYivONAS_nGZ-iQ1LpxV_NlCHxnIRsbLkEstTmpg/viewform">
               동아리 신청하기
             </a>
-            <a target="_blank" href="https://forms.gle/4TUo5gTMGWp6zb8J6">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://forms.gle/4TUo5gTMGWp6zb8J6">
               봉사 신청하기
             </a>
           </div>
@@ -251,8 +249,8 @@ function Main() {
           <div>
             <a
               href="https://docs.google.com/forms/d/1Zszlov0YSkdVXnz75JVki85wPIqxAc0nfhNWbQvtWSA/viewform?edit_requested=true"
-              target="_blank"
-            >
+              rel="noopener noreferrer"
+              target="_blank">
               교육 지원비 신청하기
             </a>
           </div>

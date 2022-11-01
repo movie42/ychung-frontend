@@ -22,13 +22,13 @@ const useDeleteNotice = () => {
       onSuccess: () => {
         handleAddSnackBar({
           message: snackbarStatusCode[201],
-          type: "success",
+          type: "success"
         });
         queryClient.invalidateQueries(["notices"]);
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

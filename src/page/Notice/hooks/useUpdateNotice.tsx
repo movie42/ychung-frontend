@@ -55,14 +55,14 @@ const useUpdateNotice = () => {
       onSuccess: ({ data }) => {
         handleAddSnackBar({
           message: snackbarStatusCode[202],
-          type: "success",
+          type: "success"
         });
         queryClient.invalidateQueries(["notice", data._id]);
         navigate(`/notice/${data._id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

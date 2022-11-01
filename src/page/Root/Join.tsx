@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -10,10 +10,9 @@ import {
   ErrorLabel,
   SubmitButton,
   RootFormItem,
-  FormItemContainer,
+  FormItemContainer
 } from "@/page/Root/Root.styles";
 import axios from "axios";
-import { useDebouncedEffect } from "@/lib/hooks";
 
 const MessageContainer = styled.div`
   margin-top: -8rem;
@@ -55,7 +54,7 @@ function Join() {
     isPassword2,
     setIsPassword2,
     isDisabled,
-    setIsDisabled,
+    setIsDisabled
   } = useValidate();
   const navigate = useNavigate();
 
@@ -63,7 +62,7 @@ function Join() {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
+    setError
   } = useForm<SubmitProps>();
 
   const { mutate: joinMutate, isSuccess } = useJoin();
@@ -73,7 +72,7 @@ function Join() {
       setError(
         "password2",
         {
-          message: "앞에서 입력한 비밀번호와 같아야합니다.",
+          message: "앞에서 입력한 비밀번호와 같아야합니다."
         },
         { shouldFocus: true }
       );
@@ -98,7 +97,7 @@ function Join() {
 
       throw check;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return false;
     }
   };
@@ -114,7 +113,7 @@ function Join() {
 
     const checkValue = checkChangeValueForValidate({
       event: e,
-      type: "email",
+      type: "email"
     });
 
     if (checkValue) {
@@ -129,7 +128,7 @@ function Join() {
       } else {
         setIsEmail(canUseValue);
         setError("email", {
-          message: "이미 다른 사람이 사용중이에요.",
+          message: "이미 다른 사람이 사용중이에요."
         });
       }
     }
@@ -144,7 +143,7 @@ function Join() {
 
     const checkValue = checkChangeValueForValidate({
       event: e,
-      type: "userName",
+      type: "userName"
     });
 
     if (checkValue) {
@@ -159,7 +158,7 @@ function Join() {
       } else {
         setIsUserName(canUseValue);
         setError("userName", {
-          message: "이미 다른 사람이 사용중이에요.",
+          message: "이미 다른 사람이 사용중이에요."
         });
       }
     }
@@ -167,7 +166,7 @@ function Join() {
     if (isUserName !== null && !checkValue) {
       setIsUserName(false);
       setError("userName", {
-        message: VALIDATION_CHECK_VALUE.userName.message,
+        message: VALIDATION_CHECK_VALUE.userName.message
       });
     }
   };
@@ -209,11 +208,12 @@ function Join() {
               <Label>이메일</Label>
               <Input
                 type="text"
+                value={email}
                 {...register("email", {
                   required: "이메일을 입력해야합니다.",
                   pattern: VALIDATION_CHECK_VALUE.email,
                   onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    validateEmail(e),
+                    validateEmail(e)
                 })}
               />
             </RootFormItem>
@@ -228,11 +228,12 @@ function Join() {
               <Label>사용자 이름</Label>
               <Input
                 type="text"
+                value={userName}
                 {...register("userName", {
                   required: VALIDATION_CHECK_VALUE.userName.message,
                   pattern: VALIDATION_CHECK_VALUE.userName,
                   onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    validateUserName(e),
+                    validateUserName(e)
                 })}
               />
             </RootFormItem>
@@ -253,7 +254,7 @@ function Join() {
                   onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
                     const checkValue = checkChangeValueForValidate({
                       event: e,
-                      type: "name",
+                      type: "name"
                     });
                     if (checkValue) {
                       setIsName(checkValue);
@@ -262,10 +263,10 @@ function Join() {
                     if (isName !== null && !checkValue) {
                       setIsName(false);
                       setError("name", {
-                        message: VALIDATION_CHECK_VALUE.name.message,
+                        message: VALIDATION_CHECK_VALUE.name.message
                       });
                     }
-                  },
+                  }
                 })}
               />
             </RootFormItem>
@@ -287,7 +288,7 @@ function Join() {
                     setPassword(e.currentTarget.value);
                     const checkValue = checkChangeValueForValidate({
                       event: e,
-                      type: "joinPassword",
+                      type: "joinPassword"
                     });
                     if (checkValue) {
                       setIsPassword(checkValue);
@@ -296,10 +297,10 @@ function Join() {
                     if (isPassword !== null && !checkValue) {
                       setIsPassword(false);
                       setError("password", {
-                        message: VALIDATION_CHECK_VALUE.joinPassword.message,
+                        message: VALIDATION_CHECK_VALUE.joinPassword.message
                       });
                     }
-                  },
+                  }
                 })}
               />
             </RootFormItem>
@@ -325,9 +326,9 @@ function Join() {
                     }
                     setIsPassword2(false);
                     setError("password2", {
-                      message: VALIDATION_CHECK_VALUE.password2.message,
+                      message: VALIDATION_CHECK_VALUE.password2.message
                     });
-                  },
+                  }
                 })}
               />
             </RootFormItem>

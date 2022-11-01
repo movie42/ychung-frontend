@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,7 +12,7 @@ import {
   ListContainer,
   ListItem,
   SEO,
-  SkeletonForListItem,
+  SkeletonForListItem
 } from "@/components";
 
 const NoticeListContainer = styled(motion.div)``;
@@ -62,12 +62,12 @@ const Notice = () => {
     isLoading,
     fetchNextPage,
     isFetching,
-    hasNextPage,
+    hasNextPage
   } = useGetInfinityItem<INoticeInterface>({
     size: 10,
     pageParam: 0,
     url: "/api/notice",
-    queryKey: ["notices"],
+    queryKey: ["notices"]
   });
 
   const notices = useMemo(

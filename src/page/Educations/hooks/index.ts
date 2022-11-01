@@ -29,5 +29,5 @@ export type {
   EducationPersonData,
   EducationPersonVariable,
   EducatioCreateGroupVariable,
-  EducationGroupBody,
+  EducationGroupBody
 } from "./interface";

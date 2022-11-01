@@ -10,7 +10,7 @@ import { MdDelete } from "react-icons/md";
 import {
   useGetGroupInfo,
   usePatchGroupInfo,
-  useDeleteGroupInfo,
+  useDeleteGroupInfo
 } from "../hooks";
 
 const Wrapper = styled.div`
@@ -52,25 +52,14 @@ const ButtonContainer = styled.div`
   }
 `;
 
-interface GroupInfoSend {
-  _id?: string;
-  title?: string;
-  isPublic?: boolean;
-  groups?: string[];
-}
-
 function EducationUpdate() {
   const { id } = useParams();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<GroupInfo>();
+  const { register, handleSubmit } = useForm<GroupInfo>();
 
   const {
     data: groupInfo,
     isRefetching,
-    isSuccess,
+    isSuccess
   } = useGetGroupInfo(id ? id : "");
   const { mutate: groupInfoMutation } = usePatchGroupInfo();
   const { isConfirm, isModal, setIsConfirm, setIsModal } = useModalContorl();
@@ -120,7 +109,7 @@ function EducationUpdate() {
                 defaultValue={groupInfo?.title}
                 placeholder="교육의 이름을 입력하세요."
                 {...register("title", {
-                  required: "제목은 반드시 입력해야합니다.",
+                  required: "제목은 반드시 입력해야합니다."
                 })}
               />
               <button style={{ visibility: "hidden" }}>제출</button>

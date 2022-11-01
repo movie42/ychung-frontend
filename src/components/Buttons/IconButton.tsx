@@ -18,8 +18,7 @@ const Button = styled.button`
   }
 `;
 
-interface IIconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+type IIconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const IconButton = ({ ...props }: IIconButtonProps) => {
   return <Button {...props}>{props.children}</Button>;

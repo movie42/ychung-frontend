@@ -5,8 +5,7 @@ const Item = styled.textarea<ITextAreaProps>`
   border: 0;
 `;
 
-interface ITextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+type ITextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const Textarea = ({ ...props }: ITextAreaProps) => {
   return <Item {...props}></Item>;

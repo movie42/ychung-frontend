@@ -13,7 +13,7 @@ const SEO = ({
   title = "양정교회 청년부",
   description = "전주시 덕진구 천마산로 40. 양정교회 청년부입니다. 담당 교역자 : 김상돈. 전화번호 : 063-251-1903. 예배 시간 : 매주 일요일(주일) 오후 2시. 예배 장소 : 3층 본당. 예배 내용 : 1부 - 찬양, 설교, 2부 - 소그룹.",
   keywords,
-  imgsrc = "https://yangchung.s3.ap-northeast-2.amazonaws.com/assets/snsImage.jpg",
+  imgsrc = "https://yangchung.s3.ap-northeast-2.amazonaws.com/assets/snsImage.jpg"
 }: ISEOProps) => {
   const { pathname } = useLocation();
   return (

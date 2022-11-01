@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -39,7 +39,7 @@ interface UserProps {
 
 function User() {
   const { isLoading, data } = useQuery<UserProps>("userInfo", async () => {
-    const response = await fetch(`/api/user`, getRequest);
+    const response = await fetch("/api/user", getRequest);
     return await response.json();
   });
 

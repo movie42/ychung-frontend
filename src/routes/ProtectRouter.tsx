@@ -10,7 +10,7 @@ interface IPrivatRouteProps {
 const ProtectRouter = ({
   isAllow,
   redirectPath,
-  children,
+  children
 }: IPrivatRouteProps) => {
   if (!isAllow) {
     return <Navigate to={redirectPath} />;

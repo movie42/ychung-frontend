@@ -11,10 +11,10 @@ const defaultValue = {
   isLogin: false,
   _id: "",
   authority: 20,
-  email: "",
+  email: ""
 };
 
 export const loginState = atom<LoginProps>({
   key: "loginState",
-  default: defaultValue,
+  default: defaultValue
 });

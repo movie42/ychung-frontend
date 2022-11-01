@@ -2,7 +2,7 @@ export {
   godpeopleDeepLink,
   createBibleLink,
   checkGodpeopleBibleInstall,
-  openWebBible,
+  openWebBible
 } from "./bibleDeepLink";
 export { default as calculateDate } from "./calculateDate";
 export { default as calenderHelper } from "./calenderHelper";
@@ -13,7 +13,7 @@ export {
   getWeekliesData,
   postOrPatchRequest,
   postRequestMultipartFormData,
-  deleteRequest,
+  deleteRequest
 } from "./httpMethod";
 export { default as imageParser } from "./imageParser";
 export { default as previewParagraph } from "./previewParagraph";

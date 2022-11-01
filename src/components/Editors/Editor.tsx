@@ -106,7 +106,7 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
     { data: string },
     AxiosError,
     FormData
-  >(async (body) => await api.postMultiPartData(`/api/post-image`, body));
+  >(async (body) => await api.postMultiPartData("/api/post-image", body));
 
   return (
     <>
@@ -126,30 +126,30 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
                   type: "openTag",
                   tagName: "iframe",
                   outerNewLine: true,
-                  attributes: node.attrs,
+                  attributes: node.attrs
                 },
                 {
                   type: "html",
-                  content: node.childrenHTML ? node.childrenHTML : "",
+                  content: node.childrenHTML ? node.childrenHTML : ""
                 },
                 {
                   type: "closeTag",
                   tagName: "iframe",
-                  outerNewLine: true,
-                },
-              ],
-            },
+                  outerNewLine: true
+                }
+              ]
+            }
           }}
           toolbarItems={[
             ["heading", "bold", "italic", "strike"],
             ["hr", "quote"],
             ["ul", "ol", "task"],
             ["table", "image", "link"],
-            ["code", "codeblock"],
+            ["code", "codeblock"]
           ]}
           hooks={{
             addImageBlobHook: async (blob: Blob | File, callback) => {
-              let formData = new FormData();
+              const formData = new FormData();
               formData.append("data", blob);
 
               mutate(formData, {
@@ -158,9 +158,9 @@ function EditorContainer({ initialValue, reference }: IEditorContainerProps) {
                     response.data,
                     "시각 장애인을 위해 어떤 이미지인지 묘사해주세요. 묘사하기 힘들다면 이미지의 제목만 적어주세요."
                   );
-                },
+                }
               });
-            },
+            }
           }}
           previewStyle="tab"
           placeholder="내용을 입력해주세요."

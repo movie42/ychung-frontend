@@ -17,14 +17,14 @@ const useDeleteBlogPost = () => {
       onSuccess: () => {
         handleAddSnackBar({
           message: snackbarStatusCode[201],
-          type: "success",
+          type: "success"
         });
         queryClient.invalidateQueries(["posts"]);
         navigate("/blog");
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

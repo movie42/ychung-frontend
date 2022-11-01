@@ -14,7 +14,7 @@ const useDeleteGroup = () => {
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

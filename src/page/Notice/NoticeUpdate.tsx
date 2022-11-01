@@ -90,7 +90,7 @@ const NoticeUpdate = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<NoticeDetail>();
 
   const { mutate: noticeUpdateMutate } = useUpdateNotice();
@@ -100,7 +100,7 @@ const NoticeUpdate = () => {
     if (editorParser && noticeId) {
       const body = {
         ...data,
-        paragraph: editorParser,
+        paragraph: editorParser
       };
       noticeUpdateMutate({ id: noticeId, body });
     }

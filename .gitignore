@@ -26,3 +26,4 @@ yarn-error.log*
 path
 .github
 .DS_Store
+.eslintcache

@@ -3,7 +3,7 @@ import {
   Notice,
   NoticeCreate,
   NoticeDetail,
-  NoticeUpdate,
+  NoticeUpdate
 } from "@/page/Notice";
 import { Route, Routes } from "react-router";
 import { useSetRecoilState } from "recoil";

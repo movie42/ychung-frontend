@@ -9,7 +9,7 @@ export default (date: string) => {
   const time = {
     minute: Math.floor((amountTimeForSeconds % 3600) / 60),
     hour: Math.floor(amountTimeForSeconds / 3600),
-    day: Math.floor(amountTimeForSeconds / (3600 * 24)),
+    day: Math.floor(amountTimeForSeconds / (3600 * 24))
   };
 
   if (time.hour < 1) {

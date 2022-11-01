@@ -4,7 +4,7 @@ export {
   countState,
   poepleState,
   groupsState,
-  groupInfoState,
+  groupInfoState
 } from "./educationGroup.atom";
 export { notice, noticeModalControler } from "./notice.atom";
 export { worshipDetail, worshipModalControler } from "./worship.atom";

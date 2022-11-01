@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import {
   EducationGroupInfoData,
-  EducationGroupInfoVariable,
+  EducationGroupInfoVariable
 } from "./interface";
 
 const usePatchGroupInfo = () => {
@@ -19,13 +19,13 @@ const usePatchGroupInfo = () => {
     onSuccess: () => {
       handleAddSnackBar({
         message: snackbarStatusCode[202],
-        type: "success",
+        type: "success"
       });
       queryClient.invalidateQueries(["groupInfo"]);
     },
     onError: (error) => {
       redirectLogoutPage(error);
-    },
+    }
   });
 };
 

@@ -13,20 +13,20 @@ const useCreateWeekly = () => {
   const navigate = useNavigate();
 
   return useMutation<{ data: IWorshipItems }, AxiosError, IWorshipItems>(
-    async (body) => await api.postData(`/api/worship/create`, body),
+    async (body) => await api.postData("/api/worship/create", body),
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(["weeklies"]);
         handleAddSnackBar({
           message: snackbarStatusCode[200],
-          type: "success",
+          type: "success"
         });
         const { _id } = data;
         navigate(`/worship/${_id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

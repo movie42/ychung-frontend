@@ -34,11 +34,11 @@ const useLogin = () => {
         setIsLogin(data);
         handleAddSnackBar({
           message: snackbarStatusCode[204],
-          type: "success",
+          type: "success"
         });
         localStorage.setItem("ycUser", JSON.stringify(data));
         navigate("/");
-      },
+      }
     }
   );
 };

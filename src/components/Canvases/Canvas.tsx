@@ -1,10 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 
-interface ICanvasProps
-  extends React.DetailedHTMLProps<
-    React.CanvasHTMLAttributes<HTMLCanvasElement>,
-    HTMLCanvasElement
-  > {}
+type ICanvasProps = React.CanvasHTMLAttributes<HTMLCanvasElement>;
 
 const Canvas = (props: ICanvasProps) => {
   return <canvas {...props}></canvas>;

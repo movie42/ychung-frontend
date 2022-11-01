@@ -17,9 +17,9 @@ interface IGroupItemContainerProps<T>
   renderFunc: (item: T) => React.ReactNode;
 }
 
-const GroupItemContainer = <T extends unknown>({
+const GroupItemContainer = <T,>({
   data,
-  renderFunc,
+  renderFunc
 }: IGroupItemContainerProps<T>) => {
   return <List>{data.map(renderFunc)}</List>;
 };

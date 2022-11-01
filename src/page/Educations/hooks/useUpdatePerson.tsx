@@ -15,7 +15,7 @@ const useUpdatePerson = () => {
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

@@ -1,8 +1,4 @@
-import {
-  DragDropContext,
-  DropResult,
-  ResponderProvided,
-} from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
@@ -110,7 +106,7 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
     }
   });
 
-  const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -123,10 +119,8 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
     }
 
     if (group) {
-      const [start] = group?.filter(
-        (value) => value._id === source.droppableId
-      );
-      const [finish] = group?.filter(
+      const [start] = group.filter((value) => value._id === source.droppableId);
+      const [finish] = group.filter(
         (value) => value._id === destination.droppableId
       );
 
@@ -137,7 +131,7 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
 
         const newGroup = {
           ...start,
-          humanIds: newHunamIdsGroup,
+          humanIds: newHunamIdsGroup
         };
         updateGroup({ body: newGroup });
         return;
@@ -147,14 +141,14 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
       startHunamIdsGroup.splice(source.index, 1);
       const newStart = {
         ...start,
-        humanIds: startHunamIdsGroup,
+        humanIds: startHunamIdsGroup
       };
 
       const finishHunamIdsGroup = Array.from(finish.humanIds);
       finishHunamIdsGroup.splice(destination.index, 0, draggableId);
       const newFinish = {
         ...finish,
-        humanIds: finishHunamIdsGroup,
+        humanIds: finishHunamIdsGroup
       };
 
       updateGroup({ body: newStart });
@@ -174,7 +168,7 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
             placeholder="소그룹 이름"
             autoComplete="off"
             {...register("name", {
-              required: "소그룹 이름은 반드시 입력해야합니다.",
+              required: "소그룹 이름은 반드시 입력해야합니다."
             })}
           />
           <Input

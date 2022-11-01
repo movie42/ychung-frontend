@@ -19,7 +19,7 @@ const useGetNotice = ({ id }: GetNoticeParams) => {
       staleTime: 500000,
       cacheTime: 500000,
       refetchOnMount: true,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: false
     }
   );
 };

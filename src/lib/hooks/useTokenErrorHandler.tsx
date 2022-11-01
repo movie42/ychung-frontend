@@ -11,7 +11,7 @@ const useTokenErrorHandler = () => {
       };
       if (!isLogin) {
         navigate("/logout", {
-          state: { message: "🥲 로그인을 다시 해야해요." },
+          state: { message: "🥲 로그인을 다시 해야해요." }
         });
       }
     }

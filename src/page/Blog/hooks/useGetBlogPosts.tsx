@@ -9,7 +9,7 @@ const useGetBlogPosts = () => {
     () => api.getData("/api/blog"),
     {
       select: ({ data }) => data,
-      staleTime: 300000,
+      staleTime: 300000
     }
   );
 };

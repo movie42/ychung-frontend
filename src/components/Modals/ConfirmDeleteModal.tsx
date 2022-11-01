@@ -61,7 +61,7 @@ const ConfirmDeleteModal = ({
   title,
   subtitle,
   setIsModal,
-  setIsConfirm,
+  setIsConfirm
 }: IConfirmDeleteModalProps) => {
   return (
     <ConfirmModal>

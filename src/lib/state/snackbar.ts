@@ -8,5 +8,5 @@ export interface SnackBarItemProps {
 
 export const snackbarState = atom<SnackBarItemProps[]>({
   key: "snackbarState",
-  default: <SnackBarItemProps[]>[],
+  default: <SnackBarItemProps[]>[]
 });

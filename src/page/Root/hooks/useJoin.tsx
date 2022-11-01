@@ -3,7 +3,6 @@ import { AxiosError } from "axios";
 import { useSetSnackBar } from "@/lib/hooks";
 import { useMutation } from "react-query";
 
-interface JoinData {}
 interface JoinVariable {
   email: string;
   userName: string;
@@ -13,15 +12,15 @@ interface JoinVariable {
 
 const useJoin = () => {
   const { handleAddSnackBar } = useSetSnackBar();
-  return useMutation<JoinData, AxiosError, JoinVariable>(
+  return useMutation<any, AxiosError, JoinVariable>(
     (body) => api.postData("/api/join", body),
     {
       onSuccess: () => {
         handleAddSnackBar({
           message: snackbarStatusCode[203],
-          type: "success",
+          type: "success"
         });
-      },
+      }
     }
   );
 };

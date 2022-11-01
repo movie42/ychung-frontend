@@ -8,7 +8,7 @@ const useGetGroupInfo = (id: string) => {
     Error,
     EducationGroupInfoData
   >(["groupInfo", id], () => api.getData(`/api/education/groups/${id}`), {
-    select: ({ data }) => data,
+    select: ({ data }) => data
   });
 };
 

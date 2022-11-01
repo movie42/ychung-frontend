@@ -1,10 +1,10 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 const instance = axios.create({
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   },
-  withCredentials: true,
+  withCredentials: true
 });
 
 class API {
@@ -19,8 +19,8 @@ class API {
     const response = await instance.post(url, body, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "X-CSRF-Token": CSRFToken,
-      },
+        "X-CSRF-Token": CSRFToken
+      }
     });
 
     return response.data;
@@ -35,8 +35,8 @@ class API {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": CSRFToken,
-        },
+          "X-CSRF-Token": CSRFToken
+        }
       }
     );
 
@@ -52,8 +52,8 @@ class API {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": CSRFToken,
-        },
+          "X-CSRF-Token": CSRFToken
+        }
       }
     );
 
@@ -69,8 +69,8 @@ class API {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": CSRFToken,
-        },
+          "X-CSRF-Token": CSRFToken
+        }
       }
     );
 
@@ -83,8 +83,8 @@ class API {
     const response = await instance.delete(url, {
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-Token": CSRFToken,
-      },
+        "X-CSRF-Token": CSRFToken
+      }
     });
 
     return response.data;

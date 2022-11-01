@@ -1,7 +1,6 @@
-import { AnimatePresence } from "framer-motion";
-import React, { ReactElement, useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import SkeletonForListContainer from "../Loading/Skeletons/SkeletonForListContainer";
+
 import SkeletonForListItem from "../Loading/Skeletons/SkeletonForListItem";
 
 const List = styled.ul`
@@ -15,7 +14,7 @@ const List = styled.ul`
   padding: 0;
 `;
 
-interface IListComponentProps<T, V>
+interface IListComponentProps<T>
   extends React.HTMLAttributes<HTMLUListElement> {
   isLoading: boolean;
   isRefetching: boolean;
@@ -23,12 +22,11 @@ interface IListComponentProps<T, V>
   renderFunc: (item: T) => React.ReactNode;
 }
 
-const ListContainer = <T, V extends unknown>({
-  isLoading,
+const ListContainer = <T,>({
   isRefetching,
   data,
-  renderFunc,
-}: IListComponentProps<T, V>) => {
+  renderFunc
+}: IListComponentProps<T>) => {
   return (
     <List>
       {data.map(renderFunc)}

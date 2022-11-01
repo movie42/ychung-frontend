@@ -91,8 +91,6 @@ const CommonetSkeleton = styled(Skeleton)`
   background-color: ${({ theme }) => theme.color.gray300};
 `;
 
-interface ISkeletonForListItemProps {}
-
 const SkeletonForListItem = () => {
   return (
     <Item>

@@ -46,13 +46,13 @@ const useUpdateWeekly = () => {
         queryClient.invalidateQueries(["weeklies"]);
         handleAddSnackBar({
           message: snackbarStatusCode[202],
-          type: "success",
+          type: "success"
         });
         navigate(`/worship/${data._id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

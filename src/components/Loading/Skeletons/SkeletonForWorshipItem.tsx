@@ -76,8 +76,6 @@ const ViewSkeleton = styled(Skeleton)`
   background-color: ${({ theme }) => theme.color.gray300};
 `;
 
-interface ISkeletonForWorshipItemProps {}
-
 const SkeletonForWorshipItem = () => {
   return (
     <ListItem>

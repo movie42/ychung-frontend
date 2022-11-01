@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { useParams, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -7,7 +7,7 @@ import { WeekliesItem } from "../Weeklies/WeekliesDetailComponents";
 import {
   IWorshipItems,
   worshipDetail,
-  worshipModalControler,
+  worshipModalControler
 } from "@/lib/state";
 import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
 import { ListContainer, SkeletonForListItem } from "@/components";
@@ -32,8 +32,6 @@ const List = styled.ul`
   padding: 0;
 `;
 
-interface IWeekliesContainerProps {}
-
 const WeekliesContainer = () => {
   const { weekliesId } = useParams();
   const setDetailItem = useSetRecoilState(worshipDetail);
@@ -48,12 +46,12 @@ const WeekliesContainer = () => {
     data,
     fetchNextPage,
     isFetching,
-    hasNextPage,
+    hasNextPage
   } = useGetInfinityItem<IWorshipItems>({
     size: 10,
     pageParam: 0,
     url: "/api/worship",
-    queryKey: ["weeklies"],
+    queryKey: ["weeklies"]
   });
 
   const weeklies = useMemo(

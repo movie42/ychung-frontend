@@ -1,4 +1,3 @@
-import React from "react";
 import { useSetRecoilState } from "recoil";
 import { snackbarState } from "../state";
 
@@ -17,8 +16,8 @@ const useSetSnackBar = () => {
       {
         id,
         message,
-        type,
-      },
+        type
+      }
     ]);
   };
 

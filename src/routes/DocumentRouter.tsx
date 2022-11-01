@@ -7,16 +7,16 @@ import {
   Menuel,
   MenuelDetail,
   Rules,
-  RulesDetail,
+  RulesDetail
 } from "@/page/Document";
 import { Route, Routes } from "react-router";
 
-interface IDocumentRouterProps {
-  isLogin: boolean;
-  authority: number;
-}
+// interface IDocumentRouterProps {
+//   isLogin: boolean;
+//   authority: number;
+// }
 
-const DocumentRouter = ({ isLogin, authority }: IDocumentRouterProps) => {
+const DocumentRouter = () => {
   return (
     <Routes>
       <Route path="" element={<Documents />}>

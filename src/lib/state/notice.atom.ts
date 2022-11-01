@@ -31,15 +31,15 @@ export const notice = atom<INoticeInterface>({
     creator: {
       _id: "",
       name: "",
-      userName: "",
+      userName: ""
     },
     comments: [],
     views: 0,
-    createdAt: "",
-  },
+    createdAt: ""
+  }
 });
 
 export const noticeModalControler = atom({
   key: "noticeModal",
-  default: false,
+  default: false
 });

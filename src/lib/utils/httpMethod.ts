@@ -1,14 +1,14 @@
 export const getRequest: RequestInit = {
   method: "GET",
   headers: {
-    "Content-type": "application/json",
+    "Content-type": "application/json"
   },
   credentials: "include",
-  mode: "cors",
+  mode: "cors"
 };
 
 export const getWeekliesData = async () => {
-  const response = await fetch(`/api/worship`, getRequest);
+  const response = await fetch("/api/worship", getRequest);
   const { data } = await response.json();
   return data;
 };
@@ -23,11 +23,11 @@ export const postOrPatchRequest = (
     method,
     headers: {
       "Content-Type": "application/json",
-      "X-CSRF-Token": csrfToken,
+      "X-CSRF-Token": csrfToken
     },
     body: data,
     credentials: "include",
-    mode: "cors",
+    mode: "cors"
   };
 };
 
@@ -38,11 +38,11 @@ export const postRequestMultipartFormData = (
   return {
     method: "POST",
     headers: {
-      "X-CSRF-Token": csrfToken,
+      "X-CSRF-Token": csrfToken
     },
     body,
     credentials: "include",
-    mode: "cors",
+    mode: "cors"
   };
 };
 
@@ -50,8 +50,8 @@ export const deleteRequest = (csrfToken: string): RequestInit => ({
   method: "DELETE",
   headers: {
     "Content-type": "application/json",
-    "X-CSRF-Token": csrfToken,
+    "X-CSRF-Token": csrfToken
   },
   credentials: "include",
-  mode: "cors",
+  mode: "cors"
 });

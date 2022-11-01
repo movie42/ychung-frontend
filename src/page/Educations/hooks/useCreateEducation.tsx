@@ -22,7 +22,7 @@ const useEducationCreate = () => {
       setGroupInfo(data);
       handleAddSnackBar({
         message: snackbarStatusCode[200],
-        type: "success",
+        type: "success"
       });
       queryClient.invalidateQueries("group");
       queryClient.invalidateQueries("groups");
@@ -31,7 +31,7 @@ const useEducationCreate = () => {
     },
     onError: (error) => {
       redirectLogoutPage(error);
-    },
+    }
   });
 };
 

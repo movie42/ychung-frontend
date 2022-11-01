@@ -91,7 +91,7 @@ const WeekliesCreate = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<IWorshipItems>();
 
   const { mutate: createWeeklyMutate } = useCreateWeekly();
@@ -103,7 +103,11 @@ const WeekliesCreate = () => {
   const paintObject = () => {
     const list = Object.entries(BIBLE_DATA_SET).map((item) => {
       const [key, value] = item;
-      return <option value={key}>{value}</option>;
+      return (
+        <option key={key} value={key}>
+          {value}
+        </option>
+      );
     });
     return list;
   };
@@ -127,7 +131,7 @@ const WeekliesCreate = () => {
               type="text"
               placeholder="강론 제목이 무엇인가요?"
               {...register("title", {
-                required: "강론 제목을 알려주세요.",
+                required: "강론 제목을 알려주세요."
               })}
             />
           </FormItem>
@@ -150,7 +154,7 @@ const WeekliesCreate = () => {
                 type="number"
                 placeholder="0"
                 {...register("chapter", {
-                  required: "장을 입력하세요.",
+                  required: "장을 입력하세요."
                 })}
               />
             </div>
@@ -161,7 +165,7 @@ const WeekliesCreate = () => {
                 type="number"
                 placeholder="0"
                 {...register("verse", {
-                  required: "절을 입력하세요.",
+                  required: "절을 입력하세요."
                 })}
               />
             </div>
@@ -183,7 +187,7 @@ const WeekliesCreate = () => {
               type="text"
               defaultValue="김상돈"
               {...register("pastor", {
-                required: "강론을 누가 하는지 알려주세요.",
+                required: "강론을 누가 하는지 알려주세요."
               })}
             />
           </FormItem>
@@ -194,7 +198,7 @@ const WeekliesCreate = () => {
               type="text"
               defaultValue="다같이"
               {...register("reader", {
-                required: "누가 성경을 읽나요?",
+                required: "누가 성경을 읽나요?"
               })}
             />
           </FormItem>
@@ -206,7 +210,7 @@ const WeekliesCreate = () => {
               placeholder="찬양 팀이 누구인가요?"
               defaultValue="둘로스"
               {...register("worshipTeam", {
-                required: "찬양 팀을 알려주세요.",
+                required: "찬양 팀을 알려주세요."
               })}
             />
           </FormItem>
@@ -217,7 +221,7 @@ const WeekliesCreate = () => {
               type="text"
               placeholder="대표를 누구하나요?"
               {...register("prayer", {
-                required: "대표기도를 누가하는지 알려주세요.",
+                required: "대표기도를 누가하는지 알려주세요."
               })}
             />
           </FormItem>
@@ -229,7 +233,7 @@ const WeekliesCreate = () => {
               placeholder="광고를 누가 하나요?"
               defaultValue="박도현"
               {...register("advertisement", {
-                required: "누가 광고를 하는지 알려주세요.",
+                required: "누가 광고를 하는지 알려주세요."
               })}
             />
           </FormItem>
@@ -241,7 +245,7 @@ const WeekliesCreate = () => {
               placeholder="봉헌, 축도 기도를 누가 하나요?"
               defaultValue="김상돈"
               {...register("benediction", {
-                required: "봉헌, 축도 기도자를 알려주세요.",
+                required: "봉헌, 축도 기도자를 알려주세요."
               })}
             />
           </FormItem>

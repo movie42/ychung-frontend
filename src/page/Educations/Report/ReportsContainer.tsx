@@ -1,12 +1,9 @@
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
 `;
-
-interface IReportsContainerProps {}
 
 const ReportsContainer = () => {
   /**

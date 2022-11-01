@@ -8,5 +8,5 @@ export type {
   BlogDeleteData,
   BlogDeleteVariable,
   BlogUpdateBody,
-  BlogUpdateVariable,
+  BlogUpdateVariable
 } from "./interface";

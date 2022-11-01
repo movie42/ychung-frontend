@@ -57,12 +57,12 @@ const MessageContainer = styled.div<{
     border-radius: 0.5rem;
     ${({ type }) => {
       if (type === "success") {
-        return `background-color : #26e432`;
+        return "background-color : #26e432";
       }
       if (type === "warning") {
-        return `background-color : #f12c2c`;
+        return "background-color : #f12c2c";
       }
-      return `background-color : #ffd000`;
+      return "background-color : #ffd000";
     }};
     animation: ${snackbarTimerKeyframe} 3.3s 1 linear;
     content: "";
@@ -75,7 +75,7 @@ const MessageContainer = styled.div<{
   }
 `;
 
-interface ISnackbarProps extends React.HTMLAttributes<HTMLElement> {}
+type ISnackbarProps = React.HTMLAttributes<HTMLElement>;
 
 const Snackbar = (props: ISnackbarProps) => {
   return <Container>{props.children}</Container>;

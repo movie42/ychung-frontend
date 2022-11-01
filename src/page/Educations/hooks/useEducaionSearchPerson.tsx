@@ -21,7 +21,7 @@ const useEducaionSearchPerson = (
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

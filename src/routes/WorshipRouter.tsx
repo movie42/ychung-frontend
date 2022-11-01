@@ -7,7 +7,7 @@ import {
   WeekliesContainer,
   WeekliesCreate,
   WeekliesDetail,
-  WeekliesUpdate,
+  WeekliesUpdate
 } from "@/page/Worship/Weeklies";
 import { ProtectRouter } from "@/routes";
 

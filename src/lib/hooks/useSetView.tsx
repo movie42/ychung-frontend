@@ -3,10 +3,7 @@ import { SetterOrUpdater } from "recoil";
 import { AxiosError } from "axios";
 import { api } from "../api";
 
-const useSetView = <T extends Object>(
-  url: string,
-  recoilSetter: SetterOrUpdater<T>
-) => {
+const useSetView = <T,>(url: string, recoilSetter: SetterOrUpdater<T>) => {
   const { mutate } = useMutation<any, AxiosError, any>(
     async (body: any) => {
       const response = await api.postData(url, { ...body });
@@ -19,7 +16,7 @@ const useSetView = <T extends Object>(
       },
       onError: (err) => {
         console.log(err);
-      },
+      }
     }
   );
 

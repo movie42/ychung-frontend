@@ -6,7 +6,7 @@ export interface EducationCreateData {
   createdAt: Date;
 }
 
-export interface EducationGetData extends EducationCreateData {}
+export type EducationGetData = EducationCreateData;
 
 export interface EducationCreateVariable {
   title: "소그룹1";

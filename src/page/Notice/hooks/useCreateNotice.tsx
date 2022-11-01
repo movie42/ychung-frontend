@@ -16,20 +16,20 @@ const useCreateNotice = () => {
   const navigate = useNavigate();
 
   return useMutation<NoticeCreate, AxiosError, INoticeInterface>(
-    (body) => api.postData(`/api/notice/create`, body),
+    (body) => api.postData("/api/notice/create", body),
     {
       onSuccess: ({ data }) => {
         queryClient.invalidateQueries(["notices"]);
         handleAddSnackBar({
           message: snackbarStatusCode[200],
-          type: "success",
+          type: "success"
         });
         const { _id } = data;
         navigate(`/notice/${_id}`);
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

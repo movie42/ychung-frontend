@@ -8,7 +8,7 @@ const useUpdateGroup = () => {
   const queryClient = useQueryClient();
   const { redirectLogoutPage } = useTokenErrorHandler();
   return useMutation<EducationGroupData, AxiosError, EducationGroupVariable>(
-    ({ body }) => api.patchData(`/api/education/group/update`, body),
+    ({ body }) => api.patchData("/api/education/group/update", body),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["groupInfo"]);
@@ -17,7 +17,7 @@ const useUpdateGroup = () => {
       },
       onError: (error) => {
         redirectLogoutPage(error);
-      },
+      }
     }
   );
 };

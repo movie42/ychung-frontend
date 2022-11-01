@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-interface IuseValidateProps {}
+import { useState } from "react";
 
 const useValidate = () => {
   const [isEmail, setIsEmail] = useState<boolean | null>(null);
@@ -22,7 +20,7 @@ const useValidate = () => {
     isPassword2,
     setIsPassword2,
     isDisabled,
-    setIsDisabled,
+    setIsDisabled
   };
 };
 

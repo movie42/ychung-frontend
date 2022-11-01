@@ -17,7 +17,7 @@ const useAddNewPerson = () => {
     },
     onError: (error) => {
       redirectLogoutPage(error);
-    },
+    }
   });
 };
 

@@ -4,7 +4,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { loginState, INoticeInterface, notice } from "@/lib/state";
+import { loginState, notice } from "@/lib/state";
 import { previewParagraph } from "@/lib/utils";
 import { useModalContorl, useSetView } from "@/lib/hooks";
 
@@ -15,7 +15,7 @@ import {
   Viewer,
   ConfirmDeleteModal,
   SEO,
-  Loading,
+  Loading
 } from "@/components";
 import { useDeleteNotice, useGetNotice } from "./hooks";
 
@@ -52,7 +52,7 @@ const NoticeDetail = ({ setDetailItem }: INoticeDetailProps) => {
   const { mutate: deleteNoticeMutate } = useDeleteNotice();
 
   const { data, isLoading } = useGetNotice({
-    id: noticeId ? noticeId : "",
+    id: noticeId ? noticeId : ""
   });
 
   const handleUpdate = () => {
@@ -61,45 +61,6 @@ const NoticeDetail = ({ setDetailItem }: INoticeDetailProps) => {
 
   const handleDelete = () => {
     setIsModal(true);
-  };
-
-  const convertDate = (date: string) => {
-    return date.split("-").join("");
-  };
-
-  const saveICS = (start: string, end?: string, summary?: string) => {
-    let icsFile = null;
-    var event =
-      "BEGIN:VCALENDAR\n" +
-      "CALSCALE:GREGORIAN\n" +
-      "METHOD:PUBLISH\n" +
-      "PRODID:-//Test Cal//EN\n" +
-      "VERSION:2.0\n" +
-      "BEGIN:VEVENT\n" +
-      "UID:test-1\n" +
-      "DTSTART;VALUE=DATE:" +
-      convertDate(start) +
-      "\n" +
-      "DTEND;VALUE=DATE:" +
-      (end && convertDate(end)) +
-      "\n" +
-      "SUMMARY:" +
-      summary +
-      "\n" +
-      "DESCRIPTION:" +
-      "\n" +
-      "END:VEVENT\n" +
-      "END:VCALENDAR";
-
-    var data = new File([event], "event", { type: "text/plain" });
-
-    if (icsFile !== null) {
-      window.URL.revokeObjectURL(icsFile);
-    }
-
-    icsFile = window.URL.createObjectURL(data);
-
-    return icsFile;
   };
 
   useEffect(() => {
@@ -114,7 +75,7 @@ const NoticeDetail = ({ setDetailItem }: INoticeDetailProps) => {
           onSuccess: () => {
             setIsConfirm(false);
             navigate("/notice");
-          },
+          }
         }
       );
     }
@@ -137,7 +98,7 @@ const NoticeDetail = ({ setDetailItem }: INoticeDetailProps) => {
           setIsModal={setIsModal}
         />
       )}
-      <PageDetailModal setDetailItem={setDetailItem}>
+      <PageDetailModal pageRoot="notiecs" setDetailItem={setDetailItem}>
         <>
           <PageDetailModalHeader {...data}>
             {isLogin && (

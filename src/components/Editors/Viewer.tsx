@@ -29,16 +29,16 @@ const Viewer = ({ paragraph }: IViwerProps) => {
                 type: "openTag",
                 tagName: "iframe",
                 outerNewLine: true,
-                attributes: node.attrs,
+                attributes: node.attrs
               },
               { type: "html", content: `${node.childrenHTML}` },
               {
                 type: "closeTag",
                 tagName: "iframe",
-                outerNewLine: true,
-              },
-            ],
-          },
+                outerNewLine: true
+              }
+            ]
+          }
         }}
       />
     </Wrapper>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { Authorization } from "@/components";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const WeeklyComponentInfoContainer = styled.div`
   display: flex;
@@ -17,37 +17,37 @@ const WeeklyComponentInfoContainer = styled.div`
   }
 `;
 
-const WorshipNavContainer = styled.div`
-  display: flex;
-  div {
-    &:not(:first-child) {
-      margin-left: 1rem;
-    }
-  }
-`;
-const WorshipNavItem = styled.div``;
+// const WorshipNavContainer = styled.div`
+//   display: flex;
+//   div {
+//     &:not(:first-child) {
+//       margin-left: 1rem;
+//     }
+//   }
+// `;
+// const WorshipNavItem = styled.div``;
 
-const WorshipNavLink = styled(NavLink)`
-  text-decoration: none;
-  font-size: 2rem;
-  font-weight: 900;
-  color: ${(props) => props.theme.color.gray300};
-  padding: 0.5rem 0.8rem;
-  border: 2.5px solid ${(props) => props.theme.color.gray200};
-  border-radius: 0.7rem;
-  &.active {
-    border: 2.5px solid ${(props) => props.theme.color.primary400};
-    color: ${(props) => props.theme.color.primary400};
-  }
-  &:hover {
-    border: 2.5px solid ${(props) => props.theme.color.primary400};
-    color: ${(props) => props.theme.color.primary400};
-  }
-  &:active {
-    border: 2.5px solid ${(props) => props.theme.color.secondary300};
-    color: ${(props) => props.theme.color.secondary300};
-  }
-`;
+// const WorshipNavLink = styled(NavLink)`
+//   text-decoration: none;
+//   font-size: 2rem;
+//   font-weight: 900;
+//   color: ${(props) => props.theme.color.gray300};
+//   padding: 0.5rem 0.8rem;
+//   border: 2.5px solid ${(props) => props.theme.color.gray200};
+//   border-radius: 0.7rem;
+//   &.active {
+//     border: 2.5px solid ${(props) => props.theme.color.primary400};
+//     color: ${(props) => props.theme.color.primary400};
+//   }
+//   &:hover {
+//     border: 2.5px solid ${(props) => props.theme.color.primary400};
+//     color: ${(props) => props.theme.color.primary400};
+//   }
+//   &:active {
+//     border: 2.5px solid ${(props) => props.theme.color.secondary300};
+//     color: ${(props) => props.theme.color.secondary300};
+//   }
+// `;
 
 const WorshipHeader = () => {
   return (

@@ -7,12 +7,6 @@ const Wrapper = styled.div`
   margin-top: 8rem;
 `;
 
-interface CreateGroup {
-  title: string;
-  isPublic: boolean;
-  groups: [];
-}
-
 function EducationCreate() {
   const { mutate: educationCreateMutate, isLoading } = useCreateEducation();
 

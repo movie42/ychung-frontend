@@ -33,20 +33,20 @@ const ListItem = styled.li`
   }
 `;
 
-interface IWorshipEducationProps {
-  _id: string;
-  title: string;
-  isPublic: boolean;
-  groups: [];
-  createdAt: Date;
-}
+// interface IWorshipEducationProps {
+//   _id: string;
+//   title: string;
+//   isPublic: boolean;
+//   groups: [];
+//   createdAt: Date;
+// }
 
 const WeekliesEducation = () => {
   const {
     data: educations,
     isLoading,
     isSuccess,
-    isRefetching,
+    isRefetching
   } = useGetEducations();
 
   if (isLoading) {

@@ -1,4 +1,3 @@
-import React from "react";
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { useInfiniteQuery } from "react-query";
@@ -16,11 +15,11 @@ interface QueryData<T> {
   pageNumber: number;
 }
 
-const useGetInfinityItem = <T extends unknown>({
+const useGetInfinityItem = <T,>({
   pageParam,
   size,
   queryKey,
-  url,
+  url
 }: IuseGetNoticeItem2Props) => {
   const pageNumber = pageParam;
   return useInfiniteQuery<QueryData<T>, AxiosError, QueryData<T>>(
@@ -31,7 +30,7 @@ const useGetInfinityItem = <T extends unknown>({
       getNextPageParam: ({ isLastPage, pageNumber }) => {
         return isLastPage ? undefined : pageNumber + 1;
       },
-      cacheTime: 5 * 60 * 1000,
+      cacheTime: 5 * 60 * 1000
     }
   );
 };

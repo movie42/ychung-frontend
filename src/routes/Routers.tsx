@@ -8,7 +8,7 @@ import {
   BlogRouter,
   EducationRouter,
   DocumentRouter,
-  UserRouter,
+  UserRouter
 } from "@/routes";
 import { loginState } from "@/lib/state";
 import { MainLayout } from "@/components";
@@ -36,10 +36,7 @@ function Routers() {
           path="/education/*"
           element={<EducationRouter isLogin={isLogin} authority={authority} />}
         />
-        <Route
-          path="/document/*"
-          element={<DocumentRouter isLogin={isLogin} authority={authority} />}
-        />
+        <Route path="/document/*" element={<DocumentRouter />} />
         <Route
           path="/user/*"
           element={

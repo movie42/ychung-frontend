@@ -91,7 +91,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
     if (editorParser && id) {
       const body = {
         ...data,
-        paragraph: editorParser,
+        paragraph: editorParser
       };
       updateBlogPostMutate({ id, body });
     }
@@ -113,7 +113,7 @@ const BlogUpdate = ({ data }: IBlogDetailProps) => {
             placeholder="제목을 입력하세요."
             {...register("title", {
               required: "제목을 입력하세요.",
-              value: data.title,
+              value: data.title
             })}
             id="title"
             type="text"

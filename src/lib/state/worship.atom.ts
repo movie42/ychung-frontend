@@ -40,14 +40,14 @@ export const worshipDetail = atom<IWorshipItems>({
     benediction: "",
     creator: {
       _id: "",
-      userName: "",
+      userName: ""
     },
     views: 0,
-    createdAt: "",
-  },
+    createdAt: ""
+  }
 });
 
 export const worshipModalControler = atom({
   key: "worshipModal",
-  default: false,
+  default: false
 });
