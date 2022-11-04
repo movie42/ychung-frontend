@@ -222,7 +222,8 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
             {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
             key={person._id}
-            ref={provided.innerRef}>
+            ref={provided.innerRef}
+          >
             <div className="info-container">
               {!isUpdate ? (
                 <>

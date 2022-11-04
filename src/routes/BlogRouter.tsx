@@ -28,7 +28,8 @@ const BlogRouter = ({ isLogin, authority }: IBlogRouterProps) => {
             isAllow={isLogin && authority < 3}
             redirectPath="/blog"
           />
-        }>
+        }
+      >
         <Route path="create" element={<BlogCreate />} />
         <Route path=":postId/update" element={<BlogUpdate data={blogItem} />} />
       </Route>

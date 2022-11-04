@@ -108,7 +108,8 @@ const Header = () => {
           <LogoSvg
             id="logo"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0  220 220">
+            viewBox="0 0  220 220"
+          >
             <path
               className="cls-1"
               d="M141.81,26A81.9,81.9,0,1,0,71.1,164.78L60.29,175.59,84,199.27l53.12-53.12c1.61-1.38,3.2-2.81,4.72-4.34A81.88,81.88,0,0,0,141.81,26Z"
@@ -125,7 +126,8 @@ const Header = () => {
             variants={navAnimationVariants}
             initial="init"
             animate="animate"
-            exit="exit">
+            exit="exit"
+          >
             <AiOutlineClose onClick={handleCloseBtn} className="closeBtn" />
             <Nav setMenu={setMenu} />
           </NavWrapper>
