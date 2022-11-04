@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { SetterOrUpdater } from "recoil";
 import { useNavigate } from "react-router-dom";
 
-import { movingCard, opacity } from "@/animationVariants";
+import { movingCard, opacity } from "@/Components/Animations/animationVariants";
 
 const Wrapper = styled(motion.div)`
   position: fixed;

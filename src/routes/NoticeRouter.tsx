@@ -4,7 +4,7 @@ import {
   NoticeCreate,
   NoticeDetail,
   NoticeUpdate
-} from "@/page/Notice";
+} from "@/Pages/Notice";
 import { Route, Routes } from "react-router";
 import { useSetRecoilState } from "recoil";
 import ProtectRouter from "./ProtectRouter";
@@ -31,8 +31,7 @@ const NoticeRouter = ({ isLogin, authority }: INoticeRouterProps) => {
             isAllow={isLogin && authority < 3}
             redirectPath={"/notice"}
           />
-        }
-      >
+        }>
         <Route path="create" element={<NoticeCreate />} />
         <Route path=":noticeId/update" element={<NoticeUpdate />} />
       </Route>

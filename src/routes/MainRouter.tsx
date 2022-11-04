@@ -1,8 +1,8 @@
-import { Join, Login, Logout, Main } from "@/page/Root";
+import { Join, Login, Logout, Main } from "@/Pages/Root";
 import { Route, Routes } from "react-router-dom";
-import { ProtectRouter } from "@/routes";
-import { PageNotFound } from "@/page/Errors";
-import { MainLayout } from "@/components";
+import { ProtectRouter } from "@/Routes";
+import { PageNotFound } from "@/Pages/Errors";
+import { MainLayout } from "@/Components";
 
 interface IMainRouterProps {
   isLogin: boolean;

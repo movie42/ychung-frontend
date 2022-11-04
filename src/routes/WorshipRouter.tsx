@@ -1,15 +1,15 @@
 import { Navigate, Route, Routes } from "react-router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { worshipDetail, worshipModalControler } from "@/lib/state";
-import { Worship } from "@/page/Worship";
-import { PrayerContainer } from "@/page/Worship/Prayer";
+import { Worship } from "@/Pages/Worship";
+import { PrayerContainer } from "@/Pages/Worship/Prayer";
 import {
   WeekliesContainer,
   WeekliesCreate,
   WeekliesDetail,
   WeekliesUpdate
-} from "@/page/Worship/Weeklies";
-import { ProtectRouter } from "@/routes";
+} from "@/Pages/Worship/Weeklies";
+import { ProtectRouter } from "@/Routes";
 
 interface IWorshipRouterProps {
   isLogin: boolean;
@@ -28,8 +28,7 @@ const WorshipRouter = ({ isLogin, authority }: IWorshipRouterProps) => {
             isAllow={isLogin && authority < 3}
             redirectPath="/worship/weeklies"
           />
-        }
-      >
+        }>
         <Route path="weeklies/create" element={<WeekliesCreate />} />
         <Route
           path=":weekliesId/update"

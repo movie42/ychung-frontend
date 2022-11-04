@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { Blog, BlogCreate, BlogDetail, BlogUpdate } from "@/page/Blog";
+import { Blog, BlogCreate, BlogDetail, BlogUpdate } from "@/Pages/Blog";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { blog, blogModalControler } from "@/lib/state";
 import ProtectRouter from "./ProtectRouter";
@@ -28,8 +28,7 @@ const BlogRouter = ({ isLogin, authority }: IBlogRouterProps) => {
             isAllow={isLogin && authority < 3}
             redirectPath="/blog"
           />
-        }
-      >
+        }>
         <Route path="create" element={<BlogCreate />} />
         <Route path=":postId/update" element={<BlogUpdate data={blogItem} />} />
       </Route>

@@ -1,4 +1,4 @@
-import { User, UserApplications, UserLike, UserWorks } from "@/page/User";
+import { User, UserApplications, UserLike, UserWorks } from "@/Pages/User";
 import { Route, Routes, useParams } from "react-router";
 import ProtectRouter from "./ProtectRouter";
 
@@ -15,8 +15,7 @@ const UserRouter = ({ isLogin, id }: IUserRouterProps) => {
       <Route
         element={
           <ProtectRouter isAllow={isLogin && id === userId} redirectPath="/" />
-        }
-      >
+        }>
         <Route path="/user/:userId" element={<User />} />
         <Route path="/user/:userId/works" element={<UserWorks />} />
         <Route

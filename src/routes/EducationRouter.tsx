@@ -1,11 +1,11 @@
-import { MainLayout } from "@/components";
+import { MainLayout } from "@/Components";
 import {
   EducationGroupsDetail,
   Educations,
   EducationsUpdate,
   ReportsContainer
-} from "@/page/Educations";
-import EducationCreate from "@/page/Educations/CreateGroup/EducationCreate";
+} from "@/Pages/Educations";
+import EducationCreate from "@/Pages/Educations/CreateGroup/EducationCreate";
 import { Route, Routes } from "react-router";
 import ProtectRouter from "./ProtectRouter";
 
@@ -28,8 +28,7 @@ const EducationRouter = ({ isLogin, authority }: IEducationRouterProps) => {
               isAllow={isLogin && authority < 3}
               redirectPath="/worship/weeklies"
             />
-          }
-        >
+          }>
           <Route path="create" element={<EducationCreate />} />
           <Route path=":educationId/update" element={<EducationsUpdate />} />
         </Route>

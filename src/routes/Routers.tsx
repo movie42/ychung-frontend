@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { PageNotFound } from "@/page/Errors";
+import { PageNotFound } from "@/Pages/Errors";
 import {
   MainRouter,
   NoticeRouter,
@@ -9,9 +9,9 @@ import {
   EducationRouter,
   DocumentRouter,
   UserRouter
-} from "@/routes";
+} from "@/Routes";
 import { loginState } from "@/lib/state";
-import { MainLayout } from "@/components";
+import { MainLayout } from "@/Components";
 
 function Routers() {
   const { isLogin, authority, _id } = useRecoilValue(loginState);

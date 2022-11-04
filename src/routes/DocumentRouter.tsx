@@ -8,7 +8,7 @@ import {
   MenuelDetail,
   Rules,
   RulesDetail
-} from "@/page/Document";
+} from "@/Pages/Document";
 import { Route, Routes } from "react-router";
 
 // interface IDocumentRouterProps {

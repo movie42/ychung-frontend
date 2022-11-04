@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginState, snackbarState } from "@/lib/state";
-import { SEO, Snackbar } from "@/components";
-import { Routers } from "@/routes";
+import { SEO, Snackbar } from "@/Components";
+import { Routers } from "@/Routes";
 import { USER_LOGIN_INFO_KEY } from "./lib/constants/constants";
 
 function App() {
