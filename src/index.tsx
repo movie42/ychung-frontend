@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
-import { theme } from "./lib/style/theme";
+import { theme, GlobalStyle } from "./lib/style";
 import { BrowserRouter } from "react-router-dom";
-import { GlobalStyle } from "./GlobalStyle";
+
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { HelmetProvider } from "react-helmet-async";
