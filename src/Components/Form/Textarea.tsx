@@ -1,14 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-
-const Item = styled.textarea<ITextAreaProps>`
-  border: 0;
-`;
 
 type ITextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const Textarea = ({ ...props }: ITextAreaProps) => {
-  return <Item {...props}></Item>;
-};
+const Textarea = React.forwardRef<HTMLTextAreaElement, ITextAreaProps>(
+  (props, ref) => {
+    return <textarea ref={ref} {...props}></textarea>;
+  }
+);
+
+Textarea.displayName = "Textarea";
 
 export default Textarea;

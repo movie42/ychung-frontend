@@ -14,6 +14,7 @@ export interface IWorshipItems {
   reader: string;
   offering: string;
   benediction: string;
+  worshipNotice: string;
   creator: {
     _id: string;
     userName: string;
@@ -38,6 +39,7 @@ export const worshipDetail = atom<IWorshipItems>({
     reader: "",
     offering: "",
     benediction: "",
+    worshipNotice: "",
     creator: {
       _id: "",
       userName: ""

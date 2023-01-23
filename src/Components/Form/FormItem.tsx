@@ -12,12 +12,18 @@ const Container = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.color.gray300};
   padding: 1rem 0;
   label {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
   input {
-    font-size: 2rem;
+    font-size: 1.6rem;
     outline: 0;
     border: 0;
+  }
+  textarea {
+    outline: none;
+    overflow: auto;
+    height: 8rem;
+    resize: none;
   }
 `;
 
