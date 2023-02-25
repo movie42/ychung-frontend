@@ -30,7 +30,8 @@ const Prayer = ({ prayer }: PrayerProps) => {
   return (
     <Container
       download={`${prayer.name}.ics`}
-      href={`data:text/calendar;charset=utf-8,${encodeURIComponent(icsFile)}`}>
+      href={`data:text/calendar;charset=utf-8,${encodeURIComponent(icsFile)}`}
+    >
       <div>
         <DateContainer>
           <p>

@@ -67,7 +67,8 @@ const WorshipHeader = () => {
           <WorshipNavLink
             className={({ isActive }) => (isActive ? "active" : "")}
             to="weeklies"
-            data-nav="weeklies">
+            data-nav="weeklies"
+          >
             주보
           </WorshipNavLink>
         </WorshipNavItem>
