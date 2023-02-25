@@ -53,14 +53,14 @@ const ButtonContainer = styled.div`
 `;
 
 function EducationUpdate() {
-  const { id } = useParams();
+  const { educationId } = useParams();
   const { register, handleSubmit } = useForm<GroupInfo>();
 
   const {
     data: groupInfo,
     isRefetching,
     isSuccess
-  } = useGetGroupInfo(id ? id : "");
+  } = useGetGroupInfo(educationId ? educationId : "");
   const { mutate: groupInfoMutation } = usePatchGroupInfo();
   const { isConfirm, isModal, setIsConfirm, setIsModal } = useModalContorl();
   const { mutate: deleteGroupInfoMutation } = useDeleteGroupInfo();
@@ -70,21 +70,24 @@ function EducationUpdate() {
   };
 
   const toggleButton = () => {
-    if (id) {
-      groupInfoMutation({ id, body: { isPublic: !groupInfo?.isPublic } });
+    if (educationId) {
+      groupInfoMutation({
+        id: educationId,
+        body: { isPublic: !groupInfo?.isPublic }
+      });
     }
   };
 
   const changeTitle = handleSubmit((data) => {
     const { title } = data;
-    if (id) {
-      groupInfoMutation({ id, body: { title } });
+    if (educationId) {
+      groupInfoMutation({ id: educationId, body: { title } });
     }
   });
 
   useEffect(() => {
-    if (isConfirm && id) {
-      deleteGroupInfoMutation({ id });
+    if (isConfirm && educationId) {
+      deleteGroupInfoMutation({ id: educationId });
     }
   }, [isConfirm]);
 

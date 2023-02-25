@@ -26,10 +26,9 @@ const EducationRouter = ({ isLogin, authority }: IEducationRouterProps) => {
           element={
             <ProtectRouter
               isAllow={isLogin && authority < 3}
-              redirectPath="/worship/weeklies"
+              redirectPath="/education"
             />
-          }
-        >
+          }>
           <Route path="create" element={<EducationCreate />} />
           <Route path=":educationId/update" element={<EducationsUpdate />} />
         </Route>

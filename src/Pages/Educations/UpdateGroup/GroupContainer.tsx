@@ -91,7 +91,7 @@ interface IGroupContainerProps {
 }
 
 const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
-  const { id } = useParams();
+  const { educationId } = useParams();
   const { register, handleSubmit, reset } = useForm<GroupProps>();
 
   const { data: group } = useGetGroups(groupInfo?._id ? groupInfo._id : "");
@@ -100,8 +100,8 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
   const { mutate: updateGroup } = useUpdateGroup();
 
   const addGroup = handleSubmit((data) => {
-    if (id) {
-      createGroup({ id, body: data });
+    if (educationId) {
+      createGroup({ id: educationId, body: data });
       reset();
     }
   });
