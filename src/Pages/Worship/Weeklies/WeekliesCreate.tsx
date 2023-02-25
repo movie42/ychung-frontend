@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { BIBLE_DATA_SET } from "@/lib/utils";
-import { FormItem, Label, Input, Select, SEO } from "@/Components";
+import { FormItem, Label, Input, Select, SEO, Textarea } from "@/Components";
 import { IWorshipItems } from "@/lib/state";
 import { useCreateWeekly } from "../hooks";
 
@@ -54,7 +54,7 @@ const Form = styled.form`
       appearance: none;
       border: 0;
       outline: unset;
-      font-size: 3rem;
+      font-size: 2.2rem;
     }
     span {
       position: absolute;
@@ -76,8 +76,14 @@ const Form = styled.form`
       padding: 0.8rem;
       border: 0;
       text-align: left;
-      font-size: 3rem;
+      font-size: 2.2rem;
       outline: 0;
+    }
+
+    textarea {
+      font-size: 2.2rem;
+      resize: vertical;
+      min-height: 20rem;
     }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
@@ -135,6 +141,7 @@ const WeekliesCreate = () => {
               })}
             />
           </FormItem>
+
           {errors.title && <p>{errors?.title?.message}</p>}
           <FormItem>
             <Label htmlFor="word">본문</Label>
@@ -185,7 +192,7 @@ const WeekliesCreate = () => {
             <Input
               id="pastor"
               type="text"
-              defaultValue="김상돈"
+              defaultValue="박선민"
               {...register("pastor", {
                 required: "강론을 누가 하는지 알려주세요."
               })}
@@ -199,6 +206,16 @@ const WeekliesCreate = () => {
               defaultValue="다같이"
               {...register("reader", {
                 required: "누가 성경을 읽나요?"
+              })}
+            />
+          </FormItem>
+          <FormItem>
+            <Label htmlFor="worshipInfo">예배 안내</Label>
+            <Textarea
+              id="worshipInfo"
+              placeholder="예배 안내 사항을 적어주세요."
+              {...register("worshipInfo", {
+                required: "예배 안내 사항을 적어주세요."
               })}
             />
           </FormItem>
@@ -231,7 +248,7 @@ const WeekliesCreate = () => {
               id="advertisement"
               type="text"
               placeholder="광고를 누가 하나요?"
-              defaultValue="박도현"
+              defaultValue="유믿음"
               {...register("advertisement", {
                 required: "누가 광고를 하는지 알려주세요."
               })}
@@ -243,7 +260,7 @@ const WeekliesCreate = () => {
               id="benediction"
               type="text"
               placeholder="봉헌, 축도 기도를 누가 하나요?"
-              defaultValue="김상돈"
+              defaultValue="박선민"
               {...register("benediction", {
                 required: "봉헌, 축도 기도자를 알려주세요."
               })}

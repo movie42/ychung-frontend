@@ -1,38 +1,31 @@
-const convertDate = (date: string) => {
-  return date.split("-").join("");
+import * as ics from "ics";
+import { useState } from "react";
+
+const useMakeICS = () => {
+  const [icsFile, setICSFile] = useState("");
+
+  const convertDate = (date: string): [number, number, number] => {
+    return date.split("-").map((value) => Number(value)) as [
+      number,
+      number,
+      number
+    ];
+  };
+
+  const saveICS = (date: string, name: string) => {
+    const event: ics.EventAttributes = {
+      start: [...convertDate(date)],
+      duration: { minutes: 10 },
+      title: `${name} 대표기도`,
+      description: "양청 대표기도입니다.",
+      busyStatus: "BUSY"
+    };
+    ics.createEvent(event, (error, value) => {
+      setICSFile(value);
+    });
+  };
+
+  return { saveICS, icsFile };
 };
 
-export const saveICS = (start: string, end?: string, summary?: string) => {
-  let icsFile = null;
-  const event =
-    "BEGIN:VCALENDAR\n" +
-    "CALSCALE:GREGORIAN\n" +
-    "METHOD:PUBLISH\n" +
-    "PRODID:-//Test Cal//EN\n" +
-    "VERSION:2.0\n" +
-    "BEGIN:VEVENT\n" +
-    "UID:test-1\n" +
-    "DTSTART;VALUE=DATE:" +
-    convertDate(start) +
-    "\n" +
-    "DTEND;VALUE=DATE:" +
-    (end && convertDate(end)) +
-    "\n" +
-    "SUMMARY:" +
-    summary +
-    "\n" +
-    "DESCRIPTION:" +
-    "\n" +
-    "END:VEVENT\n" +
-    "END:VCALENDAR";
-
-  const data = new File([event], "event", { type: "text/plain" });
-
-  if (icsFile !== null) {
-    window.URL.revokeObjectURL(icsFile);
-  }
-
-  icsFile = window.URL.createObjectURL(data);
-
-  return icsFile;
-};
+export default useMakeICS;

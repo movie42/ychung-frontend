@@ -200,8 +200,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
       <CopyTextModal text={copyMessage} />
       <PageDetailModal
         pageRoot="worship/weeklies"
-        setDetailItem={setDetailItem}
-      >
+        setDetailItem={setDetailItem}>
         <WeekliesHeader {...data} views={data?.views} />
 
         <WorshipInfoContainer>
@@ -212,8 +211,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                 onClick={handleBibleOpen}
                 style={{
                   visibility: isBibleSelectorOpen ? "hidden" : "visible"
-                }}
-              >
+                }}>
                 {`${data?.word && chapterNameTransferFromEngToKr(data?.word)} `}
                 {data?.chapter}장 {data?.verse}
                 {data?.verse_end && `~ ${data?.verse_end}`}절
@@ -226,8 +224,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                         word: data?.word,
                         chapter: data?.chapter,
                         verse: data?.verse
-                      })}
-                    >
+                      })}>
                       갓피플 성경
                     </button>
                     <button
@@ -235,8 +232,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
                         word: data?.word,
                         chapter: data?.chapter,
                         verse: data?.verse
-                      })}
-                    >
+                      })}>
                       웹
                     </button>
                   </BibleSelectButtonBox>
@@ -273,17 +269,28 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
         <WorshipGuide>
           <div>
             <h2>예배 안내</h2>
-            <ul>
-              <li>
-                먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터 앉아주세요.
-              </li>
-              <li>
-                <strong>코로나 방역지침이 완화되었습니다.</strong> 온라인
-                예배자는 출석예배로 전환해 주시고 소그룹 등 교회 활동이
-                회복되도록 노력해주세요.
-              </li>
-              <li>5월22일부터 교회 식당 운영을 재개합니다.</li>
-            </ul>
+            {data?.worshipInfo ? (
+              <div>
+                <ul>
+                  <li>{data?.worshipInfo}</li>
+                </ul>
+              </div>
+            ) : (
+              <div>
+                <ul>
+                  <li>
+                    먼저 오신 분은 안내 위원의 안내에 따라 앞자리부터
+                    앉아주세요.
+                  </li>
+                  <li>
+                    <strong>코로나 방역지침이 완화되었습니다.</strong> 온라인
+                    예배자는 출석예배로 전환해 주시고 소그룹 등 교회 활동이
+                    회복되도록 노력해주세요.
+                  </li>
+                  <li>5월22일부터 교회 식당 운영을 재개합니다.</li>
+                </ul>
+              </div>
+            )}
             <h2>헌금</h2>
             <ul>
               <li>청년부 계좌로 헌금을 할 수 있습니다.</li>
@@ -291,8 +298,7 @@ function WeekliesDetail({ setDetailItem }: IWorshipDetailProps) {
             <button
               onClick={() =>
                 copyText("3511093649103", "계좌번호가 복사되었습니다.")
-              }
-            >
+              }>
               <p>계좌번호 농협 351-1093-6491-03</p>
               <p>복사하려면 클릭하세요</p>
             </button>

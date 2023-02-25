@@ -4,7 +4,7 @@ import { AiFillCaretDown, AiOutlineCloudUpload } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { BIBLE_DATA_SET } from "@/lib/utils";
 import { IWorshipItems } from "@/lib/state";
-import { Input, Label, FormItem, Select, SEO } from "@/Components";
+import { Input, Label, FormItem, Select, SEO, Textarea } from "@/Components";
 
 import { useUpdateWeekly } from "../hooks";
 
@@ -80,6 +80,11 @@ const Form = styled.form`
       text-align: left;
       font-size: 3rem;
       outline: 0;
+    }
+    textarea {
+      font-size: 2.2rem;
+      resize: vertical;
+      min-height: 20rem;
     }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
@@ -215,6 +220,17 @@ const WeekliesUpdate = ({ data }: IWorshipUpdate) => {
               defaultValue={data?.reader || "다같이"}
               {...register("reader", {
                 required: "누가 성경을 읽나요?"
+              })}
+            />
+          </FormItem>
+          <FormItem>
+            <Label htmlFor="worshipInfo">예배 안내</Label>
+            <Textarea
+              id="worshipInfo"
+              defaultValue={data?.worshipInfo || ""}
+              placeholder="예배 안내 사항을 적어주세요."
+              {...register("worshipInfo", {
+                required: "예배 안내 사항을 적어주세요."
               })}
             />
           </FormItem>

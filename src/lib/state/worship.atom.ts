@@ -4,6 +4,7 @@ export interface IWorshipItems {
   _id: string;
   title: string;
   word: string;
+  worshipInfo: string;
   chapter: number;
   verse: number;
   verse_end: number;
@@ -27,6 +28,7 @@ export const worshipDetail = atom<IWorshipItems>({
   default: {
     _id: "",
     title: "",
+    worshipInfo: "",
     word: "",
     chapter: 0,
     verse: 0,
