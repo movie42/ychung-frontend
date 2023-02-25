@@ -1,26 +1,24 @@
 import useMakeICS from "@/lib/utils/saveICS";
 import { useEffect } from "react";
 import styled from "styled-components";
-
-interface Prayer {
-  name: string;
-  date: Date;
-}
+import { Prayer as PrayerResponse } from "../hooks/useGetPrayers";
 
 interface PrayerProps {
-  prayer: Prayer;
+  prayer: Omit<PrayerResponse, "updatedAt" | "createdAt">;
 }
 
 const Prayer = ({ prayer }: PrayerProps) => {
+  const prayerDate = new Date(prayer.start);
   const { icsFile, saveICS } = useMakeICS();
-  const icsDate = `${prayer.date.getFullYear()}-${
-    prayer.date.getMonth() + 1 < 10
-      ? `0${prayer.date.getMonth() + 1}`
-      : prayer.date.getMonth() + 1
+
+  const icsDate = `${prayerDate.getFullYear()}-${
+    prayerDate.getMonth() + 1 < 10
+      ? `0${prayerDate.getMonth() + 1}`
+      : prayerDate.getMonth() + 1
   }-${
-    prayer.date.getDate() < 10
-      ? `0${prayer.date.getDate()}`
-      : prayer.date.getDate()
+    prayerDate.getDate() < 10
+      ? `0${prayerDate.getDate()}`
+      : prayerDate.getDate()
   }`;
 
   useEffect(() => {
@@ -35,9 +33,9 @@ const Prayer = ({ prayer }: PrayerProps) => {
       <div>
         <DateContainer>
           <p>
-            {prayer.date.getDate() < 10
-              ? `0${prayer.date.getDate()}`
-              : prayer.date.getDate()}
+            {prayerDate.getDate() < 10
+              ? `0${prayerDate.getDate()}`
+              : prayerDate.getDate()}
             일
           </p>
         </DateContainer>
@@ -50,6 +48,7 @@ const Prayer = ({ prayer }: PrayerProps) => {
 export default Prayer;
 
 const Container = styled.a`
+  display: block;
   color: black;
   text-decoration: none;
   border: 2px solid black;

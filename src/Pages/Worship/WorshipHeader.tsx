@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { Authorization } from "@/Components";
 import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
 
 const WeeklyComponentInfoContainer = styled.div`
   display: flex;
@@ -50,21 +51,17 @@ const WorshipNavLink = styled(NavLink)`
 `;
 
 const WorshipHeader = () => {
-  // return (
-  //   <WeeklyComponentInfoContainer>
-  //     <h1>예배</h1>
-  //     <Authorization authority={3}>
-  //       <Link to="/worship/weeklies/create">
-  //         <AiFillPlusCircle />
-  //       </Link>
-  //     </Authorization>
-  //   </WeeklyComponentInfoContainer>
-  // );
+  const [linkState, setLinkState] = useState("weeklies");
+  const handleCreateButtonLink = (url: string) => () => {
+    setLinkState(url);
+  };
+
   return (
     <WeeklyComponentInfoContainer>
       <WorshipNavContainer>
         <WorshipNavItem>
           <WorshipNavLink
+            onClick={handleCreateButtonLink("weeklies")}
             className={({ isActive }) => (isActive ? "active" : "")}
             to="weeklies"
             data-nav="weeklies"
@@ -73,13 +70,17 @@ const WorshipHeader = () => {
           </WorshipNavLink>
         </WorshipNavItem>
         <WorshipNavItem>
-          <WorshipNavLink to="prayer" data-nav="prayer">
+          <WorshipNavLink
+            onClick={handleCreateButtonLink("prayer")}
+            to="prayer"
+            data-nav="prayer"
+          >
             대표 기도
           </WorshipNavLink>
         </WorshipNavItem>
       </WorshipNavContainer>
       <Authorization authority={3}>
-        <Link to="/worship/weeklies/create">
+        <Link to={`/worship/${linkState}/create`}>
           <AiFillPlusCircle />
         </Link>
       </Authorization>
