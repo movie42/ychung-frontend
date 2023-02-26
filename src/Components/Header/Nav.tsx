@@ -74,6 +74,9 @@ const Nav = ({ setMenu }: NavProps) => {
           <Item>
             <LinkButton to="/login">로그인</LinkButton>
           </Item>
+          <Item>
+            <LinkButton to="/join">회원가입</LinkButton>
+          </Item>
           {/* <Item>
             <LinkButton to="/join">회원가입</LinkButton>
           </Item> */}
