@@ -11,7 +11,7 @@ export interface Prayer {
 }
 
 export interface ResponsePrayer extends Prayer {
-  id: string;
+  _id: string;
 }
 
 export interface RegulationPrayer {
@@ -28,7 +28,7 @@ const useGetPrayers = () => {
         const jan = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 0) {
             return {
-              id: prayer.id,
+              _id: prayer._id,
               name: prayer.name,
               start: prayer.start
             };
@@ -36,57 +36,57 @@ const useGetPrayers = () => {
         });
         const feb = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 1) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const mar = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 2) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const apr = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 3) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const may = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 4) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const jun = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 5) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const jul = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 6) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const aug = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 7) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const sep = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 8) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const oct = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 9) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const nov = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 10) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
         const dec = prayers.filter((prayer) => {
           if (new Date(prayer.start).getMonth() === 11) {
-            return { id: prayer.id, name: prayer.name, start: prayer.start };
+            return { _id: prayer._id, name: prayer.name, start: prayer.start };
           }
         });
 

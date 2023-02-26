@@ -11,6 +11,7 @@ import {
 } from "@/Pages/Worship/Weeklies";
 import { ProtectRouter } from "@/Routes";
 import PrayerCreate from "@/Pages/Worship/Prayer/PrayerCreate";
+import PrayerUpdate from "@/Pages/Worship/Prayer/PrayerUpdate";
 
 interface IWorshipRouterProps {
   isLogin: boolean;
@@ -37,6 +38,7 @@ const WorshipRouter = ({ isLogin, authority }: IWorshipRouterProps) => {
           path=":weekliesId/update"
           element={<WeekliesUpdate data={weeklyItem} />}
         />
+        <Route path="prayer/:prayerId" element={<PrayerUpdate />} />
       </Route>
       <Route element={<Worship />}>
         <Route index element={<Navigate to="weeklies" />} />

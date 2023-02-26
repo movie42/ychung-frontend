@@ -17,7 +17,7 @@ const PrayerContainer = () => {
             <Month key={prayers.month + index}>{prayers.month + 1}월</Month>
             <List key={index + 20}>
               {prayers.data.map((value) => (
-                <li key={value.id}>
+                <li key={value._id}>
                   <Prayer prayer={value} />
                 </li>
               ))}
@@ -33,14 +33,20 @@ export default PrayerContainer;
 
 const Container = styled.div`
   padding-top: 3rem;
+  ul {
+    padding: 0;
+  }
 `;
 
 const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  margin-right: 1rem;
+  margin-bottom: 3rem;
   gap: 1rem;
   padding-bottom: 3rem;
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
   /* border-bottom: 2px solid ${({ theme }) => theme.color.primary400}; */
 `;
 
@@ -54,8 +60,8 @@ const Month = styled.li`
     color: ${({ theme }) => theme.color.primary300};
   }
 `;
+
 const Notice = styled.p`
   font-size: 2rem;
-  padding-left: 2.5rem;
   margin-bottom: 4rem;
 `;

@@ -4,8 +4,9 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 
 import { FormItem, Label, Input } from "@/Components";
 import { Prayer } from "../hooks/useGetPrayers";
-import { calenderHelper } from "@/lib/utils";
-import useCreatePrayer from "../hooks/useCreatePrayer";
+
+import { useLocation } from "react-router";
+import useUpdatePrayer from "../hooks/useUpdatePrayer";
 
 const Wrapper = styled.div`
   margin-top: 8rem;
@@ -100,15 +101,17 @@ const Form = styled.form`
   }
 `;
 
-const PrayerCreate = () => {
+const PrayerUpdate = () => {
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<Omit<Prayer, "createdAt" | "updatedAt">>();
-  const { mutate } = useCreatePrayer();
+  const { state } = useLocation();
 
-  const handleCreatePrayer = handleSubmit((data) => {
+  const { mutate } = useUpdatePrayer();
+
+  const handleUpdatePrayer = handleSubmit((data) => {
     const prayer = {
       name: data.name,
       start: `${data.start}T14:00:00+09:00`,
@@ -121,15 +124,16 @@ const PrayerCreate = () => {
     <>
       <Wrapper>
         <h1>대표기도 일정</h1>
-        <button className="upload" onClick={handleCreatePrayer}>
+        <button className="upload" onClick={handleUpdatePrayer}>
           <AiOutlineCloudUpload />
         </button>
-        <Form onSubmit={handleCreatePrayer}>
+        <Form onSubmit={handleUpdatePrayer}>
           <FormItem>
             <Label htmlFor="name">이름</Label>
             <Input
               id="name"
               type="text"
+              defaultValue={state.name}
               placeholder="대표기도자 이름을 알려주세요."
               {...register("name", {
                 required: "대표기도자 이름을 알려주세요."
@@ -140,11 +144,11 @@ const PrayerCreate = () => {
           <FormItem>
             <Label htmlFor="start">날짜</Label>
             <Input
+              defaultValue={state.start.split("T")[0]}
               type="date"
               {...register("start", {
                 required: "언제 기도를 하는지 반드시 알려줘야해요!"
               })}
-              defaultValue={`${calenderHelper()}`}
             />
           </FormItem>
           {errors.start && <p>{errors?.start?.message}</p>}
@@ -154,4 +158,4 @@ const PrayerCreate = () => {
   );
 };
 
-export default PrayerCreate;
+export default PrayerUpdate;

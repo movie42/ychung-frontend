@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 
-interface CreatePrayer {
+export interface CreatePrayer {
   name: string;
   start: string;
   end: string;
