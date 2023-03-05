@@ -4,7 +4,7 @@ import styled, { css, keyframes } from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  min-height: 80vh;
   margin-top: 8rem;
   form {
     display: flex;

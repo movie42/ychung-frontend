@@ -5,7 +5,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 0.8fr 4fr;
   @media screen and (max-width: 500px) {
-    grid-template-columns: 1.2fr 4fr;
+    display: block;
   }
   align-items: center;
   width: 100%;
@@ -13,6 +13,9 @@ const Container = styled.div`
   padding: 1rem 0;
   label {
     font-size: 1.7rem;
+    @media screen and (max-width: 500px) {
+      font-weight: 700;
+    }
   }
   input {
     font-size: 2rem;
