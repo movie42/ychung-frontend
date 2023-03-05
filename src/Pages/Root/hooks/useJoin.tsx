@@ -13,7 +13,7 @@ interface JoinVariable {
 const useJoin = () => {
   const { handleAddSnackBar } = useSetSnackBar();
   return useMutation<any, AxiosError, JoinVariable>(
-    (body) => api.postData("/api/join", body),
+    (body) => api.postData("/api/user/join", body),
     {
       onSuccess: () => {
         handleAddSnackBar({

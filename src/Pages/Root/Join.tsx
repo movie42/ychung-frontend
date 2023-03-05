@@ -56,6 +56,7 @@ function Join() {
     isDisabled,
     setIsDisabled
   } = useValidate();
+
   const navigate = useNavigate();
 
   const {
@@ -87,7 +88,7 @@ function Join() {
     type: "email" | "userName"
   ) => {
     try {
-      const check = await axios.get(`/api/checked-db/${type}=${value}`);
+      const check = await axios.get(`/api/user/checked-db?${type}=${value}`);
 
       const { exist } = check.data;
 
