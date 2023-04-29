@@ -203,7 +203,10 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
                   {group
                     ?.filter((value) => value.type === "new")
                     .map((group) => (
-                      <Group key={group._id} item={group} />
+                      <Group
+                        key={group._id}
+                        item={group}
+                      />
                     ))}
                 </div>
               )}
@@ -215,7 +218,10 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
                   {group
                     ?.filter((value) => value.type === "student")
                     .map((group) => (
-                      <Group key={group._id} item={group} />
+                      <Group
+                        key={group._id}
+                        item={group}
+                      />
                     ))}
                 </div>
               )}
@@ -227,7 +233,10 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
                   {group
                     ?.filter((value) => value.type === "worker")
                     .map((group) => (
-                      <Group key={group._id} item={group} />
+                      <Group
+                        key={group._id}
+                        item={group}
+                      />
                     ))}
                 </div>
               )}
@@ -238,7 +247,10 @@ const GroupContainer = ({ groupInfo }: IGroupContainerProps) => {
                   {group
                     ?.filter((value) => value.type === "etc")
                     .map((group) => (
-                      <Group key={group._id} item={group} />
+                      <Group
+                        key={group._id}
+                        item={group}
+                      />
                     ))}
                 </div>
               )}

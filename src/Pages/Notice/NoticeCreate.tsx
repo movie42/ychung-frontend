@@ -1,15 +1,16 @@
 import { useRef } from "react";
+import { useForm } from "react-hook-form";
+
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor as IEditor } from "@toast-ui/react-editor";
-import { useForm } from "react-hook-form";
-import styled from "styled-components";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import styled from "styled-components";
 
-import { calenderHelper } from "@/lib/utils";
-import { INoticeInterface } from "@/lib/state";
-
-import { Editor, Label, Input, SEO } from "@/Components";
 import { useCreateNotice } from "./hooks";
+
+import { Editor, Label, Input } from "@/Components";
+import { INoticeInterface } from "@/lib/state";
+import { calenderHelper } from "@/lib/utils";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

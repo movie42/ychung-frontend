@@ -1,5 +1,6 @@
-import * as ics from "ics";
 import { useState } from "react";
+
+import * as ics from "ics";
 
 const useMakeICS = () => {
   const [icsFile, setICSFile] = useState("");

@@ -39,7 +39,13 @@ interface IToggleButtonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const ToggleButton = ({ isActive, size, ...props }: IToggleButtonProps) => {
-  return <Toggle {...props} size={size} isActive={isActive} />;
+  return (
+    <Toggle
+      {...props}
+      size={size}
+      isActive={isActive}
+    />
+  );
 };
 
 export default ToggleButton;

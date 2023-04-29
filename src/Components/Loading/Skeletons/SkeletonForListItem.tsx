@@ -96,9 +96,15 @@ const SkeletonForListItem = () => {
     <Item>
       <Link>
         <ItemDetailContainer>
-          <ThumnailSkeleton skeletonBoxHeight="25rem" skeletonBoxWidth="100%" />
+          <ThumnailSkeleton
+            skeletonBoxHeight="25rem"
+            skeletonBoxWidth="100%"
+          />
           <div className="skeleton-padding">
-            <TitleSkeleton skeletonBoxHeight="3rem" skeletonBoxWidth="100%" />
+            <TitleSkeleton
+              skeletonBoxHeight="3rem"
+              skeletonBoxWidth="100%"
+            />
             <ParagrahSkeleton
               skeletonBoxHeight="1.6rem"
               skeletonBoxWidth="100%"
@@ -125,7 +131,10 @@ const SkeletonForListItem = () => {
             </InfoContainer>
           </UserInfoContainer>
           <ItemDetailInfoContainer>
-            <ViewsSkeleton skeletonBoxHeight="1.4rem" skeletonBoxWidth="6rem" />
+            <ViewsSkeleton
+              skeletonBoxHeight="1.4rem"
+              skeletonBoxWidth="6rem"
+            />
             <CommonetSkeleton
               skeletonBoxHeight="1.4rem"
               skeletonBoxWidth="6rem"

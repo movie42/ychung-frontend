@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { EducationPeopleData } from "./interface";
 
 const useGetPeople = (id: string) => {

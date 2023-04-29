@@ -5,7 +5,12 @@ type ITextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, ITextAreaProps>(
   (props, ref) => {
-    return <Item ref={ref} {...props}></Item>;
+    return (
+      <Item
+        ref={ref}
+        {...props}
+      ></Item>
+    );
   }
 );
 

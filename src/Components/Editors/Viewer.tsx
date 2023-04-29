@@ -1,4 +1,3 @@
-import React from "react";
 import { Viewer as ToastViewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 

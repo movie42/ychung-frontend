@@ -81,7 +81,10 @@ const SkeletonForWorshipItem = () => {
     <ListItem>
       <Link>
         <ItemDetailContainer>
-          <TitleSkeleton skeletonBoxHeight="6rem" skeletonBoxWidth="20rem" />
+          <TitleSkeleton
+            skeletonBoxHeight="6rem"
+            skeletonBoxWidth="20rem"
+          />
         </ItemDetailContainer>
         <WeeklyInfoContainer>
           <UserInfoContainer>
@@ -103,7 +106,10 @@ const SkeletonForWorshipItem = () => {
             </InfoContainer>
           </UserInfoContainer>
           <ItemDetailInfoContainer>
-            <ViewSkeleton skeletonBoxHeight="1.4rem" skeletonBoxWidth="10rem" />
+            <ViewSkeleton
+              skeletonBoxHeight="1.4rem"
+              skeletonBoxWidth="10rem"
+            />
           </ItemDetailInfoContainer>
         </WeeklyInfoContainer>
       </Link>

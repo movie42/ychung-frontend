@@ -1,7 +1,7 @@
 import { api, snackbarStatusCode } from "@/lib/api";
 import { AxiosError } from "axios";
 import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 const useDeleteGroupInfo = () => {

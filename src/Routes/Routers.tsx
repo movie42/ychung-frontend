@@ -18,33 +18,66 @@ function Routers() {
 
   return (
     <Routes>
-      <Route path="/*" element={<MainRouter isLogin={isLogin} />} />
+      <Route
+        path="/*"
+        element={<MainRouter isLogin={isLogin} />}
+      />
       <Route element={<MainLayout />}>
         <Route
           path="/notice/*"
-          element={<NoticeRouter isLogin={isLogin} authority={authority} />}
+          element={
+            <NoticeRouter
+              isLogin={isLogin}
+              authority={authority}
+            />
+          }
         />
         <Route
           path="/worship/*"
-          element={<WorshipRouter isLogin={isLogin} authority={authority} />}
+          element={
+            <WorshipRouter
+              isLogin={isLogin}
+              authority={authority}
+            />
+          }
         />
         <Route
           path="/blog/*"
-          element={<BlogRouter isLogin={isLogin} authority={authority} />}
+          element={
+            <BlogRouter
+              isLogin={isLogin}
+              authority={authority}
+            />
+          }
         />
         <Route
           path="/education/*"
-          element={<EducationRouter isLogin={isLogin} authority={authority} />}
+          element={
+            <EducationRouter
+              isLogin={isLogin}
+              authority={authority}
+            />
+          }
         />
-        <Route path="/document/*" element={<DocumentRouter />} />
+        <Route
+          path="/document/*"
+          element={<DocumentRouter />}
+        />
         <Route
           path="/user/*"
           element={
-            <UserRouter isLogin={isLogin} authority={authority} id={_id} />
+            <UserRouter
+              isLogin={isLogin}
+              authority={authority}
+              id={_id}
+            />
           }
         />
       </Route>
-      <Route path="*" element={<PageNotFound />} />
+      <Route
+        path="*"
+        element={<PageNotFound />}
+      />
     </Routes>
   );
 }

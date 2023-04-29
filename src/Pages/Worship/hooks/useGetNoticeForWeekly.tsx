@@ -1,6 +1,6 @@
 import { INoticeInterface } from "@/lib/state";
 import { api } from "@/lib/api";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 interface NoticeQueryData {

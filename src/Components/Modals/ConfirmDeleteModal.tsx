@@ -71,10 +71,16 @@ const ConfirmDeleteModal = ({
           <p>{subtitle}</p>
         </div>
         <div className="button-container">
-          <button className="confirm-button" onClick={() => setIsConfirm(true)}>
+          <button
+            className="confirm-button"
+            onClick={() => setIsConfirm(true)}
+          >
             삭제하기
           </button>
-          <button className="cancel-button" onClick={() => setIsModal(false)}>
+          <button
+            className="cancel-button"
+            onClick={() => setIsModal(false)}
+          >
             돌아가기
           </button>
         </div>

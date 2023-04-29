@@ -118,7 +118,10 @@ const Header = () => {
         </LinkButton>
       </LogoContainer>
       <ButtonContainer>
-        <AiOutlineMenu onClick={handleMenuBtn} className="menuBtn" />
+        <AiOutlineMenu
+          onClick={handleMenuBtn}
+          className="menuBtn"
+        />
       </ButtonContainer>
       <AnimatePresence>
         {menu && (
@@ -128,7 +131,10 @@ const Header = () => {
             animate="animate"
             exit="exit"
           >
-            <AiOutlineClose onClick={handleCloseBtn} className="closeBtn" />
+            <AiOutlineClose
+              onClick={handleCloseBtn}
+              className="closeBtn"
+            />
             <Nav setMenu={setMenu} />
           </NavWrapper>
         )}

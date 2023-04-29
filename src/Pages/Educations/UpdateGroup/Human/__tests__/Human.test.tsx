@@ -12,10 +12,16 @@ describe("Human 컴포넌트 테스트", () => {
     render(
       <ThemeProvider theme={theme}>
         <DragDropContext onDragEnd={drag}>
-          <Droppable droppableId="droppable" isDropDisabled={false}>
+          <Droppable
+            droppableId="droppable"
+            isDropDisabled={false}
+          >
             {(provided) => (
               <div ref={provided.innerRef}>
-                <Human person={state} index={index} />
+                <Human
+                  person={state}
+                  index={index}
+                />
               </div>
             )}
           </Droppable>

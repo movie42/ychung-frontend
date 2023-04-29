@@ -1,6 +1,7 @@
-import { api } from "@/lib/api";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useMutation } from "react-query";
+
+import { api } from "@/lib/api";
 
 const useImageUpload = () => {
   return useMutation<{ data: string }, AxiosError, FormData>(

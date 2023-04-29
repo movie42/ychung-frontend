@@ -1,7 +1,7 @@
 import { api } from "@/lib/api";
 import { useTokenErrorHandler } from "@/lib/hooks";
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EducationPersonData, EducationPersonVariable } from "./interface";
 
 const useUpdatePerson = () => {

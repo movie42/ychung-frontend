@@ -1,4 +1,5 @@
 import React, { ReactNode, useLayoutEffect, useRef, useState } from "react";
+
 import {
   motion,
   useViewportScroll,
@@ -58,7 +59,10 @@ const Parallax = ({
   }
 
   return (
-    <motion.div ref={ref} style={{ opacity: yRange, translateY: yRange }}>
+    <motion.div
+      ref={ref}
+      style={{ opacity: yRange, translateY: yRange }}
+    >
       {children}
     </motion.div>
   );

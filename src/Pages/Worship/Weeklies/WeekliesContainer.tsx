@@ -90,7 +90,11 @@ const WeekliesContainer = () => {
           isLoading={isLoading && isRefetching}
           data={weeklies}
           renderFunc={(item) => (
-            <WeekliesItem key={item?._id} worship={item} onClick={onClick} />
+            <WeekliesItem
+              key={item?._id}
+              worship={item}
+              onClick={onClick}
+            />
           )}
         />
       )}

@@ -214,7 +214,10 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
           subtitle="참가자는 그룹에서 삭제되지만 데이터는 그대로 남습니다. 완전히 삭제하려면 관리자에게 문의해주세요."
         />
       )}
-      <Draggable draggableId={person._id} index={index}>
+      <Draggable
+        draggableId={person._id}
+        index={index}
+      >
         {(provided, snapshot) => (
           <Container
             isLeader={person.isLeader}
@@ -240,7 +243,10 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
                     <button onClick={deletePeople}>
                       <MdDelete />
                     </button>
-                    <div className="isleader-container" onClick={toggleButton}>
+                    <div
+                      className="isleader-container"
+                      onClick={toggleButton}
+                    >
                       {person.isLeader ? <strong>리더!</strong> : "리더?"}
                     </div>
                   </div>
@@ -257,7 +263,10 @@ const Human = ({ index, person, groupId }: ITaskInterface) => {
                       {...register("name")}
                     />
                     <span className="select-container">
-                      <select defaultValue={person.sex} {...register("sex")}>
+                      <select
+                        defaultValue={person.sex}
+                        {...register("sex")}
+                      >
                         <option value="male">남자</option>
                         <option value="female">여자</option>
                       </select>

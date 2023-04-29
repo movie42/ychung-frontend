@@ -58,7 +58,10 @@ const DetailGroup = ({ group }: IDetailGroupProps) => {
               {humans
                 ?.filter((value) => !value.isLeader)
                 .map((value) => (
-                  <GroupPerson key={value._id} person={value} />
+                  <GroupPerson
+                    key={value._id}
+                    person={value}
+                  />
                 ))}
             </ul>
           ) : (

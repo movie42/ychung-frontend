@@ -2,7 +2,7 @@ import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
 import { IWorshipItems } from "@/lib/state";
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 const useCreateWeekly = () => {

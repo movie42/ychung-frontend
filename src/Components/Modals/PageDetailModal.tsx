@@ -87,8 +87,16 @@ function PageDetailModal({
   }, []);
 
   return (
-    <Wrapper variants={opacity} initial="initial" animate="enter" exit="exit">
-      <DetailContainer ref={containerRef} variants={movingCard}>
+    <Wrapper
+      variants={opacity}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+    >
+      <DetailContainer
+        ref={containerRef}
+        variants={movingCard}
+      >
         {props.children}
       </DetailContainer>
       <ModalBackground onClick={modalHandler} />

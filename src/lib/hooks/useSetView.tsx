@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { SetterOrUpdater } from "recoil";
 import { AxiosError } from "axios";
 import { api } from "../api";

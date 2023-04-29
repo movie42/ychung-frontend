@@ -12,16 +12,45 @@ const MainRouter = ({ isLogin }: IMainRouterProps) => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Main />} />
-        <Route element={<ProtectRouter isAllow={!isLogin} redirectPath="/" />}>
-          <Route path="login" element={<Login />} />
-          <Route path="join" element={<Join />} />
+        <Route
+          path="/"
+          element={<Main />}
+        />
+        <Route
+          element={
+            <ProtectRouter
+              isAllow={!isLogin}
+              redirectPath="/"
+            />
+          }
+        >
+          <Route
+            path="login"
+            element={<Login />}
+          />
+          <Route
+            path="join"
+            element={<Join />}
+          />
         </Route>
       </Route>
-      <Route element={<ProtectRouter isAllow={isLogin} redirectPath="login" />}>
-        <Route path="logout" element={<Logout />} />
+      <Route
+        element={
+          <ProtectRouter
+            isAllow={isLogin}
+            redirectPath="login"
+          />
+        }
+      >
+        <Route
+          path="logout"
+          element={<Logout />}
+        />
       </Route>
-      <Route path="*" element={<PageNotFound />} />
+      <Route
+        path="*"
+        element={<PageNotFound />}
+      />
     </Routes>
   );
 };

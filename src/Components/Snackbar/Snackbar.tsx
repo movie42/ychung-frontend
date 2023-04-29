@@ -88,7 +88,10 @@ interface ISnackbarItemProps {
 
 Snackbar.Item = function Item({ message, type }: ISnackbarItemProps) {
   return (
-    <MessageContainer type={type} role="alert">
+    <MessageContainer
+      type={type}
+      role="alert"
+    >
       <h1>{message}</h1>
     </MessageContainer>
   );

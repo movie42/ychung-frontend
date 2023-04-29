@@ -32,23 +32,41 @@ const WorshipRouter = ({ isLogin, authority }: IWorshipRouterProps) => {
           />
         }
       >
-        <Route path="weeklies/create" element={<WeekliesCreate />} />
-        <Route path="prayer/create" element={<PrayerCreate />} />
+        <Route
+          path="weeklies/create"
+          element={<WeekliesCreate />}
+        />
+        <Route
+          path="prayer/create"
+          element={<PrayerCreate />}
+        />
         <Route
           path=":weekliesId/update"
           element={<WeekliesUpdate data={weeklyItem} />}
         />
-        <Route path="prayer/:prayerId" element={<PrayerUpdate />} />
+        <Route
+          path="prayer/:prayerId"
+          element={<PrayerUpdate />}
+        />
       </Route>
       <Route element={<Worship />}>
-        <Route index element={<Navigate to="weeklies" />} />
-        <Route path="weeklies" element={<WeekliesContainer />}>
+        <Route
+          index
+          element={<Navigate to="weeklies" />}
+        />
+        <Route
+          path="weeklies"
+          element={<WeekliesContainer />}
+        >
           <Route
             path=":weekliesId"
             element={<WeekliesDetail setDetailItem={setWeeklyModalState} />}
           />
         </Route>
-        <Route path="prayer" element={<PrayerContainer />} />
+        <Route
+          path="prayer"
+          element={<PrayerContainer />}
+        />
       </Route>
     </Routes>
   );

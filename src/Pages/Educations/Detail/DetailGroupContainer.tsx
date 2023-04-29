@@ -45,7 +45,10 @@ const DetailGroupContainer = () => {
           </TextContainer>
           <GroupContainer>
             {newPeopleGorup?.map((group) => (
-              <DetailGroup key={group._id} group={group} />
+              <DetailGroup
+                key={group._id}
+                group={group}
+              />
             ))}
           </GroupContainer>
         </Container>
@@ -57,7 +60,10 @@ const DetailGroupContainer = () => {
           </TextContainer>
           <GroupContainer>
             {studentGroup?.map((group) => (
-              <DetailGroup key={group._id} group={group} />
+              <DetailGroup
+                key={group._id}
+                group={group}
+              />
             ))}
           </GroupContainer>
         </Container>
@@ -69,7 +75,10 @@ const DetailGroupContainer = () => {
           </TextContainer>
           <GroupContainer>
             {workerGroup?.map((group) => (
-              <DetailGroup key={group._id} group={group} />
+              <DetailGroup
+                key={group._id}
+                group={group}
+              />
             ))}
           </GroupContainer>
         </Container>
@@ -81,7 +90,10 @@ const DetailGroupContainer = () => {
           </TextContainer>
           <GroupContainer>
             {etcGroup?.map((group) => (
-              <DetailGroup key={group._id} group={group} />
+              <DetailGroup
+                key={group._id}
+                group={group}
+              />
             ))}
           </GroupContainer>
         </Container>

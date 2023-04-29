@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { EducationGetData } from "./interface";
 
 const useGetEducations = () => {

@@ -126,10 +126,16 @@ const WeekliesHeader: React.FC<IWorshipHeaderProps> = ({ ...props }) => {
           </InforContainer>
           {isLogin && (
             <ButtonContainer>
-              <Button buttonType="icon" onClick={handleUpdate}>
+              <Button
+                buttonType="icon"
+                onClick={handleUpdate}
+              >
                 <AiFillEdit />
               </Button>
-              <Button buttonType="icon" onClick={handleDelete}>
+              <Button
+                buttonType="icon"
+                onClick={handleDelete}
+              >
                 <MdDelete />
               </Button>
             </ButtonContainer>

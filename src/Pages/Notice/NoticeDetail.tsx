@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import { loginState, notice } from "@/lib/state";
-import { previewParagraph } from "@/lib/utils";
-import { useModalContorl, useSetView } from "@/lib/hooks";
+
+import { useDeleteNotice, useGetNotice } from "./hooks";
 
 import {
   PageDetailModal,
@@ -14,10 +14,10 @@ import {
   Button,
   Viewer,
   ConfirmDeleteModal,
-  SEO,
   Loading
 } from "@/Components";
-import { useDeleteNotice, useGetNotice } from "./hooks";
+import { useModalContorl, useSetView } from "@/lib/hooks";
+import { loginState, notice } from "@/lib/state";
 
 const ButtonContainer = styled.div`
   button {

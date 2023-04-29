@@ -1,7 +1,7 @@
 import { api, snackbarStatusCode } from "@/lib/api";
 import { AxiosError } from "axios";
 import { useSetSnackBar } from "@/lib/hooks";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 interface JoinVariable {
   email: string;

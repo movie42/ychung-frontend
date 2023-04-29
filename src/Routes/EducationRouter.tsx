@@ -18,10 +18,16 @@ const EducationRouter = ({ isLogin, authority }: IEducationRouterProps) => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="" element={<Educations />} />
+        <Route
+          path=""
+          element={<Educations />}
+        />
       </Route>
       <Route path="groups">
-        <Route path=":educationId" element={<EducationGroupsDetail />} />
+        <Route
+          path=":educationId"
+          element={<EducationGroupsDetail />}
+        />
         <Route
           element={
             <ProtectRouter
@@ -30,10 +36,19 @@ const EducationRouter = ({ isLogin, authority }: IEducationRouterProps) => {
             />
           }
         >
-          <Route path="create" element={<EducationCreate />} />
-          <Route path=":educationId/update" element={<EducationsUpdate />} />
+          <Route
+            path="create"
+            element={<EducationCreate />}
+          />
+          <Route
+            path=":educationId/update"
+            element={<EducationsUpdate />}
+          />
         </Route>
-        <Route path="report" element={<ReportsContainer />} />
+        <Route
+          path="report"
+          element={<ReportsContainer />}
+        />
       </Route>
     </Routes>
   );

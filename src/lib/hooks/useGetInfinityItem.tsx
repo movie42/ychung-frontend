@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface IuseGetNoticeItem2Props {
   pageParam: number;

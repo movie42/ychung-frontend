@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { AxiosError, AxiosResponse } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
 import { CreatePrayer } from "./useCreatePrayer";
 

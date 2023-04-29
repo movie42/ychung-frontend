@@ -1,7 +1,8 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+
 import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
-import { useMutation, useQueryClient } from "react-query";
 
 interface NoticeDeleteVariable {
   noticeId: string;

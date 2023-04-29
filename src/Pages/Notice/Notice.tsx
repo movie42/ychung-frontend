@@ -1,19 +1,19 @@
 import { useEffect, useMemo } from "react";
-import styled from "styled-components";
 import { Link, Outlet, useParams } from "react-router-dom";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { INoticeInterface, notice, noticeModalControler } from "@/lib/state";
-import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
+import styled from "styled-components";
 
 import {
   Authorization,
   ListContainer,
   ListItem,
-  SEO,
   SkeletonForListItem
 } from "@/Components";
+import { useGetInfinityItem, useIntersect } from "@/lib/hooks";
+import { INoticeInterface, notice, noticeModalControler } from "@/lib/state";
 
 const NoticeListContainer = styled(motion.div)``;
 

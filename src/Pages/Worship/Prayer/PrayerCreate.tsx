@@ -121,7 +121,10 @@ const PrayerCreate = () => {
     <>
       <Wrapper>
         <h1>대표기도 일정</h1>
-        <button className="upload" onClick={handleCreatePrayer}>
+        <button
+          className="upload"
+          onClick={handleCreatePrayer}
+        >
           <AiOutlineCloudUpload />
         </button>
         <Form onSubmit={handleCreatePrayer}>

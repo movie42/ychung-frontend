@@ -1,9 +1,11 @@
-import { INoticeInterface } from "@/lib/state";
-import { AxiosError } from "axios";
-import { api, snackbarStatusCode } from "@/lib/api";
-import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+
+import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar, useTokenErrorHandler } from "@/lib/hooks";
+import { INoticeInterface } from "@/lib/state";
 
 interface NoticeCreate {
   data: INoticeInterface;

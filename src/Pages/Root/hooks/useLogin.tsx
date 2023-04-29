@@ -2,7 +2,7 @@ import { api, snackbarStatusCode } from "@/lib/api";
 import { useSetSnackBar } from "@/lib/hooks";
 import { loginState } from "@/lib/state";
 import { AxiosError } from "axios";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 

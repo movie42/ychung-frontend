@@ -1,16 +1,17 @@
-import { Editor as IEditor } from "@toast-ui/react-editor";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineCloudUpload } from "react-icons/ai";
-import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import { calenderHelper } from "@/lib/utils";
-import { previewParagraph } from "@/lib/utils";
 
-import { Editor, Label, Input, FormItem, SEO } from "@/Components";
-import { useUpdateNotice } from "./hooks";
+import { Editor as IEditor } from "@toast-ui/react-editor";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+
+import { useUpdateNotice } from "./hooks";
+
+import { Editor, Label, Input, FormItem } from "@/Components";
 import { notice } from "@/lib/state";
+import { calenderHelper } from "@/lib/utils";
 
 const Wrapper = styled.div`
   margin-top: 8rem;

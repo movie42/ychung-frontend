@@ -403,7 +403,10 @@ const Group = ({ item }: IGroupProps) => {
                   {...register("place")}
                 />
                 <span className="select-container">
-                  <select defaultValue={item.type} {...register("type")}>
+                  <select
+                    defaultValue={item.type}
+                    {...register("type")}
+                  >
                     <option value="student">학생</option>
                     <option value="worker">직장</option>
                     <option value="new">새신자</option>
@@ -413,7 +416,10 @@ const Group = ({ item }: IGroupProps) => {
                     <MdArrowDropDown />
                   </span>
                 </span>
-                <input type="submit" hidden={true} />
+                <input
+                  type="submit"
+                  hidden={true}
+                />
               </Form>
               <ButtonContainer>
                 <button onClick={onSubmitUpdateGroupName}>
