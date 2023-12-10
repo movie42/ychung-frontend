@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { Input, Label, SEO } from "@/Components";
+
+import axios from "axios";
+import styled from "styled-components";
+
+import { Input, Label } from "@/Components";
 import { useJoin, useValidate } from "@/Pages/Root/hooks";
 import { VALIDATION_CHECK_VALUE } from "@/Pages/Root/lib/validationCheckValue";
 import {
-  Wrapper,
   ErrorLabel,
-  SubmitButton,
+  FormItemContainer,
   RootFormItem,
-  FormItemContainer
+  SubmitButton,
+  Wrapper
 } from "@/Pages/Root/Root.styles";
-import axios from "axios";
 
 const MessageContainer = styled.div`
   margin-top: -8rem;
@@ -98,7 +100,6 @@ function Join() {
 
       throw check;
     } catch (e) {
-      console.error(e);
       return false;
     }
   };
@@ -139,6 +140,7 @@ function Join() {
       setError("email", { message: VALIDATION_CHECK_VALUE.email.message });
     }
   };
+
   const validateUserName = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.currentTarget.value);
 
@@ -199,154 +201,152 @@ function Join() {
   }
 
   return (
-    <>
-      <Wrapper>
-        <h1>회원가입</h1>
-        <form onSubmit={onSubmit}>
-          <FormItemContainer>
-            <RootFormItem error={isEmail}>
-              <Label>이메일</Label>
-              <Input
-                type="text"
-                value={email}
-                {...register("email", {
-                  required: "이메일을 입력해야합니다.",
-                  pattern: VALIDATION_CHECK_VALUE.email,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    validateEmail(e)
-                })}
-              />
-            </RootFormItem>
-            <ErrorLabel error={isEmail}>
-              {isEmail === null
-                ? "사용하고 있는 이메일을 입력해주세요."
-                : errors?.email?.message}
-            </ErrorLabel>
-          </FormItemContainer>
-          <FormItemContainer>
-            <RootFormItem error={isUserName}>
-              <Label>사용자 이름</Label>
-              <Input
-                type="text"
-                value={userName}
-                {...register("userName", {
-                  required: VALIDATION_CHECK_VALUE.userName.message,
-                  pattern: VALIDATION_CHECK_VALUE.userName,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    validateUserName(e)
-                })}
-              />
-            </RootFormItem>
-            <ErrorLabel error={isUserName}>
-              {isUserName === null
-                ? "사용자 이름은 한글, 영문, 숫자 조합 5자 이상 10자 이하로 입력해주세요."
-                : errors?.userName?.message}
-            </ErrorLabel>
-          </FormItemContainer>
-          <FormItemContainer>
-            <RootFormItem error={isName}>
-              <Label>실명</Label>
-              <Input
-                type="text"
-                {...register("name", {
-                  required: VALIDATION_CHECK_VALUE.name.message,
-                  pattern: VALIDATION_CHECK_VALUE.name,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                    const checkValue = checkChangeValueForValidate({
-                      event: e,
-                      type: "name"
-                    });
-                    if (checkValue) {
-                      setIsName(checkValue);
-                      setError("name", { message: "" });
-                    }
-                    if (isName !== null && !checkValue) {
-                      setIsName(false);
-                      setError("name", {
-                        message: VALIDATION_CHECK_VALUE.name.message
-                      });
-                    }
+    <Wrapper>
+      <h1>회원가입</h1>
+      <form onSubmit={onSubmit}>
+        <FormItemContainer>
+          <RootFormItem error={isEmail}>
+            <Label>이메일</Label>
+            <Input
+              type="text"
+              value={email}
+              {...register("email", {
+                required: "이메일을 입력해야합니다.",
+                pattern: VALIDATION_CHECK_VALUE.email,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                  validateEmail(e)
+              })}
+            />
+          </RootFormItem>
+          <ErrorLabel error={isEmail}>
+            {isEmail === null
+              ? "사용하고 있는 이메일을 입력해주세요."
+              : errors?.email?.message}
+          </ErrorLabel>
+        </FormItemContainer>
+        <FormItemContainer>
+          <RootFormItem error={isUserName}>
+            <Label>사용자 이름</Label>
+            <Input
+              type="text"
+              value={userName}
+              {...register("userName", {
+                required: VALIDATION_CHECK_VALUE.userName.message,
+                pattern: VALIDATION_CHECK_VALUE.userName,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                  validateUserName(e)
+              })}
+            />
+          </RootFormItem>
+          <ErrorLabel error={isUserName}>
+            {isUserName === null
+              ? "사용자 이름은 한글, 영문, 숫자 조합 5자 이상 10자 이하로 입력해주세요."
+              : errors?.userName?.message}
+          </ErrorLabel>
+        </FormItemContainer>
+        <FormItemContainer>
+          <RootFormItem error={isName}>
+            <Label>실명</Label>
+            <Input
+              type="text"
+              {...register("name", {
+                required: VALIDATION_CHECK_VALUE.name.message,
+                pattern: VALIDATION_CHECK_VALUE.name,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                  const checkValue = checkChangeValueForValidate({
+                    event: e,
+                    type: "name"
+                  });
+                  if (checkValue) {
+                    setIsName(checkValue);
+                    setError("name", { message: "" });
                   }
-                })}
-              />
-            </RootFormItem>
-            <ErrorLabel error={isName}>
-              {isName === null
-                ? VALIDATION_CHECK_VALUE.name.message
-                : errors?.name?.message}
-            </ErrorLabel>
-          </FormItemContainer>
-          <FormItemContainer>
-            <RootFormItem error={isPassword}>
-              <Label>비밀번호</Label>
-              <Input
-                type="password"
-                {...register("password", {
-                  required: VALIDATION_CHECK_VALUE.joinPassword.message,
-                  pattern: VALIDATION_CHECK_VALUE.joinPassword,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                    setPassword(e.currentTarget.value);
-                    const checkValue = checkChangeValueForValidate({
-                      event: e,
-                      type: "joinPassword"
-                    });
-                    if (checkValue) {
-                      setIsPassword(checkValue);
-                      setError("password", { message: "" });
-                    }
-                    if (isPassword !== null && !checkValue) {
-                      setIsPassword(false);
-                      setError("password", {
-                        message: VALIDATION_CHECK_VALUE.joinPassword.message
-                      });
-                    }
-                  }
-                })}
-              />
-            </RootFormItem>
-            <ErrorLabel error={isPassword}>
-              {isPassword === null
-                ? VALIDATION_CHECK_VALUE.joinPassword.message
-                : errors?.password?.message}
-            </ErrorLabel>
-          </FormItemContainer>
-          <FormItemContainer>
-            <RootFormItem error={isPassword2}>
-              <Label>비밀번호 확인</Label>
-              <Input
-                id="password2"
-                type="password"
-                {...register("password2", {
-                  required: VALIDATION_CHECK_VALUE.password2.message,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                    if (password === e.currentTarget.value) {
-                      setIsPassword2(true);
-                      setError("password2", { message: "" });
-                      return;
-                    }
-                    setIsPassword2(false);
-                    setError("password2", {
-                      message: VALIDATION_CHECK_VALUE.password2.message
+                  if (isName !== null && !checkValue) {
+                    setIsName(false);
+                    setError("name", {
+                      message: VALIDATION_CHECK_VALUE.name.message
                     });
                   }
-                })}
-              />
-            </RootFormItem>
-            <ErrorLabel error={isPassword2}>
-              {isPassword2 === null
-                ? "앞에서 입력한 비밀번호와 같은 값을 입력해주세요."
-                : errors?.password2?.message}
-            </ErrorLabel>
-          </FormItemContainer>
-          <SubmitButton
-            buttonType="block"
-            disabled={isDisabled}
-          >
-            가입하기
-          </SubmitButton>
-        </form>
-      </Wrapper>
-    </>
+                }
+              })}
+            />
+          </RootFormItem>
+          <ErrorLabel error={isName}>
+            {isName === null
+              ? VALIDATION_CHECK_VALUE.name.message
+              : errors?.name?.message}
+          </ErrorLabel>
+        </FormItemContainer>
+        <FormItemContainer>
+          <RootFormItem error={isPassword}>
+            <Label>비밀번호</Label>
+            <Input
+              type="password"
+              {...register("password", {
+                required: VALIDATION_CHECK_VALUE.joinPassword.message,
+                pattern: VALIDATION_CHECK_VALUE.joinPassword,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                  setPassword(e.currentTarget.value);
+                  const checkValue = checkChangeValueForValidate({
+                    event: e,
+                    type: "joinPassword"
+                  });
+                  if (checkValue) {
+                    setIsPassword(checkValue);
+                    setError("password", { message: "" });
+                  }
+                  if (isPassword !== null && !checkValue) {
+                    setIsPassword(false);
+                    setError("password", {
+                      message: VALIDATION_CHECK_VALUE.joinPassword.message
+                    });
+                  }
+                }
+              })}
+            />
+          </RootFormItem>
+          <ErrorLabel error={isPassword}>
+            {isPassword === null
+              ? VALIDATION_CHECK_VALUE.joinPassword.message
+              : errors?.password?.message}
+          </ErrorLabel>
+        </FormItemContainer>
+        <FormItemContainer>
+          <RootFormItem error={isPassword2}>
+            <Label>비밀번호 확인</Label>
+            <Input
+              id="password2"
+              type="password"
+              {...register("password2", {
+                required: VALIDATION_CHECK_VALUE.password2.message,
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                  if (password === e.currentTarget.value) {
+                    setIsPassword2(true);
+                    setError("password2", { message: "" });
+                    return;
+                  }
+                  setIsPassword2(false);
+                  setError("password2", {
+                    message: VALIDATION_CHECK_VALUE.password2.message
+                  });
+                }
+              })}
+            />
+          </RootFormItem>
+          <ErrorLabel error={isPassword2}>
+            {isPassword2 === null
+              ? "앞에서 입력한 비밀번호와 같은 값을 입력해주세요."
+              : errors?.password2?.message}
+          </ErrorLabel>
+        </FormItemContainer>
+        <SubmitButton
+          buttonType="block"
+          disabled={isDisabled}
+        >
+          가입하기
+        </SubmitButton>
+      </form>
+    </Wrapper>
   );
 }
 
