@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
 import styled from "styled-components";
+
+import useFormValues, { FormValues } from "./hooks/useFormValues";
 
 import { Input, Label } from "@/Components";
 import { useJoin, useValidate } from "@/Pages/Root/hooks";
@@ -25,21 +27,16 @@ const MessageContainer = styled.div`
   min-height: 100vh;
 `;
 
-interface SubmitProps {
-  email: string;
-  userName: string;
-  name: string;
-  password: string;
-  password2: string;
-}
-
 function Join() {
-  const { validate, checkChangeValueForValidate } = useValidate();
-  const isDisabled = Object.entries(validate).every(([_, value]) => value);
+  const {
+    validate,
+    dispatch: validateDispatch,
+    checkChangeValueForValidate
+  } = useValidate();
 
-  const [email, setEamil] = useState("");
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const { formValues, dispatch: formValuesDispatch } = useFormValues();
+
+  const isDisabled = Object.entries(validate).every(([_, value]) => value);
 
   const navigate = useNavigate();
 
@@ -48,7 +45,7 @@ function Join() {
     handleSubmit,
     formState: { errors },
     setError
-  } = useForm<SubmitProps>();
+  } = useForm<FormValues>();
 
   const { mutate: joinMutate, isSuccess } = useJoin();
 
