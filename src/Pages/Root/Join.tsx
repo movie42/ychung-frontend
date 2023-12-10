@@ -1,13 +1,13 @@
-import { useCallback, useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import styled from "styled-components";
 
+import useJoinForm, { FormValues } from "./hooks/useJoinForm";
 import { GUIDE_MESSAGE } from "./lib/guideMessage";
 
 import { Input, Label } from "@/Components";
-import { useJoin, useValidate } from "@/Pages/Root/hooks";
+import { useJoin } from "@/Pages/Root/hooks";
 import { VALIDATION_CHECK_VALUE } from "@/Pages/Root/lib/validationCheckValue";
 import {
   ErrorLabel,
@@ -28,55 +28,26 @@ const MessageContainer = styled.div`
   min-height: 100vh;
 `;
 
-interface FormValues {
-  email: string;
-  userName: string;
-  name: string;
-  password: string;
-  password2: string;
-}
-
 function Join() {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    // setError,
-    control
-  } = useForm<FormValues>();
-  const { email } = useWatch({ control });
-  const {
-    validate: { isEmail, isName, isPassword, isPassword2, isUserName },
-    dispatch: validateDispatch,
-    checkChangeValueForValidate
-  } = useValidate();
-
-  const validation = useCallback(() => {
-    if (!email) {
-      return;
-    }
-    validateDispatch({
-      type: "SET_IS_EMAIL",
-      payload: Boolean(
-        checkChangeValueForValidate({ type: "email", value: email })
-      )
-    });
-  }, [email]);
-
-  useEffect(() => {
-    validation();
-  }, [email]);
-
-  const isDisabled = Object.entries({
-    isEmail,
-    isName,
-    isPassword,
-    isPassword2,
-    isUserName
-  }).every(([_, value]) => value);
 
   const { mutate: joinMutate, isSuccess } = useJoin();
+
+  const {
+    formMethod: {
+      handleSubmit,
+      register,
+      formState: { errors }
+    },
+    validate: {
+      isEmail,
+      isDisabled,
+      isName,
+      isPassword,
+      isPassword2,
+      isUserName
+    }
+  } = useJoinForm();
 
   const onSubmit = handleSubmit(async (data: FormValues) => {
     joinMutate(data);

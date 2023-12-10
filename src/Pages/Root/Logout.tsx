@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { useResetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { Loading } from "@/Components";
 import { useLogout } from "./hooks";
-import { useResetRecoilState } from "recoil";
-import { loginState } from "@/lib/state";
+
+import { Loading } from "@/Components";
 import { USER_LOGIN_INFO_KEY } from "@/lib/constants/constants";
+import { loginState } from "@/lib/state";
 
 const Wrapper = styled.div`
   display: flex;
