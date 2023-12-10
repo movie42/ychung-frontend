@@ -3,27 +3,27 @@ import { useReducer } from "react";
 import { VALIDATION_CHECK_VALUE } from "../lib/validationCheckValue";
 
 interface CheckValue {
-  value: string;
+  value?: string;
   type: "email" | "name" | "userName" | "password" | "password2";
 }
 
 interface Validate {
-  isEmail: boolean;
-  isUserName: boolean;
-  isName: boolean;
-  isPassword: boolean;
-  isPassword2: boolean;
+  isEmail: boolean | null;
+  isUserName: boolean | null;
+  isName: boolean | null;
+  isPassword: boolean | null;
+  isPassword2: boolean | null;
 }
 
-type Reducer =
-  | { type: "SET_IS_EMAIL"; payload: boolean }
-  | { type: "SET_IS_USERNAME"; payload: boolean }
-  | { type: "SET_IS_NAME"; payload: boolean }
-  | { type: "SET_IS_PASSWORD"; payload: boolean }
-  | { type: "SET_IS_PASSWORD2"; payload: boolean }
+export type ValidationReducerType =
+  | { type: "SET_IS_EMAIL"; payload: boolean | null }
+  | { type: "SET_IS_USERNAME"; payload: boolean | null }
+  | { type: "SET_IS_NAME"; payload: boolean | null }
+  | { type: "SET_IS_PASSWORD"; payload: boolean | null }
+  | { type: "SET_IS_PASSWORD2"; payload: boolean | null }
   | { type: "RESET" };
 
-const reducer = (state: Validate, action: Reducer) => {
+const reducer = (state: Validate, action: ValidationReducerType) => {
   switch (action.type) {
     case "SET_IS_EMAIL":
       return { ...state, isEmail: action.payload };
@@ -37,20 +37,20 @@ const reducer = (state: Validate, action: Reducer) => {
       return { ...state, isPassword2: action.payload };
     case "RESET":
       return {
-        isEmail: false,
-        isUserName: false,
-        isName: false,
-        isPassword: false,
-        isPassword2: false
+        isEmail: null,
+        isUserName: null,
+        isName: null,
+        isPassword: null,
+        isPassword2: null
       };
   }
 };
 const initValue = {
-  isEmail: false,
-  isUserName: false,
-  isName: false,
-  isPassword: false,
-  isPassword2: false
+  isEmail: null,
+  isUserName: null,
+  isName: null,
+  isPassword: null,
+  isPassword2: null
 };
 
 const useValidate = () => {
@@ -58,6 +58,9 @@ const useValidate = () => {
     useReducer(reducer, initValue);
 
   const checkChangeValueForValidate = ({ value, type }: CheckValue) => {
+    if (!value) {
+      return;
+    }
     const checkValue = VALIDATION_CHECK_VALUE[`${type}`].regex.test(value);
     return checkValue;
   };

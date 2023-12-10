@@ -5,7 +5,7 @@ export const VALIDATION_CHECK_VALUE = {
     errorMessage: "이메일이 아닙니다."
   },
   password: {
-    regex: /{8,}/,
+    regex: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[_*&!+-]).{8,}$/,
     errorMessage: "비밀번호는 8자 이상이어야합니다."
   },
   password2: {
@@ -19,7 +19,7 @@ export const VALIDATION_CHECK_VALUE = {
   },
   name: {
     regex: /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,6}$/,
-    errorMessage: "한글 2글자 이상 6글자 이하로 실명을 입력해주세요. "
+    errorMessage: "한글 2글자 이상 6글자 이하로 실명을 입력해주세요."
   },
   joinPassword: {
     regex: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[_*&!+-]).{8,}$/,

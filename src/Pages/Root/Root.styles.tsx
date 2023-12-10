@@ -117,25 +117,19 @@ export const RootFormItem = styled(FormItem)<{ error?: boolean | null }>`
     `;
   }};
 `;
-
-export const ErrorLabel = styled(Label)<{ error?: boolean | null }>`
+export const GuideLabel = styled(Label)`
   display: block;
   min-height: 2rem;
   margin: 0.8rem 0;
-  ${({ error }) => {
-    if (error === null) {
-      return css`
-        ${(props) => props.theme.color.fontColorBlack};
-      `;
-    }
+  color: ${(props) => props.theme.color.fontColorBlack};
+`;
 
-    if (!error) {
-      return css`
-        color: ${(props) => props.theme.color.error800};
-        animation: ${errorShaker} 1s linear 0.2s;
-      `;
-    }
-  }}
+export const ErrorLabel = styled(Label)`
+  display: block;
+  min-height: 2rem;
+  margin: 0.8rem 0;
+  color: ${(props) => props.theme.color.error800};
+  animation: ${errorShaker} 1s linear 0.2s;
 `;
 
 export const FormItemContainer = styled.div`
