@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
-import axios from "axios";
 import styled from "styled-components";
 
 import { Input, Label } from "@/Components";
@@ -34,30 +33,13 @@ interface SubmitProps {
   password2: string;
 }
 
-interface CheckValue {
-  event: React.ChangeEvent<HTMLInputElement>;
-  type: "email" | "name" | "userName" | "joinPassword" | "password2";
-}
-
 function Join() {
+  const { validate, checkChangeValueForValidate } = useValidate();
+  const isDisabled = Object.entries(validate).every(([_, value]) => value);
+
   const [email, setEamil] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
-  const {
-    isEmail,
-    setIsEmail,
-    isUserName,
-    setIsUserName,
-    isName,
-    setIsName,
-    isPassword,
-    setIsPassword,
-    isPassword2,
-    setIsPassword2,
-    isDisabled,
-    setIsDisabled
-  } = useValidate();
 
   const navigate = useNavigate();
 
@@ -84,31 +66,6 @@ function Join() {
 
     joinMutate(data);
   });
-
-  const checkValueFromServer = async (
-    value: string,
-    type: "email" | "userName"
-  ) => {
-    try {
-      const check = await axios.get(`/api/user/checked-db?${type}=${value}`);
-
-      const { exist } = check.data;
-
-      if (!exist) {
-        return true;
-      }
-
-      throw check;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const checkChangeValueForValidate = ({ event, type }: CheckValue) => {
-    const value = event.currentTarget.value;
-    const checkValue = VALIDATION_CHECK_VALUE[`${type}`].value.test(value);
-    return checkValue;
-  };
 
   const validateEmail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setEamil(e.currentTarget.value);
@@ -173,14 +130,6 @@ function Join() {
       });
     }
   };
-
-  useEffect(() => {
-    if (isEmail && isPassword && isPassword2 && isUserName && isName) {
-      setIsDisabled(false);
-      return;
-    }
-    setIsDisabled(true);
-  }, [isEmail, isPassword, isPassword2, isUserName, isName]);
 
   useEffect(() => {
     if (isSuccess) {
